@@ -186,7 +186,7 @@ const ORIGINAL_SOURCE: Question['source'] = {
 
 const questions: Question[] = [];
 const rejected: { id: string; reason: string }[] = [];
-const verifyLog: { id: string; checks: string[]; notChecked: string[] }[] = [];
+const verifyLog: { id: string; machine: boolean; checks: string[]; notChecked: string[] }[] = [];
 const seenIds = new Set<string>();
 
 function letterIndex(a: string | number, n: number, where: string): number {
@@ -197,8 +197,9 @@ function letterIndex(a: string | number, n: number, where: string): number {
 }
 
 function firstNumber(s: string): number | null {
-  const m = normalizeForCompare(s).replace(/,/g, '').match(/-?\d+(?:\.\d+)?/);
-  return m ? Number(m[0]) : null;
+  const m = normalizeForCompare(s).replace(/,/g, '').match(/(-?\d+(?:\.\d+)?)(?:\s*\/\s*(\d+(?:\.\d+)?))?/);
+  if (!m) return null;
+  return m[2] ? Number(m[1]) / Number(m[2]) : Number(m[1]);
 }
 
 function fillBlanks(code: string, fill: Record<string, string>): string {
@@ -313,9 +314,13 @@ for (const file of files) {
     (raw.why ?? []).forEach((w, i) => {
       if (!w || String(w).trim().length < 8) err(where, `選択肢${LETTERS[i]}の解説が短すぎます`);
     });
-    if (raw.why && raw.why[correct] && /誤り|不適切|誤っ/.test(String(raw.why[correct]).slice(0, 12)) && !/誤りを含|誤ったもの|不適切なもの/.test(raw.q)) {
-      warn(where, '正解の選択肢の解説が「誤り」で始まっています（正解と解説の不一致の可能性）');
-    }
+    // 正答と解説の整合：正解の選択肢の解説だけが「正解」で始まること（作問規約）
+    (raw.why ?? []).forEach((w, i) => {
+      const body = String(w).trim().replace(/^[ア-コ]\s*[：:]\s*/, '');
+      const saysCorrect = /^正解です/.test(body);
+      if (i === correct && !saysCorrect) err(where, `正解（${LETTERS[i]}）の選択肢の解説が「正解です」で始まっていません（正答と解説の不一致の可能性）`);
+      if (i !== correct && saysCorrect) err(where, `正解でない選択肢${LETTERS[i]}の解説が「正解です」で始まっています（正答と解説の不一致）`);
+    });
     const shuffles = !(raw.noShuffle || doc.source?.kind === 'ipa' || raw.source?.kind === 'ipa');
     if (shuffles && /[アイウエオカキク](?:が|は|の|と|を|も)/.test(raw.exp + (raw.know ?? '')) && /(?:^|[^ァ-ヶー])[アイウエ](?:が正|は誤|が誤|は正|の記述|とイ|とウ|とエ)/.test(raw.exp + (raw.know ?? ''))) {
       err(where, '選択肢をシャッフルする問題の解説で選択肢記号（ア〜エ）を参照しています。内容で参照してください');
@@ -386,7 +391,7 @@ for (const file of files) {
     if (!raw.verify && !doc.reviewed) notChecked.push('内容レビュー未実施');
     if (!raw.verify) notChecked.push('機械的な検算・実行による正答確認の対象外（知識問題）');
     if (src.kind === 'ipa') checks.push('正答は IPA 公表の解答例と照合');
-    verifyLog.push({ id: q.id, checks, notChecked });
+    verifyLog.push({ id: q.id, machine: Boolean(raw.verify && (raw.verify.value !== undefined || raw.verify.cases || raw.verify.result)), checks, notChecked });
     (q as Question & { _reviewed?: boolean })._reviewed = Boolean(doc.reviewed) || src.kind === 'ipa';
     questions.push(q);
   }
@@ -557,7 +562,7 @@ const summary = {
   bySubject: manifest.counts,
   bySource: Object.fromEntries(['ipa', 'original'].map((k) => [k, published.filter((q) => q.source.kind === k).length])),
   byDepth: { quick: published.filter((q) => q.depth === 'quick').length, deep: published.filter((q) => q.depth === 'deep').length },
-  machineVerified: verifyLog.filter((v) => v.checks.some((c) => c.includes('インタプリタ') || c.includes('検算'))).length,
+  machineVerified: verifyLog.filter((v) => v.machine && published.some((q) => q.id === v.id)).length,
   withSimulator: published.filter((q) => q.simulation).length,
   rejected,
   checking: questions.filter((q) => q.verificationStatus === 'checking').map((q) => q.id),
