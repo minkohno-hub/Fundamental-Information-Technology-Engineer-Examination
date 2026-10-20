@@ -1,0 +1,31 @@
+# 開発時に確認した公式情報（確認日 2026-10-20）
+checkedAt: '2026-10-20'
+official:
+  - name: 基本情報技術者試験（試験区分ページ）
+    url: https://www.ipa.go.jp/shiken/kubun/fe.html
+    note: 科目A 90分・60問（四肢択一）、科目B 100分・20問（多肢選択式）、CBT方式で随時実施
+  - name: 試験要綱 Ver.5.6
+    url: https://www.ipa.go.jp/shiken/syllabus/rcu1hd00000141gq-att/youkou_ver5_6.pdf
+    note: 2026年7月6日掲載。IRT（項目応答理論）による採点、科目A・Bとも 600点/1,000点満点が基準点。科目Aは60問中56問、科目Bは20問中19問で評価。科目Bはアルゴリズムとプログラミング16問・情報セキュリティ4問
+  - name: 基本情報技術者試験（レベル2）シラバス Ver.9.2
+    url: https://www.ipa.go.jp/shiken/syllabus/omgdg50000005kpe-att/syllabus_fe_ver9_2.pdf
+    note: 2026年1月8日掲載。本アプリの論点体系の基準
+  - name: 試験で使用する情報技術に関する用語・プログラム言語など Ver.5.1
+    url: https://www.ipa.go.jp/shiken/syllabus/doe3um0000002djj-att/shiken_yougo_ver5_1.pdf
+    note: 別紙2「擬似言語の記述形式（基本情報技術者試験，応用情報技術者試験用）」をシミュレーターの仕様とした
+  - name: 新試験制度のシラバス案（基本情報技術者試験 シラバス案 Ver.0.1）
+    url: https://www.ipa.go.jp/shiken/syllabus/henkou/2026/20260630.html
+    note: 2026年9月30日掲載。2027年度春頃から新試験制度へ移行予定。IPA は FE について「試験で問う知識・技能の範囲そのものに変更はない（表記の変更等）」としている。試験時間・出題数は現行と同じ予定
+  - name: 情報処理技術者試験及び情報処理安全確保支援士試験の見直しの検討状況について
+    url: https://www.ipa.go.jp/shiken/syllabus/henkou/2025/20260331.html
+    note: 2026年3月31日公開・4月28日更新。科目Aの出題範囲体系の新旧対応表を含む
+  - name: SG・FE 公開問題（問題冊子・解答例）
+    url: https://www.ipa.go.jp/shiken/mondai-kaiotu/sg_fe/koukai/index.html
+    note: 令和5〜8年度。FE 科目Aは各年度20問、科目Bは各年度6問を公開
+  - name: 試験に関するよくある質問（過去問題の使用について）
+    url: https://www.ipa.go.jp/shiken/faq.html
+    note: 公表されている過去問題の教育目的での使用は許諾・使用料不要。著作権は放棄されていない。出典（年度・試験区分・問番号等）と改変の旨を明記すること
+license:
+  original: 本アプリのオリジナル問題・解説・辞典・参考書は MIT License で公開しています。
+  ipa: IPA 公開問題の問題文・選択肢の著作権は IPA に帰属します。各問題に出典を明記し、改変（表の文字化、図の文章化など）がある場合はその旨を記載しています。解説は本アプリ独自のものです。
+disclaimer: 本アプリは IPA（独立行政法人情報処理推進機構）とは無関係の非公式教材です。模擬試験の得点は本アプリ独自の集計であり、IRT に基づく本試験の評価点とは異なります。

@@ -1,0 +1,32 @@
+{
+ "builtAt": "2026-10-20T23:29:40.925Z",
+ "totalAuthored": 2,
+ "published": 2,
+ "bySubject": {
+  "total": 2,
+  "A": 1,
+  "B": 1
+ },
+ "bySource": {
+  "ipa": 0,
+  "original": 2
+ },
+ "byDepth": {
+  "quick": 1,
+  "deep": 1
+ },
+ "machineVerified": 2,
+ "withSimulator": 1,
+ "rejected": [],
+ "checking": [],
+ "glossaryTerms": 1,
+ "referenceChapters": 0,
+ "lessons": 0,
+ "coverage": {
+  "leafTotal": 624,
+  "leafCovered": 2
+ },
+ "similarPairs": 0,
+ "errors": 0,
+ "warnings": 2
+}

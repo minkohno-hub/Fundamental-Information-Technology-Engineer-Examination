@@ -1,0 +1,34 @@
+category: B-ALG
+subject: B
+reviewed: { at: '2026-10-20', method: '作成後の逐問レビュー＋擬似言語インタプリタによる実行検証' }
+questions:
+  - id: B-ALG-001
+    topic: [B3, 2-2-1]
+    depth: deep
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 sum は，整数型の配列 data の要素の値の合計を返す。
+    code: |
+      ○整数型: sum(整数型の配列: data)
+        整数型: i, total ← 0
+        for (i を 1 から dataの要素数 まで 1 ずつ増やす)
+          total ← 【a】
+        endfor
+        return total
+    c: ['total ＋ data[i]', 'total ＋ i', 'data[i]', 'total × data[i]']
+    a: ア
+    exp: |
+      合計を求めるには、変数 total に各要素の値を順に足し込んでいきます。ループのたびに「今までの合計 ＋ 今の要素」を total に代入すればよいので、total ← total ＋ data[i] となります。
+    why:
+      - ア：正解です。累計に i 番目の要素を加えます。
+      - イ：要素の値ではなく要素番号 i を足しているので、1＋2＋…＋要素数 になってしまいます。
+      - ウ：毎回上書きするだけなので、最後の要素の値が返ります。
+      - エ：total の初期値が 0 なので、掛け算では結果が常に 0 になります。
+    verify:
+      cases:
+        - { call: sum, args: [[3, 5, 7]], expect: 15 }
+        - { call: sum, args: [[2]], expect: 2 }
+        - { call: sum, args: [[4, 4, 4, 1]], expect: 13 }
+    sim: { entry: sum, args: [[3, 5, 7]] }

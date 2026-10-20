@@ -1,0 +1,37 @@
+{
+  "name": "fundamental-information-technology-engineer-examination",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "description": "基本情報技術者試験（FE）完全学習Webアプリ",
+  "scripts": {
+    "content": "node tools/run-ts.mjs tools/build-content.ts",
+    "dev": "npm run content && vite",
+    "build": "npm run content && tsc -b && vite build",
+    "preview": "vite preview",
+    "test": "vitest run",
+    "test:e2e": "playwright test",
+    "typecheck": "tsc -b",
+    "check:release": "node tools/run-ts.mjs tools/check-release.ts"
+  },
+  "dependencies": {
+    "idb": "8.0.3",
+    "react": "19.1.1",
+    "react-dom": "19.1.1"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.56.1",
+    "@types/node": "22.18.0",
+    "@types/react": "19.1.12",
+    "@types/react-dom": "19.1.9",
+    "@vitejs/plugin-react": "4.7.0",
+    "esbuild": "^0.25.12",
+    "fake-indexeddb": "6.2.2",
+    "js-yaml": "4.3.2",
+    "jsdom": "26.1.0",
+    "typescript": "5.8.3",
+    "vite": "6.4.4",
+    "vite-plugin-pwa": "1.2.0",
+    "vitest": "4.1.12"
+  }
+}
