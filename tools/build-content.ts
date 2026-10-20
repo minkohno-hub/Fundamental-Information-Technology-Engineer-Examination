@@ -316,6 +316,12 @@ for (const file of files) {
     if (raw.why && raw.why[correct] && /誤り|不適切|誤っ/.test(String(raw.why[correct]).slice(0, 12)) && !/誤りを含|誤ったもの|不適切なもの/.test(raw.q)) {
       warn(where, '正解の選択肢の解説が「誤り」で始まっています（正解と解説の不一致の可能性）');
     }
+    const shuffles = !(raw.noShuffle || doc.source?.kind === 'ipa' || raw.source?.kind === 'ipa');
+    if (shuffles && /[アイウエオカキク](?:が|は|の|と|を|も)/.test(raw.exp + (raw.know ?? '')) && /(?:^|[^ァ-ヶー])[アイウエ](?:が正|は誤|が誤|は正|の記述|とイ|とウ|とエ)/.test(raw.exp + (raw.know ?? ''))) {
+      err(where, '選択肢をシャッフルする問題の解説で選択肢記号（ア〜エ）を参照しています。内容で参照してください');
+    }
+    const whyRefs = (raw.why ?? []).slice(0).map((w) => String(w).replace(/^[ア-コ]\s*[：:]\s*/, '')).join(' ');
+    if (shuffles && /(?:^|[^ァ-ヶー])[アイウエ](?:が正|は誤|と同じ|の説明)/.test(whyRefs)) err(where, '選択肢の解説で他の選択肢を記号で参照しています');
     if (type === 'input' && !(raw.accept?.length)) err(where, '入力式には accept（許容解答）が必要です');
     if (raw.code && /【[a-z]】/.test(raw.q + raw.code) === false && raw.verify?.cases) err(where, '空欄のないプログラムに cases 検証が指定されています');
     const diff = (raw.diff ?? 2) as 1 | 2 | 3;
@@ -344,7 +350,8 @@ for (const file of files) {
       correctAnswer: correct,
       acceptedInputs: raw.accept?.map(normalizeAnswerInput),
       explanation: raw.exp.trim(),
-      choiceExplanations: (raw.why ?? []).map((w) => String(w).trim()),
+      // 選択肢はシャッフルして表示するため、解説先頭の「ア：」などの記号は取り除く（表示側で付け直す）
+      choiceExplanations: (raw.why ?? []).map((w) => String(w).trim().replace(/^[ア-コ]\s*[：:]\s*/, '').replace(/^正解です。?\s*/, '正解です。')),
       knowledge: raw.know?.trim(),
       relatedConcepts,
       relatedQuestionIds: raw.related ?? [],

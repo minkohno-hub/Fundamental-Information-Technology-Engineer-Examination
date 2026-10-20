@@ -233,6 +233,9 @@ export interface SessionState {
   index: number;
   orders: number[][];
   results: (boolean | null)[];
+  /** 選んだ選択肢（元の添字）。入力式で不正解のときは -1 */
+  chosen: (number | null)[];
+  inputs: (string | null)[];
   createdAt: number;
   hidden: number[][];
 }

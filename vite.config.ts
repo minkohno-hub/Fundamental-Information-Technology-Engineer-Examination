@@ -14,6 +14,15 @@ export default defineConfig({
   },
   plugins: [
     react(),
+    {
+      // 本番ビルドにのみ CSP を付与（開発サーバーは HMR のためインラインスクリプトを使う）
+      name: 'csp',
+      apply: 'build',
+      transformIndexHtml(html: string) {
+        const csp = "default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; connect-src 'self'; font-src 'self'; object-src 'none'; base-uri 'self'; form-action 'none'; worker-src 'self'; manifest-src 'self'";
+        return html.replace('<meta charset="UTF-8" />', `<meta charset="UTF-8" />\n    <meta http-equiv="Content-Security-Policy" content="${csp}" />`);
+      },
+    },
     VitePWA({
       registerType: 'prompt',
       injectRegister: false,
