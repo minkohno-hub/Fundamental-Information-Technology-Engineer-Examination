@@ -6,8 +6,8 @@
    "no": "1",
    "name": "基礎理論",
    "field": "テクノロジ系",
-   "questions": 73,
-   "verified": 73,
+   "questions": 85,
+   "verified": 85,
    "leafTotal": 34,
    "leafCovered": 34,
    "uncovered": []
@@ -16,8 +16,8 @@
    "no": "2",
    "name": "アルゴリズムとプログラミング",
    "field": "テクノロジ系",
-   "questions": 51,
-   "verified": 51,
+   "questions": 90,
+   "verified": 90,
    "leafTotal": 32,
    "leafCovered": 32,
    "uncovered": []
@@ -625,12 +625,12 @@
   {
    "id": "B2",
    "name": "プログラムの処理の基本要素",
-   "questions": 0
+   "questions": 20
   },
   {
    "id": "B3",
    "name": "データ構造及びアルゴリズム",
-   "questions": 1
+   "questions": 26
   },
   {
    "id": "B4",
