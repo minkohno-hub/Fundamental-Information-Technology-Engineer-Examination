@@ -73,7 +73,7 @@ terms:
     related: [正規化]
   - term: 主キー
     reading: しゅキー
-    aliases: [一意性制約, 非NULL制約, 複合キー, 候補キー, NULL]
+    aliases: [一意性制約, 非NULL制約, 複合キー, 候補キー, 'NULL']
     simple: 表の各行を1つに特定するための項目です。重複も空欄も許されません。
     definition: 表の行を一意に識別する列（または列の組）。一意性制約と非 NULL 制約が課される。値が存在しない・不明であることを表す標識を NULL という。
     related: [外部キー, 関係データベース]

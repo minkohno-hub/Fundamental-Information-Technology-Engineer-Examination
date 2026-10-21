@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-10-21T00:23:34.705Z",
+ "builtAt": "2026-10-21T00:24:31.659Z",
  "totalAuthored": 336,
  "published": 336,
  "bySubject": {
@@ -19,7 +19,7 @@
  "withSimulator": 1,
  "rejected": [],
  "checking": [],
- "glossaryTerms": 284,
+ "glossaryTerms": 309,
  "referenceChapters": 0,
  "lessons": 0,
  "coverage": {
@@ -27,6 +27,6 @@
   "leafCovered": 184
  },
  "similarPairs": 0,
- "errors": 0,
- "warnings": 68
+ "errors": 1,
+ "warnings": 11
 }
