@@ -1,0 +1,94 @@
+# 教材データ作成ガイド
+
+問題・用語・参考書・レッスンは `content/` 以下の YAML で作成し、`npm run content`（`tools/build-content.ts`）で検証してアプリ用 JSON に変換します。エラーが一つでもあるとビルドは失敗します。新しい教材を追加するときは、このガイドの規約に従ってください。
+
+## 作業の流れ
+
+1. `content/syllabus/syllabus-9.2.json` で学習論点の ID を確認する（`中分類-小分類-項目[-子項目]`、例 `12-3-8-4`）。科目Bは `B1`〜`B5`（`content/syllabus/subject-b.yaml`）。
+2. 問題を `content/questions/A/<中分類>-<名前>.yaml` または `content/questions/B/*.yaml` に書く。
+3. 問題の `terms` で使う用語を `content/glossary/*.yaml` に登録する。
+4. `npm run content` を実行してエラーをなくす。`node tools/missing-terms.mjs` で辞典にない用語を確認し、0 件にする。
+5. 警告（類似問題など）も確認し、別問題であると判断したものは `distinctFrom` に記録する。
+
+## 問題ファイル
+
+```yaml
+category: '12'            # 科目Aは中分類番号、科目Bは B-ALG / B-SEC
+subject: B                # 科目Bのときだけ指定
+reviewed: { at: '2026-10-21', method: 'どのように内容を確認したか' }
+questions:
+  - id: A12-001           # 形式 [A-Z][A-Z0-9-]*-\d{3,4}、全体で一意
+    topic: 12-3-8-4       # 配列可。先頭が主論点
+    diff: 2               # 1 基本 / 2 標準 / 3 応用
+    q: 問題文
+    c: [選択肢1, 選択肢2, 選択肢3, 選択肢4]   # 科目Aは必ず4つ
+    a: ア                 # 正解（ア〜）
+    exp: |                # 正解の理由・考え方（40字以上）
+    why:                  # 各選択肢の解説（選択肢と同数、8字以上）
+      - 正解です。……      # 正解の選択肢だけが「正解です」で始まる
+      - ……
+    know: 関連知識（任意）
+    terms: [用語1, 用語2] # 辞典に登録済みの用語名または別名
+    verify: { value: '式' } # 計算問題は必須（下記）
+```
+
+### 規約
+
+- 選択肢は表示時にシャッフルされます。`exp`・`why`・`know` で「アは誤り」「イと同じ」のように**選択肢記号で参照しない**でください（内容で参照する）。順序に意味がある問題だけ `noShuffle: true`。
+- 正解の選択肢の `why` だけを「正解です。」で始めます。他の選択肢の `why` には誤りの理由（何の説明か、どこが違うか）を書きます。
+- YAML の素のスカラーに半角の「: 」を含めないでください（全角「：」を使うか引用符で囲む）。`NULL` `yes` `no` などは引用符で囲みます。
+- `[[語|リンク先]]` は辞典リンク記法です。行列などの表記に `[[` を使わないでください。
+- 表は `| 列1 | 列2 |` 形式、コードは ``` で囲みます（RichText の対応範囲）。
+- 他の問題とほぼ同じ問題文・選択肢にしないでください（文字 3-gram の Jaccard 係数 0.85 以上はエラー）。
+
+### 正答の検証（verify）
+
+| 種類 | 用途 | 書き方 |
+| --- | --- | --- |
+| `value` | 数値を答える計算問題 | `verify: { value: '(1 - 0.9) * 100' }` 正解の選択肢の先頭の数値と一致し、他と一致しないこと（分数 `1/6` 可、`tolerance` 指定可） |
+| `cases` | 擬似言語の穴埋め | 各選択肢を【a】に当てはめて実行し、正解だけが全テストケースを満たすこと。空欄が複数なら `fills` に選択肢ごとの `{a: .., b: ..}` |
+| `result` | 擬似言語の実行結果を答える | `verify: { result: { call: f, args: [..], of: return | output | var:x } }` |
+| `sql` | SQL | `mode: choices`（各選択肢の SQL を実行）または `mode: result` |
+| `manual` | 機械化できない計算 | 確認した計算手順を記録（例 `'(256-5)=251 を確認'`） |
+
+計算を含む問題には必ず `value` か `manual` を付けます。知識問題は `reviewed` による逐問レビューの記録で公開されます。
+
+### 擬似言語（科目B）
+
+- 文法は IPA「試験で使用する情報技術に関する用語・プログラム言語など」Ver.5.1 別紙2に準拠し、`src/pseudo/` のインタプリタで実行できる範囲で書きます。使える構文は `tests/unit/pseudo.test.ts` と既存の科目B問題を参照してください。
+- 配列の要素番号は 1 から。`{1, 2, 3}` で配列、`dataの要素数` で要素数、`未定義`、`mod`、`÷`（整数同士は切捨て）、`and` `or` `not`。
+- 関数宣言は `○整数型: f(整数型: n)`、手続は `○proc(…)`。大域変数は `大域: 整数型: x`。
+- 繰返しは `for (i を 1 から n まで 1 ずつ増やす) … endfor`、`while (条件) … endwhile`、`do … while (条件)`。選択は `if … elseif … else … endif`。
+- 出力は `x を出力する` 構文（`verify.result` の `of: output` や `expectOutput` で照合）。連結リストなどのクラスは `verify.options.classes` で定義します（`{ ListElement: { fields: [val, next], ctor: [val] } }`）。
+- 空欄は `【a】` `【b】` のように書きます。`sim: { entry: 関数名, args: [...] }` を付けるとステップ実行シミュレーターが使えます（トレースが大きくなりすぎない引数にする）。
+
+### 入力式（短答）
+
+`type: input` と `accept: [許容する解答, …]` を指定すると、選択肢を隠して入力で答えられます（全角半角・大文字小文字・空白の違いは吸収）。`c` と `a` も必ず用意します（選択肢表示に切り替えたとき用）。
+
+## 用語辞典
+
+```yaml
+category: システム開発技術
+terms:
+  - term: 回帰テスト
+    reading: かいきてすと
+    aliases: [リグレッションテスト]       # 別名（全辞典で一意）
+    simple: 初心者向けの短い説明
+    definition: 正確な定義
+    related: [関連用語]
+  - term: SBOM
+    fullName: Software Bill of Materials   # 略語は fullName・japanese・words が必須
+    japanese: ソフトウェア部品表
+    words:
+      - { en: Software, ja: ソフトウェア }
+      - { en: Bill of Materials, ja: 部品表 }
+    simple: …
+    definition: …
+```
+
+用語名と別名は全ファイルで重複できません（正規化後に比較）。
+
+## 出典
+
+オリジナル問題は出典の記載不要（`source.kind: original` が自動で付きます）。IPA の公開問題を使う場合はファイルまたは問題に `source: { kind: ipa, title, url, examName, year, questionNo, terms, modified, modificationNote }` を付け、図表を再現できない問題は `status: rejected` と `rejectReason` を記録します。
