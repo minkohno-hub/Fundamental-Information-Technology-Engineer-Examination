@@ -429,7 +429,7 @@ for (const file of files) {
           const program = (raw.verify?.prelude ?? '') + (raw.verify?.prelude ? '\n' : '') + (/【[a-z]】/.test(raw.code) ? fillBlanks(raw.code, fill) : raw.code);
           const r = runProgram(program, raw.sim.entry, raw.sim.args ?? [], { ...(raw.verify?.options ?? {}), trace: true });
           if (r.traceTruncated) err(where, 'シミュレーションの記録が上限を超えます。引数を小さくしてください');
-          q.simulation = { program, entry: raw.sim.entry, args: raw.sim.args, note: raw.sim.note };
+          q.simulation = { program, entry: raw.sim.entry, args: raw.sim.args, options: raw.verify?.options as never, note: raw.sim.note };
         } catch (e) {
           err(where, `シミュレーション用プログラムの実行に失敗: ${(e as Error).message}`);
         }

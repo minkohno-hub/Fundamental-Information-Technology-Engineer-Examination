@@ -69,7 +69,7 @@ describe.skipIf(!hasData)('教材データ', () => {
   it('シミュレーター付きの問題はすべて実行できる', () => {
     for (const q of questions.filter((x) => x.simulation)) {
       const s = q.simulation!;
-      expect(() => runProgram(s.program, s.entry, s.args ?? [], { trace: true, maxSteps: 500000 }), q.id).not.toThrow();
+      expect(() => runProgram(s.program, s.entry, s.args ?? [], { ...(s.options ?? {}), trace: true, maxSteps: 500000 }), q.id).not.toThrow();
     }
   });
 

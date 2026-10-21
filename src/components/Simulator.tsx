@@ -35,7 +35,7 @@ function ValueView({ v }: { v: SnapValue }) {
 export function Simulator({ spec }: { spec: SimulationSpec }) {
   const result = useMemo(() => {
     try {
-      return { ok: true as const, r: runProgram(spec.program, spec.entry, spec.args ?? [], { trace: true, maxTrace: 5000 }) };
+      return { ok: true as const, r: runProgram(spec.program, spec.entry, spec.args ?? [], { ...(spec.options ?? {}), trace: true, maxTrace: 5000 }) };
     } catch (e) {
       return { ok: false as const, error: (e as Error).message };
     }

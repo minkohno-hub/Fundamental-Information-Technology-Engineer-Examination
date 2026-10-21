@@ -64,6 +64,8 @@ export interface SimulationSpec {
   /** 最初に呼び出す手続・関数（省略時はトップレベルを実行） */
   entry?: string;
   args?: unknown[];
+  /** 実行オプション（クラス定義など） */
+  options?: { classes?: Record<string, { fields: string[]; ctor: string[] }>; bitLiterals?: boolean };
   note?: string;
 }
 
