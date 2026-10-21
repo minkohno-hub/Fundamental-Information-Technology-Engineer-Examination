@@ -415,13 +415,23 @@ terms:
     reading: アイティーユー
     fullName: International Telecommunication Union
     japanese: 国際電気通信連合
-    aliases: [IEC]
     words:
       - { en: International, ja: 国際 }
       - { en: Telecommunication, ja: 電気通信 }
       - { en: Union, ja: 連合 }
     simple: 電気通信の分野の国際的な標準などを決める国連の機関です。
     definition: 電気通信分野の国際標準化や周波数の調整などを行う国連の専門機関。電気・電子技術分野の国際規格は IEC（国際電気標準会議）が策定する。
+  - term: IEC
+    reading: アイイーシー
+    fullName: International Electrotechnical Commission
+    japanese: 国際電気標準会議
+    words:
+      - { en: International, ja: 国際 }
+      - { en: Electrotechnical, ja: 電気技術の }
+      - { en: Commission, ja: 委員会・会議 }
+    simple: 電気・電子の分野の国際規格を作る国際機関です。
+    definition: 電気・電子技術分野の国際規格を策定する国際的な標準化機関。情報技術の分野では ISO と共同で ISO/IEC 規格（ISO/IEC 27001 など）を作成する。
+    related: [ISO, ITU]
   - term: ISO
     reading: アイエスオー
     fullName: International Organization for Standardization
@@ -488,7 +498,7 @@ terms:
     reading: アイエスオーアイイーシーいちまんごせんよんひゃくはち
     aliases: [コモンクライテリア, JIS X 5070]
     simple: IT 製品のセキュリティ機能を評価するための国際規格です。
-    definition: IT 製品やシステムのセキュリティ機能や保証の要件を評価するための国際規格（コモンクライテリア）。JIS X 5070 として規格化されている。
+    definition: IT 製品やシステムのセキュリティ機能や保証の要件を評価するための国際規格（コモンクライテリア）。JIS X 5070 シリーズとして規格化されている。
     related: [JISEC]
   - term: ISO 14001
     reading: アイエスオーいちまんよんせんいち

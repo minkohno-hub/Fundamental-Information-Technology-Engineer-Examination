@@ -38,7 +38,6 @@ terms:
     reading: シーイーオー
     fullName: Chief Executive Officer
     japanese: 最高経営責任者
-    aliases: [CPO]
     words:
       - { en: Chief, ja: 最高の }
       - { en: Executive, ja: 経営・執行 }
@@ -46,6 +45,17 @@ terms:
     simple: 会社の経営全体に最終的な責任をもつ人です。
     definition: 企業の経営全体について最終的な責任を負う最高経営責任者。ほかに CDO（最高デジタル責任者）、CPO（最高プライバシー責任者）などの役職もある。
     related: [CIO, CFO]
+  - term: CPO
+    reading: シーピーオー
+    fullName: Chief Privacy Officer
+    japanese: 最高プライバシー責任者
+    words:
+      - { en: Chief, ja: 最高の }
+      - { en: Privacy, ja: プライバシー }
+      - { en: Officer, ja: 責任者・役員 }
+    simple: 会社の個人情報やプライバシーの保護に責任をもつ役員です。
+    definition: 組織の個人情報やプライバシーの保護に関する方針の策定と運用を統括し、責任を負う役員。
+    related: [CEO, CISO]
   - term: CFO
     reading: シーエフオー
     fullName: Chief Financial Officer
