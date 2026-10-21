@@ -1,5 +1,5 @@
 // 理解度・お気に入り・見直し・メモ・誤り報告
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import type { ProblemReport, Question, Understanding } from '../types';
 import { useApp, useStore } from '../app/context';
 import { IFlag, INote, IReport, IStar } from './Icons';
@@ -121,8 +121,19 @@ function ReportDialog({ q, onClose }: { q: Question; onClose: () => void }) {
       window.prompt('次の文章をコピーしてください', text);
     }
   };
+  // ブラウザによっては最後の要素から Tab でブラウザの UI へ出てしまうため、ダイアログ内で巡回させる
+  const trapTab = (e: KeyboardEvent<HTMLDialogElement>) => {
+    if (e.key !== 'Tab') return;
+    const items = Array.from(e.currentTarget.querySelectorAll<HTMLElement>('a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled])'));
+    if (items.length === 0) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    const active = document.activeElement;
+    if (e.shiftKey && (active === first || active === e.currentTarget)) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && active === last) { e.preventDefault(); first.focus(); }
+  };
   return (
-    <dialog ref={ref} onClose={onClose} aria-labelledby="report-title">
+    <dialog ref={ref} onClose={onClose} onKeyDown={trapTab} aria-labelledby="report-title">
       <h2 id="report-title">問題の誤りを報告</h2>
       {!saved ? (
         <form onSubmit={(e) => { e.preventDefault(); save(); }}>

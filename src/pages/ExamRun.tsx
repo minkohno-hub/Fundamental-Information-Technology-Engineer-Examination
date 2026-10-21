@@ -57,6 +57,14 @@ export default function ExamRun() {
     if (activeSince.current !== null) activeSince.current = t;
     st.saveExam({ ...e, timePerQuestionMs: tp, elapsedMs: elapsed, ...extra });
   }, [st]);
+  const navBtnRef = useRef<HTMLButtonElement>(null);
+  const articleRef = useRef<HTMLElement>(null);
+  const wasPaused = useRef(false);
+  // 再開後はフォーカスが消えたボタンに残らないよう、問題の先頭へ移す（キーボード・スクリーンリーダー向け）
+  useEffect(() => {
+    if (wasPaused.current && !paused) articleRef.current?.focus({ preventScroll: true });
+    wasPaused.current = paused;
+  }, [paused]);
   const idxRef = useRef(idx);
   idxRef.current = idx;
 
@@ -127,7 +135,7 @@ export default function ExamRun() {
         <div className="row">
           {remain !== null && <span className={remain < 5 * 60000 ? 'timer low' : 'timer'} role="timer" aria-label="残り時間">残り {fmtTime(remain)}</span>}
           {canPause && <button className="btn sm" onClick={pause}>一時停止</button>}
-          <button className="btn sm" onClick={() => setShowNav((x) => !x)} aria-expanded={showNav}>問題一覧</button>
+          <button ref={navBtnRef} className="btn sm" onClick={() => setShowNav((x) => !x)} aria-expanded={showNav}>問題一覧</button>
         </div>
       </div>
 
@@ -136,7 +144,7 @@ export default function ExamRun() {
           <div className="qnav" role="group" aria-label="問題一覧">
             {exam.questionIds.map((_, i) => (
               <button key={i} className={[exam.answers[i] !== null ? 'answered' : '', exam.flags[i] ? 'flagged' : '', i === idx ? 'current' : ''].join(' ')}
-                onClick={() => go(i)} aria-label={`問${i + 1}${exam.answers[i] !== null ? ' 解答済み' : ' 未解答'}${exam.flags[i] ? ' 見直し' : ''}`}>{i + 1}</button>
+                onClick={() => { go(i); navBtnRef.current?.focus(); }} aria-current={i === idx ? 'true' : undefined} aria-label={`問${i + 1}${exam.answers[i] !== null ? ' 解答済み' : ' 未解答'}${exam.flags[i] ? ' 見直し' : ''}`}>{i + 1}</button>
             ))}
           </div>
           <p className="xsmall muted" style={{ marginBottom: 0 }}>青：解答済み／橙の点：見直しフラグ</p>
@@ -146,10 +154,10 @@ export default function ExamRun() {
       {paused ? (
         <div className="card loading">
           <p>一時停止中です（問題は非表示）。</p>
-          <button className="btn primary lg" onClick={resume}>再開する</button>
+          <button className="btn primary lg" onClick={resume} autoFocus>再開する</button>
         </div>
       ) : q ? (
-        <article className="card">
+        <article className="card" ref={articleRef} tabIndex={-1} aria-label={`問${idx + 1}`}>
           <div className="row between">
             <span className="tag primary">問{idx + 1}</span>
             <button className="icon-btn" aria-pressed={exam.flags[idx]} onClick={toggleFlag}><IFlag />見直し</button>
