@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-10-21T04:14:47.535Z",
+ "builtAt": "2026-10-21T04:14:54.851Z",
  "totalAuthored": 470,
  "published": 470,
  "bySubject": {
@@ -27,6 +27,6 @@
   "leafCovered": 253
  },
  "similarPairs": 0,
- "errors": 1,
+ "errors": 0,
  "warnings": 7
 }

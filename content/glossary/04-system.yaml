@@ -227,7 +227,7 @@ terms:
     reading: レイシス
     fullName: Reliability, Availability, Serviceability, Integrity, Security
     japanese: 信頼性・可用性・保守性・完全性・安全性
-    aliases: [信頼性, 可用性, 保守性（RASIS）]
+    aliases: [保守性（RASIS）]
     words:
       - { en: Reliability, ja: 信頼性（故障しにくさ） }
       - { en: Availability, ja: 可用性（使いたいときに使えること） }
