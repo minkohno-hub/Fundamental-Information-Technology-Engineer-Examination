@@ -1,0 +1,540 @@
+category: "B-ALG"
+subject: B
+reviewed: { at: '2026-10-21', method: 'IPA 公開問題（科目B）の原文・公式解答例と照合し，解説を新規作成。擬似言語プログラムは本アプリのインタプリタで全選択肢を実行して正解のみが成立することを確認' }
+source:
+  kind: ipa
+  title: "基本情報技術者試験 公開問題（科目B）"
+  url: "https://www.ipa.go.jp/shiken/mondai-kaiotu/sg_fe/koukai/index.html"
+  terms: 'IPA の利用条件（教育目的の利用可、出典明記、改変箇所の明示）'
+  modified: true
+  modificationNote: '解説は本アプリで新規に作成。問題文・プログラム・選択肢は原文のまま（表記の全角半角・空白を一部統一し，図表は文章・表に変換。空欄は【a】【b】で表記）'
+questions:
+  - id: IPA-R05-B-001
+    status: rejected
+    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「iの正の平方根の整数部分」「i ÷ j の余り／商」「繰返し処理を終了する」）が含まれ，原文どおりに再現して実行検証できないため'
+    source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 1 }
+  - id: IPA-R05-B-002
+    topic: [B2, 2-3-1-6]
+    diff: 1
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。
+
+      次のプログラムにおいて，手続 proc2 を呼び出すと，【a】の順に出力される。
+    code: |
+      ○proc1()
+        "A" を出力する
+        proc3()
+
+      ○proc2()
+        proc3()
+        "B" を出力する
+        proc1()
+
+      ○proc3()
+        "C" を出力する
+    c:
+      - "“A”，“B”，“B”，“C”"
+      - "“A”，“C”"
+      - "“A”，“C”，“B”，“C”"
+      - "“B”，“A”，“B”，“C”"
+      - "“B”，“C”，“B”，“A”"
+      - "“C”，“B”"
+      - "“C”，“B”，“A”"
+      - "“C”，“B”，“A”，“C”"
+    a: ク
+    exp: |
+      手続を呼び出すと，その手続の中身を上から順に実行し，別の手続を呼ぶ文に来たら，その手続を最後まで実行してから元の手続の続きに戻ります。proc2 の実行を順に追うと次のようになります。
+
+      | 実行する文 | 出力 | 補足 |
+      | --- | --- | --- |
+      | proc3() | “C” | proc3 は “C” を出力するだけの手続 |
+      | "B" を出力する | “B” | proc2 自身の出力 |
+      | proc1() | | proc1 の中へ移る |
+      | "A" を出力する（proc1 内） | “A” | |
+      | proc3()（proc1 内） | “C” | proc3 から戻ると proc1 も終了し，proc2 も終了 |
+
+      出力は “C”，“B”，“A”，“C” の順になります。
+    why:
+      - proc2 は最初に proc3 を呼ぶので先頭の出力は “C” であり，“A” から始まりません。また “B” を 2 回出力する箇所もありません。
+      - これは proc1 だけを呼び出したときの出力です。proc2 を呼び出したときは，先に proc3 の “C” と proc2 自身の “B” が出力されます。
+      - proc1 の出力から始まっていますが，proc2 は最初に proc3 を呼ぶので先頭は “C” です。
+      - 先頭が “B” になっていますが，proc2 の最初の文は proc3 の呼出しなので，その “C” が先に出力されます。
+      - 先頭が “B” になっていて，proc3 の呼出しで出力される “C” が先頭にあることを見落としています。proc1 の出力順（“A”，“C”）も逆です。
+      - proc2 の最後の proc1() の呼出しによる出力（“A” と “C”）が含まれていません。
+      - proc1 の中で呼ぶ proc3 の出力（最後の “C”）が抜けています。proc1 は “A” の後に proc3 を呼びます。
+      - 正解です。proc3 の “C”，proc2 の “B”，proc1 の “A”，proc1 から呼んだ proc3 の “C” の順です。
+    know: 手続の呼出しは，呼ばれた手続が終わると呼出し元の次の文へ戻る「後入れ先出し」の動きになる。この動きは実行時にスタックで管理される。
+    terms: [スタック]
+    verify: { manual: 'インタプリタで proc2 を実行し，出力が C，B，A，C の順になることを確認。選択肢のうち一致するのはこの並びだけ' }
+    sim: { entry: proc2 }
+    source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 2 }
+  - id: IPA-R05-B-003
+    status: rejected
+    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「(first ＋ last) ÷ 2 の商」「繰返し処理を終了する」「data[i]とdata[j]の値を入れ替える」「dataの全要素の値を要素番号の順に空白区切りで出力する」）が含まれ，原文どおりに再現して実行検証できないため'
+    source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 3 }
+  - id: IPA-R05-B-004
+    topic: [B3, 2-2-2-1]
+    diff: 2
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 add は，引数で指定された正の整数 value を大域の整数型の配列 hashArray に格納する。格納できた場合は true を返し，格納できなかった場合は false を返す。ここで，整数 value を hashArray のどの要素に格納すべきかを，関数 calcHash1 及び calcHash2 を利用して決める。
+
+      手続 test は，関数 add を呼び出して，hashArray に正の整数を格納する。手続 test の処理が終了した直後の hashArray の内容は，【a】である。
+    code: |
+      大域: 整数型の配列: hashArray
+
+      ○論理型: add(整数型: value)
+        整数型: i ← calcHash1(value)
+        if (hashArray[i] ＝ －1)
+          hashArray[i] ← value
+          return true
+        else
+          i ← calcHash2(value)
+          if (hashArray[i] ＝ －1)
+            hashArray[i] ← value
+            return true
+          endif
+        endif
+        return false
+
+      ○整数型: calcHash1(整数型: value)
+        return (value mod hashArrayの要素数) ＋ 1
+
+      ○整数型: calcHash2(整数型: value)
+        return ((value ＋ 3) mod hashArrayの要素数) ＋ 1
+
+      ○test()
+        hashArray ← {5個の －1}
+        add(3)
+        add(18)
+        add(11)
+    c:
+      - "{－1, 3, －1, 18, 11}"
+      - "{－1, 11, －1, 3, －1}"
+      - "{－1, 11, －1, 18, －1}"
+      - "{－1, 18, －1, 3, 11}"
+      - "{－1, 18, 11, 3, －1}"
+    a: エ
+    exp: |
+      hashArray は要素数 5 で，空の要素は －1 で表します。add は，まず calcHash1 で決まる位置に格納を試み，その位置が埋まっていれば calcHash2 で決まる位置に格納を試みます（それも埋まっていれば格納できず false）。
+
+      | 呼出し | calcHash1 | 空きか | calcHash2 | 格納先 |
+      | --- | --- | --- | --- | --- |
+      | add(3) | (3 mod 5)＋1 ＝ 4 | 空き | （使わない） | 要素番号 4 |
+      | add(18) | (18 mod 5)＋1 ＝ 4 | 埋まっている | ((18＋3) mod 5)＋1 ＝ 2 | 要素番号 2 |
+      | add(11) | (11 mod 5)＋1 ＝ 2 | 埋まっている | ((11＋3) mod 5)＋1 ＝ 5 | 要素番号 5 |
+
+      この結果，hashArray は {－1, 18, －1, 3, 11} になります。
+    why:
+      - 3 を要素番号 2 に，18 を要素番号 4 に入れていますが，3 の格納先は calcHash1(3) ＝ 4 で，要素番号 2 にはなりません。
+      - 18 が格納されていません。18 は calcHash1 の位置（4）が埋まっていても，calcHash2 の位置（2）が空いているので格納されます。
+      - 3 が格納されておらず，18 が要素番号 4 になっています。3 は最初に呼ばれ，calcHash1(3) ＝ 4 の位置に入ります。
+      - 正解です。3 は要素番号 4，18 は衝突して要素番号 2，11 も衝突して要素番号 5 に格納されます。
+      - 11 を要素番号 3 に入れていますが，11 の格納先は calcHash1(11) ＝ 2 か calcHash2(11) ＝ 5 のどちらかで，要素番号 3 にはなりません。
+    know: 格納位置が衝突したときに別の位置を探す方式を，オープンアドレス法という。ここでは 2 本目のハッシュ関数で別の位置を決めており，それも埋まっていれば格納失敗としている。
+    terms: [ハッシュ, 衝突, オープンアドレス法, ハッシュ関数]
+    verify: { result: { call: test, of: 'var:hashArray' } }
+    sim: { entry: test }
+    source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 4 }
+  - id: IPA-R05-B-005
+    status: rejected
+    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「(vector1[i] × vector2[i])の正の平方根」「vector1[i]の2乗」「tempの正の平方根」）が含まれ，原文どおりに再現して実行検証できないため'
+    source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 5 }
+  - id: IPA-R06-B-001
+    topic: [B2, 2-3-1-5]
+    diff: 1
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。
+
+      関数 maximum は，異なる三つの整数を引数で受け取り，そのうちの最大値を返す。
+    code: |
+      ○整数型: maximum(整数型: x, 整数型: y, 整数型: z)
+        if (【a】)
+          return x
+        elseif (y ＞ z)
+          return y
+        else
+          return z
+        endif
+    c:
+      - "x ＞ y"
+      - "x ＞ y and x ＞ z"
+      - "x ＞ y and y ＞ z"
+      - "x ＞ z"
+      - "x ＞ z and z ＞ y"
+      - "z ＞ y"
+    a: イ
+    exp: |
+      最初の if で「x が最大」であることを判定できれば，残りは y と z の比較だけで済みます。x が最大であるのは，x が y より大きく，かつ z よりも大きいときなので，条件は x ＞ y and x ＞ z です。
+
+      x ＝ 3，y ＝ 1，z ＝ 2 のとき，x ＞ y（真）and x ＞ z（真）で x を返します。x ＝ 2，y ＝ 3，z ＝ 1 のときは偽になり，elseif の y ＞ z（真）で y を返します。x ＝ 1，y ＝ 2，z ＝ 3 のときは偽になり，y ＞ z（偽）なので else で z を返します。
+    why:
+      - x ＞ y だけでは z との比較がなく，x ＝ 2，y ＝ 1，z ＝ 3 のとき x（2）を返してしまいます。
+      - 正解です。x が y と z の両方より大きいときだけ x を返し，そうでなければ y と z の大小で残りを決められます。
+      - x ＞ y and y ＞ z は x ＞ y ＞ z の並びのときだけ真で，x ＝ 3，y ＝ 1，z ＝ 2 のように x が最大でも偽になり，z を返してしまいます。
+      - x ＞ z だけでは y との比較がなく，x ＝ 2，y ＝ 3，z ＝ 1 のとき x（2）を返してしまいます。
+      - x ＞ z and z ＞ y は x ＞ z ＞ y の並びのときだけ真で，x ＝ 3，y ＝ 2，z ＝ 1 のように x が最大でも偽になり，y を返してしまいます。
+      - z ＞ y は x を含まない条件なので，x ＝ 1，y ＝ 2，z ＝ 3 のときに x（1）を返してしまいます。
+    know: 条件式に「最大であること」を直接書くと，残りの分岐の前提が単純になる。三つの値のどの並びでも正しく動くかは，6 通りの大小関係で確かめられる。
+    terms: [選択処理]
+    verify:
+      cases:
+        - { call: maximum, args: [3, 2, 1], expect: 3 }
+        - { call: maximum, args: [3, 1, 2], expect: 3 }
+        - { call: maximum, args: [2, 3, 1], expect: 3 }
+        - { call: maximum, args: [1, 3, 2], expect: 3 }
+        - { call: maximum, args: [2, 1, 3], expect: 3 }
+        - { call: maximum, args: [1, 2, 3], expect: 3 }
+    sim: { entry: maximum, args: [2, 3, 1] }
+    source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 1 }
+  - id: IPA-R06-B-002
+    status: rejected
+    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「binaryの文字数」「binary の i文字目の文字」）が含まれ，原文どおりに再現して実行検証できないため'
+    source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 2 }
+  - id: IPA-R06-B-003
+    status: rejected
+    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（二次元配列の初期化「{nodeNum行nodeNum列の 0}」）が含まれ，原文どおりに再現して実行検証できないため'
+    source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 3 }
+  - id: IPA-R06-B-004
+    topic: [B3, 2-2-2-1]
+    diff: 2
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 merge は，昇順に整列された整数型の配列 data1 及び data2 を受け取り，これらを併合してできる昇順に整列された整数型の配列を返す。
+
+      関数 merge を merge({2, 3}, {1, 4}) として呼び出すと，/*** α ***/ の行は【a】。
+    code: |
+      ○整数型の配列: merge(整数型の配列: data1, 整数型の配列: data2)
+        整数型: n1 ← data1の要素数
+        整数型: n2 ← data2の要素数
+        整数型の配列: work ← {(n1 ＋ n2)個の 未定義の値}
+        整数型: i ← 1
+        整数型: j ← 1
+        整数型: k ← 1
+
+        while ((i ≦ n1) and (j ≦ n2))
+          if (data1[i] ≦ data2[j])
+            work[k] ← data1[i]
+            i ← i ＋ 1
+          else
+            work[k] ← data2[j]
+            j ← j ＋ 1
+          endif
+          k ← k ＋ 1
+        endwhile
+
+        while (i ≦ n1)
+          work[k] ← data1[i]
+          i ← i ＋ 1
+          k ← k ＋ 1
+        endwhile
+
+        while (j ≦ n2)
+          work[k] ← data2[j]   /*** α ***/
+          j ← j ＋ 1
+          k ← k ＋ 1
+        endwhile
+
+        return work
+    c:
+      - "実行されない"
+      - "1 回実行される"
+      - "2 回実行される"
+      - "3 回実行される"
+    a: イ
+    exp: |
+      data1 ＝ {2, 3}（n1 ＝ 2），data2 ＝ {1, 4}（n2 ＝ 2）で追跡します。
+
+      | 段階 | i | j | k | 比較・動作 | work |
+      | --- | --- | --- | --- | --- | --- |
+      | 開始 | 1 | 1 | 1 | | {未定義, 未定義, 未定義, 未定義} |
+      | 1 つ目の while（1 回目） | 1 | 1 | 1 | data1[1]＝2 ≦ data2[1]＝1 は偽なので data2[1] を格納 | {1, 未定義, 未定義, 未定義} |
+      | 1 つ目の while（2 回目） | 1 | 2 | 2 | 2 ≦ 4 は真なので data1[1] を格納 | {1, 2, 未定義, 未定義} |
+      | 1 つ目の while（3 回目） | 2 | 2 | 3 | 3 ≦ 4 は真なので data1[2] を格納 | {1, 2, 3, 未定義} |
+      | 1 つ目の while の終了 | 3 | 2 | 4 | i ＞ n1 なので終了 | |
+
+      2 つ目の while は i ＞ n1 のため実行されません。3 つ目の while は j ＝ 2 ≦ n2 ＝ 2 なので 1 回実行され，work[4] に data2[2] ＝ 4 が格納されます。j が 3 になると終了するため，α の行は 1 回だけ実行されます。
+    why:
+      - 3 つ目の while の条件 j ≦ n2 は，1 つ目の while の終了時に j ＝ 2，n2 ＝ 2 で真になるため，1 回は実行されます。
+      - 正解です。1 つ目の while で data2 の 1 だけを使い，data2 の最後の要素 4 が残るため，3 つ目の while が 1 回だけ実行されます。
+      - 2 回実行されるのは，data2 の要素が 2 つ以上残る場合です。この呼出しでは data2 の 1 が 1 つ目の while で使われ，残りは 4 の 1 つだけです。
+      - 3 回実行されるのは，data2 の要素が 3 つ以上残る場合です。data2 の要素数は 2 なので，この呼出しでは起こりません。
+    know: 併合（マージ）は，整列済みの二つの配列の先頭同士を比べて小さい方を取り出す操作を繰り返す。どちらかが先に尽きたら，残った側の要素をそのまま後ろに並べる。
+    terms: [マージ, マージソート, 整列]
+    verify: { manual: 'インタプリタでトレースし，α の行が 1 回だけ実行されることを確認（work の最終値は {1, 2, 3, 4}）' }
+    sim: { entry: merge, args: [[2, 3], [1, 4]] }
+    source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 4 }
+  - id: IPA-R06-B-005
+    status: rejected
+    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「orderにordersの要素を順に代入する」「orderのいずれかの要素の値がitemの値と等しい」「itemCountの値を1増やす」「allItemsの複製から…を除いた配列」「－∞」など）が多数含まれ，原文どおりに再現して実行検証できないため'
+    source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 5 }
+  - id: IPA-R07-B-001
+    status: rejected
+    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「繰返し処理を終了する」，選択肢の「jをnから始めてmを超えない範囲でtempNずつ増やす」，「(i mod 4)が0と等しい」の括弧付き左辺）が含まれ，原文どおりに再現して実行検証できないため'
+    source: { examName: "令和7年度 科目B 公開問題", year: 2025, questionNo: 1 }
+  - id: IPA-R07-B-002
+    status: rejected
+    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「(rest ÷ 5 の商)」）が含まれ，原文どおりに再現して実行検証できないため'
+    source: { examName: "令和7年度 科目B 公開問題", year: 2025, questionNo: 2 }
+  - id: IPA-R07-B-003
+    topic: [B3, 2-1-2-3]
+    diff: 2
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 push は，引数で与えられた整数をスタックに格納する。格納できた場合は true を返し，格納できなかった場合は false を返す。
+
+      関数 pop は，スタックから値を取り出して返す。スタックが空のときは未定義の値を返す。
+
+      スタックを，要素数が 4 である大域の整数型の配列 stack，及び次に値を格納する位置を示す大域の変数 stackPos で表現する。スタックの初期状態を図に示す。
+
+      プログラムでは，配列の領域外を参照してはならないものとする。
+
+      | 要素番号 | 1 | 2 | 3 | 4 |
+      | --- | --- | --- | --- | --- |
+      | stack | 4 | 3 | （未定義） | （未定義） |
+      | stackPos | | | ↑ | |
+
+      図　スタックの初期状態（注記：「（未定義）」はその要素が未定義であることを示す。stackPos は要素番号 3 を指す。）
+    code: |
+      大域: 整数型: stackPos ← 3
+      大域: 整数型の配列: stack ← {4, 3, 未定義の値, 未定義の値}
+
+      ○論理型: push(整数型: inputData)
+        if (stackPos ≦ stackの要素数)
+          stack[【a】] ← inputData
+          stackPos ← stackPos ＋ 1
+          return true
+        else
+          return false
+        endif
+
+      ○整数型: pop()
+        整数型: popData ← 未定義の値
+        if (stackPos ＞ 1)
+          stackPos ← 【b】
+          popData ← stack[stackPos]
+          stack[stackPos] ← 未定義の値
+        endif
+        return popData
+    c:
+      - "a：stackPos，b：stackPos ＋ 1"
+      - "a：stackPos，b：stackPos － 1"
+      - "a：stackPos － 1，b：stackPos ＋ 1"
+      - "a：stackPos － 1，b：stackPos － 1"
+    fills:
+      - { a: 'stackPos', b: 'stackPos ＋ 1' }
+      - { a: 'stackPos', b: 'stackPos － 1' }
+      - { a: 'stackPos － 1', b: 'stackPos ＋ 1' }
+      - { a: 'stackPos － 1', b: 'stackPos － 1' }
+    a: イ
+    exp: |
+      stackPos は「次に値を格納する位置」です。初期状態では stack[1]，stack[2] に値があり，stackPos は 3 なので，値は次のように出し入れされます。
+
+      【a】 push は次に値を格納する位置（stackPos）に格納してから，stackPos を 1 増やします。したがって格納先は stack[stackPos] です。
+
+      【b】 pop は，最後に格納した値の位置から取り出します。最後に格納した値は stackPos の 1 つ前にあるので，まず stackPos を 1 減らし（stackPos － 1），その位置の値を取り出して未定義に戻します。
+
+      | 操作 | 実行前の stackPos | stack の内容 | 実行後の stackPos | 実行後の stack |
+      | --- | --- | --- | --- | --- |
+      | push(7) | 3 | {4, 3, 未定義, 未定義} | 4 | {4, 3, 7, 未定義} |
+      | pop() | 3 | {4, 3, 未定義, 未定義} | 2 | {4, 未定義, 未定義, 未定義}（3 を返す） |
+    why:
+      - push は正しいですが，pop で stackPos を増やすと，値の入っていない位置を指して取り出してしまい，スタックの先頭の値（3）を取り出せません。
+      - 正解です。push は stack[stackPos] に格納して stackPos を進め，pop は stackPos を戻してからその位置の値を取り出します。
+      - push で stack[stackPos － 1] に格納すると，最後に入れた値（3）を上書きして失います。pop も stackPos を増やしてしまうので取り出せません。
+      - pop は正しいですが，push で stack[stackPos － 1] に格納すると，最後に入れた値（3）を上書きしてしまいます。
+    know: スタックは，最後に入れたものを最初に取り出す LIFO のデータ構造。この問題のように「次に格納する位置」を管理する方法のほか，「最後に格納した位置」を管理する方法もあり，どちらかによって stackPos の増減の順序が変わる。
+    terms: [スタック, LIFO]
+    verify:
+      cases:
+        - { call: push, args: [7], expect: true, expectGlobals: { stackPos: 4, stack: [4, 3, 7, null] } }
+        - { call: pop, expect: 3, expectGlobals: { stackPos: 2, stack: [4, null, null, null] } }
+    sim: { entry: push, args: [7] }
+    source: { examName: "令和7年度 科目B 公開問題", year: 2025, questionNo: 3 }
+  - id: IPA-R07-B-004
+    status: rejected
+    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「αの行から始まる繰返し処理を終了する」）が含まれ，原文どおりに再現して実行検証できないため'
+    source: { examName: "令和7年度 科目B 公開問題", year: 2025, questionNo: 4 }
+  - id: IPA-R07-B-005
+    status: rejected
+    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「dataの要素の和」「dataの行番号rの要素の和」「dataの列番号cの要素の和」，二次元配列の初期化「{row行col列の 未定義の値}」）が含まれ，原文どおりに再現して実行検証できないため'
+    source: { examName: "令和7年度 科目B 公開問題", year: 2025, questionNo: 5 }
+  - id: IPA-R08-B-001
+    topic: [B2, 2-1-2-1, 2-3-1-5]
+    diff: 1
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      次のプログラムは，整数型の配列 data の末尾の要素の値を先頭の要素に移動する。この際，末尾以外の各要素の値は，一つずつ後ろの要素に移動する。
+    code: |
+      整数型の配列: data ← {1, 2, 3, 4, 5, 6, 7, 8, 9}
+      整数型: top, i
+      整数型: len ← dataの要素数
+      top ← data[len]
+      for (i を 【a】)
+        data[i] ← data[i － 1]
+      endfor
+      data[1] ← top
+    c:
+      - "2 から len － 1 まで 1 ずつ増やす"
+      - "2 から len まで 1 ずつ増やす"
+      - "len － 1 から 2 まで 1 ずつ減らす"
+      - "len から 2 まで 1 ずつ減らす"
+    a: エ
+    exp: |
+      末尾の値を top に退避してから，各要素を 1 つ後ろへずらし，最後に先頭へ top を入れる処理です。data[i] ← data[i － 1] は「前の要素の値を後ろの要素へコピーする」ので，後ろから前へ向かって（i を大きい方から小さい方へ）実行しないと，コピー元がすでに上書きされてしまいます。
+
+      i を len（9）から 2 まで 1 ずつ減らすと，data[9] ← data[8]，data[8] ← data[7]，…，data[2] ← data[1] の順に実行されます。
+
+      | i | 実行する代入 | data |
+      | --- | --- | --- |
+      | （開始） | top ← 9 | {1, 2, 3, 4, 5, 6, 7, 8, 9} |
+      | 9 | data[9] ← data[8] | {1, 2, 3, 4, 5, 6, 7, 8, 8} |
+      | 8 | data[8] ← data[7] | {1, 2, 3, 4, 5, 6, 7, 7, 8} |
+      | 7～2 | 同様に 1 つずつ後ろへ | {1, 1, 2, 3, 4, 5, 6, 7, 8} |
+      | 終了後 | data[1] ← top | {9, 1, 2, 3, 4, 5, 6, 7, 8} |
+    why:
+      - i を増やす向きなので data[2] ← data[1] で 1 を複製し，次も data[3] ← data[2]（すでに 1）となって，先頭の値 1 が全体に広がります。最後の data[len] も更新されません。
+      - i を増やす向きなので先頭の値 1 が全体に広がります（data[len] まで 1 になり，結果は {9, 1, 1, 1, 1, 1, 1, 1, 1} になります）。
+      - 向きは正しいですが，i を len － 1 から始めるため data[len] ← data[len － 1] が実行されず，末尾の要素が書き換わりません（結果は {9, 1, 2, 3, 4, 5, 6, 7, 9} になります）。
+      - 正解です。後ろの要素から順に 1 つ前の値を写すので，上書き前の値を使ってずらせます。
+    know: 配列の要素を 1 つずつずらすとき，同じ配列の中でコピーする向きを誤ると，値が上書きされて全体が同じ値になる。後ろへずらすときは後ろから，前へずらすときは前から処理する。
+    terms: [配列, 繰返し処理]
+    verify:
+      cases:
+        - { expectVars: { data: [9, 1, 2, 3, 4, 5, 6, 7, 8] } }
+    sim: {}
+    source: { examName: "令和8年度 科目B 公開問題", year: 2026, questionNo: 1 }
+  - id: IPA-R08-B-002
+    topic: [B2, 1-1-5, 2-3-1-4]
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。
+
+      関数 complement は，引数として渡された 8 ビット型の値 x について，x に加算すると 00000000 になる値を返す。8 ビット型の加算は，値を符号なし 2 進数とみなしたときの加算とし，桁あふれが発生したときのあふれた桁は無視する。演算子∧，∨，▽は，それぞれビット単位の論理積，論理和，排他的論理和を表す。
+    code: |
+      ○8ビット型: complement(8ビット型: x)
+        8ビット型: y
+        y ← 【a】
+        y ← y ＋ 00000001
+        return y
+    c:
+      - "x ∧ 01111111"
+      - "x ∧ 11111111"
+      - "x ∨ 01111111"
+      - "x ∨ 11111111"
+      - "x ▽ 01111111"
+      - "x ▽ 11111111"
+    a: カ
+    exp: |
+      x に足して（桁あふれを無視して）00000000 になる値は，x の 2 の補数です。2 の補数は「全ビットを反転してから 1 を足す」ことで求められます。この問題では，二行目で 1 を足しているので，一行目では全ビット反転を行います。
+
+      全ビット反転は，x と 11111111 の排他的論理和（▽）で得られます（0 ▽ 1 ＝ 1，1 ▽ 1 ＝ 0 なので，x の各ビットが反転する）。
+
+      x ＝ 00000101（5）のとき
+
+      | 手順 | 値 |
+      | --- | --- |
+      | x ▽ 11111111 | 11111010 |
+      | ＋ 00000001 | 11111011（251） |
+      | x ＋ 結果 | 00000101 ＋ 11111011 ＝ 1 00000000（あふれた桁を無視して 00000000） |
+    why:
+      - x ∧ 01111111 は最上位ビットを 0 にして残りをそのまま残す演算で，反転していません。x に加算しても 0 になりません。
+      - x ∧ 11111111 は x そのものです。1 を足した x ＋ 1 を x に加えても 0 にはなりません。
+      - x ∨ 01111111 は下位 7 ビットをすべて 1 にする演算で，x の値によらず下位 7 ビットが固定されるため，補数になりません。
+      - x ∨ 11111111 は常に 11111111 になるので，1 を足すと 00000000 で，x が 0 以外のときに x に加えても 0 になりません。
+      - x ▽ 01111111 は下位 7 ビットだけを反転して最上位ビットはそのままなので，最上位ビットが反転しておらず補数になりません。
+      - 正解です。x ▽ 11111111 で全ビットを反転し，1 を足して 2 の補数にします。x に加えると桁あふれして 00000000 になります。
+    know: 符号なし 2 進数の加算で「足すと 0 になる値」は 2 の補数で，負の整数を表現するときにも使われる。全ビット反転（1 の補数）に 1 を足して求める。
+    terms: [2の補数, 排他的論理和, ビット演算, 論理積]
+    verify:
+      options: { bitLiterals: true }
+      cases:
+        - { call: complement, args: [1], expect: 255 }
+        - { call: complement, args: [5], expect: 251 }
+        - { call: complement, args: [77], expect: 179 }
+        - { call: complement, args: [128], expect: 128 }
+        - { call: complement, args: [200], expect: 56 }
+        - { call: complement, args: [255], expect: 1 }
+    sim: { entry: complement, args: [5] }
+    source: { examName: "令和8年度 科目B 公開問題", year: 2026, questionNo: 2 }
+  - id: IPA-R08-B-003
+    topic: [B3, 2-2-2-2]
+    diff: 3
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 func1 に与える引数と，関数 func2 に与える引数とが同じとき，二つの関数は同じ値を返す。プログラムでは，配列の領域外を参照してはならないものとする。
+    code: |
+      ○整数型: func1(整数型: n)
+        if (nが2以下)
+          return 1
+        endif
+        return 2 × func1(n － 2) ＋ func1(n － 1)
+
+      ○整数型: func2(整数型: n)
+        整数型の配列: data ← {1, 1, 1}
+        整数型: i
+
+        /* nが3より小さいときは繰返し処理を実行しない */
+        for (iを3からnまで1ずつ増やす)
+          data[1] ← data[2]
+          data[2] ← data[3]
+          data[3] ← 【a】
+        endfor
+        return data[3]
+    c:
+      - "2 × data[1] ＋ data[2]"
+      - "2 × data[2] ＋ data[1]"
+      - "2 × data[i － 1] ＋ data[i － 2]"
+      - "2 × data[i － 2] ＋ data[i － 1]"
+      - "data[3] ＋ 2 × data[1] ＋ data[2]"
+      - "data[3] ＋ 2 × data[2] ＋ data[1]"
+      - "data[3] ＋ 2 × data[i － 1] ＋ data[i － 2]"
+      - "data[3] ＋ 2 × data[i － 2] ＋ data[i － 1]"
+    a: ア
+    exp: |
+      func1 は，f(n) ＝ 2 × f(n － 2) ＋ f(n － 1)（n ≧ 3），f(1) ＝ f(2) ＝ 1 という漸化式を再帰で計算しています。func2 は同じ値を，再帰を使わず繰返しで求める版です。
+
+      繰返しの各回で，data[1]，data[2] に直前の 2 項（f(i － 2)，f(i － 1)）を保持し，data[3] に新しい項 f(i) を入れます。繰返しの先頭で data[1] ← data[2]，data[2] ← data[3] とずらすと，data[1] ＝ f(i － 2)，data[2] ＝ f(i － 1) になるので，新しい項は 2 × data[1] ＋ data[2] です。
+
+      | i | ずらした後の data[1] | data[2] | data[3] に入れる値 |
+      | --- | --- | --- | --- |
+      | 3 | 1 | 1 | 2×1＋1 ＝ 3（f(3)） |
+      | 4 | 1 | 3 | 2×1＋3 ＝ 5（f(4)） |
+      | 5 | 3 | 5 | 2×3＋5 ＝ 11（f(5)） |
+      | 6 | 5 | 11 | 2×5＋11 ＝ 21（f(6)） |
+    why:
+      - 正解です。ずらした後の data[1]，data[2] がそれぞれ f(i － 2)，f(i － 1) なので，2 × data[1] ＋ data[2] が f(i) になります。
+      - 係数の付き方が逆です。2 × f(i － 1) ＋ f(i － 2) になるので，f(4) は 2×3＋1 ＝ 7 となり，func1 の 5 と一致しません。
+      - data[i － 1]，data[i － 2] は繰返しの回数 i に応じて要素番号が増えます。配列の要素数は 3 なので，i が 5 以上になると領域外を参照します。
+      - data[i － 2]，data[i － 1] は，配列の要素番号に繰返しの回数 i を使っているため，i が 6 以上になると領域外を参照します。
+      - 新しい項に古い data[3] の値（f(i － 1)）を余分に足しているので，func1 より大きい値になります（f(3) は 4 になります）。
+      - 係数が逆であることに加えて，古い data[3] を余分に足しているので，f(3) から func1 の値と一致しません。
+      - 古い data[3] を余分に足しており，data[i － 1]，data[i － 2] は i が大きいと領域外参照にもなります。
+      - 古い data[3] を余分に足しており，data[i － 2]，data[i － 1] は i が大きいと領域外参照にもなります。
+    know: 再帰で定義された式は，直前の数項を変数や配列に保持して繰り返すことで，再帰を使わずに計算できる。再帰では同じ値を何度も計算するが，繰返しでは各項を 1 回ずつ計算するので効率がよい。
+    terms: [再帰, 再帰呼出し, 配列]
+    verify:
+      cases:
+        - { call: func2, args: [1], expect: 1 }
+        - { call: func2, args: [2], expect: 1 }
+        - { call: func2, args: [3], expect: 3 }
+        - { call: func2, args: [4], expect: 5 }
+        - { call: func2, args: [5], expect: 11 }
+        - { call: func2, args: [6], expect: 21 }
+        - { call: func2, args: [7], expect: 43 }
+        - { call: func2, args: [8], expect: 85 }
+    sim: { entry: func2, args: [5] }
+    source: { examName: "令和8年度 科目B 公開問題", year: 2026, questionNo: 3 }
+  - id: IPA-R08-B-004
+    status: rejected
+    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「繰返し処理を終了する」）が含まれ，原文どおりに再現して実行検証できないため'
+    source: { examName: "令和8年度 科目B 公開問題", year: 2026, questionNo: 4 }
+  - id: IPA-R08-B-005
+    status: rejected
+    rejectReason: 'プログラムと選択肢に本アプリのインタプリタが未対応の記法（「colorVector の要素のいずれにも colors[i]の値 が格納されていない」「colors の要素のいずれかに colorVector[k]の値 が格納されている」）が含まれ，原文どおりに再現して実行検証できないため'
+    source: { examName: "令和8年度 科目B 公開問題", year: 2026, questionNo: 5 }
