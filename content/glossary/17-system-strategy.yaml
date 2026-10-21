@@ -1,0 +1,327 @@
+category: システム戦略
+terms:
+  - term: 情報システム戦略
+    reading: じょうほうシステムせんりゃく
+    aliases: [情報システム化基本計画, 情報システム戦略委員会]
+    simple: 経営戦略を実現するために、会社全体で情報システムをどう整備・活用するかを決めた方針です。
+    definition: 経営戦略に基づき、全体最適の観点から情報システムのあるべき姿、投資方針、推進体制、標準化方針などを定めたもの。
+    related: [ITガバナンス, EA]
+  - term: IT投資マネジメント
+    reading: アイティーとうしマネジメント
+    aliases: [情報システム投資計画]
+    simple: IT 投資を戦略に沿って選び、効果を事前・事後に評価して管理することです。
+    definition: 経営戦略との整合性を確認して IT 投資案件の目的・効果・リスクを評価し、優先順位付け・実行・事後評価を行う一連の管理活動。
+    related: [ITポートフォリオ, ROI]
+  - term: CIO
+    reading: シーアイオー
+    fullName: Chief Information Officer
+    japanese: 最高情報責任者
+    words:
+      - { en: Chief, ja: 最高の }
+      - { en: Information, ja: 情報 }
+      - { en: Officer, ja: 責任者 }
+    simple: 会社の情報システム戦略と IT 投資に責任をもつ役員です。
+    definition: 経営戦略に沿った情報システム戦略の立案、IT 投資の評価、情報化の推進に責任をもつ経営幹部。
+    related: [CDO, 情報システム戦略]
+  - term: CDO
+    reading: シーディーオー
+    fullName: Chief Digital Officer
+    japanese: 最高デジタル責任者
+    words:
+      - { en: Chief, ja: 最高の }
+      - { en: Digital, ja: デジタル }
+      - { en: Officer, ja: 責任者 }
+    simple: デジタル技術を使った事業の変革（DX）を全社で進める役員です。
+    definition: デジタル技術による新事業やビジネスモデルの創出、業務変革を全社的に推進する経営幹部。Chief Data Officer（最高データ責任者）を指すこともある。
+    related: [CIO, DX]
+  - term: DX
+    reading: ディーエックス
+    fullName: Digital Transformation
+    japanese: デジタルトランスフォーメーション
+    words:
+      - { en: Digital, ja: デジタル }
+      - { en: Transformation, ja: 変革 }
+    aliases: [デジタルトランスフォーメーション]
+    simple: データとデジタル技術で、製品・サービスやビジネスモデル、組織まで変革することです。
+    definition: データとデジタル技術を活用して製品・サービス、ビジネスモデルを変革するとともに、業務・組織・企業文化を変革し、競争上の優位性を確立すること。
+    related: [CDO]
+  - term: ERP
+    reading: イーアールピー
+    fullName: Enterprise Resource Planning
+    japanese: 企業資源計画
+    words:
+      - { en: Enterprise, ja: 企業 }
+      - { en: Resource, ja: 資源 }
+      - { en: Planning, ja: 計画 }
+    aliases: [ERPパッケージ]
+    simple: 会社全体の人・物・金・情報を一元管理し、基幹業務を統合するシステムです。
+    definition: 企業全体の経営資源を一元的に管理し、販売・生産・会計・人事などの基幹業務を統合して経営を効率化する考え方およびシステム。
+    related: [SCM, CRM]
+  - term: SCM
+    reading: エスシーエム
+    fullName: Supply Chain Management
+    japanese: 供給連鎖管理
+    words:
+      - { en: Supply, ja: 供給 }
+      - { en: Chain, ja: 連鎖 }
+      - { en: Management, ja: 管理 }
+    aliases: [サプライチェーンマネジメント]
+    simple: 調達から生産・物流・販売までの流れを、取引先も含めて管理する手法です。
+    definition: 原材料の調達から生産・物流・販売までの供給の流れを企業の枠を越えて統合的に管理し、在庫削減やリードタイム短縮を図る手法。
+    related: [ERP]
+  - term: CRM
+    reading: シーアールエム
+    fullName: Customer Relationship Management
+    japanese: 顧客関係管理
+    words:
+      - { en: Customer, ja: 顧客 }
+      - { en: Relationship, ja: 関係 }
+      - { en: Management, ja: 管理 }
+    simple: 顧客情報を一元管理して、顧客と長く良い関係を築く手法です。
+    definition: 顧客の属性・購買履歴・問合せ履歴などを一元管理し、顧客との長期的な関係を構築して顧客満足度と収益の向上を図る経営手法。
+    related: [SFA]
+  - term: SFA
+    reading: エスエフエー
+    fullName: Sales Force Automation
+    japanese: 営業支援システム
+    words:
+      - { en: Sales Force, ja: 営業部隊 }
+      - { en: Automation, ja: 自動化 }
+    simple: 営業担当者の訪問記録や商談の進み具合を管理して、営業活動を効率化するシステムです。
+    definition: 顧客訪問・商談・見込み客などの営業活動の情報を共有・管理し、営業活動を効率化するシステム。
+    related: [CRM]
+  - term: エンタープライズサーチ
+    reading: エンタープライズサーチ
+    simple: 社内のあちこちにある文書やデータを、まとめて検索できる仕組みです。
+    definition: 企業内のファイルサーバ、文書管理システム、データベースなどに分散した情報を横断的に検索できるようにする仕組み。
+    related: [ナレッジマネジメント]
+  - term: EA
+    reading: イーエー
+    fullName: Enterprise Architecture
+    japanese: エンタープライズアーキテクチャ
+    words:
+      - { en: Enterprise, ja: 企業・組織 }
+      - { en: Architecture, ja: 構造・設計 }
+    aliases: [エンタープライズアーキテクチャ, データアーキテクチャ, アプリケーションアーキテクチャ, テクノロジアーキテクチャ, ザックマンフレームワーク]
+    simple: 組織全体の業務とシステムを図にして、現状とあるべき姿を比べ、全体最適を図る手法です。
+    definition: 組織全体の業務とシステムをビジネス・データ・アプリケーション・テクノロジの4つのアーキテクチャでモデル化し、As-is と To-be を比較して全体最適化を図る手法。
+    related: [As-isモデル, To-beモデル, ビジネスアーキテクチャ]
+  - term: ビジネスアーキテクチャ
+    reading: ビジネスアーキテクチャ
+    aliases: [政策・業務体系]
+    simple: EA のうち、業務の内容や流れ、組織を整理したものです。
+    definition: EA を構成するアーキテクチャの一つで、業務内容・組織・業務の流れを体系化したもの。業務説明書、DFD、WFA などで表す。
+    related: [EA]
+  - term: As-isモデル
+    reading: アズイズモデル
+    aliases: [現状モデル]
+    simple: 今の業務やシステムの姿を表したモデルです。
+    definition: 現状の業務やシステムの姿を表したモデル。あるべき姿（To-be モデル）と比較して課題や移行計画を明らかにする。
+    related: [To-beモデル, EA]
+  - term: To-beモデル
+    reading: トゥービーモデル
+    aliases: [あるべき姿]
+    simple: 目指すべき将来の業務やシステムの姿を表したモデルです。
+    definition: 理想とする将来の業務やシステムの姿を表したモデル。現状（As-is モデル）との差を埋める移行計画を立てる基になる。
+    related: [As-isモデル, EA]
+  - term: SOA
+    reading: エスオーエー
+    fullName: Service Oriented Architecture
+    japanese: サービス指向アーキテクチャ
+    words:
+      - { en: Service, ja: サービス }
+      - { en: Oriented, ja: 指向の }
+      - { en: Architecture, ja: アーキテクチャ }
+    simple: 業務の機能を「サービス」という部品にして、組み合わせてシステムを作る考え方です。
+    definition: 業務機能を再利用可能なサービス単位で実装し、標準的なインタフェースでネットワーク上で連携させてシステムを構築する考え方。
+    related: [EA]
+  - term: PMO
+    reading: ピーエムオー
+    fullName: Program Management Office
+    japanese: プログラムマネジメントオフィス
+    words:
+      - { en: Program, ja: プログラム（関連する複数のプロジェクト） }
+      - { en: Management, ja: 管理 }
+      - { en: Office, ja: 部門 }
+    aliases: [プロジェクトマネジメントオフィス, プログラムマネジメント]
+    simple: 社内の複数のプロジェクトをまとめて支援・管理する部門です。
+    definition: 組織内の複数のプロジェクトを横断的に支援・管理する部門。手法の標準化、資源の調整、プロジェクトマネージャの支援などを行う。Project Management Office の略とされることもある。
+  - term: COBIT
+    reading: コビット
+    fullName: Control Objectives for Information and related Technology
+    japanese: 情報および関連技術のための管理目標
+    words:
+      - { en: Control Objectives, ja: 管理目標 }
+      - { en: Information, ja: 情報 }
+      - { en: related Technology, ja: 関連技術 }
+    simple: ISACA が作った、IT ガバナンスと IT マネジメントのためのフレームワークです。
+    definition: ISACA が提供する IT ガバナンスおよび IT マネジメントのフレームワーク。経営目標と IT の目標を関連付け、プロセスや管理目標を体系化している。
+    related: [ITガバナンス]
+  - term: ITガバナンス
+    reading: アイティーガバナンス
+    simple: 経営陣が主体となって、IT の活用を評価・指示・モニタし、組織の価値を高める仕組みです。
+    definition: 経営陣がステークホルダのニーズに基づき、IT の利活用を評価（Evaluate）・指示（Direct）・モニタ（Monitor）して組織の価値を高める仕組み（JIS Q 38500）。
+    related: [COBIT, 情報システム戦略]
+  - term: KPI
+    reading: ケーピーアイ
+    fullName: Key Performance Indicator
+    japanese: 重要業績評価指標
+    words:
+      - { en: Key, ja: 重要な }
+      - { en: Performance, ja: 業績 }
+      - { en: Indicator, ja: 指標 }
+    simple: 最終目標に向けて、途中の活動がうまく進んでいるかを測る指標です。
+    definition: KGI の達成に向けたプロセスの実施状況を定量的に計測する中間的な指標。CSF に基づいて設定する。
+    related: [KGI, CSF]
+  - term: KGI
+    reading: ケージーアイ
+    fullName: Key Goal Indicator
+    japanese: 重要目標達成指標
+    words:
+      - { en: Key, ja: 重要な }
+      - { en: Goal, ja: 目標 }
+      - { en: Indicator, ja: 指標 }
+    simple: 最終的な目標をどれだけ達成したかを測る指標です。
+    definition: 売上高や利益率など、組織が最終的に達成すべき目標を定量的に示した指標。
+    related: [KPI, CSF]
+  - term: BPR
+    reading: ビーピーアール
+    fullName: Business Process Reengineering
+    japanese: ビジネスプロセス・リエンジニアリング
+    words:
+      - { en: Business Process, ja: 業務プロセス }
+      - { en: Reengineering, ja: 再設計 }
+    simple: 業務のやり方を根本から見直して作り直し、劇的に改善することです。
+    definition: 既存の業務プロセスや組織を根本的に見直して抜本的に再設計し、コスト・品質・サービス・スピードを劇的に改善する手法。
+    related: [BPM]
+  - term: BPM
+    reading: ビーピーエム
+    fullName: Business Process Management
+    japanese: ビジネスプロセスマネジメント
+    words:
+      - { en: Business Process, ja: 業務プロセス }
+      - { en: Management, ja: 管理 }
+    aliases: [BPMS]
+    simple: 業務プロセスを見える化し、改善のサイクルを回し続ける管理手法です。
+    definition: 業務プロセスの分析・設計・実行・監視・改善のサイクルを継続的に回して最適化する管理手法。これを支援するシステムを BPMS（Business Process Management System）という。
+    related: [BPR, ワークフローシステム]
+  - term: BPO
+    reading: ビーピーオー
+    fullName: Business Process Outsourcing
+    japanese: ビジネスプロセスアウトソーシング
+    words:
+      - { en: Business Process, ja: 業務プロセス }
+      - { en: Outsourcing, ja: 外部委託 }
+    simple: 人事や経理などの業務を、専門の外部企業にまとめて任せることです。
+    definition: 自社の業務プロセスの一部を、その業務を専門とする外部事業者に継続的に委託すること。
+    related: [オフショア]
+  - term: オフショア
+    reading: オフショア
+    aliases: [オフショア開発]
+    simple: システム開発などの仕事を海外の会社に任せることです。
+    definition: ソフトウェア開発や業務を、人件費の安い海外の事業者や海外子会社に委託すること。
+    related: [BPO]
+  - term: RPA
+    reading: アールピーエー
+    fullName: Robotic Process Automation
+    japanese: ロボティックプロセスオートメーション
+    words:
+      - { en: Robotic, ja: ロボットによる }
+      - { en: Process, ja: 処理 }
+      - { en: Automation, ja: 自動化 }
+    simple: パソコンでの決まった作業を、ソフトウェアのロボットに代わりにやらせる仕組みです。
+    definition: 人がパソコン上で行う定型的な操作をソフトウェアロボットに記録・実行させて自動化する技術。
+    related: [ワークフローシステム]
+  - term: ワークフローシステム
+    reading: ワークフローシステム
+    aliases: [ワークフロー]
+    simple: 申請や承認の書類を電子化し、決まった順番で回すシステムです。
+    definition: 申請・承認などの手続を電子化し、あらかじめ定めた経路で回付して進捗を管理するシステム。
+    related: [BPM, RPA]
+  - term: ソリューションビジネス
+    reading: ソリューションビジネス
+    aliases: [ソリューション, ソリューションプロバイダ, システムインテグレーション]
+    simple: お客さまの課題を分析して、解決に必要な製品やサービスを組み合わせて提供するビジネスです。
+    definition: 顧客の経営課題や業務上の問題を分析し、解決策としてハードウェア・ソフトウェア・サービスなどを組み合わせて提供するビジネス。
+  - term: ハイブリッドクラウド
+    reading: ハイブリッドクラウド
+    simple: パブリッククラウドと自社専用の環境を組み合わせて使う形態です。
+    definition: パブリッククラウドと、プライベートクラウドやオンプレミス環境を組み合わせ、用途に応じて使い分ける利用形態。
+    related: [クラウドコンピューティング, オンプレミス]
+  - term: ソブリンクラウド
+    reading: ソブリンクラウド
+    simple: データをその国の法律の下で管理し、国の主権が及ぶようにしたクラウドです。
+    definition: データを特定の国や地域の法規制の下で保管・管理し、データ主権を確保できるようにしたクラウド環境。
+    related: [クラウドコンピューティング]
+  - term: オンプレミス
+    reading: オンプレミス
+    simple: サーバなどを自社の施設に置いて、自分で運用・管理する形態です。
+    definition: 情報システムの機器を自社の施設内に設置し、自ら運用・管理する形態。クラウドサービスと対比して用いる。
+    related: [クラウドコンピューティング]
+  - term: ハウジングサービス
+    reading: ハウジングサービス
+    aliases: [ハウジング]
+    simple: 自分のサーバを事業者のデータセンタに置かせてもらうサービスです。
+    definition: 利用者が所有するサーバや通信機器を事業者のデータセンタに設置し、電源・空調・回線などの設備を利用するサービス。
+    related: [ホスティングサービス]
+  - term: ホスティングサービス
+    reading: ホスティングサービス
+    aliases: [ホスティング, レンタルサーバ]
+    simple: 事業者が持っているサーバを借りて使うサービスです。
+    definition: 事業者が所有するサーバの全部または一部を利用者に貸し出すサービス。
+    related: [ハウジングサービス]
+  - term: ASP
+    reading: エーエスピー
+    fullName: Application Service Provider
+    japanese: アプリケーションサービスプロバイダ
+    words:
+      - { en: Application, ja: アプリケーション }
+      - { en: Service, ja: サービス }
+      - { en: Provider, ja: 提供者 }
+    simple: アプリケーションをネットワーク経由で貸し出す事業者やサービスです。
+    definition: 事業者が運用するアプリケーションソフトウェアの機能を、ネットワーク経由で利用者に提供する事業者またはサービス形態。
+    related: [SaaS]
+  - term: クラウドバイデフォルト
+    reading: クラウドバイデフォルト
+    aliases: [クラウド・バイ・デフォルト]
+    simple: システムを作るとき、まずクラウドサービスの利用を第一に考える方針です。
+    definition: 情報システムを整備する際に、クラウドサービスの利用を第一候補として検討する考え方。日本政府の方針で示された。
+    related: [クラウドネイティブ]
+  - term: クラウドネイティブ
+    reading: クラウドネイティブ
+    simple: 最初からクラウドの特長を生かすように設計されたシステムの考え方です。
+    definition: コンテナやマイクロサービスなどを用い、クラウドの拡張性や柔軟性を最大限に生かすことを前提としてシステムを設計・運用する考え方。
+    related: [クラウドバイデフォルト]
+  - term: BYOD
+    reading: ビーワイオーディー
+    fullName: Bring Your Own Device
+    japanese: 私物端末の業務利用
+    words:
+      - { en: Bring, ja: 持ち込む }
+      - { en: Your Own, ja: 自分自身の }
+      - { en: Device, ja: 端末 }
+    simple: 会社のルールの下で、自分のスマートフォンやパソコンを仕事に使うことです。
+    definition: 企業が認めたルールの下で、従業員が個人所有の情報端末を業務に利用すること。
+    related: [シャドーIT]
+  - term: チャットボット
+    reading: チャットボット
+    simple: 人間の代わりにプログラムが会話形式で自動応答する仕組みです。
+    definition: 利用者からの問合せに対して、プログラムがテキストや音声の会話形式で自動的に応答する仕組み。
+  - term: ゲーミフィケーション
+    reading: ゲーミフィケーション
+    simple: ポイントやランキングなどゲームの要素を取り入れて、やる気を引き出す手法です。
+    definition: ポイント・ランキング・バッジなどのゲームの要素をゲーム以外の分野に応用し、利用者の意欲や継続的な利用を促す手法。
+  - term: デジタルディバイド
+    reading: デジタルディバイド
+    aliases: [情報格差]
+    simple: IT を使える人と使えない人の間に生まれる情報や機会の格差です。
+    definition: 情報通信技術を利用できる者とできない者との間に生じる、得られる情報や機会、待遇などの格差。
+  - term: e-ラーニング
+    reading: イーラーニング
+    aliases: [eラーニング, LMS, 学習マネジメントシステム]
+    simple: インターネットなどを使って、時間や場所を選ばず学習する方法です。
+    definition: ネットワークを利用して学習する形態。受講状況や成績を管理するシステムを LMS（Learning Management System）という。
+  - term: システムライフサイクル
+    reading: システムライフサイクル
+    simple: システムの企画から開発、運用、廃棄までの一生のことです。
+    definition: 情報システムの企画・要件定義・開発・運用・保守・廃棄までの一連の期間および過程。
