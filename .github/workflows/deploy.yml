@@ -31,8 +31,14 @@ jobs:
         run: npm run typecheck
       - name: Unit tests
         run: npm test
+      - name: Release gate (1,000+ verified questions, coverage, docs)
+        run: npm run check:release
       - name: Build app
         run: npx vite build
+      - name: E2E tests (mobile and desktop, offline)
+        run: |
+          npx playwright install --with-deps chromium
+          npm run test:e2e
       - uses: actions/configure-pages@v5
         if: github.event_name != 'pull_request'
         with:
