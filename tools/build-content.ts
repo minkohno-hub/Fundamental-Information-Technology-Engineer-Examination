@@ -539,7 +539,7 @@ const publishedIds = new Set(published.map((q) => q.id));
 for (const l of lessons) {
   for (const id of l.questionIds ?? []) if (!publishedIds.has(id)) err(`lesson:${l.id}`, `確認問題 ${id} が公開問題にありません`);
   if (l.example) {
-    try { runProgram(l.example); } catch (e) { err(`lesson:${l.id}`, `動作例の実行に失敗: ${(e as Error).message}`); }
+    try { if (!runProgram(l.example).output.length) err(`lesson:${l.id}`, "動作例が何も出力しません（出力文が関数の本体に含まれていないか確認）"); } catch (e) { err(`lesson:${l.id}`, `動作例の実行に失敗: ${(e as Error).message}`); }
   }
 }
 

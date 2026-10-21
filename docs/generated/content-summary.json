@@ -1,5 +1,5 @@
 {
- "builtAt": "2026-10-21T09:17:38.213Z",
+ "builtAt": "2026-10-21T09:18:06.668Z",
  "totalAuthored": 1040,
  "published": 1040,
  "bySubject": {
@@ -21,7 +21,7 @@
  "checking": [],
  "glossaryTerms": 860,
  "referenceChapters": 0,
- "lessons": 0,
+ "lessons": 12,
  "coverage": {
   "leafTotal": 624,
   "leafCovered": 444
