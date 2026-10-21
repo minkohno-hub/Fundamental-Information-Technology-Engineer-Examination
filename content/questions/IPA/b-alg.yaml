@@ -10,8 +10,71 @@ source:
   modificationNote: '解説は本アプリで新規に作成。問題文・プログラム・選択肢は原文のまま（表記の全角半角・空白を一部統一し，図表は文章・表に変換。空欄は【a】【b】で表記）'
 questions:
   - id: IPA-R05-B-001
-    status: rejected
-    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「iの正の平方根の整数部分」「i ÷ j の余り／商」「繰返し処理を終了する」）が含まれ，原文どおりに再現して実行検証できないため'
+    topic: [B3, 2-2-3, 2-3-1-5]
+    diff: 2
+    noShuffle: true
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 findPrimeNumbers は，引数で与えられた整数以下の，全ての素数だけを格納した配列を返す関数である。ここで，引数に与える整数は 2 以上である。
+    code: |
+      ○整数型の配列: findPrimeNumbers(整数型: maxNum)
+        整数型の配列: pnList ← {} // 要素数0の配列
+        整数型: i, j
+        論理型: divideFlag
+        for (i を 2 から 【a】 まで 1 ずつ増やす)
+          divideFlag ← true
+
+          /* iの正の平方根の整数部分が2未満のときは，繰返し処理を実行しない */
+          for (j を 2 から iの正の平方根の整数部分 まで 1 ずつ増やす) // α
+            if (【b】)
+              divideFlag ← false
+              αの行から始まる繰返し処理を終了する
+            endif
+          endfor
+          if (divideFlag が true と等しい)
+            pnListの末尾 に iの値 を追加する
+          endif
+        endfor
+        return pnList
+    c:
+      - "a：maxNum，b：i ÷ j の余り が 0 と等しい"
+      - "a：maxNum，b：i ÷ j の商 が 1 と等しくない"
+      - "a：maxNum ＋ 1，b：i ÷ j の余り が 0 と等しい"
+      - "a：maxNum ＋ 1，b：i ÷ j の商 が 1 と等しくない"
+    fills:
+      - { a: 'maxNum', b: 'i ÷ j の余り が 0 と等しい' }
+      - { a: 'maxNum', b: 'i ÷ j の商 が 1 と等しくない' }
+      - { a: 'maxNum ＋ 1', b: 'i ÷ j の余り が 0 と等しい' }
+      - { a: 'maxNum ＋ 1', b: 'i ÷ j の商 が 1 と等しくない' }
+    a: ア
+    exp: |
+      このプログラムは，2 から maxNum までの整数 i を順に調べ，i が素数のときだけ配列 pnList に追加します。i が素数でないとは，1 と i 以外の約数 j をもつことで，もし約数があるなら √i 以下の範囲に必ず見つかります。そのため内側の繰返しは j ＝ 2 から「iの正の平方根の整数部分」までで十分です。
+
+      【a】 「引数で与えられた整数以下」の素数を求めるので，i は maxNum まで調べます（maxNum ＋ 1 まで調べると，範囲外の整数まで素数として格納してしまいます）。
+
+      【b】 j が i の約数であるとは，i を j で割った余りが 0 になることです。約数が見つかれば素数ではないので divideFlag を false にし，それ以上調べる必要はないので内側の繰返しを終了します。商が 1 と等しくないかどうかは約数の判定になりません。
+
+      | i | j の範囲 | 判定 |
+      | --- | --- | --- |
+      | 2，3 | 繰返しは実行されない | 素数 |
+      | 4 | 2 | 4 ÷ 2 の余りは 0 なので素数ではない |
+      | 5 | 2 | 5 ÷ 2 の余りは 1 なので素数 |
+      | 9 | 2，3 | j ＝ 3 で余りが 0 なので素数ではない |
+    why:
+      - 正解です。i は maxNum まで調べ，余りが 0 になる j があれば約数をもつので素数ではないと判定できます。
+      - 範囲の指定は正しいですが，商が 1 と等しくないという条件は約数の判定になっていません。例えば i ＝ 5，j ＝ 2 では 5 ÷ 2 の商が 2 になり，素数の 5 が素数でないと判定されます。
+      - 約数の判定は正しいですが，maxNum ＋ 1 まで調べると，引数より大きい整数（例えば maxNum が 10 のときの 11）まで素数として格納してしまいます。
+      - maxNum ＋ 1 まで調べてしまううえ，商が 1 と等しくないという条件では約数を判定できず，素数の 5 などが素数でないと判定されます。
+    know: 素数かどうかを調べるには，2 から √n 以下の整数で割り切れるかを試せば十分である（n が合成数なら √n 以下の約数をもつため）。まとめて素数を求める方法にはエラトステネスのふるいもある。
+    terms: [素数, エラトステネスのふるい, 繰返し処理]
+    verify:
+      cases:
+        - { call: findPrimeNumbers, args: [2], expect: [2] }
+        - { call: findPrimeNumbers, args: [3], expect: [2, 3] }
+        - { call: findPrimeNumbers, args: [10], expect: [2, 3, 5, 7] }
+        - { call: findPrimeNumbers, args: [30], expect: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29] }
+    sim: { entry: findPrimeNumbers, args: [12] }
     source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 1 }
   - id: IPA-R05-B-002
     topic: [B2, 2-3-1-6]
@@ -69,8 +132,68 @@ questions:
     sim: { entry: proc2 }
     source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 2 }
   - id: IPA-R05-B-003
-    status: rejected
-    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「(first ＋ last) ÷ 2 の商」「繰返し処理を終了する」「data[i]とdata[j]の値を入れ替える」「dataの全要素の値を要素番号の順に空白区切りで出力する」）が含まれ，原文どおりに再現して実行検証できないため'
+    topic: [B3, 2-2-2-1]
+    diff: 3
+    noShuffle: true
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      次の手続 sort は，大域の整数型の配列 data の，引数 first で与えられた要素番号から引数 last で与えられた要素番号までの要素を昇順に整列する。ここで，first ＜ last とする。手続 sort を sort(1, 5) として呼び出すと，/*** α ***/ の行を最初に実行したときの出力は“【a】”となる。
+    code: |
+      大域: 整数型の配列: data ← {2, 1, 3, 5, 4}
+
+      ○sort(整数型: first, 整数型: last)
+        整数型: pivot, i, j
+        pivot ← data[(first ＋ last) ÷ 2 の商]
+        i ← first
+        j ← last
+
+        while (true)
+          while (data[i] ＜ pivot)
+            i ← i ＋ 1
+          endwhile
+          while (pivot ＜ data[j])
+            j ← j － 1
+          endwhile
+          if (i ≧ j)
+            繰返し処理を終了する
+          endif
+          data[i]とdata[j]の値を入れ替える
+          i ← i ＋ 1
+          j ← j － 1
+        endwhile
+        dataの全要素の値を要素番号の順に空白区切りで出力する          /*** α ***/
+        if (first ＜ i － 1)
+          sort(first, i － 1)
+        endif
+        if (j ＋ 1 ＜ last)
+          sort(j ＋ 1, last)
+        endif
+    c:
+      - "1 2 3 4 5"
+      - "1 2 3 5 4"
+      - "2 1 3 4 5"
+      - "2 1 3 5 4"
+    a: エ
+    exp: |
+      sort(1, 5) の最初の実行を追います。基準値（ピボット）は pivot ← data[(1 ＋ 5) ÷ 2 の商] ＝ data[3] ＝ 3 です。data は {2, 1, 3, 5, 4} です。
+
+      | 手順 | i | j | 内容 |
+      | --- | --- | --- | --- |
+      | 左から探す | 1 → 2 → 3 | | data[1] ＝ 2，data[2] ＝ 1 は pivot（3）より小さいので進み，data[3] ＝ 3 で止まる |
+      | 右から探す | | 5 → 4 → 3 | data[5] ＝ 4，data[4] ＝ 5 は pivot より大きいので戻り，data[3] ＝ 3 で止まる |
+      | 判定 | 3 | 3 | i ≧ j なので，入れ替えを一度も行わずに繰返しを終了する |
+
+      入れ替えが一度も起きていないため，α の行を最初に実行した時点の data は元のまま {2, 1, 3, 5, 4} で，出力は 2 1 3 5 4 になります。その後に再帰呼出しで前半と後半が整列されていきます。
+    why:
+      - これは整列が全て終わった後の配列です。α の行は再帰呼出しより前に実行されるので，最初の実行の時点では整列は終わっていません。
+      - 先頭の 2 と 1 が入れ替わった状態ですが，最初の実行までに入れ替えは行われません（i ≧ j の判定で繰返しを抜けるため）。
+      - 4 と 5 が入れ替わった状態ですが，最初の実行までに入れ替えは行われません。右から探す走査は pivot と等しい要素 data[3] で止まります。
+      - 正解です。最初の分割では入れ替えが起きず，α の行では元の配列 2 1 3 5 4 が出力されます。
+    know: クイックソートは，基準値（ピボット）より小さい要素と大きい要素に分割し，それぞれの部分を再帰的に整列する。基準値の選び方や分割の実装によって，同じ配列でも途中経過が変わる。
+    terms: [クイックソート, ピボット, 整列, 再帰]
+    verify: { result: { call: sort, args: [1, 5], of: 'output:1' } }
+    sim: { entry: sort, args: [1, 5] }
     source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 3 }
   - id: IPA-R05-B-004
     topic: [B3, 2-2-2-1]
@@ -138,9 +261,89 @@ questions:
     sim: { entry: test }
     source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 4 }
   - id: IPA-R05-B-005
-    status: rejected
-    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「(vector1[i] × vector2[i])の正の平方根」「vector1[i]の2乗」「tempの正の平方根」）が含まれ，原文どおりに再現して実行検証できないため'
-    source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 5 }
+    topic: [B4, 2-2-2-6]
+    diff: 2
+    noShuffle: true
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      コサイン類似度は，二つのベクトルの向きの類似性を測る尺度である。関数 calcCosineSimilarity は，いずれも要素数が n（n ≧ 1）である実数型の配列 vector1 と vector2 を受け取り，二つの配列のコサイン類似度を返す。配列 vector1 が {a1, a2, …, an}，配列 vector2 が {b1, b2, …, bn} のとき，コサイン類似度は次の数式で計算される。ここで，配列 vector1 と配列 vector2 のいずれも，全ての要素に 0 が格納されていることはないものとする。
+
+      コサイン類似度 ＝ (a1 × b1 ＋ a2 × b2 ＋ … ＋ an × bn) ÷ (「a1 の2乗 ＋ a2 の2乗 ＋ … ＋ an の2乗」の正の平方根 × 「b1 の2乗 ＋ b2 の2乗 ＋ … ＋ bn の2乗」の正の平方根)
+    code: |
+      ○実数型: calcCosineSimilarity(実数型の配列: vector1,
+                                 実数型の配列: vector2)
+        実数型: similarity, numerator, denominator, temp ← 0
+        整数型: i
+        numerator ← 0
+
+        for (i を 1 から vector1の要素数 まで 1 ずつ増やす)
+          numerator ← numerator ＋ 【a】
+        endfor
+
+        for (i を 1 から vector1の要素数 まで 1 ずつ増やす)
+          temp ← temp ＋ vector1[i]の2乗
+        endfor
+        denominator ← tempの正の平方根
+
+
+        temp ← 0
+        for (i を 1 から vector2の要素数 まで 1 ずつ増やす)
+          temp ← temp ＋ vector2[i]の2乗
+        endfor
+        denominator ← 【b】
+
+        similarity ← numerator ÷ denominator
+        return similarity
+    c:
+      - "a：(vector1[i] × vector2[i])の正の平方根，b：denominator × (tempの正の平方根)"
+      - "a：(vector1[i] × vector2[i])の正の平方根，b：denominator ＋ (tempの正の平方根)"
+      - "a：(vector1[i] × vector2[i])の正の平方根，b：tempの正の平方根"
+      - "a：vector1[i] × vector2[i]，b：denominator × (tempの正の平方根)"
+      - "a：vector1[i] × vector2[i]，b：denominator ＋ (tempの正の平方根)"
+      - "a：vector1[i] × vector2[i]，b：tempの正の平方根"
+      - "a：vector1[i]の2乗，b：denominator × (tempの正の平方根)"
+      - "a：vector1[i]の2乗，b：denominator ＋ (tempの正の平方根)"
+      - "a：vector1[i]の2乗，b：tempの正の平方根"
+    fills:
+      - { a: '(vector1[i] × vector2[i])の正の平方根', b: 'denominator × (tempの正の平方根)' }
+      - { a: '(vector1[i] × vector2[i])の正の平方根', b: 'denominator ＋ (tempの正の平方根)' }
+      - { a: '(vector1[i] × vector2[i])の正の平方根', b: 'tempの正の平方根' }
+      - { a: 'vector1[i] × vector2[i]', b: 'denominator × (tempの正の平方根)' }
+      - { a: 'vector1[i] × vector2[i]', b: 'denominator ＋ (tempの正の平方根)' }
+      - { a: 'vector1[i] × vector2[i]', b: 'tempの正の平方根' }
+      - { a: 'vector1[i]の2乗', b: 'denominator × (tempの正の平方根)' }
+      - { a: 'vector1[i]の2乗', b: 'denominator ＋ (tempの正の平方根)' }
+      - { a: 'vector1[i]の2乗', b: 'tempの正の平方根' }
+    a: エ
+    exp: |
+      コサイン類似度の式の分子は内積（対応する要素の積の総和），分母は二つのベクトルの大きさ（各要素の2乗の総和の正の平方根）の積です。
+
+      【a】 分子 numerator は a1 × b1 ＋ a2 × b2 ＋ … ＋ an × bn なので，繰返しの中で numerator に vector1[i] × vector2[i] を足し込みます。
+
+      【b】 最初の繰返しの後で denominator に入っているのは vector1 の大きさです。二つ目の繰返しで求めた temp の正の平方根が vector2 の大きさなので，分母は両者の積 denominator × (tempの正の平方根) です。
+
+      例として vector1 ＝ {3, 4}，vector2 ＝ {4, 3} では，numerator ＝ 12 ＋ 12 ＝ 24，denominator ＝ 5 × 5 ＝ 25 となり，類似度は 24 ÷ 25 ＝ 0.96 です。
+    why:
+      - 分子に積の平方根を足し込むと内積になりません（例えば {3, 4} と {4, 3} では √12 ＋ √12 になる）。分母は正しい式です。
+      - 分子が内積になっていません。さらに，分母を二つの大きさの和にしており，積になっていません。
+      - 分子が内積になっていません。さらに，分母が vector2 の大きさだけになり，先に求めた vector1 の大きさが使われません。
+      - 正解です。分子は対応する要素の積の総和，分母は二つのベクトルの大きさの積です。
+      - 分子は正しいですが，分母を二つの大きさの和にしており，積になっていません。
+      - 分子は正しいですが，分母が vector2 の大きさだけになり，先に求めた vector1 の大きさが使われません。
+      - 分子を vector1 の各要素の2乗の総和にしており，vector2 が使われず内積になっていません。分母は正しい式です。
+      - 分子が内積になっていません。さらに，分母を二つの大きさの和にしており，積になっていません。
+      - 分子が内積になっていません。さらに，分母が vector2 の大きさだけになり，先に求めた vector1 の大きさが使われません。
+    know: コサイン類似度は 2 つのベクトルのなす角の余弦で，向きが同じなら 1，直交なら 0 になる。文書を単語の出現数のベクトルで表して類似度を測るなど，自然言語処理や推薦で使われる。
+    terms: [内積, 配列, 繰返し処理]
+    verify:
+      cases:
+        - { call: calcCosineSimilarity, args: [[3, 4], [4, 3]], expect: 0.96 }
+        - { call: calcCosineSimilarity, args: [[1, 0], [1, 0]], expect: 1 }
+        - { call: calcCosineSimilarity, args: [[1, 0], [0, 1]], expect: 0 }
+        - { call: calcCosineSimilarity, args: [[1, 2, 2], [1, 2, 2]], expect: 1 }
+    sim: { entry: calcCosineSimilarity, args: [[3, 4], [4, 3]] }
+    source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 5, modified: true, modificationNote: "解説は本アプリで新規に作成。数式は文章で表記し，空欄は【a】【b】で表記" }
   - id: IPA-R06-B-001
     topic: [B2, 2-3-1-5]
     diff: 1
