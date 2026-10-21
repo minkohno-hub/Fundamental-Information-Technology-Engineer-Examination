@@ -1,32 +1,32 @@
 {
- "builtAt": "2026-10-21T00:01:39.100Z",
- "totalAuthored": 125,
- "published": 125,
+ "builtAt": "2026-10-21T00:06:50.470Z",
+ "totalAuthored": 175,
+ "published": 175,
  "bySubject": {
-  "total": 125,
-  "A": 124,
+  "total": 175,
+  "A": 174,
   "B": 1
  },
  "bySource": {
   "ipa": 0,
-  "original": 125
+  "original": 175
  },
  "byDepth": {
-  "quick": 124,
+  "quick": 174,
   "deep": 1
  },
- "machineVerified": 27,
+ "machineVerified": 35,
  "withSimulator": 1,
  "rejected": [],
  "checking": [],
- "glossaryTerms": 137,
+ "glossaryTerms": 181,
  "referenceChapters": 0,
  "lessons": 0,
  "coverage": {
   "leafTotal": 624,
-  "leafCovered": 67
+  "leafCovered": 95
  },
  "similarPairs": 0,
  "errors": 0,
- "warnings": 2
+ "warnings": 1
 }

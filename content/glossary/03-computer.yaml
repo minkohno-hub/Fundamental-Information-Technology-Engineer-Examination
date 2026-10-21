@@ -1,0 +1,358 @@
+category: コンピュータ構成要素
+terms:
+  - term: シングルボードコンピュータ
+    reading: シングルボードコンピュータ
+    aliases: [SBC]
+    simple: CPU やメモリなどを1枚の基板にまとめた小さなコンピュータです。Raspberry Pi が有名です。
+    definition: コンピュータとして動作するのに必要な CPU・メモリ・入出力インタフェースなどを1枚のプリント基板に搭載したコンピュータ。教育、電子工作、IoT 機器の試作に使われる。
+    related: [CPU]
+  - term: GPU
+    reading: ジーピーユー
+    fullName: Graphics Processing Unit
+    japanese: 画像処理装置
+    words:
+      - { en: Graphics, ja: 画像・図形 }
+      - { en: Processing, ja: 処理 }
+      - { en: Unit, ja: 装置 }
+    simple: 画像の描画などの大量の単純な計算を、たくさんの演算器で同時に行うのが得意な処理装置です。
+    definition: 多数の演算器による並列処理で3次元画像処理などを高速に行うプロセッサ。行列演算に強く、機械学習（ディープラーニング）の計算にも用いられる（GPGPU）。
+    difference: CPU は少数の高性能なコアで汎用的な処理を逐次的に行う。
+    related: [CPU, SIMD]
+  - term: マイクロプログラム制御方式
+    reading: マイクロプログラムせいぎょほうしき
+    aliases: [ワイヤドロジック制御方式, 布線論理制御方式]
+    simple: CPU の命令の実行手順を、さらに細かいプログラム（マイクロプログラム）として持たせて制御する方式です。
+    definition: 機械語命令の実行手順をマイクロ命令の列として制御記憶に格納し、それを読み出して制御する方式。命令の追加・変更が容易で CISC に多い。論理回路だけで制御するワイヤドロジック方式は高速で RISC に多い。
+    related: [RISC]
+  - term: RISC
+    reading: リスク
+    fullName: Reduced Instruction Set Computer
+    japanese: 縮小命令セットコンピュータ
+    aliases: [CISC]
+    words:
+      - { en: Reduced, ja: 縮小された・減らした }
+      - { en: Instruction Set, ja: 命令セット（命令の種類の集まり） }
+      - { en: Computer, ja: コンピュータ }
+    simple: 命令の種類を少なく単純にして、1つ1つを速く実行できるようにしたプロセッサの設計方式です。
+    definition: 命令の種類を絞り、命令長を固定してワイヤドロジックで高速に実行し、パイプライン処理の効率を高める設計方式。対して CISC（Complex Instruction Set Computer）は複雑で多機能な命令をもつ。
+    related: [パイプライン, マイクロプログラム制御方式]
+  - term: レジスタ
+    reading: レジスタ
+    aliases: [プログラムカウンター, 命令レジスタ, アキュムレーター, 汎用レジスタ, インデックスレジスタ, ベースレジスタ, スタックポインタ, 命令アドレスレジスタ]
+    simple: CPU の中にある、最も速い小さな記憶場所です。計算中の値や命令などを一時的に入れておきます。
+    definition: CPU 内部の高速な記憶回路。プログラムカウンター（次の命令のアドレス）、命令レジスタ（取り出した命令）、アキュムレーター（演算対象・結果）、インデックスレジスタ（指標アドレス指定用）、ベースレジスタ（基底アドレス）、スタックポインタ（スタックの先頭位置）などがある。
+    related: [アドレス指定方式, CPU]
+  - term: アドレス指定方式
+    reading: アドレスしていほうしき
+    aliases: [アドレッシング, 直接アドレス指定, 間接アドレス指定, 指標アドレス指定, 基底アドレス指定, 相対アドレス指定, 即値アドレス指定, 有効アドレス]
+    simple: 命令の中のアドレス部から、実際に読み書きするデータの場所を求める方法です。
+    definition: 命令のアドレス部から有効アドレスを求める方式。即値（アドレス部が値そのもの）、直接（アドレス部が有効アドレス）、間接（アドレス部が指す番地の内容が有効アドレス）、指標（アドレス部＋インデックスレジスタ）、基底（アドレス部＋ベースレジスタ）、相対（アドレス部＋プログラムカウンター）などがある。
+    related: [レジスタ]
+  - term: 加算器
+    reading: かさんき
+    aliases: [半加算器, 全加算器]
+    simple: 2進数の足し算をする論理回路です。
+    definition: 半加算器は2入力の和 S＝A XOR B と桁上がり C＝A AND B を出力する。全加算器は下位からの桁上がりも加算し、半加算器2つと OR で構成できる。
+    related: [論理回路, 排他的論理和]
+  - term: フリップフロップ
+    reading: フリップフロップ
+    aliases: [順序回路, 組合せ回路]
+    simple: 1ビット（0 か 1）を記憶しておける回路です。
+    definition: 2つの安定状態をもち1ビットを保持する順序回路。出力が過去の状態にも依存する回路を順序回路、現在の入力だけで決まる回路を組合せ回路という。SRAM やレジスタに用いる。
+    related: [SRAM, 論理回路]
+  - term: 論理回路
+    reading: ろんりかいろ
+    aliases: [NAND回路, NOR回路, AND回路, OR回路, NOT回路, XOR回路]
+    simple: 0 と 1 の信号を使って、AND・OR・NOT などの論理演算を行う電子回路です。
+    definition: 論理演算を電子回路で実現したもの。NAND（論理積の否定）や NOR だけで任意の論理回路を構成できる。
+    related: [加算器, ブール代数]
+  - term: 割込み
+    reading: わりこみ
+    aliases: [内部割込み, 外部割込み, SVC, スーパーバイザーコール, ページフォールト]
+    simple: 実行中の処理を一時中断して、急ぎの処理を先に行う仕組みです。
+    definition: 処理の実行中に発生した事象に対応するため、実行中のプログラムを中断して割込み処理を行う仕組み。プログラムが原因の内部割込み（ゼロ除算、SVC、ページフォールト）と、外部要因の外部割込み（入出力完了、タイマー、電源異常）がある。
+    related: [CPU, DMA]
+  - term: MIPS
+    reading: ミップス
+    fullName: Million Instructions Per Second
+    japanese: 1秒あたりの百万命令数
+    words:
+      - { en: Million, ja: 百万 }
+      - { en: Instructions, ja: 命令 }
+      - { en: Per Second, ja: 1秒あたり }
+    simple: CPU が1秒間に何百万個の命令を実行できるかを表す性能の目安です。
+    definition: 1秒間に実行できる命令数を百万単位で表した性能指標。MIPS＝クロック周波数÷CPI÷10⁶。
+    related: [CPI, FLOPS, クロック周波数]
+  - term: CPI
+    reading: シーピーアイ
+    fullName: Cycles Per Instruction
+    japanese: 1命令あたりのクロック数
+    words:
+      - { en: Cycles, ja: サイクル（クロック） }
+      - { en: Per, ja: 〜あたり }
+      - { en: Instruction, ja: 命令 }
+    simple: 1つの命令を実行するのに、平均で何クロックかかるかを表す値です。
+    definition: 1命令の実行に要する平均クロックサイクル数。小さいほど効率がよい。
+    related: [MIPS, 命令ミックス]
+  - term: 命令ミックス
+    reading: めいれいミックス
+    simple: 命令の種類ごとの実行時間と使われる割合から、平均の命令実行時間を求める性能評価方法です。
+    definition: 命令の種類ごとの実行時間（またはクロック数）に出現頻度を掛けて合計し、平均命令実行時間を求める評価方法。科学技術計算向けのギブソンミックスなどがある。
+    related: [CPI, MIPS]
+  - term: クロック周波数
+    reading: クロックしゅうはすう
+    aliases: [サイクルタイム, クロック]
+    simple: CPU が動作のタイミングをとる信号の速さです。2GHz なら1秒間に20億回です。
+    definition: 回路の動作の基準となるクロック信号の1秒間の振動数。逆数がクロックサイクルタイム（2GHz なら 0.5ns）。
+    related: [MIPS, CPI]
+  - term: FLOPS
+    reading: フロップス
+    fullName: FLoating-point Operations Per Second
+    japanese: 1秒あたりの浮動小数点演算回数
+    words:
+      - { en: Floating-point, ja: 浮動小数点 }
+      - { en: Operations, ja: 演算 }
+      - { en: Per Second, ja: 1秒あたり }
+    simple: 1秒間に小数を含む計算を何回できるかを表す性能の目安で、スーパーコンピュータの性能比較に使われます。
+    definition: 1秒間に実行できる浮動小数点演算の回数を表す性能指標。
+    related: [MIPS]
+  - term: パイプライン
+    reading: パイプライン
+    aliases: [パイプライン処理, スーパーパイプライン, スーパースカラ, VLIW, ハザード]
+    simple: 命令の処理を流れ作業のように段階に分け、複数の命令を少しずつずらして同時に進める高速化の方法です。
+    definition: 命令の実行を複数のステージに分割し、異なる命令のステージを重ねて並行処理する方式。k 段で n 命令なら k＋n−1 サイクル。分岐やデータ依存でハザードが起こる。段数を増やすスーパーパイプライン、複数のパイプラインをもつスーパースカラ、長い命令に並列実行する命令をまとめる VLIW がある。
+    related: [RISC, マルチコアプロセッサ]
+  - term: SIMD
+    reading: シムド
+    fullName: Single Instruction, Multiple Data
+    japanese: 単一命令・複数データ
+    aliases: [SISD, MIMD, MISD, フリンの分類]
+    words:
+      - { en: Single Instruction, ja: 1つの命令 }
+      - { en: Multiple Data, ja: 複数のデータ }
+    simple: 1つの命令で、たくさんのデータに同じ計算をまとめて行う方式です。
+    definition: フリンの分類の一つで、1つの命令流で複数のデータ流を同時に処理する並列処理方式。画像処理、GPU、ベクトル演算に用いる。ほかに SISD、MISD、MIMD がある。
+    related: [GPU]
+  - term: アムダールの法則
+    reading: アムダールのほうそく
+    simple: 並列化できない部分があると、プロセッサを増やしても速くなる度合いに限界がある、という法則です。
+    definition: 並列化可能な割合を p、プロセッサ数を n とすると、速度向上率は 1÷((1−p)＋p÷n)。n を無限大にしても 1÷(1−p) が上限となる。
+    related: [マルチプロセッサシステム]
+  - term: マルチプロセッサシステム
+    reading: マルチプロセッサシステム
+    aliases: [密結合マルチプロセッサ, 疎結合マルチプロセッサ, 密結合, 疎結合]
+    simple: 複数のプロセッサを組み合わせて処理を分担するシステムです。
+    definition: 複数のプロセッサで処理を行うシステム。主記憶を共有し1つの OS で制御する密結合と、各プロセッサが主記憶と OS をもちネットワーク等で結合する疎結合がある。
+    related: [アムダールの法則, マルチコアプロセッサ]
+  - term: SRAM
+    reading: エスラム
+    fullName: Static Random Access Memory
+    japanese: スタティック RAM（静的 RAM）
+    words:
+      - { en: Static, ja: 静的な（そのままで保たれる） }
+      - { en: Random Access, ja: 任意の順でアクセスできる }
+      - { en: Memory, ja: 記憶装置 }
+    simple: 高速でリフレッシュ不要なメモリで、キャッシュメモリに使われます。
+    definition: フリップフロップで記憶するランダムアクセスメモリ。リフレッシュ不要で高速だが、集積度が低く高価。揮発性。
+    related: [DRAM, キャッシュメモリ]
+  - term: DRAM
+    reading: ディーラム
+    fullName: Dynamic Random Access Memory
+    japanese: ダイナミック RAM（動的 RAM）
+    aliases: [RAM, DIMM]
+    words:
+      - { en: Dynamic, ja: 動的な（書き直し続ける必要がある） }
+      - { en: Random Access, ja: 任意の順でアクセスできる }
+      - { en: Memory, ja: 記憶装置 }
+    simple: 大容量で安いメモリで、パソコンの主記憶に使われます。記憶を保つために定期的な書き直しが必要です。
+    definition: コンデンサに電荷を蓄えて記憶するランダムアクセスメモリ。電荷が漏れるため定期的なリフレッシュが必要。集積度が高く安価で主記憶に使われる。揮発性。
+    related: [SRAM, 主記憶]
+  - term: フラッシュメモリ
+    reading: フラッシュメモリ
+    aliases: [ROM, EEPROM, USBメモリ, SDカード]
+    simple: 電源を切っても内容が消えないメモリで、USB メモリや SSD、スマートフォンに使われます。
+    definition: 電気的に一括（ブロック単位）消去・書換えができる不揮発性の半導体メモリ。書換え回数に上限がある。ROM（Read Only Memory）は読出し専用の不揮発性メモリの総称。
+    related: [SSD, ウェアレベリング]
+  - term: ウェアレベリング
+    reading: ウェアレベリング
+    simple: SSD などで、書込みを特定の場所に集中させず全体に散らして、寿命を延ばす技術です。
+    definition: フラッシュメモリの書換え回数の上限による劣化を平準化するため、書込み先のブロックを分散させる制御。
+    related: [フラッシュメモリ, SSD]
+  - term: キャッシュメモリ
+    reading: キャッシュメモリ
+    aliases: [ヒット率, ライトスルー, ライトバック, 実効アクセス時間]
+    simple: CPU と主記憶の間に置く高速なメモリで、よく使うデータを置いて処理を速くします。
+    definition: 主記憶より高速な小容量のメモリ（主に SRAM）。実効アクセス時間＝キャッシュのアクセス時間×ヒット率＋主記憶のアクセス時間×(1−ヒット率)。書込み方式に、主記憶へ同時に書くライトスルーと、追出し時に書くライトバックがある。
+    related: [記憶階層, SRAM]
+  - term: 記憶階層
+    reading: きおくかいそう
+    aliases: [補助記憶, ディスクキャッシュ]
+    simple: 速いが高価で小さい記憶装置から、遅いが安くて大きい記憶装置までを組み合わせて使う構成です。
+    definition: レジスタ→キャッシュメモリ→主記憶→（ディスクキャッシュ）→補助記憶の順に、速度が遅く容量が大きくなる記憶装置の階層構造。
+    related: [キャッシュメモリ, 主記憶]
+  - term: メモリインタリーブ
+    reading: メモリインタリーブ
+    aliases: [バンク]
+    simple: 主記憶をいくつかのグループ（バンク）に分け、同時に読み書きして速くする方法です。
+    definition: 主記憶を複数のバンクに分割し、連続アドレスを異なるバンクに割り当てて並行アクセスすることで実効アクセス速度を高める方式。
+    related: [主記憶]
+  - term: ビットとバイト
+    reading: ビットとバイト
+    aliases: [ビット, バイト, キロバイト, メガバイト, ギガバイト]
+    simple: ビットは 0 か 1 の情報の最小単位、バイトは 8 ビットをまとめた単位です。
+    definition: 1バイト＝8ビット。接頭語は k＝10³、M＝10⁶、G＝10⁹、T＝10¹²（2進接頭語では Ki＝2¹⁰、Mi＝2²⁰、Gi＝2³⁰）。
+    related: [16進数]
+  - term: 光ディスク
+    reading: ひかりディスク
+    aliases: [CD-ROM, CD-R, DVD-R, DVD-RAM, ブルーレイディスク]
+    simple: レーザー光でデータを読み書きする円盤型の記録媒体で、CD・DVD・ブルーレイがあります。
+    definition: レーザー光で記録・再生する媒体。読出し専用型（-ROM）、追記型（-R）、書換型（-RW、DVD-RAM、BD-RE）がある。
+    related: [ハードディスク]
+  - term: バス
+    reading: バス
+    aliases: [アドレスバス, データバス, コントロールバス, システムバス, 入出力バス, シリアルバス, パラレルバス, PCI Express]
+    simple: CPU・メモリ・周辺装置の間でデータや信号をやり取りするための共通の通り道です。
+    definition: 複数の装置で共有する信号伝送路。アドレスを伝えるアドレスバス（n 本で 2ⁿ 番地）、データを伝えるデータバス、制御信号を伝えるコントロールバスがある。転送速度＝バス幅（バイト）×クロック周波数×1クロックあたりの転送回数。
+    related: [DMA, USB]
+  - term: NFC
+    reading: エヌエフシー
+    fullName: Near Field Communication
+    japanese: 近距離無線通信
+    words:
+      - { en: Near, ja: 近い }
+      - { en: Field, ja: 場（電磁界） }
+      - { en: Communication, ja: 通信 }
+    simple: 10cm くらいまで近づけて通信する技術で、交通系 IC カードや電子決済に使われます。
+    definition: 13.56MHz 帯を用いる、通信距離 10cm 程度の近距離無線通信規格。非接触 IC カード、スマートフォン決済に用いる。
+    related: [Bluetooth]
+  - term: Bluetooth
+    reading: ブルートゥース
+    aliases: [BLE, Bluetooth Low Energy, Zigbee, IrDA]
+    simple: 数 m〜数十 m の範囲で機器どうしを無線でつなぐ規格で、イヤホンやマウスに使われます。
+    definition: 2.4GHz 帯を用いる近距離無線通信規格。低消費電力版の BLE は IoT 機器やウェアラブル機器に使われる。ほかに低消費電力でメッシュ網を作る Zigbee、赤外線を使う IrDA がある。
+    related: [NFC]
+  - term: HDMI
+    reading: エイチディーエムアイ
+    fullName: High-Definition Multimedia Interface
+    japanese: 高精細度マルチメディアインタフェース
+    aliases: [DisplayPort]
+    words:
+      - { en: High-Definition, ja: 高精細度の }
+      - { en: Multimedia, ja: マルチメディア（映像・音声など） }
+      - { en: Interface, ja: 接続の仕様 }
+    simple: 映像と音声を1本のケーブルでデジタルのまま送る接続規格です。
+    definition: 映像・音声・制御信号を1本のケーブルでデジタル伝送するインタフェース規格。DisplayPort も同様のデジタル映像インタフェース。
+    related: [USB]
+  - term: USB
+    reading: ユーエスビー
+    fullName: Universal Serial Bus
+    japanese: ユニバーサル・シリアル・バス（汎用シリアルバス）
+    aliases: [ホットプラグ, バスパワー, プラグアンドプレイ, Thunderbolt]
+    words:
+      - { en: Universal, ja: 汎用の・万能の }
+      - { en: Serial, ja: 直列の（1ビットずつ送る） }
+      - { en: Bus, ja: バス（共通の伝送路） }
+    simple: パソコンとさまざまな周辺機器をつなぐ、最も一般的な接続規格です。
+    definition: ハブを使ったツリー型の接続で多数の機器を接続できるシリアルインタフェース。ホットプラグ、プラグアンドプレイ、バスパワーに対応する。
+    related: [HDMI, バス]
+  - term: DMA
+    reading: ディーエムエー
+    fullName: Direct Memory Access
+    japanese: 直接記憶アクセス
+    words:
+      - { en: Direct, ja: 直接の }
+      - { en: Memory, ja: 記憶装置（メモリ） }
+      - { en: Access, ja: アクセス（読み書き） }
+    simple: CPU を通さずに、周辺装置とメモリの間で直接データを転送する仕組みです。
+    definition: DMA コントローラが CPU を介さずに入出力装置と主記憶の間でデータ転送を行う方式。転送中も CPU は他の処理を実行でき、完了は割込みで通知される。
+    difference: プログラム制御方式は CPU が入出力命令で1語ずつ転送する。
+    related: [割込み, バス]
+  - term: デバイスドライバ
+    reading: デバイスドライバ
+    simple: プリンターなどの周辺機器を OS から使えるようにするための、機器ごとのソフトウェアです。
+    definition: OS と周辺機器の間に位置し、機器固有の制御を行うソフトウェア。OS やアプリケーションに共通のインタフェースを提供する。
+    related: [USB]
+  - term: OCR
+    reading: オーシーアール
+    fullName: Optical Character Reader
+    japanese: 光学式文字読取装置
+    aliases: [OMR, Optical Mark Reader, 光学式マーク読取装置]
+    words:
+      - { en: Optical, ja: 光学式の }
+      - { en: Character, ja: 文字 }
+      - { en: Reader, ja: 読取装置 }
+    simple: 紙に印刷・手書きされた文字を読み取って、文字データに変える装置（または技術）です。
+    definition: 光学的に読み取った画像から文字を認識してデータ化する装置・技術。マークシートの塗りつぶしを読み取る装置は OMR（Optical Mark Reader）。
+    related: [解像度]
+  - term: 有機ELディスプレイ
+    reading: ゆうきイーエルディスプレイ
+    aliases: [液晶ディスプレイ, 電子ペーパー, TFT液晶]
+    simple: 画素そのものが光るディスプレイで、バックライトがいらず、薄くて黒がくっきり表示できます。
+    definition: 電圧で発光する有機化合物を用いた自発光型ディスプレイ。液晶ディスプレイはバックライトの光を液晶で制御する。電子ペーパーは電力なしで表示を保持できる。
+    related: [解像度]
+  - term: 解像度
+    reading: かいぞうど
+    aliases: [dpi, ppi, 画素]
+    simple: 画像や印刷のきめの細かさで、1インチあたりの点（ドット）の数などで表します。
+    definition: 表示・印刷の精細さ。プリンターやスキャナーでは dpi（1インチあたりのドット数）、ディスプレイでは画素数（例 1920×1080）や ppi で表す。
+    related: [ビットとバイト]
+  - term: ハードディスク
+    reading: ハードディスク
+    aliases: [HDD, シーク時間, 回転待ち時間, トラック, シリンダ, セクター, デフラグメンテーション, フラグメンテーション]
+    simple: 回転する磁気ディスクにデータを記録する補助記憶装置です。
+    definition: 磁性体を塗布した円盤を回転させ、磁気ヘッドで読み書きする補助記憶装置。平均アクセス時間＝平均シーク時間＋平均回転待ち時間（1回転の半分）＋データ転送時間。断片化したファイルを連続領域に再配置する処理をデフラグメンテーションという。
+    related: [SSD, 磁気テープ]
+  - term: SSD
+    reading: エスエスディー
+    fullName: Solid State Drive
+    japanese: ソリッドステートドライブ（半導体ドライブ）
+    words:
+      - { en: Solid State, ja: 半導体素子による（可動部分のない） }
+      - { en: Drive, ja: 記憶装置（ドライブ） }
+    simple: フラッシュメモリを使った補助記憶装置で、ハードディスクより高速で衝撃に強いです。
+    definition: フラッシュメモリを記憶媒体とする補助記憶装置。機械的な可動部がなく高速・低消費電力・耐衝撃性に優れる。書換え回数の上限があるためウェアレベリングを行う。
+    related: [ハードディスク, フラッシュメモリ, ウェアレベリング]
+  - term: 磁気テープ
+    reading: じきテープ
+    aliases: [ストリーマ]
+    simple: 細長いテープにデータを磁気で記録する媒体で、大量データのバックアップに使われます。
+    definition: 順次アクセス方式の大容量・低価格な記録媒体。バックアップやアーカイブに用いる。
+    related: [ハードディスク]
+  - term: MACアドレス
+    reading: マックアドレス
+    fullName: Media Access Control address
+    japanese: 媒体アクセス制御アドレス
+    words:
+      - { en: Media, ja: 媒体（通信媒体） }
+      - { en: Access, ja: アクセス }
+      - { en: Control, ja: 制御 }
+      - { en: address, ja: アドレス（住所・識別番号） }
+    simple: ネットワーク機器に製造時から割り当てられている、世界で一意の番号です。
+    definition: NIC などに割り当てられる 48 ビットの物理アドレス。上位 24 ビットが製造者識別子（OUI）。データリンク層で通信相手を識別する。
+    related: [IPアドレス]
+  - term: 主記憶
+    reading: しゅきおく
+    aliases: [主記憶装置, メインメモリ, アドレス選択機構]
+    simple: CPU が直接読み書きする、実行中のプログラムやデータを置くメモリです。
+    definition: CPU が直接アクセスする記憶装置。記憶部・アドレス選択機構・読取り書込み機構から構成される。一般に DRAM が使われる。
+    related: [DRAM, 記憶階層]
+  - term: マルチコアプロセッサ
+    reading: マルチコアプロセッサ
+    aliases: [マルチコア, シングルコア, コア]
+    simple: 1つのチップの中に、計算を行う中心部分（コア）を複数入れたプロセッサです。
+    definition: 1つのパッケージに複数のプロセッサコアを集積したプロセッサ。複数のスレッドを並列実行できる。
+    related: [マルチプロセッサシステム, パイプライン]
+  - term: CPU
+    reading: シーピーユー
+    fullName: Central Processing Unit
+    japanese: 中央処理装置
+    aliases: [制御装置, 演算装置, 五大装置, プロセッサ]
+    words:
+      - { en: Central, ja: 中央の・中心の }
+      - { en: Processing, ja: 処理 }
+      - { en: Unit, ja: 装置・単位 }
+    simple: コンピュータの「頭脳」にあたる部品で、プログラムの命令を読み出して計算や判断を行います。
+    definition: 主記憶から命令を取り出して解読し、演算や制御を実行する装置。制御装置と演算装置から構成される。コンピュータの五大装置は制御・演算・記憶・入力・出力装置。
+    example: パソコンの性能表に書かれている「4コア 3.0GHz」は CPU の仕様です。
+    difference: GPU は画像処理など大量の単純な演算を並列に行うことに特化した処理装置で、汎用的な命令実行を担う CPU とは役割が異なります。
+    related: [GPU, クロック周波数, レジスタ]

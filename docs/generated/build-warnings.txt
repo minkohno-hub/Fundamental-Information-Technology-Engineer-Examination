@@ -1,2 +1,1 @@
-glossary:CPU: 関連用語「GPU」が辞典にありません
-glossary:CPU: 関連用語「クロック周波数」が辞典にありません
+glossary:MACアドレス: 関連用語「IPアドレス」が辞典にありません
