@@ -1,50 +1,25 @@
 {
- "builtAt": "2026-10-21T20:16:27.915Z",
+ "builtAt": "2026-10-21T22:00:19.958Z",
  "totalAuthored": 1392,
- "published": 1386,
+ "published": 1392,
  "bySubject": {
-  "total": 1386,
-  "A": 1141,
+  "total": 1392,
+  "A": 1147,
   "B": 245
  },
  "bySource": {
-  "ipa": 98,
+  "ipa": 104,
   "original": 1288
  },
  "byDepth": {
-  "quick": 1244,
+  "quick": 1250,
   "deep": 142
  },
- "machineVerified": 325,
+ "machineVerified": 327,
  "withSimulator": 130,
- "rejected": [
-  {
-   "id": "IPA-R05-A-011",
-   "reason": "図を正確に再現できないため"
-  },
-  {
-   "id": "IPA-R08-A-006",
-   "reason": "図を正確に再現できないため"
-  },
-  {
-   "id": "IPA-R05-A-013",
-   "reason": "図を正確に再現できないため"
-  },
-  {
-   "id": "IPA-R06-A-013",
-   "reason": "図を正確に再現できないため"
-  },
-  {
-   "id": "IPA-R07-A-014",
-   "reason": "図を正確に再現できないため"
-  },
-  {
-   "id": "IPA-R06-A-019",
-   "reason": "図を正確に再現できないため"
-  }
- ],
+ "rejected": [],
  "checking": [],
- "glossaryTerms": 2378,
+ "glossaryTerms": 2380,
  "referenceChapters": 14,
  "lessons": 12,
  "coverage": {

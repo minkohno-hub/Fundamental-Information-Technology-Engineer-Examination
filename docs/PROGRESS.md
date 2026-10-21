@@ -14,11 +14,11 @@
 | 学習分析・学習プラン | 検証済み | learning.test.ts |
 | 用語辞典・検索 | 検証済み | E2E（略語の正式名称表示） |
 | オフライン対応 | 検証済み | offline.spec.ts（遮断後の再読み込みで演習・辞典） |
-| 問題 1,000 問以上（verified） | 達成：1,386 問（科目A 1,141・科目B 245） | content-summary.json |
+| 問題 1,000 問以上（verified） | 達成：1,392 問（科目A 1,147・科目B 245） | content-summary.json |
 | シラバス網羅（末端論点 80% 以上・23 中分類） | 達成：624/624 | coverage.json |
 | コンパクト参考書 | 完了：14 章 | 教材ビルド |
 | プログラミング講座 | 完了：12 回 | 教材ビルド |
-| IPA 公開問題の取り込み | 完了：科目A 74 問・科目B 24 問公開、図の再現不可の 6 問は除外 | content/questions/IPA/ |
+| IPA 公開問題の取り込み | 完了：令和5〜8年度の科目A 80 問・科目B 24 問をすべて公開（図は表に置換、改変は問題ごとに明記） | content/questions/IPA/ |
 | ドキュメント | 完了 | docs/ |
 | GitHub Pages 公開 | 完了 | https://minkohno-hub.github.io/Fundamental-Information-Technology-Engineer-Examination/ |
 | 公開環境での動作確認 | 検証済み（スマホ幅・オフライン含む）。iOS 実機は未確認 | 2026-10-21 |

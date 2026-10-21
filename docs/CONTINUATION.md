@@ -14,10 +14,10 @@
 
 ## 最後に成功したテスト
 
-- `npm run content`：エラー 0（公開 1,386 問、網羅 624/624）
+- `npm run content`：エラー 0（公開 1,392 問、網羅 624/624）
 - `npm run check:release`：すべての公開条件を満たす
-- `npm test`：72 件成功
-- `npx vite build && npm run test:e2e`：54 件成功（スマホ・PC、オフライン含む）
+- `npm test`：72 件成功（a11y・キーボード操作の E2E を含め E2E 118 件成功）
+- `npx vite build && npm run test:e2e`：118 件成功（スマホ・PC、オフライン・アクセシビリティ・キーボード含む）
 - GitHub Actions：教材ビルド・型検査・単体テスト・ビルドは成功
 
 ## 失敗している項目
@@ -26,8 +26,8 @@
 
 ## 残作業（優先順）
 
-1. IPA 公開問題で除外中の 6 問（図の再現が必要）：`status: rejected` のものを `grep -rn "status: rejected" content/questions` で確認
-2. 知識問題の原典照合の続き（`docs/FACTCHECK_LOG.md` に確認済み・未確認を記録）
+1. 追加の一次情報照合（`docs/FACTCHECK_LOG.md` の未確認項目）
+2. iOS Safari 実機での確認
 3. 擬似言語の `÷` の整数除算など、IPA 仕様が定めていない挙動は問題文で前提を明示する運用を継続
 
 ## 未検証事項
