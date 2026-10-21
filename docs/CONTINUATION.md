@@ -14,10 +14,10 @@
 
 ## 最後に成功したテスト
 
-- `npm run content`：エラー 0（公開 1,362 問、網羅 624/624）
+- `npm run content`：エラー 0（公開 1,386 問、網羅 624/624）
 - `npm run check:release`：すべての公開条件を満たす
-- `npm test`：52 件成功
-- `npx vite build && npm run test:e2e`：16 件成功（スマホ・PC、オフライン含む）
+- `npm test`：72 件成功
+- `npx vite build && npm run test:e2e`：54 件成功（スマホ・PC、オフライン含む）
 - GitHub Actions：教材ビルド・型検査・単体テスト・ビルドは成功
 
 ## 失敗している項目
@@ -26,12 +26,11 @@
 
 ## 残作業（優先順）
 
-1. IPA 公開問題 科目B の残り 12 問（`content/questions/IPA/b-alg.yaml` ほか）：擬似言語インタプリタの未対応構文（`繰返し処理を終了する`、平方根・商・余り表現、文字列・配列の操作文など）を実装すれば公開できる
+1. IPA 公開問題で除外中の 6 問（図の再現が必要）：`status: rejected` のものを `grep -rn "status: rejected" content/questions` で確認
 2. 知識問題の原典照合の続き（`docs/FACTCHECK_LOG.md` に確認済み・未確認を記録）
-3. 学習プラン画面・科目B 短時間学習・シミュレーターの E2E 追加
+3. 擬似言語の `÷` の整数除算など、IPA 仕様が定めていない挙動は問題文で前提を明示する運用を継続
 
 ## 未検証事項
 
 - 知識問題の第三者監修、法務・規格の原典照合
-- 学習プラン画面の自動テスト
 - 実機（iOS Safari）での確認
