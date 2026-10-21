@@ -135,17 +135,6 @@ terms:
     simple: 業務の機能を「サービス」という部品にして、組み合わせてシステムを作る考え方です。
     definition: 業務機能を再利用可能なサービス単位で実装し、標準的なインタフェースでネットワーク上で連携させてシステムを構築する考え方。
     related: [EA]
-  - term: PMO
-    reading: ピーエムオー
-    fullName: Program Management Office
-    japanese: プログラムマネジメントオフィス
-    words:
-      - { en: Program, ja: プログラム（関連する複数のプロジェクト） }
-      - { en: Management, ja: 管理 }
-      - { en: Office, ja: 部門 }
-    aliases: [プロジェクトマネジメントオフィス, プログラムマネジメント]
-    simple: 社内の複数のプロジェクトをまとめて支援・管理する部門です。
-    definition: 組織内の複数のプロジェクトを横断的に支援・管理する部門。手法の標準化、資源の調整、プロジェクトマネージャの支援などを行う。Project Management Office の略とされることもある。
   - term: COBIT
     reading: コビット
     fullName: Control Objectives for Information and related Technology
@@ -157,11 +146,6 @@ terms:
     simple: ISACA が作った、IT ガバナンスと IT マネジメントのためのフレームワークです。
     definition: ISACA が提供する IT ガバナンスおよび IT マネジメントのフレームワーク。経営目標と IT の目標を関連付け、プロセスや管理目標を体系化している。
     related: [ITガバナンス]
-  - term: ITガバナンス
-    reading: アイティーガバナンス
-    simple: 経営陣が主体となって、IT の活用を評価・指示・モニタし、組織の価値を高める仕組みです。
-    definition: 経営陣がステークホルダのニーズに基づき、IT の利活用を評価（Evaluate）・指示（Direct）・モニタ（Monitor）して組織の価値を高める仕組み（JIS Q 38500）。
-    related: [COBIT, 情報システム戦略]
   - term: KPI
     reading: ケーピーアイ
     fullName: Key Performance Indicator

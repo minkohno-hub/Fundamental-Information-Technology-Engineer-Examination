@@ -90,62 +90,11 @@ terms:
     aliases: [構造化インタビュー, 非構造化インタビュー]
     simple: 主な質問を決めておき、相手の答えに応じて柔軟に質問を変えるインタビューです。
     definition: 主要な質問項目を事前に用意し、回答に応じて質問の追加や順序の変更を行うインタビュー。質問を固定する構造化、質問を用意しない非構造化と対比される。
-  - term: 要件定義
-    reading: ようけんていぎ
-    simple: 新しいシステムに何が求められるかを決めて文書にする工程です。
-    definition: 利害関係者の要求を分析し、業務要件・機能要件・非機能要件を定義して合意する工程。
-    related: [業務要件, 機能要件, 非機能要件]
   - term: 業務要件
     reading: ぎょうむようけん
     simple: システム化する業務の新しい手順やルールなど、業務のあるべき姿の要件です。
     definition: システム化の対象業務について、業務の手順・業務ルール・扱う情報などのあるべき姿を定義した要件。
     related: [要件定義]
-  - term: 機能要件
-    reading: きのうようけん
-    simple: システムが「何をするか」を決めた要件です。
-    definition: システムが実現すべき入出力や処理の内容など、業務処理の機能に関する要件。
-    related: [非機能要件]
-  - term: 非機能要件
-    reading: ひきのうようけん
-    simple: 速さや止まりにくさ、安全性など、機能以外に求められる要件です。
-    definition: 性能・可用性・信頼性・セキュリティ・運用保守性など、機能以外にシステムに求められる品質に関する要件。
-    related: [機能要件]
-  - term: DOA
-    reading: ディーオーエー
-    fullName: Data Oriented Approach
-    japanese: データ中心アプローチ
-    words:
-      - { en: Data, ja: データ }
-      - { en: Oriented, ja: 中心の }
-      - { en: Approach, ja: 手法 }
-    aliases: [データ中心アプローチ]
-    simple: 業務で扱うデータを中心にシステムを設計する方法です。
-    definition: 業務で扱うデータの構造に着目し、データを中心に分析・設計する手法。データ構造は処理手順より安定しているため変更に強い。
-    related: [E-R図]
-  - term: RFP
-    reading: アールエフピー
-    fullName: Request For Proposal
-    japanese: 提案依頼書
-    words:
-      - { en: Request, ja: 依頼 }
-      - { en: For, ja: のための }
-      - { en: Proposal, ja: 提案 }
-    aliases: [提案依頼書]
-    simple: 発注者がベンダに「この条件で提案してください」と依頼する文書です。
-    definition: 発注者が調達対象システムの概要、要求事項、契約条件などを示して、ベンダに提案書の提出を依頼する文書。
-    related: [RFI, 提案書]
-  - term: RFI
-    reading: アールエフアイ
-    fullName: Request For Information
-    japanese: 情報提供依頼書
-    words:
-      - { en: Request, ja: 依頼 }
-      - { en: For, ja: のための }
-      - { en: Information, ja: 情報 }
-    aliases: [情報提供依頼書]
-    simple: 発注前に、ベンダに技術や製品の情報を出してもらうよう依頼する文書です。
-    definition: RFP の作成に先立ち、ベンダに技術動向や製品・サービスなどの情報提供を依頼する文書。
-    related: [RFP]
   - term: 提案書
     reading: ていあんしょ
     aliases: [見積書, 提案評価, 調達選定]
@@ -164,16 +113,6 @@ terms:
     simple: 広く参加者を募り、原則として最も有利な価格の会社と契約する方法です。
     definition: 調達内容を公告して参加資格を満たす事業者を広く募り、原則として最も有利な価格を示した者と契約する方式。指名した者だけで競う指名競争入札、競争によらない随意契約と対比される。
     related: [企画競争入札]
-  - term: 準委任契約
-    reading: じゅんいにんけいやく
-    simple: 仕事を誠実に行う義務はあるが、完成させる義務はない契約です。
-    definition: 受託者が善良な管理者の注意をもって委託された事務を処理する義務を負い、成果物の完成義務は負わない契約。
-    related: [請負契約]
-  - term: 請負契約
-    reading: うけおいけいやく
-    simple: 仕事を完成させることを約束し、その結果に報酬が支払われる契約です。
-    definition: 受託者が仕事の完成を約し、委託者がその結果に対して報酬を支払う契約。受託者は完成義務と契約不適合責任を負う。
-    related: [準委任契約]
   - term: グリーン調達
     reading: グリーンちょうたつ
     aliases: [グリーン購入]
