@@ -56,7 +56,7 @@ questions:
 ### 擬似言語（科目B）
 
 - 文法は IPA「試験で使用する情報技術に関する用語・プログラム言語など」Ver.5.1 別紙2に準拠し、`src/pseudo/` のインタプリタで実行できる範囲で書きます。使える構文は `tests/unit/pseudo.test.ts` と既存の科目B問題を参照してください。
-- 配列の要素番号は 1 から。`{1, 2, 3}` で配列、`dataの要素数` で要素数、`未定義`、`mod`、`÷`（整数同士は切捨て）、`and` `or` `not`。
+- 配列の要素番号は 1 から。`{1, 2, 3}` で配列、`dataの要素数` で要素数、`未定義`、`mod`、`÷`（実数の除算。整数型の変数に代入したときだけ小数点以下を切り捨てる。問題文で必ず前提を明示する）、`and` `or` `not`。
 - 関数宣言は `○整数型: f(整数型: n)`、手続は `○proc(…)`。大域変数は `大域: 整数型: x`。
 - 繰返しは `for (i を 1 から n まで 1 ずつ増やす) … endfor`、`while (条件) … endwhile`、`do … while (条件)`。選択は `if … elseif … else … endif`。
 - 出力は `x を出力する` 構文（`verify.result` の `of: output` や `expectOutput` で照合）。連結リストなどのクラスは `verify.options.classes` で定義します（`{ ListElement: { fields: [val, next], ctor: [val] } }`）。
