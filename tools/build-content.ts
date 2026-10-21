@@ -277,12 +277,21 @@ function verifyQuestion(q: Question, raw: RawQuestion, where: string): string[] 
     if (!raw.code) { err(where, 'result の検証には code が必要です'); return checks; }
     try {
       const prog = (v.prelude ?? '') + '\n' + raw.code;
-      const r = runProgram(prog, v.result.call, v.result.args ?? [], opts);
+      const ofSpec = v.result.of ?? 'return';
+      const r = runProgram(prog, v.result.call, v.result.args ?? [], ofSpec.startsWith('condtrue:') ? { ...opts, trace: true, maxTrace: 100000 } : opts);
       let got: string;
       const of = v.result.of ?? 'return';
       if (of === 'return') got = r.returnValue === undefined ? '' : formatValue(r.returnValue);
       else if (of === 'output') got = r.output.join(' ');
       else if (of.startsWith('var:')) got = formatValue(r.mainVars[of.slice(4)] ?? r.globals[of.slice(4)]);
+      else if (/^output:\d+$/.test(of)) got = r.output[Number(of.slice(7)) - 1] ?? ''; // N 番目に出力された行（1 始まり）
+      else if (of.startsWith('condtrue:')) {
+        // 注釈（例 /*** β ***/）の付いた行の条件式が真と評価された回数
+        const mark = of.slice(9);
+        const ln = prog.split('\n').findIndex((l) => l.includes(`/*** ${mark} ***/`)) + 1;
+        if (ln === 0) throw new Error(`注釈 ${mark} の行が見つかりません`);
+        got = String(r.trace.filter((t) => t.line === ln && t.kind === 'cond' && t.note.endsWith('は true')).length);
+      }
       else if (of.startsWith('calls:')) got = String(r.callCounts[of.slice(6)] ?? 0);
       else got = '';
       const norm = (s: string) => normalizeForCompare(s).replace(/["“”]/g, '').replace(/^\{|\}$/g, '').replace(/,/g, ',');
