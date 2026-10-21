@@ -1,21 +1,21 @@
 {
- "builtAt": "2026-10-21T00:19:47.148Z",
- "totalAuthored": 291,
- "published": 291,
+ "builtAt": "2026-10-21T00:23:34.705Z",
+ "totalAuthored": 336,
+ "published": 336,
  "bySubject": {
-  "total": 291,
-  "A": 290,
+  "total": 336,
+  "A": 335,
   "B": 1
  },
  "bySource": {
   "ipa": 0,
-  "original": 291
+  "original": 336
  },
  "byDepth": {
-  "quick": 290,
+  "quick": 335,
   "deep": 1
  },
- "machineVerified": 46,
+ "machineVerified": 59,
  "withSimulator": 1,
  "rejected": [],
  "checking": [],
@@ -24,9 +24,9 @@
  "lessons": 0,
  "coverage": {
   "leafTotal": 624,
-  "leafCovered": 163
+  "leafCovered": 184
  },
  "similarPairs": 0,
  "errors": 0,
- "warnings": 9
+ "warnings": 68
 }

@@ -134,6 +134,8 @@ interface RawQuestion {
   depth?: 'quick' | 'deep';
   type?: 'choice' | 'input';
   q: string;
+  /** 問題文の後ろに付ける共通の資料（表など。YAML のアンカーで共有） */
+  attach?: string;
   code?: string;
   c: (string | number)[];
   a: string | number;
@@ -199,6 +201,8 @@ const questions: Question[] = [];
 const rejected: { id: string; reason: string }[] = [];
 const verifyLog: { id: string; machine: boolean; checks: string[]; notChecked: string[] }[] = [];
 const seenIds = new Set<string>();
+/** 類似度計算用の問題文（共通の添付資料を除く） */
+const stemText = new Map<string, string>();
 
 function letterIndex(a: string | number, n: number, where: string): number {
   if (typeof a === 'number') return a;
@@ -348,6 +352,7 @@ for (const file of files) {
       rejected.push({ id: raw.id, reason: raw.rejectReason ?? '理由未記載' });
       continue;
     }
+    stemText.set(raw.id, raw.q ?? '');
     const topicIds = Array.isArray(raw.topic) ? raw.topic : [raw.topic];
     for (const t of topicIds) if (!topics.has(String(t))) err(where, `学習論点 ${t} がシラバスにありません`);
     const primary = topics.get(String(topicIds[0]));
@@ -399,7 +404,7 @@ for (const file of files) {
       topicIds: topicIds.map(String),
       questionType: type,
       difficulty: diff,
-      questionText: raw.q.trim(),
+      questionText: (raw.q.trim() + (raw.attach ? '\n\n' + raw.attach.trim() : '')),
       code: raw.code?.replace(/\s+$/, ''),
       choices,
       correctAnswer: correct,
@@ -463,8 +468,8 @@ function jaccard(a: Set<string>, b: Set<string>) {
 }
 const sigs = questions.map((q) => ({
   q,
-  stem: grams(q.questionText + (q.code ?? '')),
-  all: grams(q.questionText + (q.code ?? '') + [...q.choices].sort().join('|')),
+  stem: grams((stemText.get(q.id) ?? q.questionText) + (q.code ?? '')),
+  all: grams((stemText.get(q.id) ?? q.questionText) + (q.code ?? '') + [...q.choices].sort().join('|')),
   answer: normalizeForCompare(q.choices[q.correctAnswer]),
 }));
 const distinct = new Map<string, Set<string>>();
