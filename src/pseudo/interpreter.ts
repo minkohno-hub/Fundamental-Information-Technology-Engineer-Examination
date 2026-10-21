@@ -166,7 +166,11 @@ export class Interpreter {
   }
 
   private lastLine() {
-    return this.program.lines.length;
+    // 末尾の空行は表示されない（CodeBlock が削る）ため、最後の非空行を終了ステップの行にする
+    const ls = this.program.lines;
+    let n = ls.length;
+    while (n > 1 && ls[n - 1].trim() === '') n--;
+    return n;
   }
 
   // ===== トレース =====

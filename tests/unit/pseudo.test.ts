@@ -123,6 +123,10 @@ while (i > 2)
     expect(r.trace.map((t) => t.line)).toEqual([1, 2, 3, 3]);
     expect(r.trace[2].frames[0].vars.x).toBe(5);
   });
+  it('末尾に空行があっても終了ステップは表示される最後の行を指す', () => {
+    const r = runProgram('整数型: x ← 1\nx ← x × 2\n\n\n', undefined, [], { trace: true });
+    expect(r.trace[r.trace.length - 1].line).toBe(2);
+  });
   it('クラスとメンバアクセス（単方向リスト）', () => {
     const r = runProgram(`
 大域: ListElement: head ← 未定義の値
