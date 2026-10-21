@@ -1,1 +1,3 @@
 glossary:MACアドレス: 関連用語「IPアドレス」が辞典にありません
+glossary:Webサーバ: 関連用語「HTTP」が辞典にありません
+glossary:TCO: 関連用語「ROI」が辞典にありません

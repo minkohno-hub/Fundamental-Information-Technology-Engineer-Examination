@@ -1,0 +1,291 @@
+category: システム構成要素
+terms:
+  - term: バッチ処理
+    reading: バッチしょり
+    aliases: [一括処理, リアルタイム処理, 対話型処理, オンライントランザクション処理]
+    simple: データをためておいて、まとめて一度に処理する方式です。
+    definition: 一定期間・一定量のデータを蓄積して一括処理する処理形態。発生の都度すぐに処理するリアルタイム処理、利用者と対話しながら進める対話型処理と対比される。
+    related: [分散処理]
+  - term: 分散処理
+    reading: ぶんさんしょり
+    aliases: [集中処理, 垂直分散, 水平分散]
+    simple: 処理を複数のコンピュータで分担して行う方式です。
+    definition: ネットワークで結ばれた複数のコンピュータで処理を分担する方式。一部の故障の影響が限定され拡張しやすいが、管理が複雑になる。1台に集める集中処理は管理が容易だが単一障害点となる。
+    related: [クラスタ, ピアツーピア]
+  - term: デュアルシステム
+    reading: デュアルシステム
+    simple: 2組のシステムで同じ処理を同時に行い、結果を照らし合わせる、とても信頼性の高い構成です。
+    definition: 2系統のシステムが同一の処理を並行して実行し、結果を照合する構成。一方の故障時も他方で処理を継続できる。
+    related: [デュプレックスシステム]
+  - term: デュプレックスシステム
+    reading: デュプレックスシステム
+    aliases: [ホットスタンバイ, コールドスタンバイ, アクティブ-スタンバイ構成, アクティブ-アクティブ構成, 主系, 待機系]
+    simple: 普段は片方（主系）だけで処理し、故障したらもう片方（待機系）に切り替える構成です。
+    definition: 主系（現用系）で処理を行い、待機系が障害時に処理を引き継ぐ構成。待機系を起動しておくホットスタンバイと、障害時に起動するコールドスタンバイがある。全系で同時に処理するのはアクティブ-アクティブ構成。
+    related: [デュアルシステム, クラスタ]
+  - term: バックアップサイト
+    reading: バックアップサイト
+    aliases: [ホットサイト, ウォームサイト, コールドサイト]
+    simple: 災害などで本番のシステムが使えなくなったときに備えて、別の場所に用意しておく代わりの拠点です。
+    definition: 被災時に業務を継続するための代替拠点。常時稼働・同期するホットサイト、機器を用意し障害時に立ち上げるウォームサイト、場所や設備だけを用意するコールドサイトがある（復旧の速さと費用は前者ほど高い）。
+    related: [デュプレックスシステム]
+  - term: クラウドコンピューティング
+    reading: クラウドコンピューティング
+    aliases: [クラウド, パブリッククラウド, プライベートクラウド]
+    simple: インターネット経由で、サーバやソフトウェアなどを必要な分だけ利用する形態です。
+    definition: ネットワーク経由で共有の計算資源（サーバ、ストレージ、アプリケーション等）をオンデマンドに利用し、利用量に応じて対価を支払う形態。提供範囲により SaaS・PaaS・IaaS などに分類される。
+    related: [SaaS, PaaS, IaaS, サーバレス]
+  - term: SaaS
+    reading: サース
+    fullName: Software as a Service
+    japanese: サービスとしてのソフトウェア
+    words:
+      - { en: Software, ja: ソフトウェア }
+      - { en: as a Service, ja: サービスとして（所有せず利用する） }
+    simple: メールや表計算などのアプリケーションを、インターネット経由で利用するサービスです。
+    definition: アプリケーションソフトウェアの機能をネットワーク経由で提供するクラウドサービス。利用者はアプリケーションを利用するだけで、基盤の管理は事業者が行う。
+    related: [PaaS, IaaS, クラウドコンピューティング]
+  - term: PaaS
+    reading: パース
+    fullName: Platform as a Service
+    japanese: サービスとしてのプラットフォーム
+    words:
+      - { en: Platform, ja: プラットフォーム（土台となる環境） }
+      - { en: as a Service, ja: サービスとして }
+    simple: アプリを作って動かすための土台（OS やデータベースなど）を借りるクラウドサービスです。
+    definition: アプリケーションの開発・実行に必要な OS・ミドルウェア・実行環境などのプラットフォームを提供するクラウドサービス。
+    related: [SaaS, IaaS]
+  - term: IaaS
+    reading: イアース
+    fullName: Infrastructure as a Service
+    japanese: サービスとしてのインフラ
+    words:
+      - { en: Infrastructure, ja: インフラ（基盤設備） }
+      - { en: as a Service, ja: サービスとして }
+    simple: 仮想サーバやストレージなどのインフラを借りるクラウドサービスで、OS から上は利用者が管理します。
+    definition: 仮想マシン、ストレージ、ネットワークなどのインフラ資源を提供するクラウドサービス。OS 以上の層は利用者が管理する。
+    related: [SaaS, PaaS, 仮想化]
+  - term: 仮想化
+    reading: かそうか
+    aliases: [仮想マシン, VM, ハイパーバイザー, ハイパーバイザー型, ホスト型, ライブマイグレーション]
+    simple: 1台の物理的なコンピュータの上で、複数のコンピュータがあるかのように動かす技術です。
+    definition: 物理資源を抽象化し、論理的な資源として分割・統合して利用する技術。サーバ仮想化には、ハードウェア上で直接動くハイパーバイザー型、ホスト OS 上で動くホスト型、カーネルを共有するコンテナ型がある。稼働中の仮想マシンを別の物理サーバへ移すことをライブマイグレーションという。
+    related: [コンテナ, VDI, IaaS]
+  - term: コンテナ
+    reading: コンテナ
+    aliases: [コンテナ型仮想化]
+    simple: アプリと動作に必要なものをひとまとめにして、軽く素早く動かせるようにする仮想化の方式です。
+    definition: ホスト OS のカーネルを共有し、プロセスやファイルシステムを分離した実行環境（コンテナ）でアプリケーションを動かす仮想化方式。ゲスト OS が不要で軽量・高速に起動するが、ホストと異なる種類の OS は動かせない。
+    related: [仮想化]
+  - term: VDI
+    reading: ブイディーアイ
+    fullName: Virtual Desktop Infrastructure
+    japanese: デスクトップ仮想化（仮想デスクトップ基盤）
+    words:
+      - { en: Virtual, ja: 仮想の }
+      - { en: Desktop, ja: デスクトップ（PC の作業環境） }
+      - { en: Infrastructure, ja: 基盤 }
+    simple: パソコンの作業環境をサーバ上で動かし、手元の端末からは画面だけを操作する仕組みです。
+    definition: 利用者ごとのデスクトップ環境をサーバ上の仮想マシンで実行し、端末へ画面を転送して操作させる仕組み。データが端末に残らず、管理を一元化できる。
+    related: [シンクライアント, 仮想化]
+  - term: シンクライアント
+    reading: シンクライアント
+    simple: 手元の端末には最小限の機能しか持たせず、処理やデータの保存をサーバで行う方式です。
+    definition: 端末に表示・入力など最小限の機能だけをもたせ、アプリケーションの実行とデータの管理をサーバ側で行うシステム。情報漏えい対策や管理の一元化に有効。
+    related: [VDI]
+  - term: IaC
+    reading: アイエーシー
+    fullName: Infrastructure as Code
+    japanese: コードとしてのインフラ
+    words:
+      - { en: Infrastructure, ja: インフラ（基盤設備） }
+      - { en: as Code, ja: コード（プログラム）として }
+    simple: サーバなどのインフラの構成をプログラムのように書いて、自動で作れるようにする方法です。
+    definition: インフラの構成を設定ファイル等のコードで記述し、ツールにより自動で構築・変更する手法。再現性の確保、変更履歴の管理、作業ミスの削減に役立つ。
+    related: [クラウドコンピューティング]
+  - term: エッジコンピューティング
+    reading: エッジコンピューティング
+    simple: データが生まれる場所の近くでデータを処理して、応答を速くし通信量を減らす考え方です。
+    definition: IoT 機器や利用者の近く（ネットワークの端）に配置したサーバでデータを処理する分散処理の形態。低遅延化と通信量削減に有効。
+    related: [クラウドコンピューティング]
+  - term: サーバレス
+    reading: サーバレス
+    aliases: [FaaS, Function as a Service]
+    simple: サーバの管理を気にせず、処理（関数）を置いておくだけで必要なときに実行されるクラウドの使い方です。
+    definition: 利用者がサーバの構築・運用を意識せず、イベント駆動で関数を実行させるクラウドの利用形態（FaaS）。実行した分だけ課金され、負荷に応じて自動で拡張される。
+    related: [クラウドコンピューティング]
+  - term: ピアツーピア
+    reading: ピアツーピア
+    aliases: [P2P, グリッドコンピューティング]
+    simple: サーバを通さずに、コンピュータ同士が対等な立場で直接やり取りする方式です。
+    definition: ネットワーク上のノードが対等な関係で直接通信する方式。多数のコンピュータの遊休資源を束ねて大規模計算を行う方式はグリッドコンピューティングという。
+    related: [分散処理]
+  - term: HPC
+    reading: エイチピーシー
+    fullName: High Performance Computing
+    japanese: 高性能計算
+    words:
+      - { en: High Performance, ja: 高性能の }
+      - { en: Computing, ja: 計算・コンピューティング }
+    simple: スーパーコンピュータなどで、大規模な計算をとても速く行う技術です。
+    definition: 多数のプロセッサを用いた大規模並列処理により、科学技術計算などを高速に行う技術。
+    related: [クラスタ]
+  - term: 3層クライアントサーバシステム
+    reading: さんそうクライアントサーバシステム
+    aliases: [クライアントサーバシステム, プレゼンテーション層, ファンクション層, データベースアクセス層, RPC]
+    simple: システムを「画面」「業務処理」「データ管理」の3つの層に分けて作る方式です。
+    definition: プレゼンテーション層（利用者インタフェース）、ファンクション層（業務処理）、データベースアクセス層（データ操作）に分割したクライアントサーバシステム。層ごとの変更・拡張が容易になる。クライアントからサーバの手続を呼ぶ仕組みに RPC（遠隔手続呼出し）がある。
+    related: [Webサーバ]
+  - term: Webサーバ
+    reading: ウェブサーバ
+    aliases: [アプリケーションサーバ, データベースサーバ, Webシステム]
+    simple: ブラウザからの要求を受けて、Web ページなどを送り返すサーバです。
+    definition: HTTP の要求を受けて HTML などのコンテンツを返すサーバ。一般的な Web システムは、Web サーバ・アプリケーションサーバ・データベースサーバの階層で構成される。
+    related: [3層クライアントサーバシステム, HTTP]
+  - term: RAID
+    reading: レイド
+    fullName: Redundant Arrays of Inexpensive Disks
+    japanese: 安価なディスクの冗長配列
+    aliases: [RAID0, RAID1, RAID5, RAID6, RAID10, ストライピング, ミラーリング]
+    words:
+      - { en: Redundant, ja: 冗長な（予備をもつ） }
+      - { en: Arrays, ja: 配列・並び }
+      - { en: Inexpensive, ja: 安価な（Independent＝独立した とする説明もある） }
+      - { en: Disks, ja: ディスク }
+    simple: 複数のハードディスクを組み合わせて、速く・壊れにくくする技術です。
+    definition: 複数のディスクを1台のように扱う技術。RAID0（ストライピング、冗長性なし）、RAID1（ミラーリング、容量半分）、RAID5（パリティ分散、1台故障に耐え実効容量は n−1 台分）、RAID6（2種のパリティ、2台故障に耐え n−2 台分）、RAID10（ミラーリング＋ストライピング）。
+    related: [NAS, SAN]
+  - term: NAS
+    reading: ナス
+    fullName: Network Attached Storage
+    japanese: ネットワーク接続ストレージ
+    words:
+      - { en: Network, ja: ネットワーク }
+      - { en: Attached, ja: 接続された }
+      - { en: Storage, ja: ストレージ（記憶装置） }
+    simple: LAN につないで、みんなでファイルを共有できる記憶装置です。
+    definition: LAN に直接接続し、ファイル共有プロトコルでファイル単位のアクセスを提供する記憶装置。
+    related: [SAN, RAID]
+  - term: SAN
+    reading: サン
+    fullName: Storage Area Network
+    japanese: ストレージエリアネットワーク
+    words:
+      - { en: Storage, ja: ストレージ（記憶装置） }
+      - { en: Area, ja: 領域 }
+      - { en: Network, ja: ネットワーク }
+    simple: サーバと記憶装置だけをつなぐ専用の高速ネットワークです。
+    definition: サーバとストレージを Fibre Channel や iSCSI などの専用ネットワークで接続し、ブロック単位でアクセスさせる仕組み。
+    related: [NAS]
+  - term: フェールセーフ
+    reading: フェールセーフ
+    aliases: [フォールトトレランス, フォールトトレラントシステム, フォールトアボイダンス, フォールトマスキング]
+    simple: 故障したときに、安全な側（例えば停止）に倒れるように作っておく考え方です。
+    definition: 障害発生時にシステムを安全な状態に移行させる設計思想。障害が起きても機能を維持するのはフォールトトレランス、障害の発生自体を防ぐのはフォールトアボイダンス。
+    related: [フェールソフト, フールプルーフ]
+  - term: フェールソフト
+    reading: フェールソフト
+    aliases: [縮退運転]
+    simple: 故障した部分を切り離し、機能や性能を落としてでも動き続けるようにする考え方です。
+    definition: 障害時に障害部分を切り離して、機能を縮小した状態で運転を継続する設計思想（縮退運転）。
+    related: [フェールセーフ]
+  - term: フールプルーフ
+    reading: フールプルーフ
+    simple: 人がうっかり間違った操作をしても、事故や誤動作が起きないようにする工夫です。
+    definition: 利用者の誤操作によって危険な状態や誤動作が生じないようにする設計思想。入力チェック、確認画面、物理的な誤挿入防止など。
+    related: [フェールセーフ]
+  - term: スループット
+    reading: スループット
+    simple: 一定時間にどれだけたくさんの仕事を処理できるかを表す指標です。
+    definition: 単位時間あたりに処理される仕事量。トランザクション数/秒、ビット/秒などで表す。
+    related: [レスポンスタイム]
+  - term: レスポンスタイム
+    reading: レスポンスタイム
+    aliases: [応答時間, ターンアラウンドタイム]
+    simple: 要求を出してから、最初の応答が返ってくるまでの時間です。
+    definition: 利用者が要求の入力を終えてから最初の応答が得られるまでの時間。ジョブの投入から結果がすべて得られるまでの時間はターンアラウンドタイム。
+    related: [スループット]
+  - term: ベンチマーク
+    reading: ベンチマーク
+    aliases: [TPC, SPEC, SPECint, SPECfp, モニタリング]
+    simple: 決まったテスト用プログラムを実際に動かして、コンピュータの性能を比べる方法です。
+    definition: 標準化された評価用プログラムを実行して性能を測定・比較する方法。TPC（トランザクション処理）、SPECint・SPECfp（CPU の整数・浮動小数点演算）などがある。
+    related: [スループット]
+  - term: スケールアウト
+    reading: スケールアウト
+    aliases: [スケールアップ, スケールイン, スケールダウン]
+    simple: サーバの台数を増やして処理能力を上げることです。
+    definition: サーバを追加して処理を分散し、システム全体の処理能力を高めること。個々のサーバの性能を上げるのはスケールアップ。
+    related: [キャパシティプランニング]
+  - term: キャパシティプランニング
+    reading: キャパシティプランニング
+    aliases: [サイジング, プロビジョニング]
+    simple: 将来の利用量を予測して、必要なサーバの性能や台数を前もって計画することです。
+    definition: 資源の使用状況の測定と業務量の予測に基づき、必要な処理能力・容量を見積もってシステム構成や増強を計画する活動。
+    related: [スケールアウト]
+  - term: RASIS
+    reading: レイシス
+    fullName: Reliability, Availability, Serviceability, Integrity, Security
+    japanese: 信頼性・可用性・保守性・完全性・安全性
+    aliases: [信頼性, 可用性, 保守性（RASIS）]
+    words:
+      - { en: Reliability, ja: 信頼性（故障しにくさ） }
+      - { en: Availability, ja: 可用性（使いたいときに使えること） }
+      - { en: Serviceability, ja: 保守性（直しやすさ） }
+      - { en: Integrity, ja: 完全性（データに矛盾がないこと） }
+      - { en: Security, ja: 安全性（守られていること） }
+    simple: システムの信頼性を評価する5つの観点の頭文字をとった言葉です。
+    definition: 信頼性（MTBF）、可用性（稼働率）、保守性（MTTR）、完全性、安全性の5つの評価項目。
+    related: [MTBF, MTTR, 稼働率]
+  - term: MTBF
+    reading: エムティービーエフ
+    fullName: Mean Time Between Failures
+    japanese: 平均故障間隔
+    words:
+      - { en: Mean, ja: 平均の }
+      - { en: Time, ja: 時間 }
+      - { en: Between, ja: 〜の間の }
+      - { en: Failures, ja: 故障 }
+    simple: 故障してから次に故障するまでの、平均の稼働時間です。長いほど故障しにくいことを表します。
+    definition: 修理可能なシステムで、故障から次の故障までに正常稼働している時間の平均。故障率は 1/MTBF。
+    related: [MTTR, 稼働率]
+  - term: MTTR
+    reading: エムティーティーアール
+    fullName: Mean Time To Repair
+    japanese: 平均修復時間
+    words:
+      - { en: Mean, ja: 平均の }
+      - { en: Time, ja: 時間 }
+      - { en: To Repair, ja: 修理するまでの }
+    simple: 故障を直すのにかかる平均の時間です。短いほど直しやすいことを表します。
+    definition: 故障発生から修復完了までに要する時間の平均。保守性の指標。
+    related: [MTBF, 稼働率]
+  - term: 稼働率
+    reading: かどうりつ
+    simple: システムが使える状態にある時間の割合です。
+    definition: MTBF÷(MTBF＋MTTR)。直列接続の稼働率は各稼働率の積、並列接続（いずれかが稼働すればよい）は 1−Π(1−各稼働率)。
+    example: 稼働率 0.9 の装置2台を並列にすると 1−0.1²＝0.99。
+    related: [MTBF, MTTR, RASIS]
+  - term: バスタブ曲線
+    reading: バスタブきょくせん
+    aliases: [初期故障, 偶発故障, 摩耗故障]
+    simple: 機械の故障率が「使い始め」「安定期」「劣化期」で変わる様子を表した、浴槽のような形のグラフです。
+    definition: 故障率の時間変化を表す曲線。初期故障期（減少）、偶発故障期（一定）、摩耗故障期（増加）からなる。
+    related: [MTBF]
+  - term: TCO
+    reading: ティーシーオー
+    fullName: Total Cost of Ownership
+    japanese: 総所有コスト
+    words:
+      - { en: Total, ja: 総計の }
+      - { en: Cost, ja: 費用 }
+      - { en: of Ownership, ja: 所有することの }
+    simple: システムを買ってから使い終わるまでにかかる、すべての費用の合計です。
+    definition: 導入費用（初期費用）に運用・保守・教育・管理などの費用を加えた、システムのライフサイクル全体の総費用。
+    related: [ROI]
+  - term: クラスタ
+    reading: クラスタ
+    aliases: [HAクラスタ, 負荷分散クラスタ, ロードシェアリング]
+    simple: 複数のコンピュータをまとめて、1台のコンピュータのように動かす仕組みです。
+    definition: 複数のコンピュータを結合して全体を1つのシステムとして運用する構成。可用性を高める HA クラスタ、性能を高める負荷分散クラスタなどがある。
+    related: [分散処理, HPC]
