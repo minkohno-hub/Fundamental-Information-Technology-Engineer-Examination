@@ -1,0 +1,14 @@
+category: "6"
+reviewed: { at: '2026-10-21', method: 'IPA 公開問題の原文・公式解答例と照合し，解説を新規作成。計算問題は検算式で再計算' }
+source:
+  kind: ipa
+  title: "基本情報技術者試験 公開問題（科目A）"
+  url: "https://www.ipa.go.jp/shiken/mondai-kaiotu/sg_fe/koukai/index.html"
+  terms: 'IPA の利用条件（教育目的の利用可、出典明記、改変箇所の明示）'
+  modified: true
+  modificationNote: '解説を本アプリで作成。問題文・選択肢は原文のまま（表記の全角半角を一部統一）'
+questions:
+  - id: IPA-R08-A-006
+    status: rejected
+    rejectReason: '図を正確に再現できないため'
+    source: { examName: "令和8年度 科目A 公開問題", year: 2026, questionNo: 6 }
