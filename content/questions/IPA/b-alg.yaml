@@ -392,13 +392,143 @@ questions:
     sim: { entry: maximum, args: [2, 3, 1] }
     source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 1 }
   - id: IPA-R06-B-002
-    status: rejected
-    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「binaryの文字数」「binary の i文字目の文字」）が含まれ，原文どおりに再現して実行検証できないため'
+    topic: [B3, 2-2-2-4, 1-1-1]
+    diff: 2
+    noShuffle: true
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。
+
+      関数 convDecimal は，引数として与えられた，“0”と“1”だけから成る，1 文字以上の文字列を，符号なしの 2 進数と解釈したときの整数値を返す。例えば，引数として“10010”を与えると 18 が返る。
+
+      関数 convDecimal が利用する関数 int は，引数で与えられた文字が“0”なら整数値 0 を返し，“1”なら整数値 1 を返す。
+    code: |
+      ○整数型: convDecimal(文字列型: binary)
+        整数型: i, length, result ← 0
+        length ← binaryの文字数
+        for (i を 1 から length まで 1 ずつ増やす)
+          result ← 【a】
+        endfor
+        return result
+    c:
+      - "result ＋ int(binary の (length － i ＋ 1)文字目の文字)"
+      - "result ＋ int(binary の i文字目の文字)"
+      - "result × 2 ＋ int(binary の (length － i ＋ 1)文字目の文字)"
+      - "result × 2 ＋ int(binary の i文字目の文字)"
+    a: エ
+    exp: |
+      2 進数の文字列を先頭（最上位桁）から順に読み，これまでの値を 2 倍して新しい桁の値を足していくと整数値が求まります。10 進数で「1，12，123」と読み進めるとき，値を 10 倍して次の桁を足すのと同じ考え方です。
+
+      “10010” を i 文字目の文字で先頭から処理した場合の result の変化は次のとおりです。
+
+      | i | i 文字目の文字 | result × 2 ＋ int(…) | result |
+      | --- | --- | --- | --- |
+      | 1 | “1” | 0 × 2 ＋ 1 | 1 |
+      | 2 | “0” | 1 × 2 ＋ 0 | 2 |
+      | 3 | “0” | 2 × 2 ＋ 0 | 4 |
+      | 4 | “1” | 4 × 2 ＋ 1 | 9 |
+      | 5 | “0” | 9 × 2 ＋ 0 | 18 |
+
+      最終的に 18 になり，題意と一致します。
+    why:
+      - 2 倍する処理がなく，桁の値を足すだけなので，“1” の個数が結果になってしまいます（“10010” では 2）。
+      - 2 倍する処理がなく，桁の値を足すだけなので，“1” の個数が結果になってしまいます（“10010” では 2）。
+      - 2 倍して足す形は正しいですが，文字を末尾（最下位桁）から読んでいるため，桁の並びが逆になります（“10010” は “01001” と読まれて 9）。
+      - 正解です。先頭から 1 桁ずつ読み，これまでの値を 2 倍して新しい桁を加えるので，2 進数の値が正しく求まります。
+    know: 文字列で与えられた n 進数を整数に変換するときは，先頭の桁から「値 × n ＋ 桁の値」を繰り返す方法（ホーナー法）が簡単である。桁ごとに 2 のべき乗を掛けて足す方法と結果は同じになる。
+    terms: [基数変換, 繰返し処理]
+    verify:
+      prelude: |
+        ○整数型: int(文字列型: c)
+          if (c ＝ "0")
+            return 0
+          endif
+          return 1
+      cases:
+        - { call: convDecimal, args: ['10010'], expect: 18 }
+        - { call: convDecimal, args: ['110'], expect: 6 }
+        - { call: convDecimal, args: ['1'], expect: 1 }
+        - { call: convDecimal, args: ['0'], expect: 0 }
+        - { call: convDecimal, args: ['100'], expect: 4 }
+    sim: { entry: convDecimal, args: ['10010'] }
     source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 2 }
   - id: IPA-R06-B-003
-    status: rejected
-    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（二次元配列の初期化「{nodeNum行nodeNum列の 0}」）が含まれ，原文どおりに再現して実行検証できないため'
-    source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 3 }
+    topic: [B3, 2-2-2-3, 1-2-5]
+    diff: 2
+    noShuffle: true
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      グラフの頂点には，1 から順に整数で番号が付けられている。グラフは無向グラフであり，各頂点間には高々一つの辺がある。一つの辺は両端の頂点の番号を要素にもつ要素数 2 の整数型の配列で表現できる。例えば，{1, 3} は頂点 1 と頂点 3 を端点とする辺を表す。グラフ全体は，グラフに含まれる辺を表す要素数 2 の配列を全て格納した配列（以下，辺の配列という）で表現できる。辺の配列の要素数はグラフの辺の個数と等しい。
+
+      図 1 のグラフは，頂点 1〜5 をもち，辺は 1-3，1-4，3-4，2-4，4-5 の五つである。整数型配列の配列 {{1, 3}, {1, 4}, {3, 4}, {2, 4}, {4, 5}} と表現できる。
+
+      関数 edgesToMatrix は，辺の配列を隣接行列に変換する。隣接行列とは，グラフに含まれる頂点の個数と等しい行数及び列数の正方行列で，i 行 j 列の成分は頂点 i と頂点 j を結ぶ辺があるときに 1 となり，それ以外は 0 となる。行列の対角成分は全て 0 で，無向グラフの場合は対称行列になる。図 1 のグラフを表現する隣接行列を図 2 に示す。
+
+      | 頂点 | 1 | 2 | 3 | 4 | 5 |
+      | --- | --- | --- | --- | --- | --- |
+      | 1 | 0 | 0 | 1 | 1 | 0 |
+      | 2 | 0 | 0 | 0 | 1 | 0 |
+      | 3 | 1 | 0 | 0 | 1 | 0 |
+      | 4 | 1 | 1 | 1 | 0 | 1 |
+      | 5 | 0 | 0 | 0 | 1 | 0 |
+
+      図 2　図 1 のグラフを表現する隣接行列（行と列は頂点の番号に対応する）
+
+      関数 edgesToMatrix は，引数 edgeList で辺の配列を，引数 nodeNum でグラフの頂点の個数をそれぞれ受け取り，隣接行列を表す整数型の二次元配列を返す。
+    code: |
+      ○整数型の二次元配列: edgesToMatrix(整数型配列の配列: edgeList,
+                                 整数型: nodeNum)
+        整数型の二次元配列: adjMatrix ← {nodeNum行nodeNum列の 0}
+        整数型: i, u, v
+        for (i を 1 から edgeListの要素数 まで 1 ずつ増やす)
+          u ← edgeList[i][1]
+          v ← edgeList[i][2]
+          【a】
+        endfor
+        return adjMatrix
+    c:
+      - "adjMatrix[u, u] ← 1"
+      - "adjMatrix[u, u] ← 1 と adjMatrix[v, v] ← 1 の 2 文"
+      - "adjMatrix[u, v] ← 1"
+      - "adjMatrix[u, v] ← 1 と adjMatrix[v, u] ← 1 の 2 文"
+      - "adjMatrix[v, u] ← 1"
+      - "adjMatrix[v, v] ← 1"
+    fills:
+      - { a: 'adjMatrix[u, u] ← 1' }
+      - { a: "adjMatrix[u, u] ← 1\nadjMatrix[v, v] ← 1" }
+      - { a: 'adjMatrix[u, v] ← 1' }
+      - { a: "adjMatrix[u, v] ← 1\nadjMatrix[v, u] ← 1" }
+      - { a: 'adjMatrix[v, u] ← 1' }
+      - { a: 'adjMatrix[v, v] ← 1' }
+    a: エ
+    exp: |
+      辺 {u, v} は頂点 u と頂点 v を結ぶ無向の辺なので，隣接行列では u 行 v 列と v 行 u 列の両方の成分を 1 にします。これで行列は対角成分を除いて対称になります。
+
+      図 1 の辺 {1, 3} を例にすると，adjMatrix[1, 3] ← 1 と adjMatrix[3, 1] ← 1 を実行します。全ての辺について繰り返すと，図 2 の行列になります。
+
+      | 辺 | 1 になる成分 |
+      | --- | --- |
+      | {1, 3} | [1, 3] と [3, 1] |
+      | {1, 4} | [1, 4] と [4, 1] |
+      | {3, 4} | [3, 4] と [4, 3] |
+      | {2, 4} | [2, 4] と [4, 2] |
+      | {4, 5} | [4, 5] と [5, 4] |
+    why:
+      - 対角成分（頂点自身との組）だけが 1 になり，辺の両端を結ぶ成分は 0 のままです。対角成分は全て 0 でなければなりません。
+      - 対角成分だけが 1 になり，辺の両端を結ぶ成分は 0 のままです。
+      - 一方向の成分だけが 1 になり，対称の位置（v 行 u 列）が 0 のままなので，無向グラフの隣接行列になりません。
+      - 正解です。u 行 v 列と v 行 u 列の両方を 1 にするので，対称な隣接行列になります。
+      - 一方向の成分だけが 1 になり，対称の位置（u 行 v 列）が 0 のままなので，無向グラフの隣接行列になりません。
+      - 対角成分だけが 1 になり，辺の両端を結ぶ成分は 0 のままです。
+    know: 隣接行列は，頂点の個数 n に対し n × n 個の成分で全ての頂点の組の辺の有無を表す。無向グラフでは対称行列になるが，有向グラフでは向きのある辺だけ片方の成分を 1 にするため対称とは限らない。
+    terms: [隣接行列, グラフ理論, 二次元配列]
+    verify:
+      cases:
+        - { call: edgesToMatrix, args: [[[1, 3], [1, 4], [3, 4], [2, 4], [4, 5]], 5], expect: [[0, 0, 1, 1, 0], [0, 0, 0, 1, 0], [1, 0, 0, 1, 0], [1, 1, 1, 0, 1], [0, 0, 0, 1, 0]] }
+        - { call: edgesToMatrix, args: [[[1, 2]], 2], expect: [[0, 1], [1, 0]] }
+        - { call: edgesToMatrix, args: [[[1, 2], [2, 3]], 3], expect: [[0, 1, 0], [1, 0, 1], [0, 1, 0]] }
+    sim: { entry: edgesToMatrix, args: [[[1, 3], [1, 4], [3, 4], [2, 4], [4, 5]], 5] }
+    source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 3, modified: true, modificationNote: "解説は本アプリで新規に作成。図 1 のグラフは辺の一覧で，図 2 は表で表記し，2 文から成る選択肢は 1 行にまとめた" }
   - id: IPA-R06-B-004
     topic: [B3, 2-2-2-1]
     diff: 2
@@ -470,8 +600,116 @@ questions:
     sim: { entry: merge, args: [[2, 3], [1, 4]] }
     source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 4 }
   - id: IPA-R06-B-005
-    status: rejected
-    rejectReason: 'プログラムに本アプリのインタプリタが未対応の記法（「orderにordersの要素を順に代入する」「orderのいずれかの要素の値がitemの値と等しい」「itemCountの値を1増やす」「allItemsの複製から…を除いた配列」「－∞」など）が多数含まれ，原文どおりに再現して実行検証できないため'
+    topic: [B4, 1-2-1-2, 2-1-2-1]
+    diff: 3
+    noShuffle: true
+    q: |
+      次のプログラム中の【a】〜【c】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      一度の注文で購入された商品のリストを，注文ごとに記録した注文データがある。表に，注文データの例を示す。
+
+      | 注文番号 | 購入された商品のリスト |
+      | --- | --- |
+      | 1 | A, B, D |
+      | 2 | A, D |
+      | 3 | A |
+      | 4 | A, B, E |
+      | 5 | B |
+      | 6 | C, E |
+
+      注文データから，商品 x と商品 y とが同一の注文で購入されやすい傾向を示す関連度 Lxy を，次の式で計算する。
+
+      Lxy ＝ (Mxy × 全注文数) ÷ (Kx × Ky)
+
+      ここで，Mxy は商品 x と商品 y とが同一の注文で購入された注文数，Kx は商品 x が購入された注文数，Ky は商品 y が購入された注文数を表す。表の例では，MAB が 2，全注文数が 6，KA が 4，KB が 3 であるので，商品 A と商品 B の関連度 LAB は，(2 × 6) ÷ (4 × 3) ＝ 1.0 である。
+
+      手続 putRelatedItem は，大域変数 orders に格納された注文データを基に，引数で与えられた商品との関連度が最も大きい商品のうちの一つと，その関連度を出力する。プログラムでは，商品は文字列で表し，注文は購入された商品の配列，注文データは注文の配列で表している。注文データには 2 種類以上の商品が含まれるものとする。また，注文データにある商品以外の商品が，引数として与えられることはないものとする。
+    code: |
+      // 注文データ（ここでは表の例を与えている）
+      大域: 文字列型配列の配列: orders ← {{"A", "B", "D"}, {"A", "D"}, {"A"},
+                                 {"A", "B", "E"}, {"B"}, {"C", "E"}}
+
+      ○putRelatedItem(文字列型: item)
+        文字列型の配列: allItems ← ordersに含まれる文字列を
+                                 重複なく辞書順に格納した配列
+                                 // 表の例では {"A", "B", "C", "D", "E"}
+
+        文字列型の配列: otherItems ← allItemsの複製から値がitemである
+                                 要素を除いた配列
+
+        整数型: i, itemCount ← 0
+        整数型の配列: arrayK ← {otherItemsの要素数個の0}
+        整数型の配列: arrayM ← {otherItemsの要素数個の0}
+        実数型: valueL, maxL ← －∞
+        文字列型の配列: order
+        文字列型: relatedItem
+
+        for (orderにordersの要素を順に代入する)
+          if (orderのいずれかの要素の値がitemの値と等しい)
+            itemCountの値を1増やす
+          endif
+          for (iを1からotherItemsの要素数まで1ずつ増やす)
+            if (orderのいずれかの要素の値がotherItems[i]の値と等しい)
+              if (orderのいずれかの要素の値がitemの値と等しい)
+                【a】の値を1増やす
+              endif
+              【b】の値を1増やす
+            endif
+          endfor
+        endfor
+        for (iを1からotherItemsの要素数まで1ずつ増やす)
+          valueL ← (arrayM[i] × 【c】) ÷ (itemCount × arrayK[i])
+                                        /* 実数として計算する */
+          if (valueLがmaxLより大きい)
+            maxL ← valueL
+            relatedItem ← otherItems[i]
+          endif
+        endfor
+        relatedItemの値とmaxLの値をこの順にコンマ区切りで出力する
+    c:
+      - "a：arrayK[i]，b：arrayM[i]，c：allItemsの要素数"
+      - "a：arrayK[i]，b：arrayM[i]，c：ordersの要素数"
+      - "a：arrayK[i]，b：arrayM[i]，c：otherItemsの要素数"
+      - "a：arrayM[i]，b：arrayK[i]，c：allItemsの要素数"
+      - "a：arrayM[i]，b：arrayK[i]，c：ordersの要素数"
+      - "a：arrayM[i]，b：arrayK[i]，c：otherItemsの要素数"
+    fills:
+      - { a: 'arrayK[i]', b: 'arrayM[i]', c: 'allItemsの要素数' }
+      - { a: 'arrayK[i]', b: 'arrayM[i]', c: 'ordersの要素数' }
+      - { a: 'arrayK[i]', b: 'arrayM[i]', c: 'otherItemsの要素数' }
+      - { a: 'arrayM[i]', b: 'arrayK[i]', c: 'allItemsの要素数' }
+      - { a: 'arrayM[i]', b: 'arrayK[i]', c: 'ordersの要素数' }
+      - { a: 'arrayM[i]', b: 'arrayK[i]', c: 'otherItemsの要素数' }
+    a: オ
+    exp: |
+      引数 item を商品 x，otherItems[i] を商品 y として，関連度 Lxy ＝ (Mxy × 全注文数) ÷ (Kx × Ky) の各項をプログラムで数えています。
+
+      - itemCount は Kx（item が購入された注文数）です。
+      - arrayM[i] は Mxy（item と otherItems[i] が同一の注文で購入された注文数）です。item が含まれる注文の中で otherItems[i] も含まれる場合に数えます。
+      - arrayK[i] は Ky（otherItems[i] が購入された注文数）です。otherItems[i] が含まれる注文なら item の有無にかかわらず数えます。
+      - 全注文数は ordersの要素数 です。
+
+      【a】 item と otherItems[i] の両方を含むときだけ増やす，内側の if の中なので arrayM[i] です。
+      【b】 otherItems[i] を含む注文で常に増やす，外側の if の中なので arrayK[i] です。
+      【c】 計算式の「全注文数」は注文データの個数（ordersの要素数）です。
+
+      表の例で item が “A” のとき，B は M ＝ 2，K ＝ 3 で L ＝ 1.0，D は M ＝ 2，K ＝ 2 で L ＝ 1.5，E は M ＝ 1，K ＝ 2 で L ＝ 0.75，C は M ＝ 0 で L ＝ 0 です。最大は D の 1.5 なので，“D,1.5” が出力されます。
+    why:
+      - arrayK[i] と arrayM[i] が逆で，全注文数にも allItemsの要素数（商品の種類数）を使っており，式と合いません。
+      - arrayK[i] と arrayM[i] が逆なので，item と共に買われた回数と，otherItems[i] が買われた回数が入れ替わり，関連度が正しく計算できません。
+      - arrayK[i] と arrayM[i] が逆で，全注文数にも otherItemsの要素数（item 以外の商品の種類数）を使っており，式と合いません。
+      - 数える対象は正しいですが，全注文数に allItemsの要素数（商品の種類数）を使っているため，関連度の値がずれます（例では全注文数 6 ではなく 5 になる）。
+      - 正解です。両方を含む注文数を arrayM[i]，otherItems[i] を含む注文数を arrayK[i] に数え，全注文数は ordersの要素数 を使います。
+      - 数える対象は正しいですが，全注文数に otherItemsの要素数（item 以外の商品の種類数）を使っているため，関連度の値がずれます（例では全注文数 6 ではなく 4 になる）。
+    know: 「商品 x と y が一緒に買われやすいか」を測る指標を，アソシエーション分析ではリフト値という。同時購入の割合を，それぞれが単独で買われる割合の積で割った値で，1 を超えるほど一緒に買われやすい。
+    terms: [アソシエーション分析, 配列, 繰返し処理]
+    verify:
+      cases:
+        - { call: putRelatedItem, args: ['A'], expectOutput: ['D,1.5'] }
+        - { call: putRelatedItem, args: ['B'], expectOutput: ['A,1'] }
+        - { call: putRelatedItem, args: ['C'], expectOutput: ['E,3'] }
+        - { call: putRelatedItem, args: ['E'], expectOutput: ['C,3'] }
+    sim: { entry: putRelatedItem, args: ['A'] }
     source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 5 }
   - id: IPA-R07-B-001
     status: rejected
