@@ -286,7 +286,7 @@ terms:
       - { en: JavaScript, ja: ブラウザで動くプログラム言語 }
       - { en: Object, ja: オブジェクト }
       - { en: Notation, ja: 表記法 }
-    simple: 「名前: 値」の組でデータを表す、軽くて読みやすいデータの書き方です。Web API でよく使われます。
+    simple: 「名前：値」の組でデータを表す、軽くて読みやすいデータの書き方です。Web API でよく使われます。
     definition: JavaScript のオブジェクトリテラルを基にしたテキスト形式のデータ記述言語。オブジェクト（名前と値の組の集まり）と配列でデータを表す。
     example: '{"name": "佐藤", "age": 20}'
     related: [XML, Ajax]
