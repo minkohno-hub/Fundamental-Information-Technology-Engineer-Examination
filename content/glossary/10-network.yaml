@@ -2,19 +2,18 @@ category: ネットワーク
 terms:
   - term: パケット交換
     reading: パケットこうかん
-    aliases: [回線交換, パケット, ISP, インターネットサービスプロバイダ]
     simple: データを小さな包み（パケット）に分けて送り、回線をみんなで共有する通信方式です。
     definition: データをヘッダー付きのパケットに分割して伝送し、回線を複数の通信で共有する交換方式。通信中に専用の通信路を占有する方式は回線交換という。
     related: [TCP/IP, IPアドレス]
   - term: 光ファイバ
     reading: ひかりファイバ
-    aliases: [光ファイバケーブル, より対線, ツイストペアケーブル, 同軸ケーブル, FTTH]
+    aliases: [光ファイバケーブル]
     simple: 光でデータを送るケーブルで、雑音に強く、遠くまで高速に送れます。
     definition: ガラス等の繊維に光信号を通して伝送するケーブル。電磁雑音の影響を受けず低損失で、長距離・大容量伝送に用いる。家庭まで光ファイバを引き込むサービスを FTTH という。
     related: [イーサネット]
   - term: 無線LAN
     reading: むせんラン
-    aliases: [Wi-Fi, SSID, アクセスポイント, IEEE 802.11, Wi-Fi 6, メッシュWi-Fi]
+    aliases: [Wi-Fi]
     simple: 電波を使ってケーブルなしでつなぐ LAN です。
     definition: IEEE 802.11 シリーズの規格に基づく無線の LAN。ネットワークは SSID で識別し、WPA2/WPA3 で暗号化する。802.11n が Wi-Fi 4、802.11ac が Wi-Fi 5、802.11ax が Wi-Fi 6。アクセス制御に CSMA/CA を用いる。
     related: [CSMA/CA, WPA3]
@@ -32,13 +31,11 @@ terms:
     related: [UDP]
   - term: 伝送速度
     reading: でんそうそくど
-    aliases: [bps, 伝送効率, ビット誤り率, 呼量, アーラン, 回線容量]
     simple: 1秒間に何ビットのデータを送れるかを表す回線の速さです。
     definition: 単位時間あたりに伝送できるビット数（bit/s, bps）。転送時間＝データ量（ビット）÷（伝送速度×伝送効率）。呼量（アーラン）＝単位時間内の回線占有時間の合計÷単位時間。
     related: [ビットとバイト]
   - term: IPアドレス
     reading: アイピーアドレス
-    aliases: [IPv4, グローバルIPアドレス, プライベートIPアドレス, ユニキャスト, ブロードキャスト, マルチキャスト, ネットワークアドレス]
     simple: ネットワーク上の機器を識別するための番号で、インターネットの「住所」にあたります。
     definition: IP で通信相手を識別するアドレス。IPv4 は 32 ビット、IPv6 は 128 ビット。インターネットで一意のグローバル IP アドレスと、組織内で自由に使えるプライベート IP アドレス（10.0.0.0/8、172.16.0.0/12、192.168.0.0/16）がある。
     related: [サブネットマスク, NAT, IPv6, MACアドレス]
@@ -56,7 +53,6 @@ terms:
     reading: ナット
     fullName: Network Address Translation
     japanese: ネットワークアドレス変換
-    aliases: [NAPT, IPマスカレード]
     words:
       - { en: Network, ja: ネットワーク }
       - { en: Address, ja: アドレス }
@@ -68,7 +64,6 @@ terms:
     reading: ディーエヌエス
     fullName: Domain Name System
     japanese: ドメインネームシステム
-    aliases: [ドメイン名, TLD, トップレベルドメイン, 名前解決, DNSSEC]
     words:
       - { en: Domain Name, ja: ドメイン名（インターネット上の名前） }
       - { en: System, ja: システム・仕組み }
@@ -87,13 +82,12 @@ terms:
     related: [VoIP]
   - term: ネットワークトポロジ
     reading: ネットワークトポロジ
-    aliases: [スター型, バス型, リング型, ツリー型, メッシュ型]
     simple: ネットワークの機器をどのような形でつなぐかの形態です。
     definition: ネットワークの接続形態。集線装置を中心に放射状につなぐスター型、1本の幹線につなぐバス型、輪状につなぐリング型、メッシュ型などがある。
     related: [LAN間接続装置]
   - term: OSI基本参照モデル
     reading: オーエスアイきほんさんしょうモデル
-    aliases: [OSI参照モデル, 物理層, データリンク層, ネットワーク層, トランスポート層, セション層, プレゼンテーション層（OSI）, アプリケーション層]
+    aliases: [OSI参照モデル]
     simple: 通信の機能を7つの層に分けて整理した、国際的な標準モデルです。
     definition: ISO が定めた通信機能の7階層モデル。下から物理層・データリンク層・ネットワーク層・トランスポート層・セション層・プレゼンテーション層・アプリケーション層。
     related: [TCP/IP, LAN間接続装置]
@@ -101,7 +95,6 @@ terms:
     reading: ティーシーピー
     fullName: Transmission Control Protocol
     japanese: 伝送制御プロトコル
-    aliases: [3ウェイハンドシェイク, コネクション型, ウィンドウ制御, フロー制御]
     words:
       - { en: Transmission, ja: 伝送 }
       - { en: Control, ja: 制御 }
@@ -113,7 +106,6 @@ terms:
     reading: ユーディーピー
     fullName: User Datagram Protocol
     japanese: ユーザーデータグラムプロトコル
-    aliases: [コネクションレス型]
     words:
       - { en: User, ja: 利用者（アプリケーション） }
       - { en: Datagram, ja: データグラム（独立したデータの塊） }
@@ -123,13 +115,12 @@ terms:
     related: [TCP, ポート番号]
   - term: LAN間接続装置
     reading: ランかんせつぞくそうち
-    aliases: [リピータ, ハブ, ブリッジ, スイッチングハブ, レイヤー2スイッチ, L2スイッチ, レイヤー3スイッチ, ルータ, ゲートウェイ, スパニングツリー, STP]
     simple: ネットワーク同士やネットワークと機器をつなぐ装置で、どの層の情報を見て中継するかで種類が分かれます。
     definition: リピータ（物理層：信号の増幅）、ブリッジ・レイヤー2スイッチ（データリンク層：MAC アドレスで転送）、ルータ・レイヤー3スイッチ（ネットワーク層：IP アドレスで経路選択）、ゲートウェイ（トランスポート層以上：プロトコル変換）。冗長経路のループを防ぐプロトコルにスパニングツリーがある。
     related: [OSI基本参照モデル, MACアドレス]
   - term: プロキシサーバ
     reading: プロキシサーバ
-    aliases: [プロキシ, リバースプロキシ]
+    aliases: [プロキシ]
     simple: 通信を代わりに中継するサーバです。
     definition: クライアントに代わって外部サーバへのアクセスを中継するサーバ（フォワードプロキシ）。Web サーバの手前で外部からのアクセスを受けて中継するものをリバースプロキシといい、負荷分散やセキュリティ向上に用いる。
     related: [ファイアウォール]
@@ -137,7 +128,6 @@ terms:
     reading: エイチディーエルシー
     fullName: High-level Data Link Control
     japanese: 高水準データリンク制御手順
-    aliases: [ベーシック手順]
     words:
       - { en: High-level, ja: 高水準の }
       - { en: Data Link, ja: データリンク（隣接する機器間の伝送） }
@@ -149,7 +139,6 @@ terms:
     reading: シーエスエムエーシーエー
     fullName: Carrier Sense Multiple Access with Collision Avoidance
     japanese: 搬送波感知多重アクセス／衝突回避
-    aliases: [CSMA/CD, トークンパッシング]
     words:
       - { en: Carrier Sense, ja: 搬送波（電波）の感知 }
       - { en: Multiple Access, ja: 多数の端末によるアクセス }
@@ -169,7 +158,6 @@ terms:
     related: [LAN間接続装置]
   - term: サブネットマスク
     reading: サブネットマスク
-    aliases: [サブネット, ホスト部, ネットワーク部]
     simple: IP アドレスのうち、どこまでがネットワークを表す部分かを示す値です。
     definition: IP アドレスのネットワーク部を1、ホスト部を0で示す32ビットの値。IP アドレスとの論理積でネットワークアドレスを求める。ホスト数は 2^(ホスト部のビット数)−2。
     example: /26（255.255.255.192）なら割当て可能なホストは 62 台。
@@ -178,7 +166,6 @@ terms:
     reading: サイダー
     fullName: Classless Inter-Domain Routing
     japanese: クラスレスなドメイン間ルーティング
-    aliases: [アドレスクラス]
     words:
       - { en: Classless, ja: クラスに分けない }
       - { en: Inter-Domain, ja: ドメイン間の }
@@ -201,7 +188,6 @@ terms:
     reading: アイシーエムピー
     fullName: Internet Control Message Protocol
     japanese: インターネット制御メッセージプロトコル
-    aliases: [ping, traceroute, tracert]
     words:
       - { en: Internet, ja: インターネット }
       - { en: Control, ja: 制御 }
@@ -212,7 +198,6 @@ terms:
     related: [ネットワーク管理]
   - term: ポート番号
     reading: ポートばんごう
-    aliases: [ウェルノウンポート]
     simple: 1台のコンピュータの中で、どのアプリ（サービス）宛ての通信かを区別する番号です。
     definition: TCP/UDP で通信先のアプリケーションを識別する 16 ビットの番号。主なウェルノウンポートは HTTP 80、HTTPS 443、SMTP 25、DNS 53、SSH 22、POP3 110、IMAP 143。
     related: [TCP, UDP, NAT]
@@ -240,7 +225,6 @@ terms:
     related: [IPアドレス]
   - term: 電子メールのプロトコル
     reading: でんしメールのプロトコル
-    aliases: [SMTP, POP3, IMAP, IMAP4, MIME, Webメール]
     simple: メールを送ったり受け取ったりするための通信の約束事で、送信は SMTP、受信は POP3 や IMAP です。
     definition: SMTP（送信・サーバ間転送）、POP3（受信：端末にダウンロード）、IMAP（受信：サーバ上で管理）。日本語や添付ファイルを扱うための規格が MIME、暗号化・署名を加えたものが S/MIME。
     related: [S/MIME]
@@ -248,7 +232,6 @@ terms:
     reading: エイチティーティーピー
     fullName: HyperText Transfer Protocol
     japanese: ハイパーテキスト転送プロトコル
-    aliases: [HTTP/2, HTTP/3, QUIC, URL]
     words:
       - { en: HyperText, ja: ハイパーテキスト（リンクで結ばれた文書） }
       - { en: Transfer, ja: 転送 }
@@ -269,7 +252,6 @@ terms:
     related: [ログ管理]
   - term: イーサネット
     reading: イーサネット
-    aliases: [1000BASE-T, 100BASE-TX, 10GBASE-T, 有線LAN]
     simple: 有線 LAN の代表的な規格です。
     definition: IEEE 802.3 として標準化された有線 LAN の規格群。規格名は「速度＋BASE＋媒体」で表し、1000BASE-T はより対線で 1Gbit/s。
     related: [MACアドレス, 光ファイバ]
@@ -277,7 +259,6 @@ terms:
     reading: エスディーエヌ
     fullName: Software-Defined Networking
     japanese: ソフトウェアで定義されたネットワーク
-    aliases: [OpenFlow, NFV]
     words:
       - { en: Software-Defined, ja: ソフトウェアで定義された }
       - { en: Networking, ja: ネットワーク構築 }
@@ -286,7 +267,6 @@ terms:
     related: [ネットワーク管理]
   - term: ネットワーク管理
     reading: ネットワークかんり
-    aliases: [死活監視, 構成管理（ネットワーク）, 障害管理, 性能管理, トラフィック監視, netstat, dig, nslookup, ネットワークOS]
     simple: ネットワークが正しく動き続けるように、構成・障害・性能などを管理することです。
     definition: 構成管理、障害管理（死活監視・切分け・復旧）、性能管理（トラフィック監視）、セキュリティ管理などの活動。ping、traceroute、netstat、dig などのツールや SNMP を用いる。
     related: [SNMP, ICMP]
@@ -294,7 +274,6 @@ terms:
     reading: エスエヌエムピー
     fullName: Simple Network Management Protocol
     japanese: 簡易ネットワーク管理プロトコル
-    aliases: [MIB, SNMPエージェント, トラップ]
     words:
       - { en: Simple, ja: 簡易な }
       - { en: Network, ja: ネットワーク }
@@ -307,7 +286,6 @@ terms:
     reading: ブイピーエヌ
     fullName: Virtual Private Network
     japanese: 仮想私設網
-    aliases: [インターネットVPN, IP-VPN, 広域イーサネット, トンネリング, イントラネット, エクストラネット]
     words:
       - { en: Virtual, ja: 仮想の }
       - { en: Private, ja: 私設の・専用の }
@@ -317,7 +295,6 @@ terms:
     related: [IPsec, TLS]
   - term: cookie
     reading: クッキー
-    aliases: [セッションID, セッション管理]
     simple: Web サイトがブラウザに保存させる小さなデータで、ログイン状態の維持などに使われます。
     definition: Web サーバの指示でブラウザに保存され、以後のリクエストで送信されるデータ。セッション ID の保持などに用いる。Secure 属性、HttpOnly 属性などで保護する。
     related: [HTTP, セッションハイジャック]
@@ -325,7 +302,6 @@ terms:
     reading: エフティーピー
     fullName: File Transfer Protocol
     japanese: ファイル転送プロトコル
-    aliases: [アクティブモード, パッシブモード, SFTP, FTPS]
     words:
       - { en: File, ja: ファイル }
       - { en: Transfer, ja: 転送 }
@@ -335,7 +311,6 @@ terms:
     related: [ポート番号]
   - term: 検索エンジン
     reading: けんさくエンジン
-    aliases: [クローラー, ロボット型検索エンジン, ディレクトリ型検索エンジン, SEO]
     simple: キーワードを入れると、関連する Web ページを探して表示してくれる仕組みです。
     definition: Web ページを検索するシステム。クローラーが自動巡回して作った索引を用いるロボット型（全文検索型）と、人が分類登録するディレクトリ型がある。
     related: [インデックス]
@@ -354,7 +329,6 @@ terms:
     reading: ファイブジー
     fullName: 5th Generation mobile communication system
     japanese: 第5世代移動通信システム
-    aliases: [ローカル5G, LTE, 4G, キャリアアグリゲーション, eSIM, SIMカード]
     words:
       - { en: 5th Generation, ja: 第5世代 }
       - { en: mobile communication, ja: 移動体通信 }
@@ -366,7 +340,6 @@ terms:
     reading: エムブイエヌオー
     fullName: Mobile Virtual Network Operator
     japanese: 仮想移動体通信事業者
-    aliases: [MNO, 移動体通信事業者]
     words:
       - { en: Mobile, ja: 移動体（携帯）の }
       - { en: Virtual, ja: 仮想の }
@@ -376,7 +349,6 @@ terms:
     related: [5G]
   - term: テザリング
     reading: テザリング
-    aliases: [ハンドオーバー, ローミング, MIMO, テレマティクス]
     simple: スマートフォンの通信回線を使って、パソコンなど別の機器をインターネットにつなぐ機能です。
     definition: スマートフォン等のモバイル回線を介して、他の機器をインターネットに接続する機能。関連して、移動中の基地局切替えをハンドオーバー、契約外事業者の設備での通信をローミング、複数アンテナによる高速化を MIMO という。
     related: [5G]
@@ -394,10 +366,772 @@ terms:
     reading: ピーピーピーオーイー
     fullName: Point to Point Protocol over Ethernet
     japanese: イーサネット上の PPP
-    aliases: [PPP, IPoE]
     words:
       - { en: Point to Point Protocol, ja: 2点間接続のプロトコル（PPP） }
       - { en: over Ethernet, ja: イーサネットの上で }
     simple: 利用者を認証してから接続する方式で、光回線などでプロバイダに接続するのに使われてきました。
     definition: PPP の機能（認証など）をイーサネット上で利用できるようにしたプロトコル。PPP を使わずに IP パケットを直接送る方式は IPoE。
     related: [イーサネット]
+  - term: 回線交換
+    reading: かいせんこうかん
+    simple: 通信の間、相手との間の回線を専有してつなぎ続ける方式で、従来の電話がこの方式です。
+    definition: 通信の開始から終了まで、送信側と受信側の間に専用の回線を確保して通信する方式。通信品質が安定するが、回線の利用効率が低い。パケット交換と対比される。
+    related: [パケット交換, パケット]
+  - term: パケット
+    reading: ぱけっと
+    simple: データを小さく区切り、宛先などの情報を付けた通信の単位です。
+    definition: 通信するデータを一定の大きさに分割し、宛先・送信元などの制御情報（ヘッダ）を付加した通信の単位。
+    related: [パケット交換, 回線交換]
+  - term: ISP
+    reading: あいえすぴー
+    fullName: Internet Service Provider
+    japanese: インターネット接続事業者
+    aliases: [インターネットサービスプロバイダ]
+    words:
+      - { en: Internet, ja: インターネット }
+      - { en: Service, ja: サービス }
+      - { en: Provider, ja: 提供者 }
+    simple: 利用者をインターネットにつないでくれる事業者です。
+    definition: 利用者にインターネットへの接続サービスを提供する事業者。
+    related: [パケット交換, FTTH]
+  - term: より対線
+    reading: よりついせん
+    aliases: [ツイストペアケーブル]
+    simple: "2本の銅線をより合わせたケーブルで、LANケーブルとして広く使われています。"
+    definition: "2 本の絶縁された銅線をより合わせたケーブル。ノイズの影響を軽減できる。LAN ケーブルに広く使われ、シールドの有無で STP と UTP がある。"
+    related: [光ファイバ, 同軸ケーブル, イーサネット]
+  - term: 同軸ケーブル
+    reading: どうじくけーぶる
+    simple: 中心の導線を絶縁体と外側の導体で包んだ構造の、ノイズに強いケーブルです。
+    definition: 中心の導体を絶縁体と網状の外部導体で同軸状に包んだケーブル。ノイズに強く、ケーブルテレビやアンテナ配線に使われる。
+    related: [光ファイバ, より対線]
+  - term: FTTH
+    reading: えふてぃーてぃーえいち
+    fullName: Fiber To The Home
+    japanese: 家庭までの光ファイバ
+    words:
+      - { en: Fiber, ja: 光ファイバ }
+      - { en: To, ja: 〜まで }
+      - { en: The Home, ja: 家庭 }
+    simple: 光ファイバを家庭まで引き込む、高速なインターネット接続サービスです。
+    definition: 光ファイバを各家庭まで引き込んで提供する高速な通信サービス。
+    related: [光ファイバ, ISP]
+  - term: SSID
+    reading: えすえすあいでぃー
+    fullName: Service Set Identifier
+    japanese: サービスセット識別子
+    words:
+      - { en: Service Set, ja: 無線LANのひとまとまり }
+      - { en: Identifier, ja: 識別子 }
+    simple: 無線LANのアクセスポイントを見分けるための名前です。
+    definition: 無線 LAN のネットワークを識別するための名前（最大 32 文字）。接続時にこの名前でネットワークを選ぶ。
+    related: [無線LAN, アクセスポイント]
+  - term: アクセスポイント
+    reading: あくせすぽいんと
+    aliases: [無線LANアクセスポイント]
+    simple: 無線LANの端末を、有線のネットワークにつなぐ中継機器です。
+    definition: 無線 LAN の端末を有線ネットワークに接続する中継装置。
+    related: [無線LAN, SSID]
+  - term: IEEE 802.11
+    reading: あいとりぷるいーはちまるにてんいちいち
+    simple: 無線LANの通信方式を定めた、IEEEの規格群です。
+    definition: IEEE が策定した無線 LAN の規格群。802.11a/b/g/n/ac/ax などがあり、規格により周波数帯や通信速度が異なる。
+    related: [無線LAN, Wi-Fi]
+  - term: Wi-Fi 6
+    reading: わいふぁいしっくす
+    aliases: [IEEE 802.11ax]
+    simple: 多くの機器が同時につながっても速度が落ちにくい、新しい世代の無線LAN規格です。
+    definition: IEEE 802.11ax に対する Wi-Fi Alliance の名称。多数の端末の同時接続時でも効率が高く、従来より高速。
+    related: [無線LAN, Wi-Fi, IEEE 802.11]
+  - term: メッシュWi-Fi
+    reading: めっしゅわいふぁい
+    simple: 複数の機器を網の目のようにつないで、家の中の広い範囲に電波を届ける無線LANの構成です。
+    definition: 複数のアクセスポイントがメッシュ状に相互接続して 1 つのネットワークを構成し、広い範囲で安定した無線 LAN を提供する方式。
+    related: [無線LAN, アクセスポイント]
+  - term: bps
+    reading: びーぴーえす
+    fullName: bits per second
+    japanese: ビット毎秒
+    words:
+      - { en: bits, ja: ビット }
+      - { en: per, ja: 〜あたり }
+      - { en: second, ja: 秒 }
+    simple: "1秒間に何ビット送れるかを表す、通信速度の単位です。"
+    definition: "1 秒間に伝送できるビット数を表す、伝送速度の単位。"
+    related: [伝送速度, 伝送効率]
+  - term: 伝送効率
+    reading: でんそうこうりつ
+    simple: 回線の伝送能力のうち、実際に有効なデータの伝送に使われている割合です。
+    definition: 回線の伝送速度に対する、制御情報などを除いた有効なデータの伝送の割合。実効伝送速度 = 伝送速度 × 伝送効率。
+    related: [伝送速度, 回線容量]
+  - term: ビット誤り率
+    reading: びっとあやまりりつ
+    simple: 送ったビットのうち、誤って届いたビットの割合です。
+    definition: 伝送したビットの総数に対する、誤って受信したビットの割合。
+    related: [伝送速度, パリティチェック]
+  - term: 呼量
+    reading: こりょう
+    simple: 通信回線がどれだけ使われているかの、通信の量の目安です。
+    definition: 通信回線に対する通話や通信の要求の量。単位時間あたりの発生回数と平均保留時間の積で、単位はアーラン。
+    related: [伝送速度, アーラン]
+  - term: アーラン
+    reading: あーらん
+    fullName: Erlang
+    japanese: アーラン（呼量の単位）
+    words:
+      - { en: Erlang, ja: 考案者アーランの名 }
+    simple: 呼量の大きさを表す単位です。
+    definition: 呼量（通信回線の使用量）を表す単位。1 本の回線を 1 時間ずっと使い続けた量が 1 アーラン。
+    related: [呼量, 伝送速度]
+  - term: 回線容量
+    reading: かいせんようりょう
+    simple: 回線が1秒間に送ることのできる、最大の情報量です。
+    definition: 通信回線が、誤りなく伝送できる情報量の最大値。帯域幅と信号対雑音比で決まる。
+    related: [伝送速度, 伝送効率]
+  - term: IPv4
+    reading: あいぴーぶいふぉー
+    fullName: Internet Protocol version 4
+    japanese: インターネットプロトコル第4版
+    words:
+      - { en: Internet Protocol, ja: インターネットの通信規約 }
+      - { en: version 4, ja: 第4版 }
+    simple: "32ビットのアドレスを使う、広く普及しているIPのバージョンです。"
+    definition: "32 ビット（約 43 億個）のアドレスを使うインターネットプロトコルのバージョン。アドレスの枯渇が問題となり、128 ビットの IPv6 への移行が進められている。"
+    related: [IPアドレス, NAT]
+  - term: グローバルIPアドレス
+    reading: ぐろーばるあいぴーあどれす
+    simple: インターネット上で一意に識別される、公開用のIPアドレスです。
+    definition: インターネット上で一意に割り当てられ、直接通信に使えるIPアドレス。
+    related: [IPアドレス, プライベートIPアドレス, NAT]
+  - term: プライベートIPアドレス
+    reading: ぷらいベーとあいぴーあどれす
+    simple: 社内LANなど組織内だけで自由に使える、インターネットには出ないIPアドレスです。
+    definition: 組織内のネットワークでのみ使用するIPアドレス。10.0.0.0/8、172.16.0.0/12、192.168.0.0/16 の範囲。インターネットと通信するには NAT が必要。
+    related: [IPアドレス, グローバルIPアドレス, NAT]
+  - term: ユニキャスト
+    reading: ゆにきゃすと
+    simple: 特定の1台だけを宛先にして通信することです。
+    definition: "1 対 1 の通信。特定の 1 つの宛先にだけデータを送る。"
+    related: [IPアドレス, ブロードキャスト, マルチキャスト]
+  - term: ブロードキャスト
+    reading: ぶろーどきゃすと
+    simple: 同じネットワーク内のすべての機器を宛先にして通信することです。
+    definition: 同じネットワークに接続されたすべての機器にデータを送る通信。ホスト部がすべて 1 のアドレスを使う。
+    related: [IPアドレス, ユニキャスト, マルチキャスト]
+  - term: マルチキャスト
+    reading: まるちきゃすと
+    simple: 指定した複数の相手のグループだけに、まとめて通信することです。
+    definition: 特定のグループに属する複数の宛先にだけ、まとめてデータを送る通信。
+    related: [IPアドレス, ユニキャスト, ブロードキャスト]
+  - term: ネットワークアドレス
+    reading: ねっとわーくあどれす
+    simple: IPアドレスのうち、ホスト部をすべて0にした、ネットワーク自体を表すアドレスです。
+    definition: IP アドレスのホスト部をすべて 0 にした、ネットワーク全体を指す先頭のアドレス。IP アドレスとサブネットマスクの論理積で求められる。
+    related: [IPアドレス, サブネットマスク]
+  - term: NAPT
+    reading: なぷと
+    fullName: Network Address Port Translation
+    japanese: ネットワークアドレスポート変換
+    aliases: [IPマスカレード]
+    words:
+      - { en: Network Address, ja: ネットワークアドレス }
+      - { en: Port, ja: ポート番号 }
+      - { en: Translation, ja: 変換 }
+    simple: IPアドレスとポート番号をセットで変換して、1つのグローバルIPアドレスを複数の端末で共有する技術です。
+    definition: IP アドレスとポート番号の組を変換し、1 つのグローバル IP アドレスで複数の端末が同時にインターネットに接続できるようにする技術。IP マスカレードともいう。
+    related: [NAT, ポート番号]
+  - term: ドメイン名
+    reading: どめいんめい
+    simple: インターネット上のコンピュータやサービスに付ける、「example.com」のような名前です。
+    definition: IP アドレスの代わりに、人が覚えやすい文字列で表したインターネット上の名前。階層構造をもち、DNS によって IP アドレスに変換される。
+    related: [DNS, TLD, 名前解決]
+  - term: TLD
+    reading: てぃーえるでぃー
+    fullName: Top Level Domain
+    japanese: トップレベルドメイン
+    aliases: [トップレベルドメイン]
+    words:
+      - { en: Top Level, ja: 最上位の }
+      - { en: Domain, ja: ドメイン }
+    simple: ドメイン名のいちばん右にある、.com や .jp のような最上位の区分です。
+    definition: ドメイン名の階層の最上位（一番右）の部分。.com などの汎用 TLD と .jp などの国別 TLD がある。
+    related: [DNS, ドメイン名]
+  - term: 名前解決
+    reading: なまえかいけつ
+    simple: ドメイン名から、対応するIPアドレスを調べることです。
+    definition: ドメイン名から対応する IP アドレスを求めること（またはその逆）。DNS サーバへの問合せで行う。
+    related: [DNS, ドメイン名]
+  - term: DNSSEC
+    reading: でぃーえぬえすせっく
+    fullName: DNS Security Extensions
+    japanese: DNSセキュリティ拡張
+    words:
+      - { en: DNS, ja: ドメイン名の管理システム }
+      - { en: Security Extensions, ja: セキュリティ拡張 }
+    simple: DNSの応答が改ざんされていないことを、デジタル署名で確かめる仕組みです。
+    definition: DNS の応答にデジタル署名を付け、受信側が正当性と完全性を検証できるようにする拡張。DNS キャッシュポイズニングなどへの対策となる。
+    related: [DNS, デジタル署名]
+  - term: スター型
+    reading: すたーがた
+    simple: 中央の機器に各端末を直接つなぐ、星形の接続形態です。
+    definition: ハブなどの中央装置に各端末を個別に接続する形態。1 台の端末の障害が他に影響しにくいが、中央装置の障害が全体に影響する。
+    related: [ネットワークトポロジ, バス型, リング型]
+  - term: バス型
+    reading: ばすがた
+    simple: "1本の共通の通信線に、すべての端末をつなぐ接続形態です。"
+    definition: "1 本の共通の伝送路（バス）に全端末を接続する形態。構成が単純だが、伝送路の障害が全体に影響する。"
+    related: [ネットワークトポロジ, スター型, リング型]
+  - term: リング型
+    reading: りんぐがた
+    simple: 端末を輪のようにつなぐ接続形態です。
+    definition: 各端末を環状に接続し、一方向にデータを伝送する形態。トークンパッシング方式と組み合わされる。
+    related: [ネットワークトポロジ, スター型, バス型]
+  - term: ツリー型
+    reading: つりーがた
+    simple: 木のように枝分かれして階層的につなぐ接続形態です。
+    definition: 親子関係の階層構造で接続する形態。スター型を階層的に組み合わせた構成。
+    related: [ネットワークトポロジ, スター型]
+  - term: メッシュ型
+    reading: めっしゅがた
+    simple: 端末どうしを網の目のように、いくつもの経路でつなぐ接続形態です。
+    definition: 各端末を相互に複数の経路で接続する形態。一部の経路の障害に強いが、配線が複雑でコストが高い。
+    related: [ネットワークトポロジ, スター型]
+  - term: 物理層
+    reading: ぶつりそう
+    simple: ケーブルや電気信号など、データを物理的に伝送する層(第1層)です。
+    definition: OSI 基本参照モデルの第 1 層。ケーブル、コネクタ、電気信号などの物理的な仕様を定める。
+    related: [OSI基本参照モデル, データリンク層]
+  - term: データリンク層
+    reading: でーたりんくそう
+    simple: 同じネットワーク内で、隣り合う機器の間の伝送を制御する層(第2層)です。
+    definition: OSI 基本参照モデルの第 2 層。隣接する機器間のフレームの転送、誤り検出、アクセス制御を行う。イーサネットや MAC アドレスはこの層。
+    related: [OSI基本参照モデル, 物理層, ネットワーク層]
+  - term: ネットワーク層
+    reading: ねっとわーくそう
+    simple: 異なるネットワークをまたいだ、宛先までの経路選択を行う層(第3層)です。
+    definition: OSI 基本参照モデルの第 3 層。ネットワーク間の経路選択（ルーティング）とパケットの転送を行う。IP やルータが対応する。
+    related: [OSI基本参照モデル, データリンク層, トランスポート層]
+  - term: トランスポート層
+    reading: とらんすぽーとそう
+    simple: 端末どうしの間で、データを確実に届けるための制御を行う層(第4層)です。
+    definition: OSI 基本参照モデルの第 4 層。端末間のデータ転送の信頼性、フロー制御、誤り制御を担う。TCP や UDP が対応する。
+    related: [OSI基本参照モデル, ネットワーク層, TCP, UDP]
+  - term: セション層
+    reading: せしょんそう
+    aliases: [セッション層]
+    simple: 通信の開始から終了までの、やり取りの管理を行う層(第5層)です。
+    definition: OSI 基本参照モデルの第 5 層。通信の開始、維持、終了などのセション（対話）を管理する。
+    related: [OSI基本参照モデル, トランスポート層, プレゼンテーション層（OSI）]
+  - term: プレゼンテーション層（OSI）
+    reading: ぷれぜんてーしょんそうおーえすあい
+    simple: データの表現形式(文字コードや暗号化など)を変換する層(第6層)です。
+    definition: OSI 基本参照モデルの第 6 層。データの表現形式の変換（文字コード、圧縮、暗号化など）を行う。
+    related: [OSI基本参照モデル, セション層, アプリケーション層]
+  - term: アプリケーション層
+    reading: あぷりけーしょんそう
+    simple: 利用者が使うアプリケーションに、通信サービスを提供する層(第7層)です。
+    definition: OSI 基本参照モデルの第 7 層。電子メール、Web、ファイル転送など、アプリケーションに通信機能を提供する。HTTP、SMTP、FTP などが対応する。
+    related: [OSI基本参照モデル, プレゼンテーション層（OSI）]
+  - term: "3ウェイハンドシェイク"
+    reading: すりーうぇいはんどしぇいく
+    simple: TCPで通信を始めるときに、3回のやり取りで接続を確立する手順です。
+    definition: TCP のコネクション確立手順。SYN、SYN+ACK、ACK の 3 つのセグメントをやり取りする。
+    related: [TCP, コネクション型]
+  - term: コネクション型
+    reading: こねくしょんがた
+    simple: 通信の前に接続を確立してからデータを送る方式で、信頼性を重視します。
+    definition: データの送信に先立って相手との間に論理的な接続（コネクション）を確立する通信方式。TCP が代表例で、到達確認や再送で信頼性を確保する。
+    related: [TCP, コネクションレス型, "3ウェイハンドシェイク"]
+  - term: ウィンドウ制御
+    reading: うぃんどうせいぎょ
+    simple: 確認応答を待たずに連続して送れるデータの量(ウィンドウ)を調整して、効率よく送る方式です。
+    definition: 確認応答を待たずに連続して送信できるデータ量（ウィンドウサイズ）を調整する制御。受信側の状況に応じてウィンドウサイズを変え、効率と信頼性を両立させる。
+    related: [TCP, フロー制御]
+  - term: フロー制御
+    reading: ふろーせいぎょ
+    simple: 受信側が処理しきれないほど、送信側がデータを送りすぎないように調整する制御です。
+    definition: 受信側の処理能力を超えないよう、送信側がデータを送る速度や量を調整する制御。
+    related: [TCP, ウィンドウ制御]
+  - term: コネクションレス型
+    reading: こねくしょんれすがた
+    simple: 接続を確立せずに、いきなりデータを送る方式で、軽くて高速です。
+    definition: 事前に接続を確立せず、データをそのまま送る通信方式。UDP や IP が代表例。到達確認や再送を行わず、オーバーヘッドが小さい。
+    related: [UDP, コネクション型]
+  - term: リピータ
+    reading: りぴーた
+    simple: 信号を増幅・整形して、伝送距離を延ばす装置です(第1層)。
+    definition: 物理層で電気信号を増幅・整形して再送信し、伝送距離を延長する装置。
+    related: [LAN間接続装置, ハブ]
+  - term: ハブ
+    reading: はぶ
+    aliases: [リピータハブ]
+    simple: 受け取った信号を、つながっているすべてのポートに送り出す集線装置です。
+    definition: 複数の端末を接続する集線装置。リピータハブは、受信した信号を接続されたすべてのポートに送出する。
+    related: [LAN間接続装置, スイッチングハブ]
+  - term: ブリッジ
+    reading: ぶりっじ
+    simple: MACアドレスをもとに、LANどうしを中継する装置です(第2層)。
+    definition: データリンク層で、MAC アドレスを参照してフレームを中継する装置。LAN を分割したり接続したりする。
+    related: [LAN間接続装置, スイッチングハブ]
+  - term: スイッチングハブ
+    reading: すいっちんぐはぶ
+    aliases: [レイヤー2スイッチ, L2スイッチ]
+    simple: MACアドレスを見て、宛先のポートにだけフレームを送る集線装置です。
+    definition: フレームの宛先 MAC アドレスを学習して、該当するポートにだけ転送するデータリンク層の装置。レイヤー 2 スイッチ、L2 スイッチともいう。
+    related: [LAN間接続装置, ハブ, ブリッジ, レイヤー3スイッチ]
+  - term: レイヤー3スイッチ
+    reading: れいやーすりーすいっち
+    aliases: [L3スイッチ]
+    simple: スイッチの機能に加えて、IPアドレスによる経路選択(ルーティング)もできる装置です。
+    definition: レイヤー 2 スイッチの機能に加えて、IP アドレスに基づくルーティング機能をもつ装置。VLAN 間の通信などをハードウェアで高速に処理する。
+    related: [LAN間接続装置, スイッチングハブ, ルータ]
+  - term: ルータ
+    reading: るーた
+    simple: IPアドレスをもとに、異なるネットワークの間でパケットを中継する装置です(第3層)。
+    definition: ネットワーク層で IP アドレスを参照し、異なるネットワーク間でパケットの経路を選択して転送する装置。
+    related: [LAN間接続装置, レイヤー3スイッチ, ゲートウェイ]
+  - term: ゲートウェイ
+    reading: げーとうぇい
+    simple: プロトコルの異なるネットワークの間で、変換しながらつなぐ装置です。
+    definition: 通信プロトコルの異なるネットワーク間で、プロトコルを変換して接続する装置。トランスポート層以上で動作する。
+    related: [LAN間接続装置, ルータ]
+  - term: スパニングツリー
+    reading: すぱにんぐつりー
+    aliases: [STP]
+    simple: ブリッジやスイッチをループ状につないでも、通信が堂々巡りしないようにする仕組みです。
+    definition: スイッチやブリッジが冗長な経路をもつネットワークで、一部のポートを論理的に遮断してループのない木構造にするプロトコル（STP）。障害時には遮断したポートを開く。
+    related: [LAN間接続装置, スイッチングハブ]
+  - term: リバースプロキシ
+    reading: りばーすぷろきし
+    simple: Webサーバの手前に置いて、外部からのアクセスを代理で受けるサーバです。
+    definition: インターネット側からの要求を代理で受け付け、背後のサーバへ中継するプロキシ。負荷分散、SSL 処理、サーバの隠蔽に使う。内部から外部へのアクセスを中継する通常のプロキシとは向きが逆。
+    related: [プロキシサーバ, Webサーバ]
+  - term: ベーシック手順
+    reading: べーしっくてじゅん
+    simple: 古くから使われた、文字単位で制御する伝送制御手順です。
+    definition: 伝送制御文字を使って、文字（キャラクタ）単位でデータを伝送制御する手順。ビット単位のフレームで制御する HDLC 手順と対比される。
+    related: [HDLC]
+  - term: CSMA/CD
+    reading: しーえすえむえーしーでぃー
+    fullName: Carrier Sense Multiple Access with Collision Detection
+    japanese: 搬送波感知多重アクセス衝突検出方式
+    words:
+      - { en: Carrier Sense, ja: 通信中か様子を探る }
+      - { en: Multiple Access, ja: 多重アクセス }
+      - { en: Collision Detection, ja: 衝突検出 }
+    simple: 有線LANで、衝突を検出したら送信をやめて、時間をおいて再送する方式です。
+    definition: 有線 LAN（イーサネット）のアクセス制御方式。送信前に通信中かを調べ、衝突を検出したら送信を中止し、ランダムな時間待ってから再送する。
+    related: [CSMA/CA, イーサネット]
+  - term: トークンパッシング
+    reading: とーくんぱっしんぐ
+    simple: トークンという送信権を順番に回し、持っている機器だけが送信できる方式です。
+    definition: 送信権を表すトークンをネットワーク上で巡回させ、トークンを獲得した端末だけがデータを送信できるアクセス制御方式。衝突が起こらない。リング型トポロジで使われる。
+    related: [CSMA/CA, リング型]
+  - term: サブネット
+    reading: さぶねっと
+    simple: 大きなネットワークを、小さく分割したネットワークです。
+    definition: "1 つのネットワークをサブネットマスクで論理的に分割した、小さなネットワーク。"
+    related: [サブネットマスク, ネットワークアドレス]
+  - term: ホスト部
+    reading: ほすとぶ
+    simple: IPアドレスのうち、ネットワーク内の個々の機器を表す部分です。
+    definition: IP アドレスのうち、同じネットワーク内の個々の機器を識別する部分。
+    related: [サブネットマスク, ネットワーク部]
+  - term: ネットワーク部
+    reading: ねっとわーくぶ
+    simple: IPアドレスのうち、ネットワーク自体を表す部分です。
+    definition: IP アドレスのうち、ネットワークを識別する部分。サブネットマスクで 1 になっているビット部分。
+    related: [サブネットマスク, ホスト部]
+  - term: アドレスクラス
+    reading: あどれすくらす
+    simple: IPアドレスを、固定の大きさのクラスA〜Cなどに分けて管理していた、古い方式です。
+    definition: IP アドレスを先頭ビットによってクラス A（大規模）、B、C（小規模）などに固定的に分けていた方式。アドレスの無駄が多く、CIDR に置き換えられた。
+    related: [CIDR, サブネットマスク]
+  - term: ping
+    reading: ぴんぐ
+    simple: 相手に届くか、反応が返ってくるかを確認するコマンドです。
+    definition: ICMP のエコー要求・応答を利用して、相手への到達性と応答時間を確認するコマンド。
+    related: [ICMP, traceroute]
+  - term: traceroute
+    reading: とれーするーと
+    aliases: [tracert]
+    simple: 相手に届くまでに、どのルータを通るかを調べるコマンドです。
+    definition: 宛先までに経由するルータを順に調べて表示するコマンド。Windows では tracert。
+    related: [ICMP, ping]
+  - term: ウェルノウンポート
+    reading: うぇるのうんぽーと
+    simple: HTTPの80番など、よく使われるサービスにあらかじめ割り当てられたポート番号です。
+    definition: "0〜1023 の範囲の、HTTP（80）、SMTP（25）、DNS（53）など広く知られたサービスに割り当てられているポート番号。"
+    related: [ポート番号]
+  - term: SMTP
+    reading: えすえむてぃーぴー
+    fullName: Simple Mail Transfer Protocol
+    japanese: 簡易メール転送プロトコル
+    words:
+      - { en: Simple, ja: 簡易な }
+      - { en: Mail Transfer, ja: メール転送 }
+      - { en: Protocol, ja: 通信規約 }
+    simple: メールを送信したり、メールサーバ間で転送したりするためのプロトコルです。
+    definition: 電子メールの送信およびメールサーバ間の転送に使うプロトコル。ポート番号は 25。
+    related: [電子メールのプロトコル, POP3, IMAP]
+  - term: POP3
+    reading: ぽっぷすりー
+    fullName: Post Office Protocol version 3
+    japanese: 郵便局プロトコル第3版
+    words:
+      - { en: Post Office, ja: 郵便局（メールの預け先） }
+      - { en: Protocol, ja: 通信規約 }
+      - { en: version 3, ja: 第3版 }
+    simple: メールサーバから、自分のパソコンにメールを取り出して受信するプロトコルです。
+    definition: メールサーバからクライアントにメールを取り出すプロトコル。基本的にメールを端末にダウンロードして使う。ポート番号は 110。
+    related: [電子メールのプロトコル, SMTP, IMAP]
+  - term: IMAP
+    reading: あいまっぷ
+    fullName: Internet Message Access Protocol
+    japanese: インターネットメッセージアクセスプロトコル
+    aliases: [IMAP4]
+    words:
+      - { en: Internet Message, ja: メール }
+      - { en: Access, ja: アクセス }
+      - { en: Protocol, ja: 通信規約 }
+    simple: メールをサーバに置いたまま、閲覧や整理ができる受信用のプロトコルです。
+    definition: メールをサーバ上に保管したまま、クライアントから閲覧・管理するプロトコル。複数の端末で同じメールボックスの状態を共有できる。
+    related: [電子メールのプロトコル, SMTP, POP3]
+  - term: MIME
+    reading: まいむ
+    fullName: Multipurpose Internet Mail Extensions
+    japanese: 多目的インターネットメール拡張
+    words:
+      - { en: Multipurpose, ja: 多目的な }
+      - { en: Internet Mail, ja: インターネットメール }
+      - { en: Extensions, ja: 拡張 }
+    simple: メールに、日本語や画像などの添付ファイルを扱えるようにする規格です。
+    definition: 電子メールで、テキスト以外のデータ（画像、添付ファイルなど）や、ASCII 以外の文字を扱えるようにする拡張規格。
+    related: [電子メールのプロトコル, SMTP]
+  - term: Webメール
+    reading: うぇぶめーる
+    simple: Webブラウザ上で、メールの送受信ができるサービスです。
+    definition: Web ブラウザ上でメールの閲覧・作成・送受信を行うサービス。専用のメールソフトが不要。
+    related: [電子メールのプロトコル, HTTP]
+  - term: HTTP/2
+    reading: えいちてぃーてぃーぴーつー
+    simple: "1つの接続で複数の要求を同時に扱える、HTTPの改良版です。"
+    definition: "1 つの TCP 接続上で複数の要求と応答を並行して処理する多重化、ヘッダ圧縮などを備えた、HTTP の第 2 版。"
+    related: [HTTP, HTTP/3]
+  - term: HTTP/3
+    reading: えいちてぃーてぃーぴーすりー
+    simple: QUICという新しいプロトコルの上で動く、HTTPの最新版です。
+    definition: TCP の代わりに UDP 上の QUIC を使う、HTTP の第 3 版。接続確立が速く、パケット損失時の影響を抑えられる。
+    related: [HTTP, HTTP/2, QUIC]
+  - term: QUIC
+    reading: くいっく
+    simple: UDPの上で、高速で安全な通信を実現する新しいトランスポートプロトコルです。
+    definition: UDP 上に実装された、暗号化（TLS 1.3 相当）と多重化を備えるトランスポート層のプロトコル。HTTP/3 の基盤。
+    related: [HTTP, HTTP/3, UDP]
+  - term: URL
+    reading: ゆーあーるえる
+    fullName: Uniform Resource Locator
+    japanese: 統一資源位置指定子
+    words:
+      - { en: Uniform, ja: 統一された }
+      - { en: Resource, ja: 資源 }
+      - { en: Locator, ja: 位置を示すもの }
+    simple: Webページなどの場所を表す、「https://〜」のような住所です。
+    definition: インターネット上の資源の場所と取得方法を表す文字列。スキーム、ホスト名、パス、クエリなどからなる。
+    related: [HTTP, ドメイン名]
+  - term: "1000BASE-T"
+    reading: せんべーすてぃー
+    simple: より対線で最大1Gbpsの通信ができる、イーサネットの規格です。
+    definition: より対線（カテゴリ 5e 以上）を使い、最大 1Gbps で通信する、ギガビットイーサネットの規格。
+    related: [イーサネット, "100BASE-TX", "10GBASE-T"]
+  - term: "100BASE-TX"
+    reading: ひゃくべーすてぃーえっくす
+    simple: より対線で最大100Mbpsの通信ができる、イーサネットの規格です。
+    definition: より対線（カテゴリ 5 以上）を使い、100Mbps で通信するファストイーサネットの規格。
+    related: [イーサネット, "1000BASE-T"]
+  - term: "10GBASE-T"
+    reading: てんぎがべーすてぃー
+    simple: より対線で最大10Gbpsの通信ができる、イーサネットの規格です。
+    definition: より対線（カテゴリ 6A 以上）を使い、10Gbps で通信するイーサネットの規格。
+    related: [イーサネット, "1000BASE-T"]
+  - term: 有線LAN
+    reading: ゆうせんらん
+    simple: ケーブルを使ってつなぐLANです。
+    definition: LAN ケーブルや光ファイバなどの有線で機器を接続する LAN。現在はイーサネットが主流。無線 LAN と対比される。
+    related: [イーサネット, 無線LAN]
+  - term: OpenFlow
+    reading: おーぷんふろー
+    simple: SDNで、コントローラからスイッチを制御するための代表的なプロトコルです。
+    definition: SDN で、コントローラがネットワーク機器（スイッチ）の転送動作を制御するためのプロトコル。
+    related: [SDN, NFV]
+  - term: NFV
+    reading: えぬえふぶいー
+    fullName: Network Functions Virtualization
+    japanese: ネットワーク機能仮想化
+    words:
+      - { en: Network Functions, ja: ネットワークの機能 }
+      - { en: Virtualization, ja: 仮想化 }
+    simple: ルータやファイアウォールなどの機能を、専用機器ではなくソフトウェアで実現する技術です。
+    definition: ルータ、ファイアウォール、ロードバランサなどのネットワーク機能を、専用ハードウェアではなく汎用サーバ上の仮想マシンなどのソフトウェアとして実現する技術。
+    related: [SDN, 仮想化]
+  - term: 死活監視
+    reading: しかつかんし
+    simple: 機器やサービスが正常に動いているかを、定期的に確認することです。
+    definition: ping やポートへの接続などによって、機器やサービスが稼働しているかを定期的に確認する監視。
+    related: [ネットワーク管理, ping]
+  - term: 構成管理（ネットワーク）
+    reading: こうせいかんりねっとわーく
+    simple: ネットワーク機器の構成や設定の情報を、管理することです。
+    definition: ネットワーク機器の種類、接続関係、設定情報などを管理し、変更を把握する管理項目。
+    related: [ネットワーク管理, 障害管理, 性能管理]
+  - term: 障害管理
+    reading: しょうがいかんり
+    simple: ネットワークの障害を発見し、原因を調べて復旧させる管理です。
+    definition: ネットワークの障害の検知、原因の切り分け、復旧を行う管理。
+    related: [ネットワーク管理, 性能管理]
+  - term: 性能管理
+    reading: せいのうかんり
+    simple: ネットワークの通信量や応答時間などを計測し、性能を維持する管理です。
+    definition: ネットワークの通信量、遅延、利用率などを測定・分析し、性能を維持・改善する管理。
+    related: [ネットワーク管理, 障害管理]
+  - term: トラフィック監視
+    reading: とらふぃっくかんし
+    simple: ネットワーク上を流れる通信量を監視することです。
+    definition: ネットワーク上を流れるデータの量を継続的に監視し、輻輳や異常な通信を見つけること。
+    related: [ネットワーク管理, 性能管理]
+  - term: netstat
+    reading: ねっとすたっと
+    simple: 自分のコンピュータの通信状況(接続やポートの状態)を表示するコマンドです。
+    definition: コンピュータの現在のネットワーク接続、待受けポート、通信統計などを表示するコマンド。
+    related: [ネットワーク管理, ポート番号]
+  - term: dig
+    reading: でぃぐ
+    simple: DNSサーバにドメイン名を問い合わせて、結果を詳しく表示するコマンドです。
+    definition: DNS サーバに問合せを行い、レコードの内容を詳しく表示するコマンド。
+    related: [ネットワーク管理, nslookup, DNS]
+  - term: nslookup
+    reading: えぬえするっくあっぷ
+    simple: DNSサーバにドメイン名やIPアドレスを問い合わせるコマンドです。
+    definition: DNS サーバにドメイン名や IP アドレスを問い合わせ、名前解決の結果を表示するコマンド。
+    related: [ネットワーク管理, dig, DNS]
+  - term: ネットワークOS
+    reading: ねっとわーくおーえす
+    simple: ネットワークを通じたファイルやプリンタの共有などの機能を備えた、サーバ向けのOSです。
+    definition: ファイルやプリンタの共有、利用者の管理など、ネットワーク環境での利用を前提とした機能を備える OS。
+    related: [ネットワーク管理]
+  - term: MIB
+    reading: みぶ
+    fullName: Management Information Base
+    japanese: 管理情報ベース
+    words:
+      - { en: Management, ja: 管理 }
+      - { en: Information, ja: 情報 }
+      - { en: Base, ja: 基盤 }
+    simple: SNMPで管理する機器の情報(状態や統計)を、決められた形式でまとめたデータベースです。
+    definition: SNMP で管理対象となる機器の情報（状態、設定、統計など）を階層構造で定義したデータベース。マネージャはエージェントを通じて MIB の値を取得・設定する。
+    related: [SNMP, SNMPエージェント]
+  - term: SNMPエージェント
+    reading: えすえぬえむぴーえーじぇんと
+    simple: 管理される機器側で動き、情報の提供や通知を行うソフトウェアです。
+    definition: 管理対象の機器で動作し、マネージャからの要求に応じて MIB の情報を提供し、異常時にはトラップで通知するソフトウェア。
+    related: [SNMP, MIB, トラップ]
+  - term: トラップ
+    reading: とらっぷ
+    simple: 機器の異常などを、管理側(マネージャ)に自動で通知する仕組みです。
+    definition: SNMP エージェントが、異常などの事象の発生をマネージャへ自発的に通知する仕組み。
+    related: [SNMP, SNMPエージェント]
+  - term: インターネットVPN
+    reading: いんたーねっとぶいぴーえぬ
+    simple: インターネットを使い、暗号化などで安全な専用線のように使うVPNです。
+    definition: 公衆回線であるインターネットを利用し、暗号化・認証によって専用線のように安全な通信を実現する VPN。IPsec や SSL-VPN などがある。低コストだが、品質は保証されない。
+    related: [VPN, IP-VPN]
+  - term: IP-VPN
+    reading: あいぴーぶいぴーえぬ
+    simple: 通信事業者が自社の閉じたIPネットワークで提供する、品質の高いVPNサービスです。
+    definition: 通信事業者が管理する閉域の IP ネットワークを利用する VPN サービス。インターネットを経由しないため安全性や通信品質が高い。
+    related: [VPN, インターネットVPN, 広域イーサネット]
+  - term: 広域イーサネット
+    reading: こういきいーさねっと
+    simple: 離れた拠点のLANどうしを、イーサネットでつなぐ通信事業者のサービスです。
+    definition: 通信事業者の閉域網を使って、遠隔地の LAN どうしをレイヤー 2 のイーサネットとして接続するサービス。
+    related: [VPN, IP-VPN]
+  - term: トンネリング
+    reading: とんねりんぐ
+    simple: パケットを別のパケットで包んで送ることで、仮想的な専用の通り道を作る技術です。
+    definition: あるプロトコルのパケットを別のプロトコルのパケットで包んで（カプセル化して）転送し、仮想的な専用の通信路を作る技術。VPN の基盤。
+    related: [VPN]
+  - term: イントラネット
+    reading: いんとらねっと
+    simple: 企業などの組織内だけで、インターネットの技術を使って作ったネットワークです。
+    definition: インターネットと同じ技術（TCP/IP、Web など）を用いて、組織内部に構築したネットワーク。
+    related: [VPN, エクストラネット]
+  - term: エクストラネット
+    reading: えくすとらねっと
+    simple: 取引先など、関係のある組織どうしで共有する、イントラネットを拡張したネットワークです。
+    definition: 複数の企業・組織のイントラネットを相互に接続し、取引先などの関係者間で情報を共有するネットワーク。
+    related: [VPN, イントラネット]
+  - term: セッションID
+    reading: せっしょんあいでぃー
+    simple: サーバが、利用者ごとのやり取りを区別するために発行する識別用の値です。
+    definition: Web サーバが、同じ利用者からの一連のリクエストを識別するために発行する識別子。cookie や URL に格納される。推測や盗聴されると、セッションハイジャックにつながる。
+    related: [cookie, セッション管理]
+  - term: セッション管理
+    reading: せっしょんかんり
+    simple: HTTPが状態を持たないため、サーバ側で利用者ごとの状態を管理する仕組みです。
+    definition: 状態を保持しない HTTP で、ログイン状態など利用者ごとの一連のやり取りを継続して扱えるようにする仕組み。セッション ID を用いる。
+    related: [cookie, セッションID]
+  - term: アクティブモード
+    reading: あくてぃぶもーど
+    simple: データ転送の接続を、サーバ側からクライアントへ張りにいくFTPの方式です。
+    definition: FTP でデータ転送用の接続をサーバからクライアントに対して開始する方式。クライアント側のファイアウォールに遮断されることがある。
+    related: [FTP, パッシブモード]
+  - term: パッシブモード
+    reading: ぱっしぶもーど
+    simple: データ転送の接続を、クライアント側からサーバへ張りにいくFTPの方式です。
+    definition: FTP でデータ転送用の接続をクライアントからサーバに対して開始する方式。ファイアウォールの内側のクライアントでも使いやすい。
+    related: [FTP, アクティブモード]
+  - term: SFTP
+    reading: えすえふてぃーぴー
+    fullName: SSH File Transfer Protocol
+    japanese: SSHファイル転送プロトコル
+    words:
+      - { en: SSH, ja: 安全な遠隔操作の規約 }
+      - { en: File Transfer, ja: ファイル転送 }
+      - { en: Protocol, ja: 通信規約 }
+    simple: SSHの上で、暗号化してファイルを転送するプロトコルです。
+    definition: SSH の暗号化通信の上でファイル転送を行うプロトコル。FTP とは別のプロトコルである。
+    related: [FTP, FTPS]
+  - term: FTPS
+    reading: えふてぃーぴーえす
+    fullName: FTP over SSL/TLS
+    japanese: SSL/TLSで保護したFTP
+    words:
+      - { en: FTP, ja: ファイル転送プロトコル }
+      - { en: over, ja: 〜の上で }
+      - { en: SSL/TLS, ja: 暗号化通信の規約 }
+    simple: FTPの通信を、SSL/TLSで暗号化したものです。
+    definition: FTP の通信を SSL/TLS で暗号化する方式。FTP を拡張しているため、制御用とデータ用の接続を使う。
+    related: [FTP, SFTP, TLS]
+  - term: クローラー
+    reading: くろーらー
+    aliases: [ウェブクローラー]
+    simple: Webページを自動的にたどって、情報を集めて回るプログラムです。
+    definition: Web ページのリンクをたどって、自動的にページの内容を収集するプログラム。検索エンジンの索引作成に使われる。
+    related: [検索エンジン, ロボット型検索エンジン]
+  - term: ロボット型検索エンジン
+    reading: ろぼっとがたけんさくえんじん
+    simple: クローラーが自動で集めた情報から、検索できるようにした検索エンジンです。
+    definition: クローラー（ロボット）が自動収集した Web ページを索引化して検索させる検索エンジン。Google などが該当する。ディレクトリ型と対比される。
+    related: [検索エンジン, クローラー, ディレクトリ型検索エンジン]
+  - term: ディレクトリ型検索エンジン
+    reading: でぃれくとりがたけんさくえんじん
+    simple: 人手で分類・登録したカテゴリをたどって探す、検索エンジンです。
+    definition: 人手でサイトを審査・分類して登録し、カテゴリを階層的にたどって探せるようにした検索エンジン。
+    related: [検索エンジン, ロボット型検索エンジン]
+  - term: SEO
+    reading: えすいーおー
+    fullName: Search Engine Optimization
+    japanese: 検索エンジン最適化
+    words:
+      - { en: Search Engine, ja: 検索エンジン }
+      - { en: Optimization, ja: 最適化 }
+    simple: 検索結果で自分のサイトが上位に表示されるように、サイトを整える取組みです。
+    definition: 検索エンジンの検索結果で、自サイトが上位に表示されるように、サイトの構造、内容、リンクなどを改善する取組み。
+    related: [検索エンジン, クローラー]
+  - term: ローカル5G
+    reading: ろーかるふぁいぶじー
+    simple: 企業や自治体などが、自分の敷地内などに限定して構築できる5Gのネットワークです。
+    definition: 通信事業者ではなく、企業や自治体などが特定の建物や敷地内に独自に構築・運用する 5G ネットワーク。
+    related: ["5G", MNO]
+  - term: LTE
+    reading: えるてぃーいー
+    fullName: Long Term Evolution
+    japanese: 長期的進化
+    words:
+      - { en: Long Term, ja: 長期的な }
+      - { en: Evolution, ja: 進化 }
+    simple: "3Gを高速化した携帯電話の通信規格で、4Gの一つとして広く使われています。"
+    definition: "3G を発展させた高速な移動通信規格。実用的な高速通信を実現し、広く「4G」と呼ばれる。"
+    related: ["5G", "4G"]
+  - term: "4G"
+    reading: よんじー
+    simple: 第4世代の移動通信システムで、LTEなどにより高速化を実現しました。
+    definition: 第 4 世代の移動通信システム。LTE-Advanced などで高速なデータ通信を実現した。
+    related: ["5G", LTE]
+  - term: キャリアアグリゲーション
+    reading: きゃりああぐりげーしょん
+    simple: 複数の周波数帯を同時に束ねて使い、通信を高速化する技術です。
+    definition: 複数の周波数帯（キャリア）を束ねて同時に使用し、通信速度を向上させる技術。
+    related: ["5G", LTE]
+  - term: eSIM
+    reading: いーしむ
+    fullName: embedded SIM
+    japanese: 組込み型SIM
+    words:
+      - { en: embedded, ja: 組み込まれた }
+      - { en: SIM, ja: 契約者識別モジュール }
+    simple: 端末に組み込まれていて、通信契約の情報を後から書き込める、カード不要のSIMです。
+    definition: 端末に内蔵された SIM で、物理的なカードを差し替えずに通信事業者の契約情報を書き込める。
+    related: ["5G", SIMカード]
+  - term: SIMカード
+    reading: しむかーど
+    simple: 契約者の情報を記録した、スマホなどに差し込む小さなICカードです。
+    definition: 携帯電話の契約者を識別する情報を記録した IC カード。端末に差し込んで通信サービスを利用する。
+    related: ["5G", eSIM]
+  - term: MNO
+    reading: えむえぬおー
+    fullName: Mobile Network Operator
+    japanese: 移動体通信事業者
+    aliases: [移動体通信事業者]
+    words:
+      - { en: Mobile Network, ja: 移動体通信網 }
+      - { en: Operator, ja: 事業者 }
+    simple: 自社で携帯電話の回線設備をもって、通信サービスを提供する事業者です。
+    definition: 自社で無線局や回線設備を保有し、移動体通信サービスを提供する事業者。MVNO は MNO から回線を借りてサービスを提供する。
+    related: [MVNO]
+  - term: ハンドオーバー
+    reading: はんどおーばー
+    simple: 移動しながら通信しても途切れないように、接続する基地局を切り替える仕組みです。
+    definition: 移動体通信で、端末の移動に伴い通信を継続したまま接続先の基地局を切り替える仕組み。
+    related: [テザリング, ローミング]
+  - term: ローミング
+    reading: ろーみんぐ
+    simple: 契約した事業者の圏外でも、提携している他社の回線で通信できる仕組みです。
+    definition: 契約している通信事業者のサービスエリア外でも、提携する他の事業者の設備を使って通信サービスを利用できる仕組み。海外での利用などで使われる。
+    related: [テザリング, ハンドオーバー]
+  - term: MIMO
+    reading: まいも
+    fullName: Multiple Input Multiple Output
+    japanese: 複数入力複数出力
+    words:
+      - { en: Multiple Input, ja: 複数の入力（送信アンテナ） }
+      - { en: Multiple Output, ja: 複数の出力（受信アンテナ） }
+    simple: 送受信にそれぞれ複数のアンテナを使い、通信を高速化する技術です。
+    definition: 送信側と受信側の両方に複数のアンテナを使い、同時に複数のデータ系列を送ることで通信速度や品質を高める技術。
+    related: [テザリング, 無線LAN]
+  - term: テレマティクス
+    reading: てれまてぃくす
+    simple: 車などに通信機能をつけて、情報サービスを提供する仕組みです。
+    definition: 自動車などの移動体に通信システムを組み込み、位置情報、渋滞情報、事故通報、遠隔診断などのサービスを提供する仕組み。
+    related: [テザリング]
+  - term: PPP
+    reading: ぴーぴーぴー
+    fullName: Point-to-Point Protocol
+    japanese: ポイント・ツー・ポイントプロトコル
+    words:
+      - { en: Point-to-Point, ja: "1対1の" }
+      - { en: Protocol, ja: 通信規約 }
+    simple: "2点間を直接つなぐ回線で、認証などを行いながら通信するためのプロトコルです。"
+    definition: "2 点間の接続で、認証、IP アドレスの割当て、データの転送を行うプロトコル。ダイヤルアップ接続や PPPoE で用いられる。"
+    related: [PPPoE, IPoE]
+  - term: IPoE
+    reading: あいぴーおーいー
+    fullName: IP over Ethernet
+    japanese: イーサネット上のIP
+    words:
+      - { en: IP, ja: インターネットプロトコル }
+      - { en: over, ja: 〜の上で }
+      - { en: Ethernet, ja: イーサネット }
+    simple: PPPoEのようなユーザ認証を使わず、直接IPで接続する方式で、混雑しにくいのが特徴です。
+    definition: PPPoE のようなユーザー認証のセション確立を行わず、IP のまま接続する方式。網終端装置を通らないため、混雑しにくく IPv6 に対応しやすい。
+    related: [PPPoE, PPP]
