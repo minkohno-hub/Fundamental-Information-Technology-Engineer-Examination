@@ -324,7 +324,7 @@ function needsContinuation(t: string): boolean {
     if ('([{'.includes(ch)) depth++;
     if (')]}'.includes(ch)) depth--;
   }
-  return depth > 0 || /(?:[×÷+\-←,]|\band|\bor)$/.test(t);
+  return depth > 0 || /(?:[×÷+\-←,を]|\band|\bor|である)$/.test(t);
 }
 
 /** ループ見出し行末の注釈（例: `// α`）をループの名前（「αの行から始まる繰返し処理を終了する」の α）として取り出す */
@@ -356,7 +356,7 @@ export function parseProgram(source: string): Program {
   clean.forEach((raw, idx) => {
     const t = raw.trim();
     if (!t) return;
-    if (pending) { pending.text += ' ' + t; } else { pending = { line: idx + 1, text: t }; }
+    if (pending) { pending.text += (/(?:を|である)$/.test(pending.text) ? '' : ' ') + t; } else { pending = { line: idx + 1, text: t }; }
     if (!needsContinuation(pending.text)) { logical.push(pending); pending = null; }
   });
   if (pending) logical.push(pending);
@@ -504,7 +504,7 @@ export function parseProgram(source: string): Program {
     }
 
     // 末尾への追加
-    const ap = s.match(/^(.+?)\s*の末尾に\s*(.+?)\s*(?:の値)?\s*を追加する$/);
+    const ap = s.match(/^(.+?)\s*の末尾\s*に\s*(.+?)\s*(?:の値)?\s*を追加する$/);
     if (ap) {
       add({ k: 'append', line, target: parseExpr(ap[1], line), value: parseExpr(ap[2], line) });
       return;

@@ -367,4 +367,16 @@ endfor`);
     const r = runProgram('整数型: i\nfor (i を 1 から 3 まで 1 ずつ増やす)\n  繰返し処理を終了する\nendfor', undefined, [], { trace: true });
     expect(r.trace.some((t) => t.line === 3 && t.note.includes('終了'))).toBe(true);
   });
+  it('「を」「である」で終わる行は次の行と連結される（自然言語の記述）', () => {
+    const v = vars(`
+文字列型配列の配列: o ← {{"b", "a"}, {"a"}}
+文字列型の配列: all ← oに含まれる文字列を
+                      重複なく辞書順に格納した配列
+                      // コメントだけの行
+文字列型: k ← "a"
+文字列型の配列: rest ← allの複製から値がkである
+                      要素を除いた配列`);
+    expect(v.all).toEqual(['a', 'b']);
+    expect(v.rest).toEqual(['b']);
+  });
 });
