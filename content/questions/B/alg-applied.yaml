@@ -1,0 +1,2710 @@
+category: B-ALG
+subject: B
+depth: deep
+reviewed: { at: '2026-10-21', method: '作成後の逐問レビュー＋擬似言語インタプリタによる全選択肢の実行検証' }
+questions:
+  # ===== 連結リスト =====
+  - id: B-ALG-101
+    topic: [B3, 2-1-2-2]
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      手続 append は，引数で与えられた値を格納した要素を，単方向リストの末尾に追加する。リストの各要素はクラス ListElement で表す。ListElement のメンバ変数 val は要素の値，next は次の要素への参照であり，次の要素がないときの next の値は未定義である。ListElement(v) は val が v，next が未定義のインスタンスを生成する。大域変数 head はリストの先頭の要素の参照を保持し，リストが空のときは未定義である。
+
+      手続 makeAndPrint は，配列 data の要素を先頭から順に append でリストに追加した後，リストの要素の値を先頭から順に出力する。
+    code: |
+      大域: ListElement: head ← 未定義の値
+
+      ○append(整数型: qVal)
+        ListElement: prev, curr
+        curr ← ListElement(qVal)
+        if (head = 未定義)
+          head ← curr
+        else
+          prev ← head
+          while (【a】)
+            prev ← prev.next
+          endwhile
+          prev.next ← curr
+        endif
+
+      ○makeAndPrint(整数型の配列: data)
+        整数型: i
+        ListElement: p
+        for (i を 1 から dataの要素数 まで 1 ずつ増やす)
+          append(data[i])
+        endfor
+        p ← head
+        while (p ≠ 未定義)
+          p.val を出力する
+          p ← p.next
+        endwhile
+    c: ['prev.next ≠ 未定義', 'prev ≠ 未定義', 'prev.next = 未定義', 'head.next ≠ 未定義']
+    a: ア
+    exp: |
+      末尾に追加するには、prev を先頭から順に進めて「次の要素がない要素」（最後の要素）で止め、その next に新しい要素をつなぎます。最後の要素で止まるためには、prev の次がある間だけ進めばよいので、繰返し条件は prev.next ≠ 未定義 です。
+
+      data が {3, 1, 4} のとき、4 を追加する時点の動きは次のとおりです。
+
+      | prev | prev.next | 条件 | 動作 |
+      | --- | --- | --- | --- |
+      | 3 の要素 | 1 の要素 | 真 | prev を進める |
+      | 1 の要素 | 未定義 | 偽 | 繰返し終了、1 の要素の next に 4 をつなぐ |
+
+      出力は 3 1 4 になります。
+    why:
+      - 正解です。最後の要素（next が未定義の要素）で prev が止まるので、その next に新しい要素をつなげます。
+      - prev が未定義になるまで進んでしまうため、繰返しの後の prev.next ← curr で未定義の値のメンバを参照するエラーになります。
+      - 2 個目を追加するとき、先頭の next が未定義なので条件が真になり prev が未定義になります。次の条件判定で未定義のメンバを参照してエラーになります。
+      - head.next は繰返し中に変わらないので、要素が 2 個以上あると条件が真のままになり、prev が末尾を越えて未定義になりエラーになります。
+    terms: [連結リスト, 単方向リスト, クラス, インスタンス, 大域変数]
+    verify:
+      options: { classes: { ListElement: { fields: [val, next], ctor: [val] } } }
+      cases:
+        - { call: makeAndPrint, args: [[3, 1, 4]], expectOutput: ['3', '1', '4'] }
+        - { call: makeAndPrint, args: [[7]], expectOutput: ['7'] }
+        - { call: makeAndPrint, args: [[2, 7, 1, 8]], expectOutput: ['2', '7', '1', '8'] }
+    sim: { entry: makeAndPrint, args: [[3, 1, 4]] }
+
+  - id: B-ALG-102
+    topic: [B3, 2-1-2-2]
+    diff: 2
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      単方向リストの要素はクラス ListElement で表す。メンバ変数 val は値，next は次の要素への参照（次がなければ未定義）である。ListElement(v) は val が v，next が未定義のインスタンスを生成する。大域変数 head はリストの先頭の要素を参照する。
+
+      手続 build は配列 data の要素を，data と同じ並び順のリストにする。手続 remove(pos) は，リストの先頭から pos 番目（1 ≦ pos ≦ 要素数）の要素をリストから取り除く。手続 test は，リストを作って pos 番目の要素を取り除いた後，残った要素の値を先頭から順に出力する。
+    code: |
+      大域: ListElement: head ← 未定義の値
+
+      ○build(整数型の配列: data)
+        整数型: i
+        ListElement: e
+        for (i を dataの要素数 から 1 まで 1 ずつ減らす)
+          e ← ListElement(data[i])
+          e.next ← head
+          head ← e
+        endfor
+
+      ○remove(整数型: pos)
+        ListElement: prev
+        整数型: i
+        if (pos = 1)
+          head ← 【a】
+        else
+          prev ← head
+          for (i を 2 から 【b】 まで 1 ずつ増やす)
+            prev ← prev.next
+          endfor
+          prev.next ← prev.next.next
+        endif
+
+      ○test(整数型の配列: data, 整数型: pos)
+        ListElement: p
+        build(data)
+        remove(pos)
+        p ← head
+        while (p ≠ 未定義)
+          p.val を出力する
+          p ← p.next
+        endwhile
+    c: ['a：head.next，b：pos － 1', 'a：head.next，b：pos', 'a：head.next，b：pos ＋ 1', 'a：未定義，b：pos － 1', 'a：未定義，b：pos', 'a：head，b：pos － 1']
+    fills:
+      - { a: 'head.next', b: 'pos － 1' }
+      - { a: 'head.next', b: 'pos' }
+      - { a: 'head.next', b: 'pos ＋ 1' }
+      - { a: '未定義の値', b: 'pos － 1' }
+      - { a: '未定義の値', b: 'pos' }
+      - { a: 'head', b: 'pos － 1' }
+    a: ア
+    exp: |
+      【a】 先頭の要素を取り除くときは、2 番目の要素（head.next）を新しい先頭にします。
+
+      【b】 pos 番目を取り除くには、その直前の (pos － 1) 番目の要素の next を、pos 番目の次の要素に付け替えます。prev は head（1 番目）から始まり、for の 1 回ごとに 1 つ進むので、i を 2 から pos － 1 まで動かすと prev は (pos － 1) 番目で止まります。
+
+      data が {10, 20, 30, 40}、pos が 3 のとき
+
+      | i | prev |
+      | --- | --- |
+      | （開始） | 10 |
+      | 2 | 20 |
+
+      20 の要素の next を 40 の要素に付け替え、出力は 10 20 40 になります。
+    why:
+      - 正解です。先頭の削除は head を 2 番目に進め、それ以外は直前の要素で止まって next を付け替えます。
+      - prev が pos 番目まで進むため、pos ＋ 1 番目の要素を取り除いてしまいます。末尾を指定すると未定義の next を参照してエラーになります。
+      - prev が pos ＋ 1 番目まで進むため、さらに後ろの要素を取り除くか、未定義の参照でエラーになります。
+      - 先頭を取り除くとリスト全体が空になってしまいます。
+      - 先頭を取り除くとリスト全体が空になり、【b】も 1 つ後ろの要素を取り除いてしまいます。
+      - head ← head では何も変わらないため、先頭の要素を取り除けません。
+    terms: [連結リスト, 単方向リスト]
+    verify:
+      options: { classes: { ListElement: { fields: [val, next], ctor: [val] } } }
+      cases:
+        - { call: test, args: [[10, 20, 30, 40], 1], expectOutput: ['20', '30', '40'] }
+        - { call: test, args: [[10, 20, 30, 40], 3], expectOutput: ['10', '20', '40'] }
+        - { call: test, args: [[10, 20, 30, 40], 4], expectOutput: ['10', '20', '30'] }
+        - { call: test, args: [[10, 20, 30, 40], 2], expectOutput: ['10', '30', '40'] }
+    sim: { entry: test, args: [[10, 20, 30, 40], 3] }
+
+  - id: B-ALG-103
+    topic: [B3, 2-1-2-2]
+    diff: 3
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。
+
+      関数 reverse は，単方向リストの先頭の要素の参照 list を受け取り，新しい要素を生成せずに各要素の next を付け替えてリストの並びを逆順にし，逆順にしたリストの先頭の要素の参照を返す。リストの要素はクラス ListElement で表し，メンバ変数 val は値，next は次の要素への参照（次がなければ未定義）である。
+    code: |
+      ○ListElement: reverse(ListElement: list)
+        ListElement: prev ← 未定義の値
+        ListElement: curr ← list
+        ListElement: nxt
+        while (curr ≠ 未定義)
+          nxt ← curr.next
+          curr.next ← 【a】
+          prev ← curr
+          curr ← nxt
+        endwhile
+        return 【b】
+    c: ['a：prev，b：prev', 'a：prev，b：curr', 'a：nxt，b：prev', 'a：curr，b：prev', 'a：未定義の値，b：prev', 'a：list，b：prev']
+    fills:
+      - { a: 'prev', b: 'prev' }
+      - { a: 'prev', b: 'curr' }
+      - { a: 'nxt', b: 'prev' }
+      - { a: 'curr', b: 'prev' }
+      - { a: '未定義の値', b: 'prev' }
+      - { a: 'list', b: 'prev' }
+    a: ア
+    exp: |
+      各要素の next を「1 つ前の要素」（prev）に向け替えながら進みます。先に nxt に元の次の要素を退避しておくので、付け替えた後も curr ← nxt で先へ進めます。
+
+      リスト 1 → 2 → 3 のとき
+
+      | 繰返し | curr | 付け替え | prev |
+      | --- | --- | --- | --- |
+      | 1 回目 | 1 | 1.next ← 未定義 | 1 |
+      | 2 回目 | 2 | 2.next ← 1 | 2 |
+      | 3 回目 | 3 | 3.next ← 2 | 3 |
+
+      繰返しを抜けた時点で curr は未定義、prev は元の末尾（3）なので、prev を返すと 3 → 2 → 1 が得られます。
+    why:
+      - 正解です。next を直前の要素に付け替え、最後に元の末尾である prev を新しい先頭として返します。
+      - 繰返しを抜けたとき curr は必ず未定義なので、未定義を返してしまいます。
+      - next を元の次の要素のまま変えていないので、並びが変わらず、元の末尾の要素だけが返ります。
+      - 各要素の next が自分自身を指すので、要素同士がつながらず、自分自身を参照する輪ができてしまいます。
+      - すべての要素の next が未定義になるので、返した要素の後ろに何もつながりません。
+      - 各要素の next が元の先頭を指すため、先頭の要素が自分自身を参照する輪になり、正しい逆順になりません。
+    terms: [連結リスト, 単方向リスト]
+    verify:
+      options: { classes: { ListElement: { fields: [val, next], ctor: [val] } } }
+      cases:
+        - call: reverse
+          args: [{ __cls: ListElement, val: 1, next: { __cls: ListElement, val: 2, next: { __cls: ListElement, val: 3, next: null } } }]
+          expect: { val: 3, next: { val: 2, next: { val: 1, next: null } } }
+        - call: reverse
+          args: [{ __cls: ListElement, val: 5, next: null }]
+          expect: { val: 5, next: null }
+        - call: reverse
+          args: [{ __cls: ListElement, val: 4, next: { __cls: ListElement, val: 8, next: null } }]
+          expect: { val: 8, next: { val: 4, next: null } }
+    sim:
+      entry: reverse
+      args: [{ __cls: ListElement, val: 1, next: { __cls: ListElement, val: 2, next: { __cls: ListElement, val: 3, next: null } } }]
+
+  - id: B-ALG-104
+    topic: [B3, 2-1-2-2]
+    diff: 3
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      双方向リストの要素はクラス Cell で表す。メンバ変数 val は値，prev は前の要素への参照，next は次の要素への参照であり，前又は次の要素がないときは未定義である。Cell(v) は val が v，prev と next が未定義のインスタンスを生成する。大域変数 head と tail は，それぞれリストの先頭と末尾の要素を参照する。
+
+      手続 insertAfter(p, v) は，リスト中の要素 p の直後に値 v の要素を挿入する。手続 test は，配列 data からリストを作り，先頭から k 番目の要素の直後に v を挿入した後，リストを先頭から順に，続いて末尾から逆順に出力する。
+    code: |
+      大域: Cell: head ← 未定義の値
+      大域: Cell: tail ← 未定義の値
+
+      ○pushBack(整数型: v)
+        Cell: c ← Cell(v)
+        if (head = 未定義)
+          head ← c
+        else
+          c.prev ← tail
+          tail.next ← c
+        endif
+        tail ← c
+
+      ○insertAfter(Cell: p, 整数型: v)
+        Cell: q ← Cell(v)
+        q.prev ← p
+        q.next ← p.next
+        if (p.next = 未定義)
+          tail ← q
+        else
+          【a】
+        endif
+        【b】
+
+      ○test(整数型の配列: data, 整数型: k, 整数型: v)
+        整数型: i
+        Cell: p
+        for (i を 1 から dataの要素数 まで 1 ずつ増やす)
+          pushBack(data[i])
+        endfor
+        p ← head
+        for (i を 2 から k まで 1 ずつ増やす)
+          p ← p.next
+        endfor
+        insertAfter(p, v)
+        p ← head
+        while (p ≠ 未定義)
+          p.val を出力する
+          p ← p.next
+        endwhile
+        p ← tail
+        while (p ≠ 未定義)
+          p.val を出力する
+          p ← p.prev
+        endwhile
+    c:
+      - 'a：p.next.prev ← q，b：p.next ← q'
+      - 'a：p.next ← q，b：p.next.prev ← q'
+      - 'a：p.next.prev ← p，b：p.next ← q'
+      - 'a：p.prev ← q，b：p.next ← q'
+      - 'a：p.next.prev ← q，b：q.prev.next ← p'
+      - 'a：p.next.prev ← q，b：何もしない'
+    fills:
+      - { a: 'p.next.prev ← q', b: 'p.next ← q' }
+      - { a: 'p.next ← q', b: 'p.next.prev ← q' }
+      - { a: 'p.next.prev ← p', b: 'p.next ← q' }
+      - { a: 'p.prev ← q', b: 'p.next ← q' }
+      - { a: 'p.next.prev ← q', b: 'q.prev.next ← p' }
+      - { a: 'p.next.prev ← q', b: '何もしない' }
+    a: ア
+    exp: |
+      p と、その次の要素 r（＝ p.next）の間に q を入れるには、次の 4 本の参照をそろえます。
+
+      | 参照 | 新しい値 | 行 |
+      | --- | --- | --- |
+      | q.prev | p | 既存の行 |
+      | q.next | r | 既存の行 |
+      | r.prev | q | 【a】 |
+      | p.next | q | 【b】 |
+
+      【a】の時点では p.next はまだ r を指しているので、p.next.prev ← q で r の prev を q にできます。p.next を先に書き換えると r を見失うため、p.next ← q は最後（【b】）に行います。p が末尾のときは r がないので、【a】の代わりに tail を q にします。
+
+      data が {1, 2, 3}、k が 2、v が 9 のとき、出力は 1 2 9 3 3 9 2 1 です。
+    why:
+      - 正解です。次の要素の prev を q にしてから、p.next を q に付け替えています。
+      - 先に p.next を q にしてしまうため、【b】の p.next.prev は q.prev になり、q が自分自身を前の要素として指します。逆順にたどると q で止まらなくなります。
+      - 次の要素の prev は元々 p なので何も変わらず、逆順にたどると q が抜け落ちます。
+      - p の prev を q にしてしまい、逆順にたどると p と q の間を行き来して終わらなくなります。
+      - q.prev は p なので p.next ← p となり、p が自分自身を次の要素として指して、先頭からたどると終わらなくなります。
+      - p.next を q に付け替えないので、先頭からたどると q が抜け落ちます。
+    terms: [双方向リスト, 連結リスト, クラス]
+    verify:
+      options: { classes: { Cell: { fields: [val, prev, next], ctor: [val] } } }
+      cases:
+        - { call: test, args: [[1, 2, 3], 2, 9], expectOutput: ['1', '2', '9', '3', '3', '9', '2', '1'] }
+        - { call: test, args: [[1, 2, 3], 3, 9], expectOutput: ['1', '2', '3', '9', '9', '3', '2', '1'] }
+        - { call: test, args: [[5, 6], 1, 7], expectOutput: ['5', '7', '6', '6', '7', '5'] }
+    sim: { entry: test, args: [[1, 2, 3], 2, 9] }
+
+  - id: B-ALG-105
+    topic: [B3, 2-1-2-2]
+    diff: 2
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。
+
+      手続 josephus は，1 から n までの番号を付けた n 個の要素を環状リスト（末尾の要素の next が先頭の要素を参照する単方向リスト）につなぎ，先頭から数えて m 番目の要素を出力してリストから取り除き，その次の要素から再び数えて m 番目の要素を出力して取り除く，という操作を全ての要素がなくなるまで繰り返す。クラス Node のメンバ変数 val は番号，next は次の要素への参照であり，Node(v) は val が v のインスタンスを生成する。
+
+      josephus(6, 3) を呼び出したとき，出力される値は順に【a】である。
+    code: |
+      ○josephus(整数型: n, 整数型: m)
+        Node: first, last, p, prev
+        整数型: i, k
+        first ← Node(1)
+        last ← first
+        for (i を 2 から n まで 1 ずつ増やす)
+          last.next ← Node(i)
+          last ← last.next
+        endfor
+        last.next ← first
+        prev ← last
+        p ← first
+        for (k を 1 から n まで 1 ずつ増やす)
+          for (i を 1 から m － 1 まで 1 ずつ増やす)
+            prev ← p
+            p ← p.next
+          endfor
+          p.val を出力する
+          prev.next ← p.next
+          p ← p.next
+        endfor
+    c: ['3 6 4 2 5 1', '3 6 2 5 1 4', '3 6 4 1 5 2', '2 4 6 3 1 5']
+    a: ア
+    exp: |
+      p を m － 1 回（ここでは 2 回）進めた要素を出力し、直前の要素 prev の next を p の次に付け替えて取り除きます。取り除いた後は p をその次の要素に進め、そこから数え直します。
+
+      | 回 | 数え始め | 残っている番号 | 出力 |
+      | --- | --- | --- | --- |
+      | 1 | 1 | 1 2 3 4 5 6 | 3 |
+      | 2 | 4 | 1 2 4 5 6 | 6 |
+      | 3 | 1 | 1 2 4 5 | 4 |
+      | 4 | 5 | 1 2 5 | 2 |
+      | 5 | 5 | 1 5 | 5 |
+      | 6 | 1 | 1 | 1 |
+
+      環状なので、末尾（6）の次は先頭（1）に戻って数え続けます。
+    why:
+      - 正解です。取り除いた要素の次から数え直し、環状に先頭へ戻りながら 3 番目ごとに取り除いた順です。
+      - 3 回目に、6 を取り除いた後の数え始めを 1 ではなく 2 からにした場合の順で、取り除いた要素の次の要素から数える規則に反します。
+      - 4 回目以降で数え始めの位置を誤った順です。4 回目は 5 から数えて 5、1、2 の 3 番目である 2 を取り除くので、1 にはなりません。
+      - 2 番目ごとに取り除いた場合（m ＝ 2 とした場合）の順に近く、m － 1 回進める処理を読み誤っています。
+    terms: [環状リスト, 連結リスト]
+    verify:
+      options: { classes: { Node: { fields: [val, next], ctor: [val] } } }
+      result: { call: josephus, args: [6, 3], of: output }
+    sim: { entry: josephus, args: [6, 3] }
+
+  - id: B-ALG-106
+    topic: [B3, 2-1-2-2, 2-2-2-1]
+    diff: 3
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。
+
+      関数 merge は，値の昇順に並んだ 2 つの単方向リスト a，b（それぞれ先頭の要素の参照。空のリストは未定義）を受け取り，要素を生成し直さずに next を付け替えて 1 つの昇順のリストにまとめ，その先頭の要素の参照を返す。リストの要素はクラス ListElement で表し，val は値，next は次の要素への参照である。ListElement(v) は val が v，next が未定義のインスタンスを生成する。ここで，dummy は処理を簡単にするための仮の先頭要素である。
+    code: |
+      ○ListElement: merge(ListElement: a, ListElement: b)
+        ListElement: dummy ← ListElement(0)
+        ListElement: t ← dummy
+        ListElement: x ← a
+        ListElement: y ← b
+        while (x ≠ 未定義 and y ≠ 未定義)
+          if (x.val ≦ y.val)
+            t.next ← x
+            x ← x.next
+          else
+            t.next ← y
+            y ← y.next
+          endif
+          t ← 【a】
+        endwhile
+        if (x ≠ 未定義)
+          t.next ← x
+        else
+          t.next ← y
+        endif
+        return 【b】
+    c: ['a：t.next，b：dummy.next', 'a：t.next，b：dummy', 'a：x，b：dummy.next', 'a：t.next，b：a', 'a：dummy.next，b：dummy.next', 'a：t，b：dummy.next']
+    fills:
+      - { a: 't.next', b: 'dummy.next' }
+      - { a: 't.next', b: 'dummy' }
+      - { a: 'x', b: 'dummy.next' }
+      - { a: 't.next', b: 'a' }
+      - { a: 'dummy.next', b: 'dummy.next' }
+      - { a: 't', b: 'dummy.next' }
+    a: ア
+    exp: |
+      t は「まとめたリストの末尾」を指します。小さい方の要素を t.next につないだら、t をその要素（t.next）に進めます。dummy を先頭に置くことで、最初の 1 個も同じ処理でつなげます。最後に、残ったリストを丸ごとつなぎ、dummy の次（dummy.next）を本当の先頭として返します。
+
+      a が 1 → 4 → 6、b が 2 → 3 → 7 のとき
+
+      | つないだ要素 | 残り x | 残り y |
+      | --- | --- | --- |
+      | 1 | 4 | 2 |
+      | 2 | 4 | 3 |
+      | 3 | 4 | 7 |
+      | 4 | 6 | 7 |
+      | 6 | 未定義 | 7 |
+
+      最後に 7 をつなぎ、1 → 2 → 3 → 4 → 6 → 7 になります。
+    why:
+      - 正解です。末尾 t を次々に進めてつなぎ、仮の先頭 dummy の次を返します。
+      - 仮の先頭 dummy（値 0）まで含めて返してしまい、先頭に余分な 0 が付きます。
+      - x はすでに次の要素に進んでいるため、t がつないだ要素を指さず、つなぎ方が崩れて要素が失われます。
+      - a の先頭が b の先頭より大きいとき、a の先頭から始まる途中からのリストを返してしまいます。
+      - t が常に最初につないだ要素に戻るため、その要素の next が毎回上書きされ、途中の要素が失われます。
+      - t が dummy のまま進まないので、dummy.next が毎回上書きされ、最後につないだ要素以降しか残りません。
+    terms: [連結リスト, 単方向リスト, 番兵]
+    verify:
+      options: { classes: { ListElement: { fields: [val, next], ctor: [val] } } }
+      cases:
+        - call: merge
+          args:
+            - { __cls: ListElement, val: 1, next: { __cls: ListElement, val: 4, next: { __cls: ListElement, val: 6, next: null } } }
+            - { __cls: ListElement, val: 2, next: { __cls: ListElement, val: 3, next: { __cls: ListElement, val: 7, next: null } } }
+          expect: { val: 1, next: { val: 2, next: { val: 3, next: { val: 4, next: { val: 6, next: { val: 7, next: null } } } } } }
+        - call: merge
+          args:
+            - { __cls: ListElement, val: 5, next: null }
+            - { __cls: ListElement, val: 1, next: { __cls: ListElement, val: 2, next: null } }
+          expect: { val: 1, next: { val: 2, next: { val: 5, next: null } } }
+        - call: merge
+          args: [null, { __cls: ListElement, val: 3, next: null }]
+          expect: { val: 3, next: null }
+    sim:
+      entry: merge
+      args:
+        - { __cls: ListElement, val: 1, next: { __cls: ListElement, val: 4, next: null } }
+        - { __cls: ListElement, val: 2, next: { __cls: ListElement, val: 3, next: null } }
+
+  # ===== 2分木 =====
+  - id: B-ALG-107
+    topic: [B3, 2-1-2-4]
+    diff: 2
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      完全2分木を配列 tree で表す。要素番号 i の節の左の子は要素番号 2 × i，右の子は 2 × i ＋ 1 の要素であり，要素番号が tree の要素数を超える子は存在しない。手続 visit を visit(1) として呼び出したとき，出力される値は順に【a】である。
+    code: |
+      大域: 整数型の配列: tree ← {8, 3, 10, 1, 6, 9, 14, 4, 7}
+
+      ○visit(整数型: i)
+        if (i ≦ treeの要素数)
+          tree[i] を出力する
+          visit(2 × i)
+          visit(2 × i ＋ 1)
+        endif
+    c: ['8 3 1 4 7 6 10 9 14', '4 1 7 3 6 8 9 10 14', '4 7 1 6 3 9 14 10 8', '8 3 10 1 6 9 14 4 7']
+    a: ア
+    exp: |
+      visit は「自分を出力 → 左の部分木 → 右の部分木」の順に処理するので、先行順（行きがけ順）の走査です。
+
+      | 要素番号 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+      | --- | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+      | 値 | 8 | 3 | 10 | 1 | 6 | 9 | 14 | 4 | 7 |
+
+      節 1(8) → 左の子 2(3) → その左の子 4(1) → 8(4)、9(7) → 5(6) → 右の子 3(10) → 6(9)、7(14) の順に訪れるので、8 3 1 4 7 6 10 9 14 です。
+    why:
+      - 正解です。節を出力してから左、右の順に再帰呼出しする先行順の結果です。
+      - 左の部分木 → 節 → 右の部分木の順（中間順）で出力した場合の結果です。
+      - 左の部分木 → 右の部分木 → 節の順（後行順）で出力した場合の結果です。
+      - 配列の要素番号順、つまり根から段ごとに左から右へたどった場合の結果です。
+    terms: [2分木, 完全2分木, 先行順, 再帰]
+    verify:
+      result: { call: visit, args: [1], of: output }
+    sim: { entry: visit, args: [1] }
+
+  - id: B-ALG-108
+    topic: [B3, 2-1-2-4]
+    diff: 2
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      2分木の各節に 1 から始まる節番号を付け，節番号 n の節の値を name[n]，左の子の節番号を left[n]，右の子の節番号を right[n] に格納する。子がない場合は 0 を格納する。根の節番号は 1 である。手続 walk を walk(1) として呼び出したとき，出力される文字は順に【a】である。
+    code: |
+      大域: 文字列型の配列: name ← {"A", "B", "C", "D", "E", "F", "G"}
+      大域: 整数型の配列: left ← {2, 4, 5, 0, 0, 0, 0}
+      大域: 整数型の配列: right ← {3, 0, 6, 0, 7, 0, 0}
+
+      ○walk(整数型: n)
+        if (left[n] ≠ 0)
+          walk(left[n])
+        endif
+        if (right[n] ≠ 0)
+          walk(right[n])
+        endif
+        name[n] を出力する
+    c: ['D B G E F C A', 'A B D C E G F', 'D B A E G C F', 'D B E G F C A']
+    a: ア
+    exp: |
+      walk は左の部分木、右の部分木を処理してから自分を出力するので、後行順（帰りがけ順）の走査です。木の形は次のとおりです。
+
+      | 節 | 値 | 左の子 | 右の子 |
+      | --- | --- | --- | --- |
+      | 1 | A | B | C |
+      | 2 | B | D | なし |
+      | 3 | C | E | F |
+      | 5 | E | なし | G |
+
+      A の左の部分木（B, D）から D、B、次に右の部分木（C 以下）では E の部分木の G、E、続いて F、C、最後に A を出力します。
+    why:
+      - 正解です。左、右の部分木を処理した後に節を出力する後行順の結果です。
+      - 節を出力してから左、右の部分木を処理する先行順の結果です。
+      - 左の部分木、節、右の部分木の順の中間順の結果です。
+      - E の右の子 G より先に E を出力しており、E の部分木で後行順の規則（子を先に出力）を守っていません。
+    terms: [2分木, 後行順, 再帰]
+    verify:
+      result: { call: walk, args: [1], of: output }
+    sim: { entry: walk, args: [1] }
+
+  - id: B-ALG-109
+    topic: [B3, 2-1-2-4, 2-2-2-2]
+    diff: 2
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      2分木の節番号 n の節の左の子の節番号を left[n]，右の子の節番号を right[n] に格納し，子がない場合は 0 を格納する。関数 height は，節 n を根とする部分木の高さ（根から最も深い葉までの節の個数）を返す。n が 0 のときは 0 を返す。
+    code: |
+      大域: 整数型の配列: left ← {2, 4, 5, 0, 0, 0, 0}
+      大域: 整数型の配列: right ← {3, 0, 6, 0, 7, 0, 0}
+
+      ○整数型: height(整数型: n)
+        整数型: hl, hr
+        if (n = 0)
+          return 0
+        endif
+        hl ← height(left[n])
+        hr ← height(right[n])
+        if (hl > hr)
+          return 【a】
+        else
+          return 【b】
+        endif
+    c: ['a：hl ＋ 1，b：hr ＋ 1', 'a：hl，b：hr', 'a：hr ＋ 1，b：hl ＋ 1', 'a：hl ＋ 1，b：hl ＋ 1', 'a：hl ＋ hr ＋ 1，b：hl ＋ hr ＋ 1']
+    fills:
+      - { a: 'hl ＋ 1', b: 'hr ＋ 1' }
+      - { a: 'hl', b: 'hr' }
+      - { a: 'hr ＋ 1', b: 'hl ＋ 1' }
+      - { a: 'hl ＋ 1', b: 'hl ＋ 1' }
+      - { a: 'hl ＋ hr ＋ 1', b: 'hl ＋ hr ＋ 1' }
+    a: ア
+    exp: |
+      部分木の高さは「左右の部分木の高さの大きい方 ＋ 1（自分の分）」です。hl が大きいときは hl ＋ 1、そうでないときは hr ＋ 1 を返します。
+
+      | 節 n | hl | hr | 戻り値 |
+      | --- | --- | --- | --- |
+      | 7（葉） | 0 | 0 | 1 |
+      | 5 | 0 | 1 | 2 |
+      | 6（葉） | 0 | 0 | 1 |
+      | 3 | 2 | 1 | 3 |
+      | 2 | 1 | 0 | 2 |
+      | 1 | 2 | 3 | 4 |
+
+      height(1) は 4 です。
+    why:
+      - 正解です。左右の高さの大きい方に自分の節の 1 を加えています。
+      - 自分の節の分の 1 を加えていないので、どの部分木でも 0 が返ります。
+      - 大小が逆で、低い方の部分木の高さに 1 を加えています。
+      - hr の方が大きいときにも hl ＋ 1 を返すため、右側が深い部分木の高さが小さくなります。
+      - 左右の高さを足しているので、高さではなく、左右に伸びる経路の長さに近い値になってしまいます。
+    terms: [2分木, 再帰]
+    verify:
+      cases:
+        - { call: height, args: [1], expect: 4 }
+        - { call: height, args: [2], expect: 2 }
+        - { call: height, args: [3], expect: 3 }
+        - { call: height, args: [4], expect: 1 }
+        - { call: height, args: [5], expect: 2 }
+    sim: { entry: height, args: [3] }
+
+  - id: B-ALG-110
+    topic: [B3, 2-1-2-4, 2-2-2-1]
+    diff: 2
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      2分探索木の節番号 p の節のキーを key[p]，左の子の節番号を left[p]，右の子の節番号を right[p] に格納する（子がなければ 0）。根の節番号は 1 である。関数 search は，キー x をもつ節の節番号を返し，見つからなければ 0 を返す。
+    code: |
+      大域: 整数型の配列: key ← {50, 30, 70, 20, 40, 60, 80, 35}
+      大域: 整数型の配列: left ← {2, 4, 6, 0, 8, 0, 0, 0}
+      大域: 整数型の配列: right ← {3, 5, 7, 0, 0, 0, 0, 0}
+
+      ○整数型: search(整数型: x)
+        整数型: p ← 1
+        while (p ≠ 0)
+          if (x = key[p])
+            return p
+          elseif (x < key[p])
+            p ← 【a】
+          else
+            p ← 【b】
+          endif
+        endwhile
+        return 0
+    c: ['a：left[p]，b：right[p]', 'a：right[p]，b：left[p]', 'a：2 × p，b：2 × p ＋ 1', 'a：left[p]，b：p ＋ 1', 'a：p － 1，b：p ＋ 1']
+    fills:
+      - { a: 'left[p]', b: 'right[p]' }
+      - { a: 'right[p]', b: 'left[p]' }
+      - { a: '2 × p', b: '2 × p ＋ 1' }
+      - { a: 'left[p]', b: 'p ＋ 1' }
+      - { a: 'p － 1', b: 'p ＋ 1' }
+    a: ア
+    exp: |
+      2分探索木では、左の部分木にはその節より小さいキー、右の部分木には大きいキーが入ります。x が key[p] より小さければ左の子 left[p] へ、大きければ右の子 right[p] へ進みます。
+
+      search(35) の動き
+
+      | p | key[p] | 比較 | 次の p |
+      | --- | --- | --- | --- |
+      | 1 | 50 | 35 ＜ 50 | left[1] ＝ 2 |
+      | 2 | 30 | 35 ＞ 30 | right[2] ＝ 5 |
+      | 5 | 40 | 35 ＜ 40 | left[5] ＝ 8 |
+      | 8 | 35 | 一致 | 8 を返す |
+
+      子がない方向に進むと p が 0 になり、見つからなかったとして 0 を返します。
+    why:
+      - 正解です。小さければ左の子、大きければ右の子へ進む 2分探索木の探索です。
+      - 進む方向が逆なので、根以外のキーは見つかりません。
+      - 完全2分木を配列で表したときの子の位置であり、この表現では節番号と木の位置が対応していないので、35 などを探すと範囲外の節番号を参照します。
+      - 大きいときに節番号を 1 増やすだけなので、木の形に沿って進まず、60 を探すと見つからないなどの誤りが起こります。
+      - 節番号の前後に進むだけで木の構造を使っておらず、正しく探索できません。
+    terms: [2分探索木, 2分木]
+    verify:
+      cases:
+        - { call: search, args: [35], expect: 8 }
+        - { call: search, args: [60], expect: 6 }
+        - { call: search, args: [80], expect: 7 }
+        - { call: search, args: [50], expect: 1 }
+        - { call: search, args: [55], expect: 0 }
+        - { call: search, args: [20], expect: 4 }
+    sim: { entry: search, args: [35] }
+
+  - id: B-ALG-111
+    topic: [B3, 2-1-2-4]
+    diff: 3
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      2分探索木を配列 key，left，right で表す。節番号 p の節のキーは key[p]，左右の子の節番号は left[p]，right[p] であり，子がなければ 0 とする。節番号は追加した順に 1, 2, … と付け，根は 1 である。手続 insert は，キー x の節を末尾に追加し，木の適切な位置につなぐ。ここで，x と等しいキーは右の部分木に入れる。手続 build は，配列 data のキーを先頭から順に insert した後，手続 inorder で中間順にキーを出力する。
+    code: |
+      大域: 整数型の配列: key ← {}
+      大域: 整数型の配列: left ← {}
+      大域: 整数型の配列: right ← {}
+
+      ○insert(整数型: x)
+        整数型: p, n
+        key の末尾に x を追加する
+        left の末尾に 0 を追加する
+        right の末尾に 0 を追加する
+        n ← keyの要素数
+        if (n = 1)
+          return
+        endif
+        p ← 1
+        while (true)
+          if (x < key[p])
+            if (left[p] = 0)
+              left[p] ← n
+              return
+            endif
+            p ← left[p]
+          else
+            if (【a】)
+              【b】
+              return
+            endif
+            p ← right[p]
+          endif
+        endwhile
+
+      ○inorder(整数型: p)
+        if (p ≠ 0)
+          inorder(left[p])
+          key[p] を出力する
+          inorder(right[p])
+        endif
+
+      ○build(整数型の配列: data)
+        整数型: i
+        for (i を 1 から dataの要素数 まで 1 ずつ増やす)
+          insert(data[i])
+        endfor
+        inorder(1)
+    c: ['a：right[p] = 0，b：right[p] ← n', 'a：right[p] = 0，b：right[p] ← p', 'a：right[p] ≠ 0，b：right[p] ← n', 'a：left[p] = 0，b：right[p] ← n', 'a：right[p] = 0，b：left[p] ← n', 'a：right[n] = 0，b：right[p] ← n']
+    fills:
+      - { a: 'right[p] = 0', b: 'right[p] ← n' }
+      - { a: 'right[p] = 0', b: 'right[p] ← p' }
+      - { a: 'right[p] ≠ 0', b: 'right[p] ← n' }
+      - { a: 'left[p] = 0', b: 'right[p] ← n' }
+      - { a: 'right[p] = 0', b: 'left[p] ← n' }
+      - { a: 'right[n] = 0', b: 'right[p] ← n' }
+    a: ア
+    exp: |
+      x が key[p] 以上なら右へ進みます。右の子がない（right[p] ＝ 0）ならそこが挿入位置なので、right[p] に新しい節の節番号 n を入れて終わります。右の子があれば p ← right[p] でさらに下へ進みます。左側の処理と対称です。
+
+      data が {50, 30, 70, 60, 80, 65} のとき、節番号と親子関係は次のようになります。
+
+      | 節番号 | キー | 親 | 位置 |
+      | --- | --- | --- | --- |
+      | 1 | 50 | なし | 根 |
+      | 2 | 30 | 1 | 左 |
+      | 3 | 70 | 1 | 右 |
+      | 4 | 60 | 3 | 左 |
+      | 5 | 80 | 3 | 右 |
+      | 6 | 65 | 4 | 右 |
+
+      中間順に出力すると 30 50 60 65 70 80 と昇順になります。
+    why:
+      - 正解です。右の子がなければ新しい節をそこにつなぎ、あればさらに右へ進みます。
+      - 右の子に自分自身の節番号 p を入れてしまうため、新しい節がつながらず、中間順の走査が終わらなくなります。
+      - 右の子がないときに p ← right[p] で p が 0 になり、key[0] を参照してエラーになります。
+      - 右の子がすでにあっても左の子がなければ右の子を上書きするため、それまでの右の部分木が失われます。
+      - 大きいキーを左の子につなぐので、2分探索木の条件が崩れ、中間順の出力が昇順になりません。
+      - right[n] は追加したばかりの節の右の子で常に 0 なので、いつも right[p] を上書きして既存の節が失われます。
+    terms: [2分探索木, 中間順]
+    verify:
+      cases:
+        - { call: build, args: [[50, 30, 70, 60, 80, 65]], expectOutput: ['30', '50', '60', '65', '70', '80'] }
+        - { call: build, args: [[5, 8, 9, 7, 3]], expectOutput: ['3', '5', '7', '8', '9'] }
+        - { call: build, args: [[4, 4, 2, 6]], expectOutput: ['2', '4', '4', '6'] }
+    sim: { entry: build, args: [[50, 30, 70, 60]] }
+
+  # ===== ヒープ・優先度付きキュー =====
+  - id: B-ALG-112
+    topic: [B3, 2-1-2-4]
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      配列 heap で最小ヒープ（どの節の値もその子の値以下である完全2分木）を表す。要素番号 i の節の親は要素番号 i ÷ 2（小数点以下切捨て）の節である。手続 push は，値 x をヒープの末尾に追加した後，親より小さい間は親と交換して上へ移動させる（上方移動）。関数 build は配列 data の値を先頭から順に push し，heap を返す。ここで，整数型の変数に実数を代入すると小数点以下は切り捨てられる。
+    code: |
+      大域: 整数型の配列: heap ← {}
+
+      ○push(整数型: x)
+        整数型: i, parent, tmp
+        heap の末尾に x を追加する
+        i ← heapの要素数
+        while (i > 1)
+          parent ← i ÷ 2
+          if (【a】)
+            tmp ← heap[i]
+            heap[i] ← heap[parent]
+            heap[parent] ← tmp
+            i ← parent
+          else
+            i ← 1
+          endif
+        endwhile
+
+      ○整数型の配列: build(整数型の配列: data)
+        整数型: k
+        for (k を 1 から dataの要素数 まで 1 ずつ増やす)
+          push(data[k])
+        endfor
+        return heap
+    c: ['heap[parent] > heap[i]', 'heap[parent] < heap[i]', 'heap[1] > heap[i]', 'heap[i － 1] > heap[i]']
+    a: ア
+    exp: |
+      上方移動では、追加した値と親の値を比べ、親の方が大きければ交換して 1 段上がります。親の方が小さいか等しければヒープの条件を満たしたので、i ← 1 として繰返しを終えます。
+
+      data が {5, 3, 8, 1, 4} のとき
+
+      | 追加 | 交換の様子 | heap |
+      | --- | --- | --- |
+      | 5 | なし | {5} |
+      | 3 | 5 と交換 | {3, 5} |
+      | 8 | なし | {3, 5, 8} |
+      | 1 | 5 と交換、3 と交換 | {1, 3, 8, 5} |
+      | 4 | 親 3 ＜ 4 で停止 | {1, 3, 8, 5, 4} |
+    why:
+      - 正解です。親が自分より大きい間だけ交換して上へ移動します。
+      - 親が小さいときに交換するので、最大値が根に来る最大ヒープの向きになってしまいます。
+      - 根とだけ比べているため、根より大きいが親より小さい値が上へ移動せず、ヒープの条件が崩れます。
+      - 配列で 1 つ前の要素と比べており親ではないので、親子関係を無視した交換が起こります。
+    terms: [ヒープ, 上方移動, 完全2分木]
+    verify:
+      cases:
+        - { call: build, args: [[5, 3, 8, 1, 4]], expect: [1, 3, 8, 5, 4] }
+        - { call: build, args: [[1, 5, 3, 2]], expect: [1, 2, 3, 5] }
+        - { call: build, args: [[4, 1, 2]], expect: [1, 4, 2] }
+        - { call: build, args: [[9, 7, 8, 6]], expect: [6, 7, 8, 9] }
+    sim: { entry: build, args: [[5, 3, 8, 1, 4]] }
+
+  - id: B-ALG-113
+    topic: [B3, 2-2-2-1, 2-1-2-4]
+    diff: 3
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 heapSort は，配列 data の値を昇順に整列した配列を返す。手続 siftDown(i, n) は，大域変数の配列 a の要素番号 1 から n までを最大ヒープとみなし，要素番号 i の値を，子のうち大きい方より小さい間はその子と交換して下へ移動させる（下方移動）。要素番号 i の節の子は 2 × i と 2 × i ＋ 1 である。heapSort は，まず配列全体を最大ヒープにし，次に根（最大値）を未整列部分の末尾と交換してはヒープを作り直すことを繰り返す。ここで，整数型の変数に実数を代入すると小数点以下は切り捨てられる。
+    code: |
+      大域: 整数型の配列: a
+
+      ○siftDown(整数型: i, 整数型: n)
+        整数型: c, tmp
+        c ← 2 × i
+        while (c ≦ n)
+          if (c ＋ 1 ≦ n and 【a】)
+            c ← c ＋ 1
+          endif
+          if (a[i] ≧ a[c])
+            return
+          endif
+          tmp ← a[i]
+          a[i] ← a[c]
+          a[c] ← tmp
+          i ← 【b】
+          c ← 2 × i
+        endwhile
+
+      ○整数型の配列: heapSort(整数型の配列: data)
+        整数型: i, tmp, n, half
+        a ← data
+        n ← aの要素数
+        half ← n ÷ 2
+        for (i を half から 1 まで 1 ずつ減らす)
+          siftDown(i, n)
+        endfor
+        for (i を n から 2 まで 1 ずつ減らす)
+          tmp ← a[1]
+          a[1] ← a[i]
+          a[i] ← tmp
+          siftDown(1, i － 1)
+        endfor
+        return a
+    c: ['a：a[c ＋ 1] > a[c]，b：c', 'a：a[c ＋ 1] < a[c]，b：c', 'a：a[c ＋ 1] > a[i]，b：c', 'a：a[c ＋ 1] > a[c]，b：c ＋ 1', 'a：a[c ＋ 1] > a[c]，b：i ＋ 1', 'a：a[c ＋ 1] < a[i]，b：c']
+    fills:
+      - { a: 'a[c ＋ 1] > a[c]', b: 'c' }
+      - { a: 'a[c ＋ 1] < a[c]', b: 'c' }
+      - { a: 'a[c ＋ 1] > a[i]', b: 'c' }
+      - { a: 'a[c ＋ 1] > a[c]', b: 'c ＋ 1' }
+      - { a: 'a[c ＋ 1] > a[c]', b: 'i ＋ 1' }
+      - { a: 'a[c ＋ 1] < a[i]', b: 'c' }
+    a: ア
+    exp: |
+      【a】 最大ヒープの下方移動では、2 つの子のうち大きい方と比べます。右の子 a[c ＋ 1] が左の子 a[c] より大きければ c を右の子にします。
+
+      【b】 交換した後は、値が移動した先（子の位置 c）から同じ処理を続けるので i ← c です。
+
+      data が {4, 10, 3, 5, 1} のとき、最初のヒープ化の後の a は {10, 5, 3, 4, 1} になり、以後、根と末尾の交換と下方移動を繰り返して {1, 3, 4, 5, 10} が得られます。
+    why:
+      - 正解です。大きい方の子を選んで交換し、移動先の位置から下方移動を続けます。
+      - 小さい方の子と交換するので、交換後の親が他方の子より小さくなることがあり、最大ヒープになりません。
+      - 右の子を親と比べているため、左の子の方が大きくても右の子を選ぶことがあり、ヒープの条件が崩れます。
+      - 交換した子の位置ではなくその隣の位置から下方移動を続けるため、正しい部分木をたどれません。
+      - 交換した子の位置ではなく i ＋ 1 から続けるので、木の親子関係に沿った移動になりません。
+      - 右の子が親より小さいときに右の子を選ぶため、大きい方の子を選べず、ヒープの条件が崩れます。
+    terms: [ヒープソート, ヒープ, 上方移動]
+    verify:
+      cases:
+        - { call: heapSort, args: [[4, 10, 3, 5, 1]], expect: [1, 3, 4, 5, 10] }
+        - { call: heapSort, args: [[3, 9, 2, 7, 5, 8]], expect: [2, 3, 5, 7, 8, 9] }
+        - { call: heapSort, args: [[1, 2, 3, 4, 5, 6, 7]], expect: [1, 2, 3, 4, 5, 6, 7] }
+        - { call: heapSort, args: [[6, 1, 9, 9, 2, 7, 3, 8]], expect: [1, 2, 3, 6, 7, 8, 9, 9] }
+    sim: { entry: heapSort, args: [[4, 10, 3, 5, 1]] }
+
+  - id: B-ALG-114
+    topic: [B3, 2-1-2-4]
+    diff: 2
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 makeHeap は，配列 data の値を先頭から順に配列 h の末尾に追加し，そのたびに上方移動を行って最大ヒープ（どの節の値もその子の値以上である完全2分木）を作り，h を返す。要素番号 i の節の親は要素番号 i ÷ 2（小数点以下切捨て）の節である。makeHeap({3, 9, 2, 7, 5, 8}) の戻り値は【a】である。ここで，整数型の変数に実数を代入すると小数点以下は切り捨てられる。
+    code: |
+      ○整数型の配列: makeHeap(整数型の配列: data)
+        整数型の配列: h ← {}
+        整数型: k, i, p, tmp
+        for (k を 1 から dataの要素数 まで 1 ずつ増やす)
+          h の末尾に data[k] を追加する
+          i ← hの要素数
+          p ← i ÷ 2
+          while (i > 1 and h[p] < h[i])
+            tmp ← h[p]
+            h[p] ← h[i]
+            h[i] ← tmp
+            i ← p
+            p ← i ÷ 2
+          endwhile
+        endfor
+        return h
+    c: ['{9, 7, 8, 3, 5, 2}', '{9, 8, 7, 5, 3, 2}', '{9, 7, 2, 3, 5, 8}', '{9, 5, 8, 3, 7, 2}']
+    a: ア
+    exp: |
+      親より大きい間、親と交換して上へ移動します。and は短絡評価なので、i が 1 になれば h[p] は参照しません。
+
+      | 追加 | 移動 | h |
+      | --- | --- | --- |
+      | 3 | なし | {3} |
+      | 9 | 3 と交換 | {9, 3} |
+      | 2 | なし | {9, 3, 2} |
+      | 7 | 親 3 と交換、親 9 で停止 | {9, 7, 2, 3} |
+      | 5 | 親 7 で停止 | {9, 7, 2, 3, 5} |
+      | 8 | 親 2 と交換、親 9 で停止 | {9, 7, 8, 3, 5, 2} |
+    why:
+      - 正解です。追加のたびに親と比べて上方移動した結果です。
+      - 値を降順に整列した配列であり、ヒープの条件は満たしますが、このプログラムの交換手順では得られません。
+      - 最後に追加した 8 の上方移動（親 2 との交換）を行っていない状態です。
+      - 7 を追加したときの移動先を誤り、5 と 7 の位置が入れ替わっています。5 の親は 7 なので、5 は移動しません。
+    terms: [ヒープ, 上方移動]
+    verify:
+      result: { call: makeHeap, args: [[3, 9, 2, 7, 5, 8]], of: return }
+    sim: { entry: makeHeap, args: [[3, 9, 2, 7, 5, 8]] }
+
+  - id: B-ALG-115
+    topic: [B3, 2-1-2-3]
+    diff: 2
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      配列を用いて優先度付きキューを実装する。手続 enqueue は，値 x と優先度 p の組を，配列 item と pri の要素番号 size ＋ 1 の位置に格納する。関数 dequeue は，格納されている組の中で優先度が最も大きい組の値を取り出して返す。取り出した位置には，その時点で最後の位置（要素番号 size）にある組を移して詰める。優先度は全て異なるものとする。手続 test は，配列 xs と ps の同じ要素番号の値の組を順に enqueue した後，キューが空になるまで dequeue した値を出力する。
+    code: |
+      大域: 整数型の配列: item ← {10個の0}
+      大域: 整数型の配列: pri ← {10個の0}
+      大域: 整数型: size ← 0
+
+      ○enqueue(整数型: x, 整数型: p)
+        size ← size ＋ 1
+        item[size] ← x
+        pri[size] ← p
+
+      ○整数型: dequeue()
+        整数型: i, best, x
+        best ← 1
+        for (i を 2 から size まで 1 ずつ増やす)
+          if (pri[i] > pri[best])
+            best ← i
+          endif
+        endfor
+        x ← item[best]
+        item[best] ← 【a】
+        pri[best] ← 【b】
+        size ← size － 1
+        return x
+
+      ○test(整数型の配列: xs, 整数型の配列: ps)
+        整数型: i
+        for (i を 1 から xsの要素数 まで 1 ずつ増やす)
+          enqueue(xs[i], ps[i])
+        endfor
+        while (size > 0)
+          dequeue() を出力する
+        endwhile
+    c: ['a：item[size]，b：pri[size]', 'a：item[size]，b：pri[best]', 'a：item[1]，b：pri[1]', 'a：item[size － 1]，b：pri[size － 1]', 'a：x，b：0', 'a：0，b：0']
+    fills:
+      - { a: 'item[size]', b: 'pri[size]' }
+      - { a: 'item[size]', b: 'pri[best]' }
+      - { a: 'item[1]', b: 'pri[1]' }
+      - { a: 'item[size － 1]', b: 'pri[size － 1]' }
+      - { a: 'x', b: '0' }
+      - { a: '0', b: '0' }
+    a: ア
+    exp: |
+      取り出した位置 best に、最後の位置 size の組（値と優先度の両方）を移し、size を 1 減らします。これで要素番号 1〜size に未処理の組が隙間なく並びます。
+
+      xs が {10, 20, 30, 40}、ps が {2, 9, 4, 7} のとき
+
+      | 回 | 最大の優先度 | 出力 | 移動 | 残り（値:優先度） |
+      | --- | --- | --- | --- | --- |
+      | 1 | 9（位置 2） | 20 | 位置 4 → 2 | 10:2, 40:7, 30:4 |
+      | 2 | 7（位置 2） | 40 | 位置 3 → 2 | 10:2, 30:4 |
+      | 3 | 4（位置 2） | 30 | 位置 2 → 2 | 10:2 |
+      | 4 | 2（位置 1） | 10 | なし | 空 |
+    why:
+      - 正解です。最後の組を値と優先度ともに取り出した位置へ移して詰めています。
+      - 値だけを移して優先度は元のままなので、取り出し済みの大きな優先度が残り、移した値が早く取り出されてしまいます。
+      - 先頭の組を移すので、最後の位置の組は size を減らしたときに失われます。
+      - 1 つ手前の組を移すので、最後の位置の組が失われ、手前の組が重複します。
+      - 取り出した値を優先度 0 で残し、最後の位置の組は size を減らしたときに失われます。
+      - 取り出した位置を 0 で埋めるだけなので、最後の位置にあった組が失われ、代わりに 0 が出力されます。
+    terms: [優先度付きキュー, キュー]
+    verify:
+      cases:
+        - { call: test, args: [[10, 20, 30, 40], [2, 9, 4, 7]], expectOutput: ['20', '40', '30', '10'] }
+        - { call: test, args: [[1, 2, 3], [5, 1, 3]], expectOutput: ['1', '3', '2'] }
+        - { call: test, args: [[1, 2, 3], [3, 9, 1]], expectOutput: ['2', '1', '3'] }
+        - { call: test, args: [[7, 8, 9, 6, 5], [1, 2, 3, 4, 5]], expectOutput: ['5', '6', '9', '8', '7'] }
+    sim: { entry: test, args: [[10, 20, 30, 40], [2, 9, 4, 7]] }
+
+  # ===== グラフ =====
+  - id: B-ALG-116
+    topic: [B3, 2-2-2-3, 1-2-5]
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      頂点に 1 から 6 の番号を付けた有向グラフを隣接行列 adj で表す。adj[v, w] は，頂点 v から頂点 w への辺があれば 1，なければ 0 である。関数 countReachable は，頂点 s から辺の向きに沿ってたどり着ける頂点の個数（s 自身を含む）を返す。手続 visit は深さ優先探索で頂点を訪問し，訪問済みの頂点には大域変数の配列 visited の値を true にする。
+    code: |
+      大域: 整数型の二次元配列: adj ← {{0, 1, 0, 0, 0, 0}, {0, 0, 1, 0, 0, 0}, {1, 0, 0, 0, 0, 0}, {1, 0, 0, 0, 1, 0}, {0, 0, 0, 0, 0, 1}, {0, 0, 1, 0, 0, 0}}
+      大域: 論理型の配列: visited
+
+      ○visit(整数型: v)
+        整数型: w
+        visited[v] ← true
+        for (w を 1 から adjの列数 まで 1 ずつ増やす)
+          if (【a】)
+            visit(w)
+          endif
+        endfor
+
+      ○整数型: countReachable(整数型: s)
+        整数型: i, cnt ← 0
+        visited ← {adjの行数個の false}
+        visit(s)
+        for (i を 1 から adjの行数 まで 1 ずつ増やす)
+          if (visited[i])
+            cnt ← cnt ＋ 1
+          endif
+        endfor
+        return cnt
+    c: ['adj[v, w] = 1 and not visited[w]', 'adj[v, w] = 1', 'adj[w, v] = 1 and not visited[w]', 'adj[v, w] = 1 or not visited[w]', 'adj[v, w] = 0 and not visited[w]']
+    a: ア
+    exp: |
+      v から w への辺があり（adj[v, w] ＝ 1）、w をまだ訪問していないときだけ w へ進みます。訪問済みかどうかを調べないと、閉路（1 → 2 → 3 → 1）を回り続けてしまいます。
+
+      辺は 1→2、2→3、3→1、4→1、4→5、5→6、6→3 です。
+
+      | s | たどり着ける頂点 | 個数 |
+      | --- | --- | --- |
+      | 1 | 1, 2, 3 | 3 |
+      | 4 | 1〜6 全部 | 6 |
+      | 5 | 5, 6, 3, 1, 2 | 5 |
+    why:
+      - 正解です。辺があり、かつ未訪問の頂点だけを再帰的に訪問します。
+      - 訪問済みを確認しないので、閉路 1 → 2 → 3 → 1 を回り続けて再帰が終わりません。
+      - 辺の向きが逆（w から v への辺）をたどるので、s へ到達できる頂点を数えてしまいます。
+      - or にしたため、辺のない未訪問の頂点にも進み、さらに訪問済みの頂点にも辺があれば何度も進むので再帰が終わりません。
+      - 辺がない頂点へ進むので、グラフの辺に沿った探索になりません。
+    terms: [隣接行列, 深さ優先探索, 有向グラフ, 再帰]
+    verify:
+      cases:
+        - { call: countReachable, args: [1], expect: 3 }
+        - { call: countReachable, args: [4], expect: 6 }
+        - { call: countReachable, args: [5], expect: 5 }
+        - { call: countReachable, args: [6], expect: 4 }
+    sim: { entry: countReachable, args: [5] }
+
+  - id: B-ALG-117
+    topic: [B3, 2-2-2-3, 1-2-5]
+    diff: 3
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      無向グラフを隣接行列 g で表す。g[v, w] は頂点 v と w の間に辺があれば 1，なければ 0 である。関数 bfs は，幅優先探索によって，頂点 s から各頂点までの最短経路の辺の本数を求め，配列で返す。たどり着けない頂点の値は -1 とする。配列 queue をキューとして使い，front は次に取り出す要素の要素番号である。
+    code: |
+      ○整数型の配列: bfs(整数型の二次元配列: g, 整数型: s)
+        整数型: n ← gの行数
+        整数型の配列: dist ← {n個の -1}
+        整数型の配列: queue ← {}
+        整数型: front ← 1
+        整数型: v, w
+        dist[s] ← 0
+        queue の末尾に s を追加する
+        while (front ≦ queueの要素数)
+          v ← queue[front]
+          front ← front ＋ 1
+          for (w を 1 から n まで 1 ずつ増やす)
+            if (g[v, w] = 1 and 【a】)
+              dist[w] ← 【b】
+              queue の末尾に w を追加する
+            endif
+          endfor
+        endwhile
+        return dist
+    c: ['a：dist[w] = -1，b：dist[v] ＋ 1', 'a：dist[w] = -1，b：dist[w] ＋ 1', 'a：dist[w] ≠ -1，b：dist[v] ＋ 1', 'a：dist[v] = -1，b：dist[v] ＋ 1', 'a：dist[w] = -1，b：front', 'a：dist[w] = -1，b：dist[v]']
+    fills:
+      - { a: 'dist[w] = -1', b: 'dist[v] ＋ 1' }
+      - { a: 'dist[w] = -1', b: 'dist[w] ＋ 1' }
+      - { a: 'dist[w] ≠ -1', b: 'dist[v] ＋ 1' }
+      - { a: 'dist[v] = -1', b: 'dist[v] ＋ 1' }
+      - { a: 'dist[w] = -1', b: 'front' }
+      - { a: 'dist[w] = -1', b: 'dist[v]' }
+    a: ア
+    exp: |
+      幅優先探索では、キューから取り出した頂点 v に隣接し、まだ距離が決まっていない（dist[w] ＝ -1）頂点 w に、v の距離 ＋ 1 を設定してキューに入れます。近い頂点から順にキューに入るので、最初に設定した距離が最短になります。
+
+      辺が 1-2、1-3、2-4、3-4、4-5 で頂点 6 が孤立しているグラフで s ＝ 1 のとき
+
+      | 取り出す v | 新たに距離が決まる頂点 | queue |
+      | --- | --- | --- |
+      | 1 | 2（1）、3（1） | 1 2 3 |
+      | 2 | 4（2） | 1 2 3 4 |
+      | 3 | なし | 1 2 3 4 |
+      | 4 | 5（3） | 1 2 3 4 5 |
+      | 5 | なし | 1 2 3 4 5 |
+
+      戻り値は {0, 1, 1, 2, 3, -1} です。
+    why:
+      - 正解です。未訪問の隣接頂点に、取り出した頂点の距離 ＋ 1 を設定しています。
+      - dist[w] は -1 なので、設定される値が常に 0 になります。
+      - 距離が決まっている頂点にしか進まないので、s 以外の頂点の距離が設定されず、すでに決まった頂点を何度もキューに入れてしまいます。
+      - v は取り出した時点で距離が決まっているので条件が常に偽になり、s 以外の頂点の距離が設定されません。
+      - キューの位置を距離として設定しており、辺の本数になりません。
+      - 1 を加えていないので、全ての頂点の距離が 0 になります。
+    terms: [幅優先探索, キュー, 隣接行列, 最短経路探索]
+    verify:
+      cases:
+        - call: bfs
+          args: [[[0, 1, 1, 0, 0, 0], [1, 0, 0, 1, 0, 0], [1, 0, 0, 1, 0, 0], [0, 1, 1, 0, 1, 0], [0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0]], 1]
+          expect: [0, 1, 1, 2, 3, -1]
+        - call: bfs
+          args: [[[0, 1, 1, 0, 0, 0], [1, 0, 0, 1, 0, 0], [1, 0, 0, 1, 0, 0], [0, 1, 1, 0, 1, 0], [0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0]], 5]
+          expect: [3, 2, 2, 1, 0, -1]
+        - call: bfs
+          args: [[[0, 1, 0], [1, 0, 1], [0, 1, 0]], 2]
+          expect: [1, 0, 1]
+    sim:
+      entry: bfs
+      args: [[[0, 1, 1, 0, 0, 0], [1, 0, 0, 1, 0, 0], [1, 0, 0, 1, 0, 0], [0, 1, 1, 0, 1, 0], [0, 0, 0, 1, 0, 0], [0, 0, 0, 0, 0, 0]], 1]
+
+  - id: B-ALG-118
+    topic: [B3, 2-2-2-3]
+    diff: 2
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      無向グラフを隣接行列 g で表す。手続 dfs は，頂点 v を訪問して出力した後，番号の小さい順に，v に隣接する未訪問の頂点を再帰的に訪問する。dfs(1) を呼び出したとき，出力される頂点番号は順に【a】である。
+    code: |
+      大域: 整数型の二次元配列: g ← {{0, 1, 1, 0, 0, 0}, {1, 0, 0, 1, 1, 0}, {1, 0, 0, 0, 0, 1}, {0, 1, 0, 0, 0, 0}, {0, 1, 0, 0, 0, 1}, {0, 0, 1, 0, 1, 0}}
+      大域: 論理型の配列: seen ← {6個の false}
+
+      ○dfs(整数型: v)
+        整数型: w
+        seen[v] ← true
+        v を出力する
+        for (w を 1 から 6 まで 1 ずつ増やす)
+          if (g[v, w] = 1 and not seen[w])
+            dfs(w)
+          endif
+        endfor
+    c: ['1 2 4 5 6 3', '1 2 3 4 5 6', '1 2 4 5 3 6', '1 3 6 5 2 4']
+    a: ア
+    exp: |
+      辺は 1-2、1-3、2-4、2-5、3-6、5-6 です。深さ優先探索は、行けるところまで深く進み、行き止まりになったら戻って次の候補へ進みます。
+
+      | 訪問 | 次に調べる隣接頂点 | 動き |
+      | --- | --- | --- |
+      | 1 | 2 | 2 へ |
+      | 2 | 4 | 4 へ（行き止まり、2 に戻る） |
+      | 2 | 5 | 5 へ |
+      | 5 | 6 | 6 へ |
+      | 6 | 3 | 3 へ（1 は訪問済み） |
+
+      3 は 6 から訪問されるので、1 に戻ったときには訪問済みです。出力は 1 2 4 5 6 3 です。
+    why:
+      - 正解です。番号の小さい隣接頂点から深く進み、6 を経由して 3 に到達する順です。
+      - 始点から近い順に訪問する幅優先探索の順です。
+      - 5 から 6 へ進む前に 1 に戻って 3 を訪問した順で、5 の隣接頂点 6 を先に調べる深さ優先探索の動きと異なります。
+      - 番号の大きい隣接頂点から調べた場合に近い順で、このプログラムの for の向きと異なります。
+    terms: [深さ優先探索, 隣接行列, 無向グラフ, 再帰]
+    verify:
+      result: { call: dfs, args: [1], of: output }
+    sim: { entry: dfs, args: [1] }
+
+  - id: B-ALG-119
+    topic: [B3, 2-2-2-3, 1-2-5]
+    diff: 3
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 shortest は，辺に正の重みがある有向グラフについて，頂点 s から各頂点までの最短経路の長さ（重みの合計）を配列で返す（ダイクストラ法）。w[u, v] は頂点 u から v への辺の重みであり，辺がないときは 0 である。たどり着けない頂点の値は 9999 とする。配列 done は最短経路の長さが確定した頂点を表す。
+    code: |
+      ○整数型の配列: shortest(整数型の二次元配列: w, 整数型: s)
+        整数型: n ← wの行数
+        整数型の配列: dist ← {n個の9999}
+        論理型の配列: done ← {n個の false}
+        整数型: i, k, u, v
+        dist[s] ← 0
+        for (k を 1 から n まで 1 ずつ増やす)
+          u ← 0
+          for (i を 1 から n まで 1 ずつ増やす)
+            if (not done[i] and (u = 0 or 【a】))
+              u ← i
+            endif
+          endfor
+          done[u] ← true
+          for (v を 1 から n まで 1 ずつ増やす)
+            if (w[u, v] > 0 and 【b】)
+              dist[v] ← dist[u] ＋ w[u, v]
+            endif
+          endfor
+        endfor
+        return dist
+    c: ['a：dist[i] < dist[u]，b：dist[u] ＋ w[u, v] < dist[v]', 'a：dist[i] > dist[u]，b：dist[u] ＋ w[u, v] < dist[v]', 'a：dist[i] < dist[u]，b：w[u, v] < dist[v]', 'a：dist[i] < dist[u]，b：dist[u] ＋ w[u, v] > dist[v]', 'a：w[s, i] < w[s, u]，b：dist[u] ＋ w[u, v] < dist[v]']
+    fills:
+      - { a: 'dist[i] < dist[u]', b: 'dist[u] ＋ w[u, v] < dist[v]' }
+      - { a: 'dist[i] > dist[u]', b: 'dist[u] ＋ w[u, v] < dist[v]' }
+      - { a: 'dist[i] < dist[u]', b: 'w[u, v] < dist[v]' }
+      - { a: 'dist[i] < dist[u]', b: 'dist[u] ＋ w[u, v] > dist[v]' }
+      - { a: 'w[s, i] < w[s, u]', b: 'dist[u] ＋ w[u, v] < dist[v]' }
+    a: ア
+    exp: |
+      【a】 未確定の頂点の中から、現時点の距離 dist が最小の頂点 u を選びます。
+
+      【b】 u を経由した方が近ければ（dist[u] ＋ w[u, v] ＜ dist[v]）、dist[v] を更新します。
+
+      辺 1→2（重み 4）、1→3（1）、3→2（2）、2→4（1）、3→4（5）のグラフで s ＝ 1 のとき
+
+      | 確定する u | dist（1, 2, 3, 4） |
+      | --- | --- |
+      | 1 | 0, 4, 1, 9999 |
+      | 3 | 0, 3, 1, 6 |
+      | 2 | 0, 3, 1, 4 |
+      | 4 | 0, 3, 1, 4 |
+
+      戻り値は {0, 3, 1, 4} です。
+    why:
+      - 正解です。距離が最小の未確定頂点を確定し、その頂点を経由する経路で距離を更新します。
+      - 距離が最大の頂点から確定させるので、まだ短くなる可能性のある頂点を確定してしまい、最短にならない場合があります。
+      - 辺の重みだけを比べており、u までの距離を加えていないので、経路全体の長さになりません。
+      - 遠くなる場合に更新するので、9999 のままの頂点が更新されず、最短経路が求まりません。
+      - s からの直接の辺の重みで頂点を選ぶため、他の頂点を経由した距離を考慮できず、選ぶ順が誤ります。
+    terms: [ダイクストラ法, 最短経路探索, 隣接行列, 有向グラフ]
+    verify:
+      cases:
+        - call: shortest
+          args: [[[0, 4, 1, 0], [0, 0, 0, 1], [0, 2, 0, 5], [0, 0, 0, 0]], 1]
+          expect: [0, 3, 1, 4]
+        - call: shortest
+          args: [[[0, 7, 9, 0, 0], [0, 0, 1, 5, 0], [0, 0, 0, 2, 0], [0, 0, 0, 0, 1], [0, 0, 0, 0, 0]], 1]
+          expect: [0, 7, 8, 10, 11]
+        - call: shortest
+          args: [[[0, 1, 0], [0, 0, 0], [5, 0, 0]], 1]
+          expect: [0, 1, 9999]
+        - call: shortest
+          args: [[[0, 10, 1, 0], [0, 0, 0, 1], [0, 1, 0, 20], [0, 0, 0, 0]], 1]
+          expect: [0, 2, 1, 3]
+        - call: shortest
+          args: [[[0, 3, 4], [0, 0, 2], [0, 0, 0]], 1]
+          expect: [0, 3, 4]
+    sim:
+      entry: shortest
+      args: [[[0, 4, 1, 0], [0, 0, 0, 1], [0, 2, 0, 5], [0, 0, 0, 0]], 1]
+
+  - id: B-ALG-120
+    topic: [B4, 1-2-5, 1-2-2]
+    diff: 2
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      有向グラフの隣接行列を A とすると，行列の積 A × A の (i, j) 成分は，頂点 i から頂点 j へちょうど 2 本の辺でたどる経路の数になる。関数 countPaths2 は，A × A の全成分の和，すなわち長さ 2 の経路の総数を返す。countPaths2() の戻り値は【a】である。
+    code: |
+      大域: 整数型の二次元配列: adj ← {{0, 1, 1, 1}, {0, 0, 1, 1}, {0, 0, 0, 1}, {0, 0, 0, 0}}
+
+      ○整数型: countPaths2()
+        整数型: i, j, k, total ← 0
+        整数型: n ← adjの行数
+        for (i を 1 から n まで 1 ずつ増やす)
+          for (j を 1 から n まで 1 ずつ増やす)
+            for (k を 1 から n まで 1 ずつ増やす)
+              total ← total ＋ adj[i, k] × adj[k, j]
+            endfor
+          endfor
+        endfor
+        return total
+    c: ['4', '2', '6', '10']
+    a: ア
+    exp: |
+      辺は 1→2、1→3、1→4、2→3、2→4、3→4 の 6 本です。長さ 2 の経路は、2 本の辺を中継点 k でつないだものです。
+
+      | 経路 | 中継点 |
+      | --- | --- |
+      | 1→2→3 | 2 |
+      | 1→2→4 | 2 |
+      | 1→3→4 | 3 |
+      | 2→3→4 | 3 |
+
+      プログラムは adj[i, k] と adj[k, j] がともに 1 のときだけ 1 を加えるので、合計は 4 です。
+    why:
+      - 正解です。中継点を 1 つ挟む経路は 4 通りです。
+      - 頂点 1 から頂点 4 への長さ 2 の経路（1→2→4、1→3→4）だけを数えた値です。
+      - 辺の本数（隣接行列の成分の和）であり、長さ 1 の経路の数です。
+      - 長さ 1 と長さ 2 の経路を合わせた数で、A × A の成分の和ではありません。
+    terms: [隣接行列, 行列の積, 有向グラフ]
+    verify:
+      result: { call: countPaths2, of: return }
+
+  # ===== ハッシュ表 =====
+  - id: B-ALG-121
+    topic: [B3, 2-2-2-1]
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      要素数 7 の配列 table をハッシュ表として使い，正の整数を格納する。空きの位置には -1 を格納しておく。値 x の格納位置は hashValue(x) で求め，その位置が使用中であれば，次の位置（要素番号 7 の次は 1）を順に調べて最初の空きの位置に格納する（オープンアドレス法の線形走査）。関数 build は配列 data の値を先頭から順に格納し，table を返す。data の要素数は 7 以下とする。
+    code: |
+      大域: 整数型の配列: table ← {7個の -1}
+
+      ○整数型: hashValue(整数型: x)
+        return (x mod 7) ＋ 1
+
+      ○add(整数型: x)
+        整数型: h
+        h ← hashValue(x)
+        while (table[h] ≠ -1)
+          h ← 【a】
+        endwhile
+        table[h] ← x
+
+      ○整数型の配列: build(整数型の配列: data)
+        整数型: i
+        for (i を 1 から dataの要素数 まで 1 ずつ増やす)
+          add(data[i])
+        endfor
+        return table
+    c: ['(h mod 7) ＋ 1', 'h ＋ 1', '(h ＋ 1) mod 7', 'hashValue(x ＋ 1)', 'h mod 7']
+    a: ア
+    exp: |
+      要素番号 1〜6 の次は h ＋ 1、7 の次は 1 に戻る必要があります。(h mod 7) ＋ 1 は h が 1〜6 なら h ＋ 1、h が 7 なら 0 ＋ 1 ＝ 1 になります。
+
+      data が {5, 12, 19} のとき
+
+      | x | hashValue(x) | 調べた位置 | 格納位置 |
+      | --- | --- | --- | --- |
+      | 5 | 6 | 6 | 6 |
+      | 12 | 6 | 6（使用中）→ 7 | 7 |
+      | 19 | 6 | 6 → 7（使用中）→ 1 | 1 |
+
+      戻り値は {19, -1, -1, -1, -1, 5, 12} です。
+    why:
+      - 正解です。次の位置へ進み、末尾の次は先頭に戻ります。
+      - 要素番号 7 の次が 8 になり、配列の範囲外を参照します。
+      - h が 6 のとき 0 になり、配列の範囲外を参照します。
+      - x が変わらないので毎回同じ位置になり、その位置が使用中だと繰返しが終わりません。
+      - h が 1〜6 のときは h のままで進まず、7 のときは 0 になるため、正しく次の位置を調べられません。
+    terms: [オープンアドレス法, 線形走査法, ハッシュ表, 衝突]
+    verify:
+      cases:
+        - { call: build, args: [[5, 12, 19]], expect: [19, -1, -1, -1, -1, 5, 12] }
+        - { call: build, args: [[14, 21, 5, 13, 9]], expect: [14, 21, 9, -1, -1, 5, 13] }
+        - { call: build, args: [[3, 10]], expect: [-1, -1, -1, 3, 10, -1, -1] }
+    sim: { entry: build, args: [[5, 12, 19]] }
+
+  - id: B-ALG-122
+    topic: [B3, 2-2-2-1]
+    diff: 2
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      要素数 7 の配列 table は，ハッシュ関数 (x mod 7) ＋ 1 と線形走査によるオープンアドレス法で値を格納したハッシュ表であり，空きの位置には -1 が格納されている。関数 probe は，値 x を探索する際に，値が格納された位置を調べた回数を返す。probe(20) の戻り値は【a】である。
+    code: |
+      大域: 整数型の配列: table ← {14, 21, 9, -1, -1, 5, 13}
+
+      ○整数型: probe(整数型: x)
+        整数型: h, cnt ← 0
+        h ← (x mod 7) ＋ 1
+        while (table[h] ≠ -1)
+          cnt ← cnt ＋ 1
+          if (table[h] = x)
+            return cnt
+          endif
+          h ← (h mod 7) ＋ 1
+        endwhile
+        return cnt
+    c: ['4', '1', '3', '5']
+    a: ア
+    exp: |
+      20 mod 7 ＝ 6 なので、要素番号 7 から調べ始めます。空き（-1）に出会うと、20 は格納されていないと判断して終了します。
+
+      | h | table[h] | cnt | 判定 |
+      | --- | --- | --- | --- |
+      | 7 | 13 | 1 | 不一致 |
+      | 1 | 14 | 2 | 不一致 |
+      | 2 | 21 | 3 | 不一致 |
+      | 3 | 9 | 4 | 不一致 |
+      | 4 | -1 | － | 空きなので終了 |
+
+      戻り値は 4 です。同じ位置に衝突が集中すると、存在しない値の探索でも調べる回数が増えます。
+    why:
+      - 正解です。要素番号 7、1、2、3 の 4 か所を調べた後、空きの位置で終了します。
+      - 最初の位置だけを調べた回数で、使用中の位置が続く場合に次を調べることを考慮していません。
+      - 要素番号 7 の次を 1 に戻さずに数えた場合などの誤りで、要素番号 3 の 9 まで調べることを見落としています。
+      - 空きの位置（-1）を調べたことまで数えた値で、このプログラムは空きの位置では cnt を増やしません。
+    terms: [オープンアドレス法, 線形走査法, ハッシュ表]
+    verify:
+      result: { call: probe, args: [20], of: return }
+    sim: { entry: probe, args: [20] }
+
+  - id: B-ALG-123
+    topic: [B3, 2-2-2-1, B1]
+    diff: 3
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      要素数 7 の配列 table を，線形走査のオープンアドレス法によるハッシュ表として使う。正の整数を格納し，一度も使われていない位置には -1 を格納する。関数 search は値 x の格納位置を返し，見つからなければ 0 を返す。手続 remove は値 x を削除する。削除した位置に -1 を格納すると，その後ろに衝突して格納された値が探索できなくなるので，削除済みを表す特別な値を格納する。関数 test は，配列 data の値を格納し，値 d を削除した後，値 s を探索した結果を返す。
+    code: |
+      大域: 整数型の配列: table ← {7個の -1}
+
+      ○add(整数型: x)
+        整数型: h ← (x mod 7) ＋ 1
+        while (table[h] > 0)
+          h ← (h mod 7) ＋ 1
+        endwhile
+        table[h] ← x
+
+      ○整数型: search(整数型: x)
+        整数型: h ← (x mod 7) ＋ 1
+        整数型: cnt ← 0
+        while (table[h] ≠ -1 and cnt < 7)
+          if (table[h] = x)
+            return h
+          endif
+          h ← (h mod 7) ＋ 1
+          cnt ← cnt ＋ 1
+        endwhile
+        return 0
+
+      ○remove(整数型: x)
+        整数型: p ← search(x)
+        if (p ≠ 0)
+          table[p] ← 【a】
+        endif
+
+      ○整数型: test(整数型の配列: data, 整数型: d, 整数型: s)
+        整数型: i
+        for (i を 1 から dataの要素数 まで 1 ずつ増やす)
+          add(data[i])
+        endfor
+        remove(d)
+        return search(s)
+    c: ['-2', '-1', 'x', 'table[p ＋ 1]']
+    a: ア
+    exp: |
+      search は -1（一度も使われていない位置）に出会うまで探し続けます。削除した位置に -1 以外の「削除済み」の印（ここでは -2）を入れておけば、その先に衝突して格納された値も探索できます。add は正の値が入っている位置だけを使用中とみなすので、-2 の位置は再利用できます。
+
+      data が {5, 12, 19} のとき、5 は位置 6、12 は位置 7、19 は位置 1 に入ります。12 を削除した後に 19 を探すと
+
+      | h | table[h] | 判定 |
+      | --- | --- | --- |
+      | 6 | 5 | 不一致 |
+      | 7 | -2 | 削除済み、探索を続ける |
+      | 1 | 19 | 一致、1 を返す |
+    why:
+      - 正解です。削除済みの印を入れることで、探索がその位置で打ち切られません。
+      - 削除した位置で探索が打ち切られるので、その後ろに格納された 19 などの値が見つからなくなります。
+      - 削除する値をそのまま書き戻すので、削除したはずの値が探索で見つかってしまいます。
+      - 削除した位置が末尾（要素番号 7）のとき、範囲外を参照してエラーになります。また後ろの値を複製するだけで正しい削除になりません。
+    terms: [オープンアドレス法, ハッシュ表, 衝突, デバッグ]
+    verify:
+      cases:
+        - { call: test, args: [[5, 12, 19], 12, 19], expect: 1 }
+        - { call: test, args: [[5, 12, 19], 12, 12], expect: 0 }
+        - { call: test, args: [[5, 12, 19], 5, 12], expect: 7 }
+        - { call: test, args: [[3, 10, 17], 3, 17], expect: 6 }
+    sim: { entry: test, args: [[5, 12, 19], 12, 19] }
+
+  # ===== 再帰 =====
+  - id: B-ALG-124
+    topic: [B3, 2-2-2-2]
+    diff: 2
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。
+
+      手続 hanoi は，ハノイの塔で n 枚の円盤を棒 from から棒 to へ，棒 via を補助に使って移す手順をたどり，円盤を 1 枚動かすたびに大域変数 count に 1 を加える。hanoi(5, 1, 3, 2) を実行した後の count の値は【a】である。
+    code: |
+      大域: 整数型: count ← 0
+
+      ○hanoi(整数型: n, 整数型: from, 整数型: to, 整数型: via)
+        if (n ≧ 1)
+          hanoi(n － 1, from, via, to)
+          count ← count ＋ 1
+          hanoi(n － 1, via, to, from)
+        endif
+    c: ['31', '15', '32', '63']
+    a: ア
+    exp: |
+      n 枚を移すには、上の n － 1 枚を補助の棒へ移し、一番下の 1 枚を動かし、n － 1 枚を目的の棒へ移します。手数を T(n) とすると T(n) ＝ 2 × T(n － 1) ＋ 1、T(0) ＝ 0 です。
+
+      | n | 0 | 1 | 2 | 3 | 4 | 5 |
+      | --- | --- | --- | --- | --- | --- | --- |
+      | T(n) | 0 | 1 | 3 | 7 | 15 | 31 |
+
+      一般に T(n) ＝ 2^n － 1 なので、n ＝ 5 では 31 です。
+    why:
+      - 正解です。2^5 － 1 ＝ 31 回円盤を動かします。
+      - 4 枚の場合の手数（2^4 － 1）です。
+      - 2^5 で、1 を引き忘れています。
+      - 6 枚の場合の手数、又は hanoi の呼出し回数（2^6 － 1）に相当します。円盤を動かす回数とは異なります。
+    terms: [ハノイの塔, 再帰]
+    verify:
+      result: { call: hanoi, args: [5, 1, 3, 2], of: 'var:count' }
+    sim: { entry: hanoi, args: [2, 1, 3, 2] }
+
+  - id: B-ALG-125
+    topic: [B3, 2-2-2-2, 1-2-1-1]
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。
+
+      関数 comb は，n 個から k 個を選ぶ組合せの数 nCk を返す（0 ≦ k ≦ n）。nCk は，k ＝ 0 又は k ＝ n のとき 1 であり，それ以外のときは，ある特定の 1 個を選ぶ場合と選ばない場合に分けて求めることができる。
+    code: |
+      ○整数型: comb(整数型: n, 整数型: k)
+        if (k = 0 or k = n)
+          return 1
+        endif
+        return 【a】
+    c: ['comb(n － 1, k － 1) ＋ comb(n － 1, k)', 'comb(n － 1, k － 1) × comb(n － 1, k)', 'n × comb(n － 1, k － 1)', 'comb(n － 1, k － 1) ＋ comb(n － 1, k) ＋ 1', 'comb(n － 1, k － 1) ＋ comb(n － 2, k)']
+    a: ア
+    exp: |
+      特定の 1 個を選ぶ場合は残り n － 1 個から k － 1 個を選び、選ばない場合は残り n － 1 個から k 個を選びます。よって nCk ＝ n－1Ck－1 ＋ n－1Ck です（パスカルの三角形の関係）。
+
+      comb(4, 2) ＝ comb(3, 1) ＋ comb(3, 2) ＝ 3 ＋ 3 ＝ 6
+    why:
+      - 正解です。選ぶ場合と選ばない場合の和になっています。
+      - 和ではなく積にしているので、例えば comb(3, 1) が 1 × 1 ＝ 1 になります。
+      - 順列の考え方に近い式で、comb(3, 1) が 3 × 1 ＝ 3 となり一見正しいものの、comb(4, 2) は 4 × 3 ＝ 12 になります。
+      - 再帰のたびに 1 を余分に加えるので、値が大きくなります。
+      - 選ばない場合の残りの個数を 1 つ多く減らしているので、値が小さくなり、n － 2 ＜ k になると終了条件に達しないことがあります。
+    terms: [組合せ, 再帰]
+    verify:
+      cases:
+        - { call: comb, args: [4, 2], expect: 6 }
+        - { call: comb, args: [5, 2], expect: 10 }
+        - { call: comb, args: [3, 1], expect: 3 }
+        - { call: comb, args: [6, 3], expect: 20 }
+        - { call: comb, args: [2, 2], expect: 1 }
+    sim: { entry: comb, args: [4, 2] }
+
+  - id: B-ALG-126
+    topic: [B3, 2-2-2-2]
+    diff: 3
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。
+
+      関数 comb は，n 個から k 個を選ぶ組合せの数を再帰的に求める。comb(5, 2) を呼び出したとき，最初の呼出しを含めて関数 comb が呼び出される回数は【a】である。
+    code: |
+      ○整数型: comb(整数型: n, 整数型: k)
+        if (k = 0 or k = n)
+          return 1
+        endif
+        return comb(n － 1, k － 1) ＋ comb(n － 1, k)
+    c: ['19', '10', '20', '9']
+    a: ア
+    exp: |
+      この再帰は、終了条件に達した呼出しが 1 を返し、それらを足し合わせて結果を作ります。comb(5, 2) ＝ 10 なので、1 を返す呼出し（葉）はちょうど 10 回です。葉でない呼出しは必ず 2 回呼び出すので、呼出しの木は葉が 10 個の2分木であり、葉でない呼出しは 10 － 1 ＝ 9 回です。合計 19 回です。
+
+      | 呼出し | 子の呼出し |
+      | --- | --- |
+      | comb(5,2) | comb(4,1)、comb(4,2) |
+      | comb(4,1) | comb(3,0)、comb(3,1) |
+      | comb(4,2) | comb(3,1)、comb(3,2) |
+
+      同じ引数の呼出し（comb(3, 1) など）も重複して数えます。
+    why:
+      - 正解です。葉が 10 回、それ以外が 9 回で、合計 19 回です。
+      - comb(5, 2) の値（＝ 1 を返す呼出しの回数）であり、途中の呼出しを数えていません。
+      - 葉の 2 倍として数えた値で、葉の数 ＋ 葉でない呼出しの数（葉の数 － 1）になっていません。
+      - 葉でない呼出しの回数だけで、終了条件で 1 を返す呼出しを数えていません。
+    terms: [再帰, 組合せ]
+    verify:
+      result: { call: comb, args: [5, 2], of: 'calls:comb' }
+    sim: { entry: comb, args: [5, 2] }
+
+  - id: B-ALG-127
+    topic: [B3, 2-2-2-2, 1-3-7]
+    diff: 3
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。
+
+      関数 power は，x の n 乗（n ≧ 0）を，n を半分にしながら再帰的に求める。ここで，整数型の変数に実数を代入すると小数点以下は切り捨てられる。power(3, 100) を呼び出したとき，最初の呼出しを含めて関数 power が呼び出される回数は【a】である。
+    code: |
+      ○整数型: power(整数型: x, 整数型: n)
+        整数型: half, h
+        if (n = 0)
+          return 1
+        endif
+        half ← n ÷ 2
+        h ← power(x, half)
+        if (n mod 2 = 0)
+          return h × h
+        else
+          return h × h × x
+        endif
+    c: ['8', '7', '100', '50']
+    a: ア
+    exp: |
+      power は 1 回の呼出しで自分自身を 1 回だけ、n を半分（切捨て）にして呼び出します。n の変化をたどると
+
+      | 呼出し | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 |
+      | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+      | n | 100 | 50 | 25 | 12 | 6 | 3 | 1 | 0 |
+
+      n ＝ 0 で終了するので 8 回です。呼出し回数はおよそ log2 n ＋ 2 回であり、x を n 回掛ける方法より大幅に少なくなります。
+    why:
+      - 正解です。n が 100 → 50 → 25 → 12 → 6 → 3 → 1 → 0 と変化し、8 回呼び出されます。
+      - n ＝ 0 の呼出し（1 を返す呼出し）を数え忘れています。
+      - x を 1 回ずつ掛けていく単純な方法の掛け算の回数です。
+      - n を 2 ずつ減らすと考えた場合の回数で、n は半分になっていきます。
+    terms: [再帰, 計算量]
+    verify:
+      result: { call: power, args: [3, 100], of: 'calls:power' }
+    sim: { entry: power, args: [3, 13] }
+
+  # ===== 数理・データサイエンス・AI =====
+  - id: B-ALG-128
+    topic: [B4, 1-2-1-2]
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 variance は，整数型の配列 data の値の分散（各値と平均との差の 2 乗の平均）を返す。
+    code: |
+      ○実数型: variance(整数型の配列: data)
+        整数型: i, n
+        実数型: mean, s
+        n ← dataの要素数
+        s ← 0
+        for (i を 1 から n まで 1 ずつ増やす)
+          s ← s ＋ data[i]
+        endfor
+        mean ← s ÷ n
+        s ← 0
+        for (i を 1 から n まで 1 ずつ増やす)
+          s ← 【a】
+        endfor
+        return s ÷ n
+    c: ['s ＋ (data[i] － mean) × (data[i] － mean)', 's ＋ (data[i] － mean)', 's ＋ data[i] × data[i] － mean', 's ＋ (data[i] － mean) × (data[i] － mean) ÷ n', 's × (data[i] － mean)']
+    a: ア
+    exp: |
+      分散は、偏差（値 － 平均）の 2 乗を合計し、個数で割ったものです。2 回目の繰返しで偏差の 2 乗を s に足し込み、最後に s ÷ n を返します。
+
+      data が {2, 4, 4, 4, 5, 5, 7, 9} のとき平均は 40 ÷ 8 ＝ 5 です。
+
+      | 値 | 2 | 4 | 4 | 4 | 5 | 5 | 7 | 9 |
+      | --- | --- | --- | --- | --- | --- | --- | --- | --- |
+      | 偏差 | -3 | -1 | -1 | -1 | 0 | 0 | 2 | 4 |
+      | 2 乗 | 9 | 1 | 1 | 1 | 0 | 0 | 4 | 16 |
+
+      合計 32 を 8 で割って分散は 4 です（標準偏差はその平方根の 2）。
+    why:
+      - 正解です。偏差の 2 乗の合計を求めています。
+      - 偏差の合計は常に 0 になるので、分散は常に 0 になります。
+      - 値の 2 乗から毎回平均を引いており、偏差の 2 乗になっていません。
+      - 足し込む段階でも n で割っているので、最後の s ÷ n と合わせて n で 2 回割ることになります。
+      - 足し算ではなく掛け算にしており、s の初期値が 0 なので結果は常に 0 になります。
+    terms: [分散, 標準偏差, 代表値]
+    verify:
+      cases:
+        - { call: variance, args: [[2, 4, 4, 4, 5, 5, 7, 9]], expect: 4 }
+        - { call: variance, args: [[1, 2, 3, 4]], expect: 1.25 }
+        - { call: variance, args: [[5, 5]], expect: 0 }
+        - { call: variance, args: [[1, 3]], expect: 1 }
+    sim: { entry: variance, args: [[2, 4, 4, 4, 5, 5, 7, 9]] }
+
+  - id: B-ALG-129
+    topic: [B4, 1-2-3]
+    diff: 3
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。
+
+      関数 isqrt は，0 以上の整数 n に対して，2 乗が n 以下となる最大の整数（n の平方根の整数部分）を返す。ニュートン法の考え方を整数の範囲で用い，x の初期値を n とし，y ← (x ＋ n ÷ x) ÷ 2 で次の近似値を求める。近似値は真の値に向かって減少していき，減少しなくなったときの x が答えである。ここで，整数型の変数に実数を代入すると小数点以下は切り捨てられる。
+    code: |
+      ○整数型: isqrt(整数型: n)
+        整数型: x, y
+        if (n = 0)
+          return 0
+        endif
+        x ← n
+        y ← (x ＋ n ÷ x) ÷ 2
+        while (【a】)
+          x ← y
+          y ← (x ＋ n ÷ x) ÷ 2
+        endwhile
+        return x
+    c: ['y < x', 'y ≦ x', 'y ≠ x', 'y > x']
+    a: ア
+    exp: |
+      次の近似値 y が今の x より小さい間は x を y に置き換えて続け、y が x 以上になったら（減少しなくなったら）終了します。
+
+      isqrt(99) の動き
+
+      | x | n ÷ x | y | y ＜ x |
+      | --- | --- | --- | --- |
+      | 99 | 1 | 50 | 真 |
+      | 50 | 1.98 | 25 | 真 |
+      | 25 | 3.96 | 14 | 真 |
+      | 14 | 7.07… | 10 | 真 |
+      | 10 | 9.9 | 9 | 真 |
+      | 9 | 11 | 10 | 偽 |
+
+      9 × 9 ＝ 81 ≦ 99 ＜ 100 なので 9 が答えです。
+    why:
+      - 正解です。近似値が減少しなくなった時点で終了し、そのときの x を返します。
+      - y と x が等しくなった後も繰り返し、値が変わらないため繰返しが終わりません。
+      - n ＝ 3 や 8 などでは x と y が 2 つの値を交互にとり、等しくならないので繰返しが終わりません。
+      - 最初の y は x より小さいので繰返しに入らず、n をそのまま返してしまいます。
+    terms: [ニュートン法]
+    verify:
+      cases:
+        - { call: isqrt, args: [99], expect: 9 }
+        - { call: isqrt, args: [16], expect: 4 }
+        - { call: isqrt, args: [3], expect: 1 }
+        - { call: isqrt, args: [8], expect: 2 }
+        - { call: isqrt, args: [1], expect: 1 }
+    sim: { entry: isqrt, args: [99] }
+
+  - id: B-ALG-130
+    topic: [B4, 1-2-1-2]
+    diff: 2
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 median は，昇順に整列済みの整数型の配列 data（要素数 1 以上）の中央値を返す。要素数が奇数のときは中央の値，偶数のときは中央の 2 つの値の平均を中央値とする。ここで，整数型の変数に実数を代入すると小数点以下は切り捨てられる。
+    code: |
+      ○実数型: median(整数型の配列: data)
+        整数型: n, m
+        n ← dataの要素数
+        m ← n ÷ 2
+        if (n mod 2 = 1)
+          return 【a】
+        else
+          return 【b】
+        endif
+    c: ['a：data[m ＋ 1]，b：(data[m] ＋ data[m ＋ 1]) ÷ 2', 'a：data[m]，b：(data[m] ＋ data[m ＋ 1]) ÷ 2', 'a：data[m ＋ 1]，b：data[m] ＋ data[m ＋ 1] ÷ 2', 'a：data[m ＋ 1]，b：(data[m ＋ 1] ＋ data[m ＋ 2]) ÷ 2', 'a：data[m]，b：data[m]']
+    fills:
+      - { a: 'data[m ＋ 1]', b: '(data[m] ＋ data[m ＋ 1]) ÷ 2' }
+      - { a: 'data[m]', b: '(data[m] ＋ data[m ＋ 1]) ÷ 2' }
+      - { a: 'data[m ＋ 1]', b: 'data[m] ＋ data[m ＋ 1] ÷ 2' }
+      - { a: 'data[m ＋ 1]', b: '(data[m ＋ 1] ＋ data[m ＋ 2]) ÷ 2' }
+      - { a: 'data[m]', b: 'data[m]' }
+    a: ア
+    exp: |
+      m は n ÷ 2 の切捨てです。
+
+      | n | m | 中央の位置 |
+      | --- | --- | --- |
+      | 5（奇数） | 2 | 3 ＝ m ＋ 1 |
+      | 4（偶数） | 2 | 2 と 3 ＝ m と m ＋ 1 |
+
+      奇数なら data[m ＋ 1]、偶数なら (data[m] ＋ data[m ＋ 1]) ÷ 2 です。偶数のときの ÷ 2 は括弧で和全体にかける必要があります。例えば {2, 4, 6, 10} の中央値は (4 ＋ 6) ÷ 2 ＝ 5 です。
+    why:
+      - 正解です。奇数では中央の要素、偶数では中央の 2 要素の平均を返します。
+      - 奇数のとき中央より 1 つ前の要素を返し、要素数が 1 のときは data[0] を参照してエラーになります。
+      - 除算が加算より優先されるので、data[m] ＋ (data[m ＋ 1] ÷ 2) を計算してしまいます。
+      - 偶数のとき中央の 2 要素より 1 つ後ろの 2 要素の平均になり、要素数 2 では範囲外を参照します。
+      - 中央の位置を 1 つ前にずらしたうえ、偶数のとき平均をとっていません。
+    terms: [中央値, 代表値]
+    verify:
+      cases:
+        - { call: median, args: [[1, 3, 5]], expect: 3 }
+        - { call: median, args: [[2, 4, 6, 10]], expect: 5 }
+        - { call: median, args: [[7]], expect: 7 }
+        - { call: median, args: [[1, 2]], expect: 1.5 }
+        - { call: median, args: [[1, 2, 8, 9, 20]], expect: 8 }
+    sim: { entry: median, args: [[2, 4, 6, 10]] }
+
+  - id: B-ALG-131
+    topic: [B4, 1-2-1-2]
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 movingAverage は，整数型の配列 data について，連続する k 個の値の平均（k 区間の移動平均）を先頭から順に求め，実数型の配列で返す。data の要素数を n とすると，戻り値の要素数は n － k ＋ 1 である。計算量を減らすため，区間の合計 s を毎回計算し直さず，新しく区間に入った値を足し，区間から外れた値を引いて更新する。
+    code: |
+      ○実数型の配列: movingAverage(整数型の配列: data, 整数型: k)
+        実数型の配列: result ← {}
+        整数型: i
+        実数型: s ← 0
+        for (i を 1 から dataの要素数 まで 1 ずつ増やす)
+          s ← s ＋ data[i]
+          if (i > k)
+            s ← 【a】
+          endif
+          if (i ≧ k)
+            result の末尾に s ÷ k を追加する
+          endif
+        endfor
+        return result
+    c: ['s － data[i － k]', 's － data[i － k ＋ 1]', 's － data[i － 1]', 's － data[k]', 's － data[1]']
+    a: ア
+    exp: |
+      i 番目の値を足した直後、区間は i － k ＋ 1 番目〜 i 番目にしたいので、区間から外れる i － k 番目の値を引きます。
+
+      data が {2, 4, 6, 8, 10}、k が 3 のとき
+
+      | i | 足す値 | 引く値 | s | 追加する平均 |
+      | --- | --- | --- | --- | --- |
+      | 1 | 2 | － | 2 | － |
+      | 2 | 4 | － | 6 | － |
+      | 3 | 6 | － | 12 | 4 |
+      | 4 | 8 | data[1] ＝ 2 | 18 | 6 |
+      | 5 | 10 | data[2] ＝ 4 | 24 | 8 |
+
+      戻り値は {4, 6, 8} です。
+    why:
+      - 正解です。区間の外に出た i － k 番目の値を引いています。
+      - 区間に残すべき i － k ＋ 1 番目の値を引いてしまい、区間の値が k － 1 個になります。
+      - 直前の値を引くので、区間の先頭ではなく区間の途中の値が除かれます。
+      - 常に k 番目の値を引くので、区間が進んでも同じ値を引き続けます。
+      - 常に先頭の値を引くので、区間が進むと正しい値が引かれません。
+    terms: [移動平均, 代表値]
+    verify:
+      cases:
+        - { call: movingAverage, args: [[2, 4, 6, 8, 10], 3], expect: [4, 6, 8] }
+        - { call: movingAverage, args: [[1, 2, 3, 4], 2], expect: [1.5, 2.5, 3.5] }
+        - { call: movingAverage, args: [[5, 1, 9, 3, 7, 2], 3], expect: [5, 4.333333333333333, 6.333333333333333, 4] }
+    sim: { entry: movingAverage, args: [[2, 4, 6, 8, 10], 3] }
+
+  - id: B-ALG-132
+    topic: [B4, 1-3-8-2]
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      機械学習の前処理として，データの値を 0 以上 1 以下の範囲にそろえる min-max 正規化を行う。関数 normalize は，整数型の配列 data（最大値と最小値は異なる）の各値を，最小値が 0，最大値が 1 になるように変換した実数型の配列を返す。
+    code: |
+      ○実数型の配列: normalize(整数型の配列: data)
+        整数型: i, mn, mx
+        実数型の配列: r ← {}
+        mn ← data[1]
+        mx ← data[1]
+        for (i を 2 から dataの要素数 まで 1 ずつ増やす)
+          if (data[i] < mn)
+            mn ← data[i]
+          endif
+          if (data[i] > mx)
+            mx ← data[i]
+          endif
+        endfor
+        for (i を 1 から dataの要素数 まで 1 ずつ増やす)
+          r の末尾に 【a】 を追加する
+        endfor
+        return r
+    c: ['(data[i] － mn) ÷ (mx － mn)', 'data[i] ÷ mx', '(data[i] － mn) ÷ mx', 'data[i] － mn ÷ (mx － mn)', '(mx － data[i]) ÷ (mx － mn)']
+    a: ア
+    exp: |
+      最小値を引いて 0 起点にし、値の幅（最大値 － 最小値）で割ると、最小値は 0、最大値は 1 になります。
+
+      data が {10, 20, 30, 50} のとき、mn ＝ 10、mx ＝ 50、幅は 40 です。
+
+      | 値 | 10 | 20 | 30 | 50 |
+      | --- | --- | --- | --- | --- |
+      | 値 － 10 | 0 | 10 | 20 | 40 |
+      | ÷ 40 | 0 | 0.25 | 0.5 | 1 |
+    why:
+      - 正解です。最小値を引いてから値の幅で割っています。
+      - 最大値で割るだけなので、最小値が 0 になりません（10 は 0.2 になります）。
+      - 最小値は 0 になりますが、幅ではなく最大値で割るので最大値が 1 になりません。
+      - 除算が減算より優先されるので、data[i] から mn ÷ (mx － mn) を引くことになり、範囲がそろいません。
+      - 大小が逆転し、最大値が 0、最小値が 1 になります。
+    terms: [min-max正規化, 機械学習]
+    verify:
+      cases:
+        - { call: normalize, args: [[10, 20, 30, 50]], expect: [0, 0.25, 0.5, 1] }
+        - { call: normalize, args: [[3, 1, 5]], expect: [0.5, 0, 1] }
+        - { call: normalize, args: [[-2, 2]], expect: [0, 1] }
+    sim: { entry: normalize, args: [[10, 20, 30, 50]] }
+
+  - id: B-ALG-133
+    topic: [B4, 1-2-1-2]
+    diff: 2
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 covariance は，同じ要素数の整数型の配列 x，y について，共分散（x の偏差と y の偏差の積の平均）を返す。covariance({1, 2, 3, 4, 5}, {2, 4, 5, 4, 5}) の戻り値は【a】である。
+    code: |
+      ○実数型: covariance(整数型の配列: x, 整数型の配列: y)
+        整数型: i, n
+        実数型: mx ← 0
+        実数型: my ← 0
+        実数型: s ← 0
+        n ← xの要素数
+        for (i を 1 から n まで 1 ずつ増やす)
+          mx ← mx ＋ x[i]
+          my ← my ＋ y[i]
+        endfor
+        mx ← mx ÷ n
+        my ← my ÷ n
+        for (i を 1 から n まで 1 ずつ増やす)
+          s ← s ＋ (x[i] － mx) × (y[i] － my)
+        endfor
+        return s ÷ n
+    c: ['1.2', '6', '1.5', '-1.2']
+    a: ア
+    exp: |
+      x の平均は 15 ÷ 5 ＝ 3、y の平均は 20 ÷ 5 ＝ 4 です。
+
+      | i | 1 | 2 | 3 | 4 | 5 |
+      | --- | --- | --- | --- | --- | --- |
+      | x の偏差 | -2 | -1 | 0 | 1 | 2 |
+      | y の偏差 | -2 | 0 | 1 | 0 | 1 |
+      | 積 | 4 | 0 | 0 | 0 | 2 |
+
+      積の合計 6 を 5 で割って 1.2 です。正の値なので、x が大きいほど y も大きい傾向があります。共分散をそれぞれの標準偏差の積で割ると相関係数になります。
+    why:
+      - 正解です。偏差の積の合計 6 を要素数 5 で割った値です。
+      - 偏差の積の合計であり、要素数で割っていません。
+      - 偏差の積の合計を要素数 － 1（4）で割った値（不偏共分散）で、このプログラムは n で割ります。
+      - 符号が逆です。偏差の積の合計は正なので、共分散も正になります。
+    terms: [共分散, 相関係数, 分散]
+    verify:
+      result: { call: covariance, args: [[1, 2, 3, 4, 5], [2, 4, 5, 4, 5]], of: return }
+    sim: { entry: covariance, args: [[1, 2, 3, 4, 5], [2, 4, 5, 4, 5]] }
+
+  - id: B-ALG-134
+    topic: [B4, 1-2-2]
+    diff: 2
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 mul は，n 行 m 列の行列 a と m 行 p 列の行列 b の積である n 行 p 列の行列を返す。積の i 行 j 列の成分は，a の i 行目と b の j 列目の対応する成分の積の和である。二次元配列 x の行数は xの行数，列数は xの列数 で得られる。
+    code: |
+      ○整数型の二次元配列: mul(整数型の二次元配列: a, 整数型の二次元配列: b)
+        整数型: n ← aの行数
+        整数型: m ← aの列数
+        整数型: p ← bの列数
+        整数型の二次元配列: c ← {n個の{p個の0}}
+        整数型: i, j, k
+        for (i を 1 から n まで 1 ずつ増やす)
+          for (j を 1 から p まで 1 ずつ増やす)
+            for (k を 1 から 【a】 まで 1 ずつ増やす)
+              c[i, j] ← c[i, j] ＋ 【b】
+            endfor
+          endfor
+        endfor
+        return c
+    c: ['a：m，b：a[i, k] × b[k, j]', 'a：p，b：a[i, k] × b[k, j]', 'a：m，b：a[i, k] × b[j, k]', 'a：m，b：a[k, i] × b[k, j]', 'a：n，b：a[i, k] × b[k, j]', 'a：m，b：a[i, j] × b[i, j]']
+    fills:
+      - { a: 'm', b: 'a[i, k] × b[k, j]' }
+      - { a: 'p', b: 'a[i, k] × b[k, j]' }
+      - { a: 'm', b: 'a[i, k] × b[j, k]' }
+      - { a: 'm', b: 'a[k, i] × b[k, j]' }
+      - { a: 'n', b: 'a[i, k] × b[k, j]' }
+      - { a: 'm', b: 'a[i, j] × b[i, j]' }
+    a: ア
+    exp: |
+      c[i, j] ＝ a[i, 1] × b[1, j] ＋ a[i, 2] × b[2, j] ＋ … ＋ a[i, m] × b[m, j] です。k は a の列番号かつ b の行番号なので、1 から m まで動かします。
+
+      a ＝ {{1, 2, 3}, {4, 5, 6}}、b ＝ {{1, 0}, {0, 1}, {1, 1}} のとき
+
+      | 成分 | 計算 | 値 |
+      | --- | --- | --- |
+      | c[1, 1] | 1×1 ＋ 2×0 ＋ 3×1 | 4 |
+      | c[1, 2] | 1×0 ＋ 2×1 ＋ 3×1 | 5 |
+      | c[2, 1] | 4×1 ＋ 5×0 ＋ 6×1 | 10 |
+      | c[2, 2] | 4×0 ＋ 5×1 ＋ 6×1 | 11 |
+    why:
+      - 正解です。a の i 行目と b の j 列目の成分を、k ＝ 1〜m について掛けて足しています。
+      - k の上限を b の列数にしているので、m と p が異なると足す項の数が合わず、範囲外参照や項の不足が起こります。
+      - b の添字が j 行 k 列になっており、b の転置との積を計算してしまいます。
+      - a の添字が k 行 i 列になっており、a の転置との積を計算してしまいます。
+      - k の上限を a の行数にしているので、n と m が異なると足す項の数が合いません。
+      - 同じ位置の成分どうしの積（要素ごとの積）であり、行列の積ではありません。
+    terms: [行列, 行列の積, 二次元配列]
+    verify:
+      cases:
+        - { call: mul, args: [[[1, 2, 3], [4, 5, 6]], [[1, 0], [0, 1], [1, 1]]], expect: [[4, 5], [10, 11]] }
+        - { call: mul, args: [[[1, 2], [3, 4]], [[5, 6], [7, 8]]], expect: [[19, 22], [43, 50]] }
+        - { call: mul, args: [[[2, 1]], [[1, 2, 3], [4, 5, 6]]], expect: [[6, 9, 12]] }
+    sim: { entry: mul, args: [[[1, 2, 3], [4, 5, 6]], [[1, 0], [0, 1], [1, 1]]] }
+
+  - id: B-ALG-135
+    topic: [B4, 1-2-2]
+    diff: 3
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      成分のほとんどが 0 である疎行列を，0 でない成分だけを記録して表す。k 番目の 0 でない成分は，行番号を row[k]，列番号を col[k]，値を val[k] に格納する。関数 spmv は，n 行の疎行列とベクトル（配列）x の積（n 個の成分をもつベクトル y，y の i 番目の成分は行列の i 行目と x の内積）を返す。
+    code: |
+      ○整数型の配列: spmv(整数型: n, 整数型の配列: row, 整数型の配列: col, 整数型の配列: val, 整数型の配列: x)
+        整数型の配列: y ← {n個の0}
+        整数型: k
+        for (k を 1 から valの要素数 まで 1 ずつ増やす)
+          y[【a】] ← y[【a】] ＋ val[k] × 【b】
+        endfor
+        return y
+    c: ['a：row[k]，b：x[col[k]]', 'a：col[k]，b：x[row[k]]', 'a：row[k]，b：x[k]', 'a：k，b：x[col[k]]', 'a：row[k]，b：col[k]']
+    fills:
+      - { a: 'row[k]', b: 'x[col[k]]' }
+      - { a: 'col[k]', b: 'x[row[k]]' }
+      - { a: 'row[k]', b: 'x[k]' }
+      - { a: 'k', b: 'x[col[k]]' }
+      - { a: 'row[k]', b: 'col[k]' }
+    a: ア
+    exp: |
+      行列の (r, c) 成分 v は、y の r 番目の成分に v × x[c] として寄与します。したがって 0 でない成分ごとに y[row[k]] に val[k] × x[col[k]] を足し込めば、0 の成分を一切計算せずに積が求まります。
+
+      行列が {{0, 3, 0}, {2, 0, 0}, {0, 0, 4}}（row ＝ {1, 2, 3}、col ＝ {2, 1, 3}、val ＝ {3, 2, 4}）、x ＝ {1, 2, 3} のとき
+
+      | k | 成分 | 足し込み |
+      | --- | --- | --- |
+      | 1 | (1, 2) ＝ 3 | y[1] に 3 × x[2] ＝ 6 |
+      | 2 | (2, 1) ＝ 2 | y[2] に 2 × x[1] ＝ 2 |
+      | 3 | (3, 3) ＝ 4 | y[3] に 4 × x[3] ＝ 12 |
+
+      戻り値は {6, 2, 12} です。
+    why:
+      - 正解です。成分の行番号の位置に、値と x の列番号の成分の積を足し込みます。
+      - 行と列を入れ替えており、転置行列とベクトルの積を計算してしまいます。
+      - x の要素番号を成分の通し番号 k にしており、列番号に対応していません。
+      - 足し込む位置を通し番号 k にしているので、行番号に対応した位置に足されません。
+      - x の値ではなく列番号そのものを掛けており、ベクトル x を使っていません。
+    terms: [疎行列, 行列, 内積]
+    verify:
+      cases:
+        - { call: spmv, args: [3, [1, 2, 3], [2, 1, 3], [3, 2, 4], [1, 2, 3]], expect: [6, 2, 12] }
+        - { call: spmv, args: [2, [1, 1, 2], [1, 3, 2], [5, 1, 2], [2, 7, 4]], expect: [14, 14] }
+        - { call: spmv, args: [3, [2, 3], [3, 1], [6, 1], [5, 1, 2]], expect: [0, 12, 5] }
+    sim: { entry: spmv, args: [3, [1, 2, 3], [2, 1, 3], [3, 2, 4], [1, 2, 3]] }
+
+  - id: B-ALG-136
+    topic: [B4, 1-3-8-2]
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      k 近傍法（k ＝ 1）で分類する。学習データの i 番目の点の座標は (pts[i, 1], pts[i, 2])，そのクラスは label[i] である。関数 nearest は，点 (qx, qy) に最も近い学習データの点のクラスを返す。距離の比較には，ユークリッド距離の 2 乗を用いる。最も近い点が複数ある場合は，要素番号が最も小さい点を選ぶ。
+    code: |
+      ○整数型: nearest(整数型の二次元配列: pts, 整数型の配列: label, 整数型: qx, 整数型: qy)
+        整数型: i, d, best, bestD
+        best ← 0
+        bestD ← -1
+        for (i を 1 から ptsの行数 まで 1 ずつ増やす)
+          d ← (pts[i, 1] － qx) × (pts[i, 1] － qx) ＋ (pts[i, 2] － qy) × (pts[i, 2] － qy)
+          if (【a】)
+            best ← i
+            bestD ← d
+          endif
+        endfor
+        return label[best]
+    c: ['bestD < 0 or d < bestD', 'd < bestD', 'bestD < 0 or d > bestD', 'bestD < 0 and d < bestD', 'bestD < 0 or d ≦ bestD']
+    a: ア
+    exp: |
+      bestD の初期値 -1 は「まだ候補がない」ことを表します。最初の点は無条件に候補にし（bestD ＜ 0）、以降はより近い点（d ＜ bestD）が見つかったときだけ候補を更新します。等しい距離では更新しないので、要素番号の小さい点が残ります。
+
+      学習データ (1, 1):1、(5, 5):2、(2, 0):1、(6, 4):2 で、点 (5, 3) を分類すると
+
+      | i | 点 | d | 候補 |
+      | --- | --- | --- | --- |
+      | 1 | (1, 1) | 16 ＋ 4 ＝ 20 | 1 |
+      | 2 | (5, 5) | 0 ＋ 4 ＝ 4 | 2 |
+      | 3 | (2, 0) | 9 ＋ 9 ＝ 18 | 2 |
+      | 4 | (6, 4) | 1 ＋ 1 ＝ 2 | 4 |
+
+      クラス label[4] ＝ 2 を返します。
+    why:
+      - 正解です。最初の点を候補にした後、より近い点が見つかったときだけ更新します。
+      - bestD が -1 のままでは d ＜ -1 が成り立たず、一度も更新されないので label[0] を参照してエラーになります。
+      - より遠い点で更新するので、最も遠い点のクラスを返してしまいます。
+      - bestD ＜ 0 と d ＜ bestD は同時に成り立たないので一度も更新されず、label[0] を参照してエラーになります。
+      - 距離が等しい点でも更新するので、最も近い点が複数あるときに要素番号の大きい点を選んでしまいます。
+    terms: [k近傍法, ユークリッド距離, 機械学習, 分類]
+    verify:
+      cases:
+        - { call: nearest, args: [[[1, 1], [5, 5], [2, 0], [6, 4]], [1, 2, 1, 2], 5, 3], expect: 2 }
+        - { call: nearest, args: [[[1, 1], [5, 5], [2, 0], [6, 4]], [1, 2, 1, 2], 2, 2], expect: 1 }
+        - { call: nearest, args: [[[0, 0], [4, 0]], [1, 2], 2, 0], expect: 1 }
+        - { call: nearest, args: [[[3, 3]], [7], 0, 0], expect: 7 }
+    sim: { entry: nearest, args: [[[1, 1], [5, 5], [2, 0], [6, 4]], [1, 2, 1, 2], 5, 3] }
+
+  - id: B-ALG-137
+    topic: [B4, 1-3-8-2]
+    diff: 3
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      単純パーセプトロンに論理積（AND）を学習させる。入力 (x[i, 1], x[i, 2]) に対する出力 y は，重み付き和 s ＝ w[1] × x[i, 1] ＋ w[2] × x[i, 2] ＋ b が 0 より大きければ 1，そうでなければ 0 とする（ステップ関数）。教師データ t[i] と出力 y が異なるときは，学習率 0.5 で重み w とバイアス b を修正する。手続 train を実行したとき，出力される値は順に【a】である。
+    code: |
+      ○train()
+        実数型の配列: w ← {0, 0}
+        実数型: b ← 0
+        整数型の二次元配列: x ← {{0, 0}, {0, 1}, {1, 0}, {1, 1}}
+        整数型の配列: t ← {0, 0, 0, 1}
+        整数型: epoch, i, y
+        実数型: s
+        for (epoch を 1 から 2 まで 1 ずつ増やす)
+          for (i を 1 から 4 まで 1 ずつ増やす)
+            s ← w[1] × x[i, 1] ＋ w[2] × x[i, 2] ＋ b
+            if (s > 0)
+              y ← 1
+            else
+              y ← 0
+            endif
+            w[1] ← w[1] ＋ 0.5 × (t[i] － y) × x[i, 1]
+            w[2] ← w[2] ＋ 0.5 × (t[i] － y) × x[i, 2]
+            b ← b ＋ 0.5 × (t[i] － y)
+          endfor
+        endfor
+        w[1] を出力する
+        w[2] を出力する
+        b を出力する
+    c: ['1 0.5 0', '0.5 0.5 0.5', '1 1 -0.5', '0.5 0 -0.5']
+    a: ア
+    exp: |
+      出力と教師データが等しいときは t[i] － y ＝ 0 なので修正されません。異なるときだけ、0.5 × 誤差 × 入力 を重みに加えます。
+
+      | 回 | 入力 | s | y | t | 修正後 (w1, w2, b) |
+      | --- | --- | --- | --- | --- | --- |
+      | 1-1〜1-3 | (0,0)(0,1)(1,0) | 0 | 0 | 0 | (0, 0, 0) |
+      | 1-4 | (1,1) | 0 | 0 | 1 | (0.5, 0.5, 0.5) |
+      | 2-1 | (0,0) | 0.5 | 1 | 0 | (0.5, 0.5, 0) |
+      | 2-2 | (0,1) | 0.5 | 1 | 0 | (0.5, 0, -0.5) |
+      | 2-3 | (1,0) | 0 | 0 | 0 | (0.5, 0, -0.5) |
+      | 2-4 | (1,1) | 0 | 0 | 1 | (1, 0.5, 0) |
+
+      出力は 1 0.5 0 です。
+    why:
+      - 正解です。2 回目の繰返しの最後に (1, 1) で誤差が出て、w1 ＝ 1、w2 ＝ 0.5、b ＝ 0 になります。
+      - 1 回目の繰返しを終えた時点の値で、2 回目の繰返しの修正を反映していません。
+      - 修正の向き（誤差の符号）や回数を誤った値で、表のとおりには変化しません。
+      - 2 回目の繰返しの (0, 1) までの値で、最後の (1, 1) での修正を反映していません。
+    terms: [単純パーセプトロン, ニューラルネットワーク, 活性化関数, 教師あり学習]
+    verify:
+      result: { call: train, of: output }
+    sim: { entry: train }
+
+  - id: B-ALG-138
+    topic: [B4, 1-3-8-3]
+    diff: 3
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      ニューラルネットワークの全結合層の計算を行う。関数 layer は，入力ベクトル x（要素数 m），重み行列 w（h 行 m 列），バイアス b（要素数 h）から，j 番目の出力を「b[j] ＋ Σ(w[j, i] × x[i])」に活性化関数 ReLU（負の値を 0 にし，0 以上の値はそのままにする関数）を適用した値として求め，要素数 h の配列で返す。
+    code: |
+      ○実数型の配列: layer(実数型の二次元配列: w, 実数型の配列: b, 実数型の配列: x)
+        整数型: i, j
+        実数型: s
+        実数型の配列: out ← {}
+        for (j を 1 から wの行数 まで 1 ずつ増やす)
+          s ← b[j]
+          for (i を 1 から xの要素数 まで 1 ずつ増やす)
+            s ← s ＋ 【a】
+          endfor
+          if (【b】)
+            s ← 0
+          endif
+          out の末尾に s を追加する
+        endfor
+        return out
+    c: ['a：w[j, i] × x[i]，b：s < 0', 'a：w[i, j] × x[i]，b：s < 0', 'a：w[j, i] × x[j]，b：s < 0', 'a：w[j, i] × x[i]，b：s > 0', 'a：w[j, i] ＋ x[i]，b：s < 0', 'a：w[j, i] × x[i]，b：s < b[j]']
+    fills:
+      - { a: 'w[j, i] × x[i]', b: 's < 0' }
+      - { a: 'w[i, j] × x[i]', b: 's < 0' }
+      - { a: 'w[j, i] × x[j]', b: 's < 0' }
+      - { a: 'w[j, i] × x[i]', b: 's > 0' }
+      - { a: 'w[j, i] ＋ x[i]', b: 's < 0' }
+      - { a: 'w[j, i] × x[i]', b: 's < b[j]' }
+    a: ア
+    exp: |
+      j 番目の出力は、重み行列の j 行目と入力 x の内積にバイアスを加えたものです。ReLU は負の値だけを 0 にするので、s ＜ 0 のとき s ← 0 とします。
+
+      w ＝ {{1, -1, 2}, {0.5, 1, -1}}、b ＝ {0, -1}、x ＝ {1, 2, 3} のとき
+
+      | j | 重み付き和 ＋ バイアス | ReLU 後 |
+      | --- | --- | --- |
+      | 1 | 0 ＋ 1 － 2 ＋ 6 ＝ 5 | 5 |
+      | 2 | -1 ＋ 0.5 ＋ 2 － 3 ＝ -1.5 | 0 |
+
+      戻り値は {5, 0} です。
+    why:
+      - 正解です。j 行目の重みと入力の内積にバイアスを加え、負なら 0 にしています。
+      - 重み行列の行と列を取り違えており、h と m が異なると範囲外を参照します。
+      - 入力の要素番号に出力の番号 j を使っており、入力ベクトルとの内積になりません。
+      - 正の値を 0 にしてしまい、ReLU とは逆の処理になります。
+      - 重みと入力を掛けずに足しており、重み付き和になりません。
+      - バイアスより小さいときだけ 0 にするので、和がバイアスと 0 の間の負の値のときに 0 になりません。
+    terms: [ニューラルネットワーク, ReLU, 活性化関数, 内積]
+    verify:
+      cases:
+        - { call: layer, args: [[[1, -1, 2], [0.5, 1, -1]], [0, -1], [1, 2, 3]], expect: [5, 0] }
+        - { call: layer, args: [[[1, -1, 2], [0.5, 1, -1]], [0, -1], [2, 0, -1]], expect: [0, 1] }
+        - { call: layer, args: [[[1, -1, 2], [0.5, 1, -1]], [0, -1], [0, 0.5, 0]], expect: [0, 0] }
+    sim: { entry: layer, args: [[[1, -1, 2], [0.5, 1, -1]], [0, -1], [1, 2, 3]] }
+
+  - id: B-ALG-139
+    topic: [B4, 1-3-8-3]
+    diff: 2
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。
+
+      関数 step は，引数が 0 より大きければ 1，そうでなければ 0 を返すステップ関数である。関数 net は，2 つの入力 x1，x2（それぞれ 0 又は 1）から，中間層の 2 つのニューロン h1，h2 を経て 1 つの出力を計算するニューラルネットワークである。手続 main を実行したとき，出力される値は順に【a】である。
+    code: |
+      ○整数型: step(実数型: s)
+        if (s > 0)
+          return 1
+        endif
+        return 0
+
+      ○整数型: net(整数型: x1, 整数型: x2)
+        整数型: h1, h2
+        h1 ← step(x1 ＋ x2 － 0.5)
+        h2 ← step(x1 ＋ x2 － 1.5)
+        return step(h1 － h2 － 0.5)
+
+      ○main()
+        整数型: x1, x2
+        for (x1 を 0 から 1 まで 1 ずつ増やす)
+          for (x2 を 0 から 1 まで 1 ずつ増やす)
+            net(x1, x2) を出力する
+          endfor
+        endfor
+    c: ['0 1 1 0', '0 0 0 1', '0 1 1 1', '1 0 0 1']
+    a: ア
+    exp: |
+      h1 は x1 ＋ x2 ≧ 1 のとき 1（論理和）、h2 は x1 ＋ x2 ＝ 2 のとき 1（論理積）になります。出力は h1 － h2 ＞ 0.5、つまり h1 ＝ 1 かつ h2 ＝ 0 のときだけ 1 です。
+
+      | x1 | x2 | h1 | h2 | 出力 |
+      | --- | --- | --- | --- | --- |
+      | 0 | 0 | 0 | 0 | 0 |
+      | 0 | 1 | 1 | 0 | 1 |
+      | 1 | 0 | 1 | 0 | 1 |
+      | 1 | 1 | 1 | 1 | 0 |
+
+      排他的論理和（XOR）になります。XOR は単純パーセプトロン 1 つでは実現できませんが、中間層を設けると実現できます。
+    why:
+      - 正解です。中間層で論理和と論理積を求め、その差から排他的論理和を得ています。
+      - h2（論理積）の値そのものです。出力は h1 と h2 の組合せで決まります。
+      - h1（論理和）の値そのものです。(1, 1) では h2 ＝ 1 なので出力は 0 になります。
+      - 排他的論理和の否定（一致判定）であり、出力の 0 と 1 が逆です。
+    terms: [ニューラルネットワーク, 多層パーセプトロン, 単純パーセプトロン, 排他的論理和]
+    verify:
+      result: { call: main, of: output }
+    sim: { entry: main }
+
+  - id: B-ALG-140
+    topic: [B4, 1-1-3]
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。
+
+      手続 factorize は，2 以上の整数 n を素因数分解し，素因数を小さい順に（同じ素因数は重複する個数だけ）出力する。p × p が m を超えた時点で残っている m が 1 より大きければ，m 自身が素数である。ここで，整数型の変数に実数を代入すると小数点以下は切り捨てられる。
+    code: |
+      ○factorize(整数型: n)
+        整数型: p ← 2
+        整数型: m ← n
+        while (p × p ≦ m)
+          while (【a】)
+            p を出力する
+            m ← m ÷ p
+          endwhile
+          p ← p ＋ 1
+        endwhile
+        if (m > 1)
+          m を出力する
+        endif
+    c: ['m mod p = 0', 'n mod p = 0', 'p mod m = 0', 'm mod p ≠ 0']
+    a: ア
+    exp: |
+      残りの値 m が p で割り切れる間、p を出力して m を p で割ります。割り切れなくなったら p を 1 増やします。小さい p から割り切っていくので、合成数の p（4 や 6 など）で割り切れることはありません。
+
+      factorize(360) の動き
+
+      | p | 出力 | m の変化 |
+      | --- | --- | --- |
+      | 2 | 2 2 2 | 360 → 180 → 90 → 45 |
+      | 3 | 3 3 | 45 → 15 → 5 |
+      | 4 | なし | 4 × 4 ＞ 5 で外側の繰返しを終了 |
+
+      最後に m ＝ 5 ＞ 1 を出力し、2 2 2 3 3 5 となります。
+    why:
+      - 正解です。割り切れる間だけ同じ素因数で割り続けます。
+      - 元の n で判定しているので、m を割っても条件が変わらず、繰返しが終わらなくなります。
+      - p と m の関係が逆で、p が m の約数かどうかを判定しており、素因数を見つけられません。
+      - 割り切れないときに割ってしまうので、素因数でない値を出力します。
+    terms: [素因数分解]
+    verify:
+      cases:
+        - { call: factorize, args: [360], expectOutput: ['2', '2', '2', '3', '3', '5'] }
+        - { call: factorize, args: [97], expectOutput: ['97'] }
+        - { call: factorize, args: [84], expectOutput: ['2', '2', '3', '7'] }
+        - { call: factorize, args: [49], expectOutput: ['7', '7'] }
+    sim: { entry: factorize, args: [360] }
+
+  - id: B-ALG-141
+    topic: [B4, 1-2-1-2]
+    diff: 3
+    q: |
+      次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 slope は，n 組のデータ (x[i], y[i]) に最小二乗法で直線 y ＝ a × x ＋ c を当てはめたときの傾き a を返す。傾きは，x と y の偏差の積の和 sxy を，x の偏差の 2 乗の和 sxx で割って求める。x の値は全てが同じではないものとする。
+    code: |
+      ○実数型: slope(整数型の配列: x, 整数型の配列: y)
+        整数型: i, n
+        実数型: mx ← 0
+        実数型: my ← 0
+        実数型: sxy ← 0
+        実数型: sxx ← 0
+        n ← xの要素数
+        for (i を 1 から n まで 1 ずつ増やす)
+          mx ← mx ＋ x[i] ÷ n
+          my ← my ＋ y[i] ÷ n
+        endfor
+        for (i を 1 から n まで 1 ずつ増やす)
+          sxy ← sxy ＋ (x[i] － mx) × (y[i] － my)
+          sxx ← sxx ＋ 【a】
+        endfor
+        return 【b】
+    c: ['a：(x[i] － mx) × (x[i] － mx)，b：sxy ÷ sxx', 'a：(x[i] － mx) × (x[i] － mx)，b：sxx ÷ sxy', 'a：(y[i] － my) × (y[i] － my)，b：sxy ÷ sxx', 'a：(x[i] － mx)，b：sxy ÷ sxx', 'a：(x[i] － mx) × (y[i] － my)，b：sxy ÷ sxx']
+    fills:
+      - { a: '(x[i] － mx) × (x[i] － mx)', b: 'sxy ÷ sxx' }
+      - { a: '(x[i] － mx) × (x[i] － mx)', b: 'sxx ÷ sxy' }
+      - { a: '(y[i] － my) × (y[i] － my)', b: 'sxy ÷ sxx' }
+      - { a: '(x[i] － mx)', b: 'sxy ÷ sxx' }
+      - { a: '(x[i] － mx) × (y[i] － my)', b: 'sxy ÷ sxx' }
+    a: ア
+    exp: |
+      最小二乗法の傾きは a ＝ Σ(x の偏差 × y の偏差) ÷ Σ(x の偏差)² です。【a】で x の偏差の 2 乗を足し込み、【b】で sxy ÷ sxx を返します。
+
+      x ＝ {1, 2, 3, 4, 5}、y ＝ {2, 4, 5, 4, 5} のとき、平均は 3 と 4 です。
+
+      | i | 1 | 2 | 3 | 4 | 5 | 和 |
+      | --- | --- | --- | --- | --- | --- | --- |
+      | x の偏差 | -2 | -1 | 0 | 1 | 2 | － |
+      | 偏差の積 | 4 | 0 | 0 | 0 | 2 | 6 |
+      | x の偏差² | 4 | 1 | 0 | 1 | 4 | 10 |
+
+      傾きは 6 ÷ 10 ＝ 0.6 です。
+    why:
+      - 正解です。偏差の積の和を x の偏差の 2 乗の和で割っています。
+      - 分子と分母が逆で、傾きの逆数になります。
+      - y の偏差の 2 乗の和で割っているので、x を y から予測する直線の傾きになりません。
+      - 偏差の和は常に 0 になるので、0 で除算してエラーになります。
+      - 分母も偏差の積の和になるので、結果が常に 1 になります。
+    terms: [最小二乗法, 単回帰分析, 共分散]
+    verify:
+      cases:
+        - { call: slope, args: [[1, 2, 3, 4, 5], [2, 4, 5, 4, 5]], expect: 0.6 }
+        - { call: slope, args: [[1, 2, 3], [3, 5, 7]], expect: 2 }
+        - { call: slope, args: [[0, 2], [5, 1]], expect: -2 }
+    sim: { entry: slope, args: [[1, 2, 3, 4, 5], [2, 4, 5, 4, 5]] }
+
+  - id: B-ALG-142
+    topic: [B4, 1-1-3]
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 countPrimes は，エラトステネスのふるいによって n 以下（n ≧ 2）の素数の個数を返す。配列 isPrime の要素番号 j の値は，j が素数の候補として残っていれば true である。p × p ≦ n を満たす p について，p が候補として残っていれば，p の倍数のうち p 自身を除いたものを候補から外す。p より小さい素数の倍数は既に外されている。
+    code: |
+      ○整数型: countPrimes(整数型: n)
+        論理型の配列: isPrime ← {n個の true}
+        整数型: p, j, cnt
+        isPrime[1] ← false
+        p ← 2
+        while (p × p ≦ n)
+          if (isPrime[p])
+            for (j を 【a】 から n まで p ずつ増やす)
+              isPrime[j] ← false
+            endfor
+          endif
+          p ← p ＋ 1
+        endwhile
+        cnt ← 0
+        for (j を 1 から n まで 1 ずつ増やす)
+          if (isPrime[j])
+            cnt ← cnt ＋ 1
+          endif
+        endfor
+        return cnt
+    c: ['p × p', 'p', 'p ＋ 1', 'p × p ＋ p']
+    a: ア
+    exp: |
+      p の倍数のうち p × 2、p × 3、…、p × (p － 1) は、p より小さい素因数をもつので既に外されています。したがって p × p から p ずつ増やして外せば十分です。
+
+      n ＝ 30 のとき
+
+      | p | 外す値 |
+      | --- | --- |
+      | 2 | 4, 6, 8, …, 30 |
+      | 3 | 9, 15, 21, 27（他は既に外れている） |
+      | 4 | 候補でないので何もしない |
+      | 5 | 25 |
+
+      残る 2, 3, 5, 7, 11, 13, 17, 19, 23, 29 の 10 個を数えます。
+    why:
+      - 正解です。p × p 未満の p の倍数は既に外されているので、p × p から外し始めます。
+      - p 自身も外してしまうので、√n 以下の素数が数えられません。
+      - p ＋ 1 から p ずつ増やすと p の倍数ではない値（p ＝ 2 なら 3, 5, 7, …）を外してしまいます。
+      - p × p を外さずに p × (p ＋ 1) から始めるので、4 や 9 や 25 が素数として残ります。
+    terms: [エラトステネスのふるい, 素因数分解]
+    verify:
+      cases:
+        - { call: countPrimes, args: [30], expect: 10 }
+        - { call: countPrimes, args: [10], expect: 4 }
+        - { call: countPrimes, args: [2], expect: 1 }
+        - { call: countPrimes, args: [25], expect: 9 }
+    sim: { entry: countPrimes, args: [30] }
+
+  # ===== テスト・デバッグ・トレース =====
+  - id: B-ALG-143
+    topic: [B1, 2-2-2-1]
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 search は，昇順に整列された整数型の配列 data から 2分探索法で x を探し，見つかればその要素番号を，見つからなければ -1 を返す。ここで，整数型の変数に実数を代入すると小数点以下は切り捨てられる。テストを行ったところ，data が {1, 3, 5, 7}，x が 7 のときに処理が終了しなかった。調べると【a】の行が「low ← mid」となっていたことが原因であった。【a】の行の正しい記述を選べ。
+    code: |
+      ○整数型: search(整数型の配列: data, 整数型: x)
+        整数型: low ← 1
+        整数型: high ← dataの要素数
+        整数型: mid
+        while (low ≦ high)
+          mid ← (low ＋ high) ÷ 2
+          if (data[mid] = x)
+            return mid
+          elseif (data[mid] < x)
+            【a】
+          else
+            high ← mid － 1
+          endif
+        endwhile
+        return -1
+    c: ['low ← mid ＋ 1', 'low ← mid', 'high ← mid ＋ 1', 'low ← mid － 1', 'high ← mid']
+    a: ア
+    exp: |
+      data[mid] ＜ x なら、x は mid より後ろにしかないので、探索範囲の下限を mid ＋ 1 にします。low ← mid では、low と high が隣り合ったとき mid が low のまま変わらず、範囲が狭まりません。
+
+      誤りのある版で data が {1, 3, 5, 7}、x が 7 のとき
+
+      | low | high | mid | data[mid] | 次 |
+      | --- | --- | --- | --- | --- |
+      | 1 | 4 | 2 | 3 | low ← 2 |
+      | 2 | 4 | 3 | 5 | low ← 3 |
+      | 3 | 4 | 3 | 5 | low ← 3（変化なし） |
+
+      以後同じ状態を繰り返します。low ← mid ＋ 1 なら low が 4 になり、mid ＝ 4 で見つかります。
+    why:
+      - 正解です。mid を確認済みとして範囲から除くので、毎回範囲が必ず狭まります。
+      - 誤りのある元の記述で、low と high が隣り合うと範囲が狭まらず、終了しません。
+      - x が後ろにあるのに上限を動かしており、範囲が狭まらないか、後ろにある値を探せません。
+      - 下限を mid より前に戻すので範囲が狭まらず、処理が終了しないことがあります。
+      - x が後ろにあるのに上限を mid にしており、x を範囲から外してしまいます。
+    terms: [2分探索法, デバッグ]
+    verify:
+      cases:
+        - { call: search, args: [[1, 3, 5, 7], 7], expect: 4 }
+        - { call: search, args: [[1, 3, 5, 7], 1], expect: 1 }
+        - { call: search, args: [[1, 3, 5, 7], 5], expect: 3 }
+        - { call: search, args: [[1, 3, 5, 7], 4], expect: -1 }
+        - { call: search, args: [[1, 3, 5, 7, 9], 9], expect: 5 }
+        - { call: search, args: [[2], 2], expect: 1 }
+    sim: { entry: search, args: [[1, 3, 5, 7], 7] }
+
+  - id: B-ALG-144
+    topic: [B1, 2-3-1-5]
+    diff: 2
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 maxValue は，整数型の配列 data（要素数 1 以上）の要素の最大値を返す仕様である。しかし，このプログラムには，ある種類の入力に対して仕様どおりの値を返さない誤りがある。解答群のテストデータのうち，この誤りを検出できる（実行結果が仕様どおりの値と異なる）ものは【a】である。
+    code: |
+      ○整数型: maxValue(整数型の配列: data)
+        整数型: i
+        整数型: mx ← 0
+        for (i を 1 から dataの要素数 まで 1 ずつ増やす)
+          if (data[i] > mx)
+            mx ← data[i]
+          endif
+        endfor
+        return mx
+    c: ['{-3, -8, -1}', '{0, 4, 2}', '{5}', '{2, 9, 9}']
+    a: ア
+    exp: |
+      mx の初期値が 0 なので、全ての要素が負のときは一度も更新されず 0 が返ります。最大値の初期値は data[1] にすべきです。
+
+      | テストデータ | 仕様どおりの値 | 実行結果 | 検出 |
+      | --- | --- | --- | --- |
+      | {-3, -8, -1} | -1 | 0 | できる |
+      | {0, 4, 2} | 4 | 4 | できない |
+      | {5} | 5 | 5 | できない |
+      | {2, 9, 9} | 9 | 9 | できない |
+
+      誤りを見つけるには、初期値の影響が出る「全要素が負」のような入力をテストケースに含めることが重要です。
+    why:
+      - 正解です。全ての要素が負なので、仕様では -1 を返すべきところ、初期値の 0 がそのまま返ります。
+      - 最大値 4 が初期値 0 より大きいので正しく 4 が返り、誤りを検出できません。
+      - 要素数 1 の境界のデータですが、5 は 0 より大きいので正しく 5 が返ります。
+      - 最大値が重複するデータですが、9 が正しく返るので誤りを検出できません。
+    terms: [デバッグ, 線形探索法]
+    verify:
+      manual: 'インタプリタで各テストデータを実行し、{-3, -8, -1} のみ戻り値 0（仕様値 -1）、他は仕様値（4, 5, 9）と一致することを確認'
+    sim: { entry: maxValue, args: [[-3, -8, -1]] }
+
+  - id: B-ALG-145
+    topic: [B1, 2-2-2-1]
+    diff: 3
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 insertionSort は，整数型の配列 data を挿入法で昇順に整列して返す。i 番目の値 tmp を，それより前の整列済みの部分の中で tmp より大きい値を 1 つずつ後ろへずらしながら，適切な位置に挿入する。テストを行ったところ，{3, 1, 2} を与えると {3, 1, 2} がそのまま返った。【a】の条件式は現在「j > 1 and data[j] > tmp」と書かれている。【a】の正しい記述を選べ。ここで，and は左側の条件が偽であれば右側の条件を評価しない。
+    code: |
+      ○整数型の配列: insertionSort(整数型の配列: data)
+        整数型: i, j, tmp
+        for (i を 2 から dataの要素数 まで 1 ずつ増やす)
+          tmp ← data[i]
+          j ← i － 1
+          while (【a】)
+            data[j ＋ 1] ← data[j]
+            j ← j － 1
+          endwhile
+          data[j ＋ 1] ← tmp
+        endfor
+        return data
+    c: ['j ≧ 1 and data[j] > tmp', 'j > 1 and data[j] > tmp', 'data[j] > tmp and j ≧ 1', 'j ≧ 1 and data[j] < tmp', 'j ≧ 1 or data[j] > tmp']
+    a: ア
+    exp: |
+      ずらす対象は整列済みの部分の要素番号 1 〜 i － 1 なので、j が 1 以上である間（j ≧ 1）比較を続けます。j > 1 では先頭の要素（j ＝ 1）と比較しないので、先頭より小さい値を先頭に挿入できません。
+
+      {3, 1, 2} を正しい条件で整列すると
+
+      | i | tmp | ずらし | 結果 |
+      | --- | --- | --- | --- |
+      | 2 | 1 | 3 を後ろへ（j ＝ 1 → 0） | {1, 3, 2} |
+      | 3 | 2 | 3 を後ろへ、1 ＞ 2 は偽 | {1, 2, 3} |
+
+      j ≧ 1 を先に判定するので、j ＝ 0 のときに data[0] を参照することもありません。
+    why:
+      - 正解です。先頭まで比較し、j が 0 になったら右側の条件を評価せずに終了します。
+      - 誤りのある元の記述で、先頭の要素と比較しないため、先頭より小さい値が正しい位置に入りません。
+      - 条件の順序が逆なので、j が 0 になったときに data[0] を参照して範囲外のエラーになります。
+      - 比較の向きが逆で、降順に整列してしまいます。
+      - or にしたため j が 0 になっても繰り返し、data[0] を参照して範囲外のエラーになります。
+    terms: [挿入ソート, デバッグ]
+    verify:
+      cases:
+        - { call: insertionSort, args: [[3, 1, 2]], expect: [1, 2, 3] }
+        - { call: insertionSort, args: [[5, 2, 4, 6, 1, 3]], expect: [1, 2, 3, 4, 5, 6] }
+        - { call: insertionSort, args: [[1, 2]], expect: [1, 2] }
+    sim: { entry: insertionSort, args: [[3, 1, 2]] }
+
+  - id: B-ALG-146
+    topic: [B1, 2-3-1-5]
+    diff: 1
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。
+
+      ある施設の入場料金は，年齢が 5 歳以下は 0 円，6 歳以上 12 歳以下は 500 円，13 歳以上 64 歳以下は 1,000 円，65 歳以上は 700 円である。関数 fee は年齢 age（0 以上の整数）に対する料金を返す。境界値（5 歳と 6 歳，12 歳と 13 歳，64 歳と 65 歳）を含むテストケースで全て仕様どおりの料金となるように，【a】に入れる条件式を選べ。
+    code: |
+      ○整数型: fee(整数型: age)
+        if (age ≦ 5)
+          return 0
+        elseif (【a】)
+          return 500
+        elseif (age < 65)
+          return 1000
+        else
+          return 700
+        endif
+    c: ['age ≦ 12', 'age < 12', 'age ≦ 13', 'age ≧ 6', 'age < 6']
+    a: ア
+    exp: |
+      この行に到達するのは age ≧ 6 の場合だけなので、500 円の条件は上限側の age ≦ 12 だけを判定すれば十分です。
+
+      | age | 5 | 6 | 12 | 13 | 64 | 65 |
+      | --- | --- | --- | --- | --- | --- | --- |
+      | 仕様の料金 | 0 | 500 | 500 | 1000 | 1000 | 700 |
+
+      境界値分析では、このように区切りの両側の値をテストケースに選ぶと、≦ と ＜ の取り違えを検出できます。
+    why:
+      - 正解です。6〜12 歳で 500 円になり、13 歳以上は次の条件へ進みます。
+      - 12 歳が 1,000 円になってしまい、境界値 12 のテストで誤りが見つかります。
+      - 13 歳が 500 円になってしまい、境界値 13 のテストで誤りが見つかります。
+      - 6 歳以上が全て 500 円になり、13 歳以上の料金が求まりません。
+      - この行に来るのは 6 歳以上なので常に偽になり、6〜12 歳が 1,000 円になります。
+    terms: [デバッグ, 選択処理]
+    verify:
+      cases:
+        - { call: fee, args: [5], expect: 0 }
+        - { call: fee, args: [6], expect: 500 }
+        - { call: fee, args: [12], expect: 500 }
+        - { call: fee, args: [13], expect: 1000 }
+        - { call: fee, args: [64], expect: 1000 }
+        - { call: fee, args: [65], expect: 700 }
+    sim: { entry: fee, args: [12] }
+
+  - id: B-ALG-147
+    topic: [B1, 2-2-2-1]
+    diff: 2
+    q: |
+      次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
+
+      関数 compact は，昇順に整列された整数型の配列 data について，重複する値を 1 つだけ残して前に詰め，異なる値の個数を返す。compact({1, 1, 2, 3, 3, 3, 5}) の戻り値は【a】である。
+    code: |
+      ○整数型: compact(整数型の配列: data)
+        整数型: i, k ← 1
+        for (i を 2 から dataの要素数 まで 1 ずつ増やす)
+          if (data[i] ≠ data[k])
+            k ← k ＋ 1
+            data[k] ← data[i]
+          endif
+        endfor
+        return k
+    c: ['4', '3', '5', '7']
+    a: ア
+    exp: |
+      k は「詰め終わった部分の最後の要素番号」です。data[i] が直前に残した値 data[k] と異なるときだけ、k を進めてその値を書き込みます。
+
+      | i | data[i] | data[k] | 動作 | k |
+      | --- | --- | --- | --- | --- |
+      | 2 | 1 | 1 | なし | 1 |
+      | 3 | 2 | 1 | data[2] ← 2 | 2 |
+      | 4 | 3 | 2 | data[3] ← 3 | 3 |
+      | 5 | 3 | 3 | なし | 3 |
+      | 6 | 3 | 3 | なし | 3 |
+      | 7 | 5 | 3 | data[4] ← 5 | 4 |
+
+      戻り値は 4 で、data の先頭 4 個は {1, 2, 3, 5} になります。
+    why:
+      - 正解です。異なる値は 1、2、3、5 の 4 個です。
+      - 最後の 5 を書き込む処理を見落とした値です。
+      - 重複の数（取り除かれる要素の数）を誤って数えた値と考えられ、異なる値の個数ではありません。
+      - 配列の要素数そのものであり、重複を取り除いていません。
+    terms: [配列, 繰返し処理]
+    verify:
+      result: { call: compact, args: [[1, 1, 2, 3, 3, 3, 5]], of: return }
+    sim: { entry: compact, args: [[1, 1, 2, 3, 3, 3, 5]] }
+
+  - id: B-ALG-148
+    topic: [B3, 2-1-2-2]
+    diff: 2
+    q: |
+      次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。
+
+      双方向リストの要素はクラス Cell で表す。メンバ変数 val は値，prev は前の要素への参照，next は次の要素への参照であり，前又は次の要素がないときは未定義である。大域変数 head と tail はリストの先頭と末尾の要素を参照する。手続 unlink(p) は，リスト中の要素 p をリストから取り除く。手続 test は，配列 data からリストを作り，値が x の最初の要素を取り除いた後，リストを先頭から順に，続いて末尾から逆順に出力する。
+    code: |
+      大域: Cell: head ← 未定義の値
+      大域: Cell: tail ← 未定義の値
+
+      ○pushBack(整数型: v)
+        Cell: c ← Cell(v)
+        if (tail = 未定義)
+          head ← c
+        else
+          c.prev ← tail
+          tail.next ← c
+        endif
+        tail ← c
+
+      ○unlink(Cell: p)
+        if (p.prev = 未定義)
+          head ← p.next
+        else
+          p.prev.next ← p.next
+        endif
+        if (p.next = 未定義)
+          tail ← p.prev
+        else
+          p.next.prev ← 【a】
+        endif
+
+      ○test(整数型の配列: data, 整数型: x)
+        整数型: i
+        Cell: p
+        for (i を 1 から dataの要素数 まで 1 ずつ増やす)
+          pushBack(data[i])
+        endfor
+        p ← head
+        while (p.val ≠ x)
+          p ← p.next
+        endwhile
+        unlink(p)
+        p ← head
+        while (p ≠ 未定義)
+          p.val を出力する
+          p ← p.next
+        endwhile
+        p ← tail
+        while (p ≠ 未定義)
+          p.val を出力する
+          p ← p.prev
+        endwhile
+    c: ['p.prev', 'p.next', 'p', 'p.prev.next']
+    a: ア
+    exp: |
+      p を取り除くには、p の前の要素の next を p の次の要素に、p の次の要素の prev を p の前の要素に付け替えます。p が先頭（prev が未定義）や末尾（next が未定義）のときは、代わりに head や tail を更新します。
+
+      data が {1, 2, 3}、x が 2 のとき
+
+      | 付け替え | 結果 |
+      | --- | --- |
+      | p.prev.next ← p.next | 1 の next が 3 |
+      | p.next.prev ← p.prev | 3 の prev が 1 |
+
+      出力は 1 3 3 1 です。
+    why:
+      - 正解です。次の要素の prev を、取り除く要素の前の要素に付け替えます。
+      - 次の要素の prev が自分自身を指すので、逆順にたどると同じ要素で止まらなくなります。
+      - 次の要素の prev が取り除いたはずの p のままなので、逆順にたどると p が出力されます。
+      - p.prev.next は直前の行で p.next に付け替え済みなので、次の要素の prev が自分自身を指し、逆順にたどると終わらなくなります。p が先頭のときは未定義のメンバ参照でエラーにもなります。
+    terms: [双方向リスト, 連結リスト]
+    verify:
+      options: { classes: { Cell: { fields: [val, prev, next], ctor: [val] } } }
+      cases:
+        - { call: test, args: [[1, 2, 3], 2], expectOutput: ['1', '3', '3', '1'] }
+        - { call: test, args: [[1, 2, 3], 1], expectOutput: ['2', '3', '3', '2'] }
+        - { call: test, args: [[1, 2, 3], 3], expectOutput: ['1', '2', '2', '1'] }
+        - { call: test, args: [[4, 5, 6, 7], 6], expectOutput: ['4', '5', '7', '7', '5', '4'] }
+    sim: { entry: test, args: [[1, 2, 3], 2] }
