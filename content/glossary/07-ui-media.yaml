@@ -2,19 +2,17 @@ category: ユーザーインタフェース・情報メディア
 terms:
   - term: 情報アーキテクチャ
     reading: じょうほうアーキテクチャ
-    aliases: [チャンク, ナビゲーション, ラベル]
     simple: 情報を分類し、名前を付け、たどりやすく並べて、利用者が目的の情報を見つけやすくする設計のことです。
     definition: 情報の組織化・ラベル付け・ナビゲーション・検索の仕組みを設計し、情報を理解しやすく見つけやすくすること。情報を意味のまとまり（チャンク）に区切ることも含む。
     related: [UXデザイン, 情報デザイン]
   - term: アクセシビリティ
     reading: アクセシビリティ
-    aliases: [JIS X 8341, WCAG, WAI]
     simple: 年齢や障害の有無にかかわらず、できるだけ多くの人が情報やサービスを使えることです。
     definition: 高齢者・障害者を含む多様な利用者が、製品・サービス・情報にアクセスし利用できる度合い。Web では W3C の WCAG、日本では JIS X 8341 シリーズが基準となる。
     related: [ユーザビリティ, ユニバーサルデザイン]
   - term: ユーザビリティ
     reading: ユーザビリティ
-    aliases: [使用性, ヒューリスティック評価, ユーザビリティテスト, シグニファイア, NUI, VUI, マルチタッチインタフェース, ピンチ, フリック, スワイプ]
+    aliases: [使用性]
     simple: 製品やシステムの「使いやすさ」のことです。
     definition: 特定の利用者が特定の利用状況で、有効さ・効率・満足度をもって目標を達成できる度合い（JIS Z 8521）。専門家が経験則で評価するヒューリスティック評価、利用者に実際に使ってもらうユーザビリティテストで評価する。
     related: [アクセシビリティ, 人間中心設計]
@@ -22,7 +20,6 @@ terms:
     reading: ジーユーアイ
     fullName: Graphical User Interface
     japanese: グラフィカルユーザーインタフェース
-    aliases: [CUI, ラジオボタン, チェックボックス, プルダウンメニュー, テキストボックス, ツールチップ, リストボックス]
     words:
       - { en: Graphical, ja: 図形的な・視覚的な }
       - { en: User, ja: 利用者 }
@@ -34,7 +31,7 @@ terms:
     reading: ユーエックスデザイン
     fullName: User Experience design
     japanese: 利用者体験の設計
-    aliases: [UX, UXデザインの五段階モデル]
+    aliases: [UX]
     words:
       - { en: User, ja: 利用者 }
       - { en: Experience, ja: 体験 }
@@ -44,43 +41,37 @@ terms:
     related: [人間中心設計, 情報アーキテクチャ]
   - term: 情報デザイン
     reading: じょうほうデザイン
-    aliases: [デザインの4原則, 近接, 整列, 反復, 対比, インフォグラフィック, タイポグラフィ]
     simple: 情報を分かりやすく伝わるように、配置や色、文字、図を工夫して表現することです。
     definition: 情報を整理し、受け手が理解しやすい形で視覚化・構造化すること。デザインの4原則（近接・整列・反復・対比）、インフォグラフィックなどを用いる。
     related: [情報アーキテクチャ]
   - term: 入力チェック
     reading: にゅうりょくチェック
-    aliases: [リミットチェック, ニューメリックチェック, フォーマットチェック, バランスチェック, 組合せチェック, 照合チェック, チェックディジット, チェックキャラクター]
     simple: 入力されたデータが正しいかを、決まったルールで自動的に確認することです。
     definition: 入力データの誤りを検出する検査。範囲内かを調べるリミットチェック、数字かを調べるニューメリックチェック、形式を調べるフォーマットチェック、釣り合いを調べるバランスチェック、検査用の数字で調べるチェックディジットなどがある。
     related: [帳票設計]
   - term: 帳票設計
     reading: ちょうひょうせっけい
-    aliases: [フォームオーバーレイ, 画面設計]
     simple: 請求書や伝票などの帳票に、どの項目をどう配置して印刷するかを決めることです。
     definition: 出力帳票の項目・配置・様式を設計すること。固定的な書式とデータを重ねて印刷する方式をフォームオーバーレイという。
     related: [入力チェック]
   - term: コード設計
     reading: コードせっけい
-    aliases: [順番コード, 区分コード, 桁別コード, 表意コード, 合成コード]
     simple: 商品や顧客などに付ける番号（コード）の付け方のルールを決めることです。
     definition: 対象を識別・分類するコード体系の設計。連番の順番コード、番号の区間で分類する区分コード、桁ごとに意味をもつ桁別コード、意味を連想できる表意コードなどがある。
     related: [入力チェック]
   - term: レスポンシブWebデザイン
     reading: レスポンシブウェブデザイン
-    aliases: [メディアクエリ, プログレッシブエンハンスメント, ワイヤーフレーム]
     simple: スマホでもパソコンでも見やすいように、画面の幅に合わせてレイアウトを自動で変える Web の作り方です。
     definition: 1つの HTML に対し CSS のメディアクエリ等で画面サイズに応じたレイアウトを適用し、多様な端末で最適に表示させる設計手法。
     related: [CSS, アクセシビリティ]
   - term: 人間中心設計
     reading: にんげんちゅうしんせっけい
-    aliases: [HCD, JIS Z 8530, ISO 9241-210]
+    aliases: [HCD]
     simple: 使う人のことをよく調べ、使う人に参加してもらいながら、設計と評価を繰り返して使いやすいものを作る考え方です。
     definition: 利用状況の理解・要求事項の明示・設計解の作成・評価を反復し、利用者中心にインタラクティブシステムを開発するアプローチ（JIS Z 8530（ISO 9241-210））。
     related: [ユーザビリティ, UXデザイン]
   - term: ユニバーサルデザイン
     reading: ユニバーサルデザイン
-    aliases: [UDフォント, ピクトグラム]
     simple: 年齢や能力、国籍などにかかわらず、最初からすべての人が使いやすいように設計する考え方です。
     definition: 可能な限りすべての人が、特別な改造なしに利用できるように製品や環境を設計する考え方。ピクトグラムや UD フォントなどが例。
     difference: バリアフリーは、既存の障壁を取り除くという考え方。
@@ -105,7 +96,6 @@ terms:
     reading: エムピースリー
     fullName: MPEG-1 Audio Layer-3
     japanese: MPEG-1 オーディオ レイヤー3
-    aliases: [WAV, AAC]
     words:
       - { en: MPEG-1, ja: 動画・音声の圧縮規格の名前 }
       - { en: Audio, ja: 音声 }
@@ -117,7 +107,6 @@ terms:
     reading: ジェイペグ
     fullName: Joint Photographic Experts Group
     japanese: 写真専門家合同グループ（規格を作った団体名）
-    aliases: [GIF, PNG, BMP, TIFF, HEIF, Exif]
     words:
       - { en: Joint, ja: 合同の }
       - { en: Photographic, ja: 写真の }
@@ -128,13 +117,12 @@ terms:
     related: [可逆圧縮, ベクターデータ]
   - term: 可逆圧縮
     reading: かぎゃくあっしゅく
-    aliases: [非可逆圧縮, 圧縮率, ZIP, MR, MMR]
     simple: 元のデータに完全に戻せる圧縮方法です。戻せない代わりに小さくできるものは非可逆圧縮です。
     definition: 伸長すると元のデータと完全に一致するデータ圧縮（ZIP、PNG、GIF など）。一部の情報を捨てて高い圧縮率を得るものを非可逆圧縮（JPEG、MP3、MPEG など）という。
     related: [JPEG, MPEG]
   - term: ベクターデータ
     reading: ベクターデータ
-    aliases: [ベクタ形式, ラスターデータ, ビットマップデータ]
+    aliases: [ベクタ形式]
     simple: 図形を座標や線の式で表す画像のデータで、拡大しても粗くなりません。
     definition: 図形を点の座標や線・曲線の数式で表現する画像データ。拡大縮小しても劣化しない。画像を画素の集まりで表すものはラスターデータ（ビットマップデータ）という。
     related: [SVG, JPEG]
@@ -153,7 +141,6 @@ terms:
     reading: エムペグ
     fullName: Moving Picture Experts Group
     japanese: 動画専門家グループ（規格を作った団体名）
-    aliases: [H.264, H.265, HEVC, MP4, コンテナフォーマット, AVI, QuickTime]
     words:
       - { en: Moving Picture, ja: 動画 }
       - { en: Experts, ja: 専門家 }
@@ -163,13 +150,11 @@ terms:
     related: [可逆圧縮, ストリーミング]
   - term: 加法混色
     reading: かほうこんしょく
-    aliases: [減法混色, 光の3原色, 色の3原色, RGB, CMY, CMYK]
     simple: 赤・緑・青の光を重ねるほど明るくなり、全部で白になる色の混ぜ方です。
     definition: 光の3原色（RGB）を重ねて色を表す方法で、ディスプレイで用いる。色の3原色（CMY）を重ねるほど暗くなる方法を減法混色といい、印刷で用いる（黒を加えた CMYK）。
     related: [解像度]
   - term: グラフィックスソフトウェア
     reading: グラフィックスソフトウェア
-    aliases: [レイヤー, トリミング]
     simple: 画像を描いたり編集したりするためのソフトウェアです。
     definition: 画像の作成・編集を行うソフトウェア。透明な層を重ねて編集するレイヤー、不要部分を切り取るトリミングなどの機能をもつ。
     related: [ベクターデータ]
@@ -177,7 +162,6 @@ terms:
     reading: エーアール
     fullName: Augmented Reality
     japanese: 拡張現実
-    aliases: [MR（複合現実）, Mixed Reality]
     words:
       - { en: Augmented, ja: 拡張された }
       - { en: Reality, ja: 現実 }
@@ -188,10 +172,535 @@ terms:
     reading: ブイアール
     fullName: Virtual Reality
     japanese: 仮想現実
-    aliases: [メタバース, ヘッドマウントディスプレイ, アバター]
     words:
       - { en: Virtual, ja: 仮想の }
       - { en: Reality, ja: 現実 }
     simple: ゴーグルなどを使って、コンピュータが作った世界の中にいるような体験をさせる技術です。
     definition: コンピュータで生成した仮想空間を、ヘッドマウントディスプレイなどで現実のように知覚させる技術。アバターで交流する仮想空間はメタバースと呼ばれる。
     related: [AR]
+  - term: チャンク
+    reading: ちゃんく
+    simple: 人が一度に覚えやすいように、情報をまとめた小さなかたまりです。
+    definition: 情報を人が理解・記憶しやすい意味のあるまとまりに区切った単位。人が短期記憶で一度に扱えるチャンクの数には限りがあるため、画面や情報の設計で適切な量に分ける。
+    related: [情報アーキテクチャ, 情報デザイン]
+  - term: ナビゲーション
+    reading: なびげーしょん
+    simple: 利用者が目的の情報にたどり着けるようにする、案内の仕組みです。
+    definition: Web サイトやアプリで、利用者が現在位置を把握し、目的のページへ移動できるようにする案内の仕組み（メニュー、パンくずリストなど）。
+    related: [情報アーキテクチャ, ラベル]
+  - term: ラベル
+    reading: らべる
+    simple: メニューやボタンなどに付ける、内容を表す名前です。
+    definition: ナビゲーションや見出しなどに付ける、内容を端的に表す名称。利用者が内容を推測できるよう、分かりやすく一貫した言葉を選ぶ。
+    related: [情報アーキテクチャ, ナビゲーション]
+  - term: JIS X 8341
+    reading: じすえっくすはっさんよんいち
+    simple: 高齢者や障害のある人を含め、誰もが情報機器やサービスを使えるようにするための日本産業規格です。
+    definition: 高齢者や障害のある人を含むすべての利用者が情報通信機器、ソフトウェア、サービスを利用できるようにするためのアクセシビリティ指針を定めた JIS。第3部が Web コンテンツに関する規格。
+    related: [アクセシビリティ, WCAG]
+  - term: WCAG
+    reading: だぶりゅーしーえーじー
+    fullName: Web Content Accessibility Guidelines
+    japanese: ウェブコンテンツ・アクセシビリティ・ガイドライン
+    words:
+      - { en: Web Content, ja: Webの内容 }
+      - { en: Accessibility, ja: 利用しやすさ }
+      - { en: Guidelines, ja: 指針 }
+    simple: Webコンテンツを、障害のある人も使えるようにするための国際的な指針です。
+    definition: W3C が策定した Web コンテンツのアクセシビリティに関する国際的なガイドライン。知覚可能、操作可能、理解可能、堅牢の 4 原則に基づき、達成基準を A、AA、AAA で定める。
+    related: [アクセシビリティ, WAI, JIS X 8341]
+  - term: WAI
+    reading: うぇい
+    fullName: Web Accessibility Initiative
+    japanese: ウェブアクセシビリティ・イニシアチブ
+    words:
+      - { en: Web, ja: Web }
+      - { en: Accessibility, ja: 利用しやすさ }
+      - { en: Initiative, ja: 取組み }
+    simple: Webをだれでも使えるようにするための、W3Cの取組みです。
+    definition: W3C が進める、Web のアクセシビリティ向上のための活動。WCAG などのガイドラインを策定している。
+    related: [アクセシビリティ, WCAG]
+  - term: ヒューリスティック評価
+    reading: ひゅーりすてぃっくひょうか
+    simple: 専門家が使いやすさの原則に照らして、画面の問題点を洗い出す評価方法です。
+    definition: ユーザビリティの専門家が、ユーザビリティに関する経験則（ヒューリスティクス）に基づいて、インタフェースの問題点を見つけ出す評価手法。利用者の参加は不要。
+    related: [ユーザビリティ, ユーザビリティテスト]
+  - term: ユーザビリティテスト
+    reading: ゆーざびりてぃてすと
+    simple: 実際の利用者に製品を使ってもらい、使いにくい点を見つける評価方法です。
+    definition: 被験者に実際にタスクを実行してもらい、その行動や発言を観察して、使いやすさの問題点を発見する評価手法。
+    related: [ユーザビリティ, ヒューリスティック評価]
+  - term: シグニファイア
+    reading: しぐにふぁいあ
+    simple: 「ここを押す」「ここを引く」のような、操作のしかたを利用者に伝える手がかりです。
+    definition: 物やインタフェースが、どのように操作できるか（アフォーダンス）を利用者に知らせる手がかりやサイン。ドアの取っ手の形やボタンの見た目など。
+    related: [ユーザビリティ, UXデザイン]
+  - term: NUI
+    reading: えぬゆーあい
+    fullName: Natural User Interface
+    japanese: ナチュラルユーザーインタフェース
+    words:
+      - { en: Natural, ja: 自然な }
+      - { en: User, ja: 利用者 }
+      - { en: Interface, ja: 接点 }
+    simple: 触る・話すなど、人が自然に行う動作で操作するインタフェースです。
+    definition: タッチ、ジェスチャ、音声など、人間の自然な動作や感覚で直感的に操作できるユーザーインタフェース。
+    related: [ユーザビリティ, VUI, GUI]
+  - term: VUI
+    reading: ぶいゆーあい
+    fullName: Voice User Interface
+    japanese: 音声ユーザーインタフェース
+    words:
+      - { en: Voice, ja: 声 }
+      - { en: User, ja: 利用者 }
+      - { en: Interface, ja: 接点 }
+    simple: 声で操作するユーザーインタフェースです(スマートスピーカーなど)。
+    definition: 音声の入力と出力によって機器やサービスを操作するユーザーインタフェース。スマートスピーカーや音声アシスタントが例。
+    related: [NUI, GUI]
+  - term: マルチタッチインタフェース
+    reading: まるちたっちいんたふぇーす
+    simple: 画面に同時に触れた複数の指の動きで操作するインタフェースです。
+    definition: 画面上の複数の接触点を同時に認識し、ピンチやスワイプなどの操作を可能にするタッチインタフェース。
+    related: [NUI, ピンチ, スワイプ]
+  - term: ピンチ
+    reading: ぴんち
+    simple: "2本の指を近づけたり広げたりして、拡大・縮小する操作です。"
+    definition: タッチ操作の一つで、2 本の指を画面上で近づける（ピンチイン）か遠ざける（ピンチアウト）ことで、縮小・拡大を行う操作。
+    related: [マルチタッチインタフェース, スワイプ, フリック]
+  - term: フリック
+    reading: ふりっく
+    simple: 画面に触れた指を、はじくように素早く動かす操作です。
+    definition: タッチ操作の一つで、画面に触れた指を素早くはじくように動かす操作。スマートフォンのかな入力の文字選択やスクロールなどに使われる。
+    related: [マルチタッチインタフェース, スワイプ, ピンチ]
+  - term: スワイプ
+    reading: すわいぷ
+    simple: 画面に触れた指を、画面上でなぞるように滑らせる操作です。
+    definition: タッチ操作の一つで、画面に触れた指をそのまま一方向に滑らせる操作。画面の切替えやスクロールなどに使われる。
+    related: [マルチタッチインタフェース, フリック, ピンチ]
+  - term: CUI
+    reading: しーゆーあい
+    fullName: Character User Interface
+    japanese: キャラクタユーザーインタフェース
+    words:
+      - { en: Character, ja: 文字 }
+      - { en: User, ja: 利用者 }
+      - { en: Interface, ja: 接点 }
+    simple: 文字のコマンドを入力して操作するユーザーインタフェースです。
+    definition: キーボードから文字（コマンド）を入力し、文字で結果が表示されるユーザーインタフェース。マウスで操作する GUI と対比される。
+    related: [GUI, NUI]
+  - term: ラジオボタン
+    reading: らじおぼたん
+    simple: 複数の選択肢から、1つだけを選ぶための丸いボタンです。
+    definition: 複数の選択肢のうち排他的に 1 つだけを選択させる GUI 部品。
+    related: [GUI, チェックボックス]
+  - term: チェックボックス
+    reading: ちぇっくぼっくす
+    simple: 複数の選択肢から、いくつでも選べる四角いボックスです。
+    definition: 選択肢ごとのオン・オフを指定し、複数の項目を同時に選択できる GUI 部品。
+    related: [GUI, ラジオボタン]
+  - term: プルダウンメニュー
+    reading: ぷるだうんめにゅー
+    simple: クリックすると下に選択肢の一覧が開く、メニューです。
+    definition: 選択すると下方向に選択肢の一覧が表示され、そこから 1 つを選ぶ GUI 部品。限られた画面領域に多くの選択肢を収められる。
+    related: [GUI, リストボックス]
+  - term: テキストボックス
+    reading: てきすとぼっくす
+    simple: 利用者が文字を入力するための入力欄です。
+    definition: 利用者が文字列を自由に入力するための GUI 部品。
+    related: [GUI]
+  - term: ツールチップ
+    reading: つーるちっぷ
+    simple: マウスを重ねたときに表示される、操作の説明などの小さな案内です。
+    definition: ボタンなどにマウスポインタを重ねたときに表示される、説明を示す小さなポップアップ。
+    related: [GUI]
+  - term: リストボックス
+    reading: りすとぼっくす
+    simple: 選択肢の一覧が常に表示されていて、その中から選ぶ部品です。
+    definition: 選択肢の一覧を常に表示し、その中から 1 つまたは複数を選択させる GUI 部品。
+    related: [GUI, プルダウンメニュー]
+  - term: UXデザインの五段階モデル
+    reading: ゆーえっくすでざいんのごだんかいもでる
+    simple: UXを、戦略・要件・構造・骨格・表層の5つの段階で考えるモデルです。
+    definition: ジェシー・ジェームス・ギャレットが提唱した、UX デザインを戦略、要件、構造、骨格、表層の 5 つの段階に分けて考えるモデル。下の段階が上の段階の土台となる。
+    related: [UXデザイン, 情報アーキテクチャ]
+  - term: デザインの4原則
+    reading: でざいんのよんげんそく
+    simple: 見やすいデザインにするための、近接・整列・反復・対比という4つの基本です。
+    definition: ロビン・ウィリアムズが提唱した、読みやすく整ったデザインのための近接、整列、反復、対比の 4 つの基本原則。
+    related: [情報デザイン, 近接, 整列, 反復, 対比]
+  - term: 近接
+    reading: きんせつ
+    simple: 関連するものは近くに置き、関連しないものは離すという考え方です。
+    definition: デザインの 4 原則の一つ。関連する要素を近づけてグループ化し、関係のない要素とは離すことで、情報の関係を見た目で伝える。
+    related: [デザインの4原則, 整列, 反復, 対比]
+  - term: 整列
+    reading: せいれつ
+    simple: 要素の端や中心をそろえて、すっきり見せるという考え方です。
+    definition: デザインの 4 原則の一つ。要素の端や中心を揃えて配置し、視覚的なつながりと秩序を作る。
+    related: [デザインの4原則, 近接, 反復, 対比]
+  - term: 反復
+    reading: はんぷく
+    simple: 同じ色・形・配置などを繰り返して、統一感を出すという考え方です。
+    definition: デザインの 4 原則の一つ。色、書体、配置などの要素を繰り返し使い、全体に統一感と一貫性をもたせる。
+    related: [デザインの4原則, 近接, 整列, 対比]
+  - term: 対比
+    reading: たいひ
+    simple: 大きさや色などに差を付けて、重要なものを目立たせるという考え方です。
+    definition: デザインの 4 原則の一つ。要素の大きさ、色、太さなどに明確な差を付け、重要な情報を目立たせ、見る人の視線を導く。
+    related: [デザインの4原則, 近接, 整列, 反復]
+  - term: インフォグラフィック
+    reading: いんふぉぐらふぃっく
+    simple: 情報やデータを、図やイラストを使って視覚的に分かりやすく表現したものです。
+    definition: 複雑な情報やデータを、図解、グラフ、イラストなどを組み合わせて視覚的に分かりやすく伝える表現。
+    related: [情報デザイン]
+  - term: タイポグラフィ
+    reading: たいぽぐらふぃ
+    simple: 文字の書体や大きさ、並べ方を工夫して、読みやすく見せる技術です。
+    definition: 書体、文字サイズ、行間、字間などを工夫して、文字を読みやすく、また印象的に表現する技術や考え方。
+    related: [情報デザイン, ユニバーサルデザイン]
+  - term: リミットチェック
+    reading: りみっとちぇっく
+    simple: 入力値が、決められた範囲に収まっているかを調べるチェックです。
+    definition: 入力データが上限・下限などの許容範囲内にあるかを調べるチェック。月が 1〜12 の範囲かなど。
+    related: [入力チェック, ニューメリックチェック]
+  - term: ニューメリックチェック
+    reading: にゅーめりっくちぇっく
+    simple: 数字だけを入力する項目に、数字以外の文字が入っていないかを調べるチェックです。
+    definition: 数値を入力する項目に、数字以外の文字が含まれていないかを調べるチェック。
+    related: [入力チェック, フォーマットチェック]
+  - term: フォーマットチェック
+    reading: ふぉーまっとちぇっく
+    simple: 桁数や文字の種類など、入力が決められた形式に合っているかを調べるチェックです。
+    definition: 入力データの桁数、文字種、並びなどが規定の形式に合っているかを調べるチェック。郵便番号やメールアドレスの形式など。
+    related: [入力チェック, ニューメリックチェック]
+  - term: バランスチェック
+    reading: ばらんすちぇっく
+    simple: 貸方と借方の合計など、入力データ間の合計が合うかを調べるチェックです。
+    definition: 複数のデータの合計が一致するかなど、データ間の整合性（つり合い）を調べるチェック。借方と貸方の合計が等しいかなど。
+    related: [入力チェック, 照合チェック]
+  - term: 組合せチェック
+    reading: くみあわせちぇっく
+    simple: 複数の項目の組合せが、矛盾していないかを調べるチェックです。
+    definition: 複数の入力項目の値の組合せが、論理的・業務的に矛盾していないかを調べるチェック。
+    related: [入力チェック, 照合チェック]
+  - term: 照合チェック
+    reading: しょうごうちぇっく
+    simple: 入力値が、マスタなどにあらかじめ登録された値と一致するかを調べるチェックです。
+    definition: 入力されたコードなどがマスタファイルに登録されているかを調べるチェック。
+    related: [入力チェック, マスタファイル]
+  - term: チェックディジット
+    reading: ちぇっくでぃじっと
+    aliases: [チェックキャラクター]
+    simple: 入力ミスを見つけるために、番号の末尾などに付け加える検査用の数字です。
+    definition: コードの数字から一定の計算で求めた検査用の数字をコードに付加し、入力誤りや読取り誤りを検出する方法。数字以外を含む場合はチェックキャラクターという。
+    related: [入力チェック, コード設計]
+  - term: フォームオーバーレイ
+    reading: ふぉーむおーばーれい
+    simple: 罫線などの固定部分を印刷しておいた用紙に、データだけを重ねて印刷する方式です。
+    definition: 帳票の罫線や項目名などの固定部分（フォーム）に、可変のデータを重ねて印刷する方式。
+    related: [帳票設計]
+  - term: 画面設計
+    reading: がめんせっけい
+    simple: 利用者が操作する画面の項目、配置、遷移などを決める設計です。
+    definition: 画面の構成、項目の配置、入力・表示のしかた、画面遷移などを決める設計作業。
+    related: [帳票設計, ユーザビリティ]
+  - term: 順番コード
+    reading: じゅんばんこーど
+    simple: 対象に順番に番号を付けるコードです。
+    definition: 対象に連続した番号を順に付けるコード体系。単純で追加しやすいが、コードから対象の意味は分からない。
+    related: [コード設計, 区分コード, 桁別コード]
+  - term: 区分コード
+    reading: くぶんこーど
+    simple: 対象をグループに区分し、グループごとに番号を割り当てるコードです。
+    definition: 対象をいくつかの区分に分類し、区分ごとにコードを割り当てるコード体系。
+    related: [コード設計, 順番コード, 桁別コード]
+  - term: 桁別コード
+    reading: けたべつこーど
+    simple: コードの桁ごとに意味をもたせるコードです(例:学年・クラス・出席番号)。
+    definition: コードの桁（または桁の組）ごとに、分類や属性などの意味を割り当てるコード体系。
+    related: [コード設計, 区分コード, 合成コード]
+  - term: 表意コード
+    reading: ひょういこーど
+    simple: コードそのものから、対象の意味が推測できるコードです。
+    definition: コードの文字や数字が対象の特徴（寸法、重量、名称の略号など）を表しており、コードから内容を類推できるコード体系。
+    related: [コード設計, 順番コード]
+  - term: 合成コード
+    reading: ごうせいこーど
+    simple: 複数のコードを組み合わせて作るコードです。
+    definition: "2 つ以上の異なるコード体系を組み合わせて作るコード体系。"
+    related: [コード設計, 桁別コード]
+  - term: メディアクエリ
+    reading: めでぃあくえり
+    simple: 画面の幅などの条件に応じて、CSSの適用を切り替える仕組みです。
+    definition: CSS で画面の幅や解像度などの条件を指定し、条件に合致した場合にだけスタイルを適用する仕組み。レスポンシブ Web デザインの中心的な技術。
+    related: [レスポンシブWebデザイン]
+  - term: プログレッシブエンハンスメント
+    reading: ぷろぐれっしぶえんはんすめんと
+    simple: まず基本的な機能をすべての環境で使えるようにし、高機能な環境にだけ追加の機能を足す設計の考え方です。
+    definition: すべてのブラウザで利用できる基本的な機能・内容を土台とし、高機能な環境にはさらに高度な表現や機能を段階的に加える Web デザインの考え方。
+    related: [レスポンシブWebデザイン]
+  - term: ワイヤーフレーム
+    reading: わいやーふれーむ
+    simple: 画面の項目や配置を、線と枠だけで簡単に描いた設計図です。
+    definition: Web ページや画面のレイアウト、要素の配置、情報の優先順位を、色や装飾を省いて線と枠で表した設計図。
+    related: [画面設計, プロトタイピング]
+  - term: JIS Z 8530
+    reading: じすぜっとはっせんごーまるさんまる
+    aliases: [ISO 9241-210]
+    simple: 人間中心設計のプロセスについて定めた規格です。
+    definition: 対話型システムの人間中心設計プロセスを規定した規格。ISO 9241-210 に対応する JIS。利用状況の把握、要求事項の明示、設計、評価を繰り返す。
+    related: [人間中心設計, ユーザビリティ]
+  - term: UDフォント
+    reading: ゆーでぃーふぉんと
+    simple: 読み間違いにくく、見やすいように設計された文字の書体です。
+    definition: ユニバーサルデザインの考え方に基づき、文字の形の判別しやすさや読みやすさを高めた書体。
+    related: [ユニバーサルデザイン, タイポグラフィ]
+  - term: ピクトグラム
+    reading: ぴくとぐらむ
+    simple: 言葉を使わず、絵で意味を伝える図記号です(トイレのマークなど)。
+    definition: 文字や言語に頼らず、単純化した絵で情報や案内を伝える図記号。非常口やトイレの案内表示など。
+    related: [ユニバーサルデザイン]
+  - term: WAV
+    reading: わぶ
+    simple: 音声データを圧縮せずに保存する、音声ファイル形式です。
+    definition: 音声データを一般に圧縮せずに保存する音声ファイル形式（Microsoft と IBM が開発）。音質は高いがファイルサイズが大きい。
+    related: [MP3, AAC]
+  - term: AAC
+    reading: えーえーしー
+    fullName: Advanced Audio Coding
+    japanese: 高度音声符号化
+    words:
+      - { en: Advanced, ja: 高度な }
+      - { en: Audio, ja: 音声 }
+      - { en: Coding, ja: 符号化 }
+    simple: MP3の後継として作られた、音声の非可逆圧縮方式です。
+    definition: MPEG-2 や MPEG-4 で規定された音声の非可逆圧縮方式。MP3 より同じ音質で小さいサイズにできる。
+    related: [MP3, MPEG]
+  - term: GIF
+    reading: じふ
+    fullName: Graphics Interchange Format
+    japanese: 画像交換形式
+    words:
+      - { en: Graphics, ja: 画像 }
+      - { en: Interchange, ja: 交換 }
+      - { en: Format, ja: 形式 }
+    simple: "256色までで、簡単なアニメーションも作れる画像形式です。"
+    definition: 最大 256 色を扱える可逆圧縮の画像形式。透過とアニメーションに対応する。
+    related: [JPEG, PNG]
+  - term: PNG
+    reading: ぴんぐ
+    fullName: Portable Network Graphics
+    japanese: ポータブルネットワークグラフィックス
+    words:
+      - { en: Portable, ja: 持ち運べる }
+      - { en: Network, ja: ネットワーク }
+      - { en: Graphics, ja: 画像 }
+    simple: 画質が劣化しない可逆圧縮で、透明も扱える画像形式です。
+    definition: 可逆圧縮の画像形式。フルカラーとアルファチャネルによる半透明に対応し、Web 上で広く使われる。
+    related: [JPEG, GIF]
+  - term: BMP
+    reading: びーえむぴー
+    fullName: Bit MaP
+    japanese: ビットマップ
+    words:
+      - { en: Bit, ja: ビット }
+      - { en: MaP, ja: 対応表（画素の並び） }
+    simple: 圧縮をほとんどしない、Windowsで使われる画像形式です。
+    definition: 画素の情報をほとんど圧縮せずに保存する、Windows 標準のビットマップ画像形式。画質が劣化しないが、ファイルサイズが大きい。
+    related: [JPEG, PNG]
+  - term: TIFF
+    reading: てぃふ
+    fullName: Tagged Image File Format
+    japanese: タグ付き画像ファイル形式
+    words:
+      - { en: Tagged, ja: タグ付きの }
+      - { en: Image, ja: 画像 }
+      - { en: File Format, ja: ファイル形式 }
+    simple: 画質を保って保存でき、印刷や出版で使われる画像形式です。
+    definition: タグで様々な属性情報を保持できる画像ファイル形式。多くの色や圧縮方式に対応し、印刷・出版・スキャナの分野で使われる。
+    related: [JPEG, BMP]
+  - term: HEIF
+    reading: ひーふ
+    fullName: High Efficiency Image File Format
+    japanese: 高効率画像ファイル形式
+    words:
+      - { en: High Efficiency, ja: 高効率 }
+      - { en: Image, ja: 画像 }
+      - { en: File Format, ja: ファイル形式 }
+    simple: JPEGより同じ画質で小さなサイズにできる、新しい画像形式です。
+    definition: 動画圧縮技術（HEVC）を応用した画像ファイル形式。JPEG より高い圧縮効率をもち、複数画像の格納にも対応する。
+    related: [JPEG, MPEG]
+  - term: Exif
+    reading: いぐじふ
+    fullName: Exchangeable image file format
+    japanese: 交換可能な画像ファイル形式
+    words:
+      - { en: Exchangeable, ja: 交換可能な }
+      - { en: image file format, ja: 画像ファイル形式 }
+    simple: 撮影日時やカメラの設定などの情報を、画像ファイルに埋め込む規格です。
+    definition: デジタルカメラの画像に、撮影日時、機種、露出、位置情報などのメタデータを埋め込む規格。JPEG などに付加される。
+    related: [JPEG]
+  - term: 非可逆圧縮
+    reading: ひかぎゃくあっしゅく
+    simple: 圧縮すると元のデータには完全には戻せないが、高い圧縮率が得られる方式です。
+    definition: 圧縮前のデータを完全には復元できないが、人の知覚で目立たない情報を捨てることで高い圧縮率を得る方式。JPEG、MP3、MPEG などが使う。
+    related: [可逆圧縮, JPEG, MP3]
+  - term: 圧縮率
+    reading: あっしゅくりつ
+    simple: データを圧縮したあとのサイズが、元のサイズの何割になるかを表す数値です。
+    definition: 圧縮後のデータ量を圧縮前のデータ量で割った値（％で表すことが多い）。小さいほど圧縮の効果が大きい。
+    related: [可逆圧縮, 非可逆圧縮]
+  - term: ZIP
+    reading: じっぷ
+    simple: 複数のファイルを1つにまとめて、可逆圧縮するファイル形式です。
+    definition: 複数のファイルを 1 つにまとめて可逆圧縮するアーカイブ形式。
+    related: [可逆圧縮]
+  - term: MR
+    reading: えむあーる
+    fullName: Modified READ
+    japanese: 修正READ符号化
+    words:
+      - { en: Modified, ja: 修正した }
+      - { en: READ, ja: 前の行との差を符号化する方式 }
+    simple: ファクシミリで使われる、白黒画像を行ごとに符号化して圧縮する方式です。
+    definition: ファクシミリ用の白黒画像の可逆圧縮方式。直前の行との差分に着目して符号化し、数行ごとに基準となる行を符号化する。
+    related: [可逆圧縮, MMR]
+  - term: MMR
+    reading: えむえむあーる
+    fullName: Modified Modified READ
+    japanese: 修正修正READ符号化
+    words:
+      - { en: Modified Modified, ja: 修正の修正 }
+      - { en: READ, ja: 前の行との差を符号化する方式 }
+    simple: MRをさらに改良した、ファクシミリ用の白黒画像の圧縮方式です。
+    definition: MR をさらに改良したファクシミリ用の白黒画像の可逆圧縮方式。基準となる行を設けず、すべての行を直前の行との差で符号化するため、圧縮率が高い。
+    related: [可逆圧縮, MR]
+  - term: ラスターデータ
+    reading: らすたーでーた
+    aliases: [ビットマップデータ]
+    simple: 画像を、色のついた点(画素)の集まりで表すデータです。
+    definition: 画像を画素（ピクセル）の格子として、各画素の色情報で表現するデータ形式。拡大すると画質が粗くなる。ベクターデータと対比される。
+    related: [ベクターデータ, 画素]
+  - term: H.264
+    reading: えいちにーろくよん
+    simple: ネット動画やワンセグなどで広く使われる、高効率な動画圧縮方式です。
+    definition: 動画の高効率な圧縮符号化方式。MPEG-4 AVC とも呼ばれる。ブルーレイやネット配信で広く使われる。
+    related: [MPEG, H.265]
+  - term: H.265
+    reading: えいちにーろくご
+    aliases: [HEVC]
+    simple: H.264の後継で、同じ画質を半分程度のデータ量で実現する動画圧縮方式です。
+    definition: H.264 の後継の動画圧縮符号化方式。HEVC（High Efficiency Video Coding）とも呼ばれ、同等画質でデータ量を約半分にできる。4K/8K 映像に用いられる。
+    related: [MPEG, H.264]
+  - term: MP4
+    reading: えむぴーふぉー
+    simple: 映像や音声をまとめて保存する、動画のファイル形式です。
+    definition: MPEG-4 規格で定められた、映像、音声、字幕などを格納するコンテナフォーマット（ファイル形式）。
+    related: [MPEG, コンテナフォーマット]
+  - term: コンテナフォーマット
+    reading: こんてなふぉーまっと
+    simple: 映像や音声など複数のデータを、1つのファイルにまとめて格納するための形式です。
+    definition: 圧縮された映像、音声、字幕などの複数のデータを 1 つのファイルにまとめて格納する形式。MP4、AVI、QuickTime などがある。圧縮方式（コーデック）とは別の概念。
+    related: [MPEG, MP4, AVI]
+  - term: AVI
+    reading: えーぶいあい
+    fullName: Audio Video Interleave
+    japanese: 音声映像インタリーブ
+    words:
+      - { en: Audio, ja: 音声 }
+      - { en: Video, ja: 映像 }
+      - { en: Interleave, ja: 交互に配置する }
+    simple: Windowsで使われてきた、動画のコンテナ形式です。
+    definition: Microsoft が開発した、映像と音声を交互に格納する動画のコンテナフォーマット。
+    related: [MPEG, コンテナフォーマット]
+  - term: QuickTime
+    reading: くいっくたいむ
+    simple: Appleが開発した、動画などを扱う形式およびソフトウェアの枠組みです。
+    definition: Apple が開発した動画・音声などのマルチメディアを扱う技術。コンテナフォーマットとしても用いられる。
+    related: [MPEG, コンテナフォーマット]
+  - term: 減法混色
+    reading: げんぽうこんしょく
+    simple: 色を重ねるほど暗くなる混色で、印刷などで使われます。
+    definition: シアン、マゼンタ、イエローなどの色材を混ぜるほど光が吸収されて暗くなる混色。すべてを混ぜると黒に近づく。加法混色と対比される。
+    related: [加法混色, CMYK]
+  - term: 光の3原色
+    reading: ひかりのさんげんしょく
+    simple: 赤・緑・青の3色で、混ぜると白になります。
+    definition: 加法混色の基本となる赤（R）、緑（G）、青（B）の 3 色。
+    related: [加法混色, RGB, 色の3原色]
+  - term: 色の3原色
+    reading: いろのさんげんしょく
+    simple: シアン・マゼンタ・イエローの3色で、混ぜると黒に近づきます。
+    definition: 減法混色の基本となるシアン（C）、マゼンタ（M）、イエロー（Y）の 3 色。
+    related: [減法混色, CMY, 光の3原色]
+  - term: RGB
+    reading: あーるじーびー
+    fullName: Red Green Blue
+    japanese: 赤・緑・青
+    words:
+      - { en: Red, ja: 赤 }
+      - { en: Green, ja: 緑 }
+      - { en: Blue, ja: 青 }
+    simple: 赤・緑・青の光の3色で色を表す方式で、ディスプレイなどで使われます。
+    definition: 赤、緑、青の光の強さの組合せで色を表現する方式。ディスプレイ、カメラ、スキャナなどで使われる。
+    related: [加法混色, 光の3原色, CMYK]
+  - term: CMY
+    reading: しーえむわい
+    fullName: Cyan Magenta Yellow
+    japanese: シアン・マゼンタ・イエロー
+    words:
+      - { en: Cyan, ja: 青緑 }
+      - { en: Magenta, ja: 赤紫 }
+      - { en: Yellow, ja: 黄 }
+    simple: シアン・マゼンタ・イエローの3色の色材で色を表す方式です。
+    definition: シアン、マゼンタ、イエローの色材の混合で色を表現する方式。3 色を全部混ぜても純粋な黒にならないため、実際の印刷では黒を加えた CMYK を使う。
+    related: [減法混色, 色の3原色, CMYK]
+  - term: CMYK
+    reading: しーえむわいけー
+    fullName: Cyan Magenta Yellow Key plate
+    japanese: シアン・マゼンタ・イエロー・キープレート（黒）
+    words:
+      - { en: Cyan, ja: 青緑 }
+      - { en: Magenta, ja: 赤紫 }
+      - { en: Yellow, ja: 黄 }
+      - { en: Key plate, ja: 基準版（黒） }
+    simple: CMYに黒を加えた4色で色を表す、印刷で使われる方式です。
+    definition: シアン、マゼンタ、イエローに黒（K）を加えた 4 色のインクで色を表現する、カラー印刷の標準的な方式。
+    related: [減法混色, CMY, RGB]
+  - term: レイヤー
+    reading: れいやー
+    simple: 画像編集で、透明なシートを重ねるように要素を分けて扱う仕組みです。
+    definition: 画像を複数の透明な層（レイヤー）に分けて重ね、層ごとに編集できるようにする仕組み。元の画像を残したまま修正できる。
+    related: [グラフィックスソフトウェア]
+  - term: トリミング
+    reading: とりみんぐ
+    simple: 画像の必要な部分だけを切り出すことです。
+    definition: 画像の一部分を切り抜いて、不要な部分を取り除く編集操作。
+    related: [グラフィックスソフトウェア]
+  - term: MR（複合現実）
+    reading: えむあーるふくごうげんじつ
+    fullName: Mixed Reality
+    japanese: 複合現実
+    aliases: [Mixed Reality]
+    words:
+      - { en: Mixed, ja: 混合した }
+      - { en: Reality, ja: 現実 }
+    simple: 現実の空間に仮想の物体を融合させ、触れたり操作したりできる技術です。
+    definition: 現実世界と仮想世界を融合し、現実の物体と仮想の物体が相互に作用するように表示する技術。AR よりも仮想物体が現実空間の状況を反映する点が特徴。
+    related: [AR, VR]
+  - term: メタバース
+    reading: めたばーす
+    simple: インターネット上に作られた、多くの人が参加して交流できる三次元の仮想空間です。
+    definition: インターネット上に構築された三次元の仮想空間で、利用者がアバターを通じて交流、経済活動、イベント参加などを行える環境。
+    related: [VR, アバター]
+  - term: ヘッドマウントディスプレイ
+    reading: へっどまうんとでぃすぷれい
+    aliases: [HMD]
+    simple: 頭にかぶって使う、目の前に映像を映すディスプレイ装置です。
+    definition: 頭部に装着して、目の前に映像を表示するディスプレイ装置。VR や AR の体験に用いられる。
+    related: [VR, AR]
+  - term: アバター
+    reading: あばたー
+    simple: インターネット上の仮想空間で、自分の分身として使うキャラクターです。
+    definition: 仮想空間やオンラインサービスで、利用者の分身として表示されるキャラクターや画像。
+    related: [VR, メタバース]
