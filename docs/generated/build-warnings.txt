@@ -1,3 +1,9 @@
 glossary:MACアドレス: 関連用語「IPアドレス」が辞典にありません
 glossary:Webサーバ: 関連用語「HTTP」が辞典にありません
 glossary:TCO: 関連用語「ROI」が辞典にありません
+glossary:TCP/IP: 関連用語「TCP」が辞典にありません
+glossary:TCP/IP: 関連用語「IPアドレス」が辞典にありません
+glossary:TCP/IP: 関連用語「OSI基本参照モデル」が辞典にありません
+glossary:DBMS: 関連用語「SQL」が辞典にありません
+glossary:バックアップ: 関連用語「ランサムウェア」が辞典にありません
+glossary:SBOM: 関連用語「脆弱性」が辞典にありません
