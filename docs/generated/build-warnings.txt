@@ -1,2 +1,1 @@
 glossary:データウェアハウス: 関連用語「BI」が辞典にありません
-glossary:ISMS: 関連用語「PDCA」が辞典にありません
