@@ -597,7 +597,6 @@ terms:
     related: [センサー, フィードバック制御]
   - term: スタック
     reading: スタック
-    aliases: [LIFO]
     simple: 最後に入れたものを最初に取り出す（後入れ先出し）データの入れ物です。
     definition: データの追加（プッシュ）と取出し（ポップ）を同じ一端で行う LIFO（Last In First Out）のデータ構造。関数呼出しの管理や逆ポーランド記法の評価に使われる。
     difference: キューは先に入れたものを先に取り出す FIFO。
@@ -965,3 +964,13 @@ terms:
     simple: 判定のしきい値を変えたときの、見逃しと誤検知のバランスを表すグラフです。
     definition: "2値分類で判定しきい値を変化させたときの、偽陽性率を横軸、真陽性率（再現率）を縦軸にとって描いた曲線。曲線下の面積（AUC）が1に近いほど分類性能が高い。"
     related: [再現率, 適合率]
+  - term: LIFO
+    reading: りふぉ
+    fullName: Last In First Out
+    japanese: 後入れ先出し
+    words:
+      - { en: Last In, ja: 最後に入ったものが }
+      - { en: First Out, ja: 最初に出る }
+    simple: 後から入れたデータを先に取り出す方式です。スタックがこの方式です。
+    definition: 最後に格納されたデータが最初に取り出される方式。スタック（積み重ね）の動作原理で、キューの FIFO と対比される。
+    related: [スタック, FIFO]
