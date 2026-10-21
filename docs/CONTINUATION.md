@@ -2,6 +2,11 @@
 
 最終更新：2026-10-21
 
+## 公開状況
+
+- 公開 URL：https://minkohno-hub.github.io/Fundamental-Information-Technology-Engineer-Examination/
+- GitHub Pages（Source＝GitHub Actions）で公開済み。push のたびに自動デプロイ。2026-10-21 に公開環境でホーム表示・問題演習・オフライン再読み込み・用語辞典・横スクロールなしを確認（スマホ幅）
+
 ## Git
 
 - ブランチ：`claude/fe-exam-learning-app-nuiom6`（リモートに push 済み。Pull Request は未作成）
@@ -17,15 +22,13 @@
 
 ## 失敗している項目
 
-- GitHub Actions の `configure-pages`：「Create Pages site failed. Resource not accessible by integration」。リポジトリ所有者が **Settings → Pages → Build and deployment → Source を「GitHub Actions」** に設定する必要がある。設定後、Actions の最新 run を Re-run すればデプロイされる見込み（未検証）
+- なし（Pages は有効化済み）
 
 ## 残作業（優先順）
 
-1. Pages 有効化（上記）後、Actions を Re-run → 公開 URL で主要機能・オフラインを確認し、README と本書に URL を記載
-2. 用語の別名の監査（別概念が別名になっているものを独立項目にする）：作業ツリー `.claude/worktrees/agent-a1f95d677592b6b3f` で途中。完了したらマージ
-3. IPA 公開問題 科目B 24 問（`content/questions/IPA/b.yaml`、現在 rejected）を擬似言語で再現し、`verify` 付きで公開
-4. 知識問題（特に法務・規格）の原典照合
-5. 学習プラン画面・科目B 短時間学習・シミュレーターの E2E 追加
+1. IPA 公開問題 科目B の残り 12 問（`content/questions/IPA/b-alg.yaml` ほか）：擬似言語インタプリタの未対応構文（`繰返し処理を終了する`、平方根・商・余り表現、文字列・配列の操作文など）を実装すれば公開できる
+2. 知識問題の原典照合の続き（`docs/FACTCHECK_LOG.md` に確認済み・未確認を記録）
+3. 学習プラン画面・科目B 短時間学習・シミュレーターの E2E 追加
 
 ## 未検証事項
 

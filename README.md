@@ -4,6 +4,8 @@
 
 > 本アプリは IPA（独立行政法人情報処理推進機構）とは関係のない非公式の学習教材です。試験制度・出題範囲は必ず IPA の公式情報で確認してください。
 
+**公開URL：** https://minkohno-hub.github.io/Fundamental-Information-Technology-Engineer-Examination/
+
 ## 主な機能
 
 - 一問一答（5/10/20/50問、分野・ランダム・未回答・苦手・復習・お気に入り・理解度別）と、未回答・要復習・復習時期を組み合わせる標準出題

@@ -6,8 +6,8 @@
    "no": "1",
    "name": "基礎理論",
    "field": "テクノロジ系",
-   "questions": 113,
-   "verified": 113,
+   "questions": 114,
+   "verified": 114,
    "leafTotal": 34,
    "leafCovered": 34,
    "uncovered": []
@@ -16,8 +16,8 @@
    "no": "2",
    "name": "アルゴリズムとプログラミング",
    "field": "テクノロジ系",
-   "questions": 132,
-   "verified": 132,
+   "questions": 140,
+   "verified": 140,
    "leafTotal": 32,
    "leafCovered": 32,
    "uncovered": []
@@ -46,8 +46,8 @@
    "no": "5",
    "name": "ソフトウェア",
    "field": "テクノロジ系",
-   "questions": 42,
-   "verified": 42,
+   "questions": 43,
+   "verified": 43,
    "leafTotal": 30,
    "leafCovered": 30,
    "uncovered": []
@@ -106,8 +106,8 @@
    "no": "11",
    "name": "セキュリティ",
    "field": "テクノロジ系",
-   "questions": 113,
-   "verified": 113,
+   "questions": 117,
+   "verified": 117,
    "leafTotal": 33,
    "leafCovered": 33,
    "uncovered": []
@@ -242,12 +242,12 @@
   {
    "id": "B2",
    "name": "プログラムの処理の基本要素",
-   "questions": 90
+   "questions": 94
   },
   {
    "id": "B3",
    "name": "データ構造及びアルゴリズム",
-   "questions": 82
+   "questions": 86
   },
   {
    "id": "B4",
@@ -257,7 +257,7 @@
   {
    "id": "B5",
    "name": "情報セキュリティの確保",
-   "questions": 28
+   "questions": 32
   }
  ]
 }

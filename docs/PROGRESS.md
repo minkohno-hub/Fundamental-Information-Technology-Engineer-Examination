@@ -18,7 +18,7 @@
 | シラバス網羅（末端論点 80% 以上・23 中分類） | 達成：624/624 | coverage.json |
 | コンパクト参考書 | 完了：14 章 | 教材ビルド |
 | プログラミング講座 | 完了：12 回 | 教材ビルド |
-| IPA 公開問題の取り込み | 実装途中：科目A 74 問公開・6 問除外、科目B 24 問は未再現のため除外 | content/questions/IPA/ |
+| IPA 公開問題の取り込み | 実装途中：科目A 74 問・科目B 12 問公開、除外 18 問（図の再現不可・インタプリタ未対応構文） | content/questions/IPA/ |
 | ドキュメント | 完了 | docs/ |
-| GitHub Pages 公開 | 不具合あり：Pages 未有効化のためデプロイ失敗（ビルド・テストは成功） | Actions run #4 |
-| 公開環境での動作確認 | 未着手（公開待ち） | — |
+| GitHub Pages 公開 | 完了 | https://minkohno-hub.github.io/Fundamental-Information-Technology-Engineer-Examination/ |
+| 公開環境での動作確認 | 検証済み（スマホ幅・オフライン含む）。iOS 実機は未確認 | 2026-10-21 |
