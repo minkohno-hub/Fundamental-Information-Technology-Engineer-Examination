@@ -1,6 +1,1 @@
-glossary:NoSQL: 関連用語「ビッグデータ」が辞典にありません
 glossary:データウェアハウス: 関連用語「BI」が辞典にありません
-glossary:データレイク: 関連用語「ビッグデータ」が辞典にありません
-glossary:EDI: 関連用語「電子商取引」が辞典にありません
-glossary:LPWA: 関連用語「IoT」が辞典にありません
-glossary:ISMS: 関連用語「PDCA」が辞典にありません

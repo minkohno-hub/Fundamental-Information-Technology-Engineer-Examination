@@ -1,0 +1,30 @@
+category: "17"
+reviewed: { at: '2026-10-21', method: 'IPA 公開問題の原文・公式解答例と照合し，解説を新規作成。計算問題は検算式で再計算' }
+source:
+  kind: ipa
+  title: "基本情報技術者試験 公開問題（科目A）"
+  url: "https://www.ipa.go.jp/shiken/mondai-kaiotu/sg_fe/koukai/index.html"
+  terms: 'IPA の利用条件（教育目的の利用可、出典明記、改変箇所の明示）'
+  modified: true
+  modificationNote: '解説を本アプリで作成。問題文・選択肢は原文のまま（表記の全角半角を一部統一）'
+questions:
+  - id: IPA-R05-A-019
+    topic: 17-1-1-4
+    diff: 1
+    noShuffle: true
+    q: "CIO の説明はどれか。"
+    c:
+      - "経営戦略の立案及び業務執行を統括する最高責任者"
+      - "資金調達，財務報告などの財務面での戦略策定及び執行を統括する最高責任者"
+      - "自社の技術戦略や研究開発計画の立案及び執行を統括する最高責任者"
+      - "情報管理，情報システムに関する戦略立案及び執行を統括する最高責任者"
+    a: エ
+    exp: "CIO(Chief Information Officer)は，情報管理や情報システムに関する戦略の立案と執行を統括する最高責任者である。"
+    why:
+      - "これは CEO の説明である。"
+      - "これは CFO の説明である。"
+      - "これは CTO の説明である。"
+      - "正解です。情報システムに関する最高責任者が CIO である。"
+    know: "CEO，CFO，COO，CTO などと合わせて覚える。"
+    terms: ["CIO"]
+    source: { examName: "令和5年度 科目A 公開問題", year: 2023, questionNo: 19 }

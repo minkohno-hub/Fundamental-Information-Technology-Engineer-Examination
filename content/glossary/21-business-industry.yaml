@@ -1,0 +1,445 @@
+category: ビジネスインダストリ
+terms:
+  - term: POSシステム
+    reading: ポスシステム
+    fullName: Point Of Sale system
+    japanese: 販売時点情報管理システム
+    aliases: [POS, 販売時点情報管理]
+    words:
+      - { en: Point, ja: 時点 }
+      - { en: Of Sale, ja: 販売の }
+    simple: レジで商品を売ったその時点で、何がいくつ売れたかを記録するシステムです。
+    definition: 販売時点でバーコードなどから商品ごとの販売情報を収集し、売上・在庫管理や売れ筋分析、発注などに活用するシステム。
+    related: [JANコード]
+  - term: グループウェア
+    reading: グループウェア
+    simple: スケジュールや文書、掲示板などをチームで共有して、共同作業をしやすくするソフトウェアです。
+    definition: 組織内のメンバーの情報共有や共同作業を支援するソフトウェア。スケジュール管理、電子掲示板、文書共有、電子会議などの機能をもつ。
+    related: [ワークフローシステム]
+  - term: デジタルツイン
+    reading: デジタルツイン
+    aliases: [サイバーフィジカルシステム, CPS]
+    simple: 現実の設備や街を、データを使ってコンピュータの中にそっくり再現したものです。
+    definition: 現実世界の対象から収集したデータを基にサイバー空間上に対象を再現し、監視や予測のシミュレーションに用いるもの。現実と仮想を連携させるサイバーフィジカルシステム（CPS）の一形態。
+    related: [IoT]
+  - term: IoT
+    reading: アイオーティー
+    fullName: Internet of Things
+    japanese: モノのインターネット
+    words:
+      - { en: Internet, ja: インターネット }
+      - { en: of Things, ja: モノの }
+    simple: 家電や機械、センサーなどいろいろなモノをインターネットにつなぎ、データをやり取りする仕組みです。
+    definition: さまざまな物体にセンサーや通信機能をもたせてネットワークに接続し、データの収集・遠隔制御などを行う仕組み。
+    related: [M2M, エッジコンピューティング]
+  - term: XBRL
+    reading: エックスビーアールエル
+    fullName: eXtensible Business Reporting Language
+    japanese: 拡張可能な事業報告言語
+    words:
+      - { en: eXtensible, ja: 拡張可能な }
+      - { en: Business Reporting, ja: 事業報告 }
+      - { en: Language, ja: 言語 }
+    simple: 決算書などの財務情報を、コンピュータで処理しやすい形で書くための XML ベースの言語です。
+    definition: 財務諸表などの事業報告を記述するための XML ベースの標準言語。EDINET などで利用される。
+    related: [XML, EDINET]
+  - term: EDINET
+    reading: エディネット
+    fullName: Electronic Disclosure for Investors' NETwork
+    japanese: 金融商品取引法に基づく有価証券報告書等の電子開示システム
+    words:
+      - { en: Electronic Disclosure, ja: 電子開示 }
+      - { en: for Investors', ja: 投資家のための }
+      - { en: NETwork, ja: ネットワーク }
+    simple: 有価証券報告書などを電子的に提出・公開するための金融庁のシステムです。
+    definition: 金融商品取引法に基づく有価証券報告書などの開示書類を電子的に提出・閲覧できる金融庁のシステム。
+    related: [XBRL]
+  - term: スマートグリッド
+    reading: スマートグリッド
+    aliases: [次世代送電網, スマートメーター]
+    simple: IT で電気の使われ方と作られ方を細かく調整する、賢い電力網です。
+    definition: 情報通信技術を用いて電力の需要側と供給側の双方から電力の流れを制御し、電力網を最適化する仕組み。
+  - term: ITS
+    reading: アイティーエス
+    fullName: Intelligent Transport Systems
+    japanese: 高度道路交通システム
+    words:
+      - { en: Intelligent, ja: 知的な }
+      - { en: Transport, ja: 交通 }
+      - { en: Systems, ja: システム }
+    simple: 道路と車を情報通信でつないで、渋滞や事故を減らす仕組みです。
+    definition: 人・道路・車両を情報通信技術で結び、交通の安全性・効率性・快適性を向上させるシステム。
+  - term: LGWAN
+    reading: エルジーワン
+    fullName: Local Government Wide Area Network
+    japanese: 総合行政ネットワーク
+    words:
+      - { en: Local Government, ja: 地方公共団体 }
+      - { en: Wide Area Network, ja: 広域ネットワーク }
+    simple: 全国の地方公共団体を結ぶ、行政専用のネットワークです。
+    definition: 地方公共団体の組織間を相互に接続する行政専用の閉域ネットワーク。
+  - term: GPS
+    reading: ジーピーエス
+    fullName: Global Positioning System
+    japanese: 全地球測位システム
+    words:
+      - { en: Global, ja: 全地球の }
+      - { en: Positioning, ja: 測位 }
+      - { en: System, ja: システム }
+    simple: 人工衛星からの電波を使って、今いる位置を知る仕組みです。
+    definition: 複数の人工衛星からの電波を受信し、その到達時間差から受信機の位置を測定するシステム。
+  - term: ハルシネーション
+    reading: ハルシネーション
+    simple: 生成 AI が、本当ではないことをもっともらしく答えてしまう現象です。
+    definition: 生成 AI が事実に基づかない誤った内容を、もっともらしい形で生成する現象。出典確認や人によるチェックで対処する。
+    related: [生成AI, ヒューマンインザループ]
+  - term: ヒューマンインザループ
+    reading: ヒューマンインザループ
+    aliases: [HITL]
+    simple: AI の判断や処理の途中に人が入って、確認や修正を行う仕組みです。
+    definition: AI やシステムの処理の過程に人間の判断や確認を組み込み、誤りの防止や品質向上を図る考え方。
+    related: [ハルシネーション]
+  - term: XAI
+    reading: エックスエーアイ
+    fullName: Explainable AI
+    japanese: 説明可能な AI
+    aliases: [説明可能なAI]
+    words:
+      - { en: Explainable, ja: 説明可能な }
+      - { en: AI, ja: 人工知能 }
+    simple: AI がなぜその答えを出したのかを、人が理解できるように示す技術です。
+    definition: AI の判断の根拠や過程を人が理解できる形で提示する技術や考え方。結果の妥当性の検証や説明責任の確保に用いる。
+    related: [AIのバイアス]
+  - term: AIのバイアス
+    reading: エーアイのバイアス
+    aliases: [アルゴリズムのバイアス]
+    simple: 学習データの偏りなどのせいで、AI が特定の人に不公平な判断をしてしまうことです。
+    definition: 学習データの偏りやアルゴリズムの設計、利用者の関与などによって AI の出力が特定の属性に対して偏ること。
+    related: [XAI]
+  - term: JIT
+    reading: ジェイアイティー
+    fullName: Just In Time
+    japanese: ジャストインタイム
+    aliases: [ジャストインタイム]
+    words:
+      - { en: Just, ja: ちょうど }
+      - { en: In Time, ja: 間に合って }
+    simple: 必要なものを、必要なときに、必要な量だけ作ったり運んだりする考え方です。
+    definition: 必要なものを必要なときに必要な量だけ生産・供給し、在庫などのムダを排除する生産の考え方。
+    related: [かんばん方式, リーン生産方式]
+  - term: かんばん方式
+    reading: かんばんほうしき
+    aliases: [かんばん, 後工程引取り方式]
+    simple: 後の工程が「かんばん」という票で必要な分だけ部品を取りに行き、前の工程は取られた分だけ作る方式です。
+    definition: 後工程が必要な部品を必要な分だけ前工程から引き取り、前工程は引き取られた分だけ生産する方式。引取りや生産の指示に「かんばん」を用いる。JIT を実現する手法。
+    related: [JIT]
+  - term: セル生産方式
+    reading: セルせいさんほうしき
+    simple: 1人や少人数の作業者が、製品を最初から最後まで組み立てる生産方式です。
+    definition: 1人又は少人数の作業者が複数の工程を受け持って製品を完成させる生産方式。多品種少量生産や品目の変更に柔軟に対応しやすい。
+    related: [ライン生産方式]
+  - term: ライン生産方式
+    reading: ラインせいさんほうしき
+    aliases: [ロット生産方式, 流れ作業]
+    simple: ベルトコンベアに沿って作業を細かく分け、流れ作業で大量に作る方式です。
+    definition: 工程を細分化して作業者や機械を流れに沿って配置し、単一製品を大量生産する方式。一定数量をまとめて生産する方式をロット生産という。
+    related: [セル生産方式]
+  - term: リーン生産方式
+    reading: リーンせいさんほうしき
+    simple: トヨタ生産方式を基に、在庫などのムダを徹底的になくして効率よく作る生産方式です。
+    definition: トヨタ生産方式を研究・体系化した生産方式。顧客にとって価値を生まない活動をムダとして排除し、少ない資源で効率よく生産する。
+    related: [JIT, かんばん方式]
+  - term: CIM
+    reading: シム
+    fullName: Computer Integrated Manufacturing
+    japanese: コンピュータ統合生産
+    words:
+      - { en: Computer, ja: コンピュータ }
+      - { en: Integrated, ja: 統合された }
+      - { en: Manufacturing, ja: 製造 }
+    simple: 受注・設計・製造・販売などの情報をコンピュータでつないで、生産全体を最適にする考え方です。
+    definition: 生産に関わる受注・設計・製造・販売などの情報をコンピュータネットワークで統合し、企業全体の生産活動を最適化する考え方。
+    related: [CAD, CAM, FMS]
+  - term: MRP
+    reading: エムアールピー
+    fullName: Material Requirements Planning
+    japanese: 資材所要量計画
+    aliases: [資材所要量計画, 正味所要量, 総所要量]
+    words:
+      - { en: Material, ja: 資材 }
+      - { en: Requirements, ja: 所要量 }
+      - { en: Planning, ja: 計画 }
+    simple: 生産計画から、どの部品がいつ何個必要かを計算して発注を計画する手法です。
+    definition: 基準生産計画を基に部品表で総所要量を展開し、在庫などを差し引いて正味所要量を求め、リードタイムを考慮して発注時期を決める手法。
+    related: [部品表, ERP]
+  - term: 部品表
+    reading: ぶひんひょう
+    aliases: [BOM]
+    simple: 製品を作るのに、どの部品が何個必要かをまとめた表です。
+    definition: 製品を構成する部品や資材の種類・数量・階層関係を表したもの。MRP の所要量展開に用いる。
+    related: [MRP]
+  - term: FMS
+    reading: エフエムエス
+    fullName: Flexible Manufacturing System
+    japanese: フレキシブル生産システム
+    aliases: [FMC]
+    words:
+      - { en: Flexible, ja: 柔軟な }
+      - { en: Manufacturing, ja: 製造 }
+      - { en: System, ja: システム }
+    simple: 工作機械や搬送装置をコンピュータでまとめて動かし、いろいろな製品を少しずつ作れるようにしたシステムです。
+    definition: NC 工作機械、自動搬送装置、自動倉庫などをコンピュータで統合制御し、多品種少量生産に柔軟に対応する生産システム。小規模な単位を FMC という。
+    related: [CIM]
+  - term: CAD
+    reading: キャド
+    fullName: Computer Aided Design
+    japanese: コンピュータ支援設計
+    words:
+      - { en: Computer, ja: コンピュータ }
+      - { en: Aided, ja: 支援された }
+      - { en: Design, ja: 設計 }
+    simple: コンピュータを使って製品を設計し、図面を作るシステムです。
+    definition: コンピュータを用いて製品の設計や製図を行うシステム。設計データは CAM や CAE で利用される。
+    related: [CAM, CAE]
+  - term: CAM
+    reading: キャム
+    fullName: Computer Aided Manufacturing
+    japanese: コンピュータ支援製造
+    aliases: [CAD/CAM]
+    words:
+      - { en: Computer, ja: コンピュータ }
+      - { en: Aided, ja: 支援された }
+      - { en: Manufacturing, ja: 製造 }
+    simple: 設計データから工作機械を動かすデータを作るなど、製造をコンピュータで助けるシステムです。
+    definition: CAD の設計データを基に、NC 工作機械の加工データの作成など製造工程を支援するシステム。
+    related: [CAD]
+  - term: CAE
+    reading: シーエーイー
+    fullName: Computer Aided Engineering
+    japanese: コンピュータ支援エンジニアリング
+    words:
+      - { en: Computer, ja: コンピュータ }
+      - { en: Aided, ja: 支援された }
+      - { en: Engineering, ja: エンジニアリング（工学） }
+    simple: 設計した製品の強さなどを、コンピュータ上で試して解析するシステムです。
+    definition: 設計した製品の強度・熱・流体などの特性をコンピュータ上でシミュレーションして解析し、設計を支援するシステム。
+    related: [CAD]
+  - term: 電子商取引
+    reading: でんししょうとりひき
+    aliases: [EC, eコマース, オンラインショッピング]
+    simple: インターネットなどを使って、商品やサービスを売り買いすることです。
+    definition: インターネットなどのネットワークを介して行う商取引。当事者により BtoB、BtoC、CtoC などに分類される。
+    related: [BtoB, BtoC, CtoC]
+  - term: BtoB
+    reading: ビートゥービー
+    fullName: Business to Business
+    japanese: 企業間取引
+    aliases: [B2B]
+    words:
+      - { en: Business, ja: 企業 }
+      - { en: to, ja: 対 }
+      - { en: Business, ja: 企業 }
+    simple: 企業と企業の間の取引です。
+    definition: 企業間で行われる電子商取引などの取引形態。電子調達や e マーケットプレイスなど。
+    related: [電子商取引, EDI]
+  - term: BtoC
+    reading: ビートゥーシー
+    fullName: Business to Consumer
+    japanese: 企業対消費者取引
+    aliases: [B2C, GtoB, GtoC]
+    words:
+      - { en: Business, ja: 企業 }
+      - { en: to, ja: 対 }
+      - { en: Consumer, ja: 消費者 }
+    simple: 企業が消費者に商品やサービスを売る取引です。
+    definition: 企業と消費者の間の取引形態。ネットショップなど。行政と企業の取引を GtoB、行政と市民の取引を GtoC という。
+    related: [電子商取引]
+  - term: CtoC
+    reading: シートゥーシー
+    fullName: Consumer to Consumer
+    japanese: 消費者間取引
+    aliases: [C2C]
+    words:
+      - { en: Consumer, ja: 消費者 }
+      - { en: to, ja: 対 }
+      - { en: Consumer, ja: 消費者 }
+    simple: 個人と個人の間の取引です。ネットオークションやフリマアプリなどがあります。
+    definition: 消費者（個人）間で行われる取引形態。ネットオークションやフリマアプリなど。
+    related: [電子商取引]
+  - term: DtoC
+    reading: ディートゥーシー
+    fullName: Direct to Consumer
+    japanese: 消費者への直接販売
+    aliases: [D2C]
+    words:
+      - { en: Direct, ja: 直接 }
+      - { en: to Consumer, ja: 消費者へ }
+    simple: メーカーが店を通さずに、自社サイトなどで消費者に直接売ることです。
+    definition: 製造業者などが卸売業者や小売業者を介さず、自社の EC サイトなどで消費者に直接販売するビジネスモデル。
+  - term: ロングテール
+    reading: ロングテール
+    simple: 少しずつしか売れない商品でも、たくさん集めると大きな売上になるという考え方です。
+    definition: ネット販売などで、販売数の少ない多数のニッチ商品の売上の合計が、全体の中で大きな割合を占める現象。
+    related: [パレート分析]
+  - term: OtoO
+    reading: オーツーオー
+    fullName: Online to Offline
+    japanese: オンラインからオフラインへ
+    aliases: [O2O]
+    words:
+      - { en: Online, ja: オンライン }
+      - { en: to Offline, ja: オフラインへ }
+    simple: ネットでクーポンなどを配って、実際のお店に来てもらう仕組みです。
+    definition: Web やアプリなどオンラインでの施策によって、実店舗（オフライン）での購買を促すこと。
+    related: [OMO, オムニチャネル]
+  - term: OMO
+    reading: オーエムオー
+    fullName: Online Merges with Offline
+    japanese: オンラインとオフラインの融合
+    words:
+      - { en: Online, ja: オンライン }
+      - { en: Merges with, ja: 融合する }
+      - { en: Offline, ja: オフライン }
+    simple: ネットとお店を区別せず、一つながりの買物体験を作る考え方です。
+    definition: オンラインとオフラインを区別せず融合させ、一体として顧客体験を設計する考え方。
+    related: [OtoO]
+  - term: フィンテック
+    reading: フィンテック
+    aliases: [FinTech]
+    simple: スマホ送金など、IT を使った新しい金融サービスのことです。
+    definition: 金融（Finance）と技術（Technology）を組み合わせた造語で、IT を活用した革新的な金融サービスやその取組み。
+    related: [キャッシュレス決済, アカウントアグリゲーション]
+  - term: アカウントアグリゲーション
+    reading: アカウントアグリゲーション
+    simple: いくつもの銀行やカードの口座情報を、1つの画面にまとめて見られるサービスです。
+    definition: 複数の金融機関などの口座情報を集約し、一つの画面で一覧できるようにするサービス。
+    related: [フィンテック]
+  - term: キャッシュレス決済
+    reading: キャッシュレスけっさい
+    aliases: [QRコード決済, 電子マネー, 電子決済]
+    simple: 現金を使わずに、カードやスマホなどで支払うことです。
+    definition: クレジットカード、電子マネー、QR コード決済、非接触 IC 決済など、現金を用いない支払の方法。
+    related: [フィンテック, ICカード]
+  - term: スマートファクトリー
+    reading: スマートファクトリー
+    simple: 工場の機械をネットワークでつなぎ、データを使って生産を自動化・最適化した工場です。
+    definition: IoT や AI などを活用して工場内の設備や工程をネットワークで結び、生産の自動化・最適化を図った工場。
+    related: [IoT]
+  - term: 電子政府
+    reading: でんしせいふ
+    aliases: [電子自治体, e-Gov]
+    simple: 行政の手続をインターネットでできるようにするなど、IT を使った行政のことです。
+    definition: 行政手続のオンライン化や行政情報の電子的な提供などにより、行政の効率化と住民の利便性向上を図る取組み。e-Gov は政府の総合窓口サイト。
+  - term: RFID
+    reading: アールエフアイディー
+    fullName: Radio Frequency IDentification
+    japanese: 無線周波数による識別
+    aliases: [ICタグ, RFタグ]
+    words:
+      - { en: Radio Frequency, ja: 無線周波数 }
+      - { en: IDentification, ja: 識別 }
+    simple: 電波を使って、小さなタグの情報を触れずに読み書きする技術です。
+    definition: IC チップとアンテナをもつタグの情報を、電波などを用いて非接触で読み書きする技術。複数タグの一括読取りもできる。
+    related: [ICカード, トレーサビリティ]
+  - term: ICカード
+    reading: アイシーカード
+    aliases: [スマートカード, 接触型ICカード, 非接触型ICカード]
+    simple: IC チップを埋め込んだカードで、磁気カードより偽造されにくいカードです。
+    definition: IC チップを内蔵し、情報の記録や演算を行えるカード。接触型と非接触型があり、耐タンパ性が高い。
+    related: [耐タンパ性, RFID]
+  - term: JANコード
+    reading: ジャンコード
+    aliases: [バーコード, ITFコード]
+    simple: 商品に印刷されている、白と黒の縞模様のバーコードです。
+    definition: 商品の識別に用いる 1 次元バーコードの規格で、標準は 13 桁、短縮は 8 桁。国コード、事業者コード、商品アイテムコード、チェックディジットからなる。
+    related: [POSシステム, QRコード]
+  - term: eKYC
+    reading: イーケーワイシー
+    fullName: electronic Know Your Customer
+    japanese: オンラインでの本人確認
+    words:
+      - { en: electronic, ja: 電子的な }
+      - { en: Know Your Customer, ja: 顧客を知る（本人確認） }
+    simple: 口座開設などの本人確認を、スマホなどを使ってオンラインで済ませる仕組みです。
+    definition: 本人確認書類の画像と本人の容貌の画像の送信などにより、オンラインで本人確認を完結させる仕組み。
+  - term: AML・CFT
+    reading: エーエムエル・シーエフティー
+    fullName: Anti-Money Laundering・Countering the Financing of Terrorism
+    japanese: マネーロンダリング・テロ資金供与対策
+    aliases: [AML, マネーロンダリング対策]
+    words:
+      - { en: Anti-Money Laundering, ja: マネーロンダリング（資金洗浄）対策 }
+      - { en: Countering the Financing of Terrorism, ja: テロ資金供与への対策 }
+    simple: 犯罪で得たお金の出どころを隠す行為やテロへの資金提供を防ぐ取組みです。
+    definition: 不正に得た資金の出所を隠すマネーロンダリングやテロ資金の供与を防ぐための、取引の監視などの対策。
+  - term: クラウドソーシング
+    reading: クラウドソーシング
+    simple: ネットを通じて、たくさんの人の中から仕事を頼む相手を見つけて発注する仕組みです。
+    definition: インターネットを通じて不特定多数の人に業務を発注・委託する仕組み。
+    related: [クラウドファンディング]
+  - term: シェアリングエコノミー
+    reading: シェアリングエコノミー
+    aliases: [共有経済, 民泊, カーシェアリング]
+    simple: 使っていない部屋や車などを、ネットを通じて他の人と共有するサービスです。
+    definition: 個人などが保有する遊休資産（部屋、自動車、スキルなど）をインターネット上のプラットフォームを介して貸し借り・共有する経済活動。
+  - term: EDI規約
+    reading: イーディーアイきやく
+    aliases: [情報表現規約, 情報伝達規約, 業務運用規約, 基本取引規約]
+    simple: EDI で正しくデータをやり取りするために、企業同士で決めておく約束事です。
+    definition: EDI の当事者間の取決め。取引の契約に関する基本取引規約、業務の運用に関する業務運用規約、メッセージの形式に関する情報表現規約、通信方法に関する情報伝達規約がある。
+    related: [EDI]
+  - term: ライフログ
+    reading: ライフログ
+    simple: 自分の行動や体験を、デジタルデータとして記録したものです。
+    definition: 人の生活や行動、体験を、位置情報・健康データ・写真などのデジタルデータとして記録したもの。
+  - term: 情報銀行
+    reading: じょうほうぎんこう
+    simple: 本人の同意を得て個人のデータを預かり、他の企業に提供して本人に便益を返す仕組みです。
+    definition: 個人との契約に基づいてパーソナルデータを管理し、本人の指示や同意の範囲で第三者に提供して、便益を本人に還元する事業。
+  - term: リアルタイムOS
+    reading: リアルタイムオーエス
+    aliases: [RTOS]
+    simple: 決められた時間内に必ず反応することを重視した、機器の制御向けの OS です。
+    definition: 優先度に基づくプリエンプティブなスケジューリングなどにより、事象の発生に対して決められた時間内に応答することを重視した OS。組込みシステムで使われる。
+    related: [組込みシステム]
+  - term: 組込みシステム
+    reading: くみこみシステム
+    aliases: [組込みOS, マイコン, マイクロコンピュータ]
+    simple: 家電や自動車などの機器の中に組み込まれて、その機器を制御するコンピュータシステムです。
+    definition: 特定の機能を実現するために機器に組み込まれたコンピュータシステム。マイコンと組込み OS（リアルタイム OS など）、ファームウェアで構成されることが多い。
+    related: [リアルタイムOS, IoT]
+  - term: MaaS
+    reading: マース
+    fullName: Mobility as a Service
+    japanese: サービスとしての移動
+    words:
+      - { en: Mobility, ja: 移動 }
+      - { en: as a Service, ja: サービスとして }
+    simple: 電車やバス、タクシーなどをまとめて、1つのアプリで検索・予約・支払ができるようにするサービスです。
+    definition: 複数の交通手段を ICT で統合し、経路検索・予約・決済を一括して行えるようにして、移動を一つのサービスとして提供する考え方。
+  - term: コネクテッドカー
+    reading: コネクテッドカー
+    aliases: [CASE]
+    simple: インターネットに常につながって、情報をやり取りする自動車です。
+    definition: 通信機能をもち、インターネットに常時接続して交通情報や車両の状態などを送受信する自動車。CASE（Connected、Autonomous、Shared & Services、Electric）の一つ。
+    related: [自動運転]
+  - term: 自動運転
+    reading: じどううんてん
+    simple: 人が操作しなくても、システムが自動車を運転することです。
+    definition: センサーや AI などを用いて、システムが自動車の認知・判断・操作の一部又は全部を行うこと。
+    related: [自動運転レベル, コネクテッドカー]
+  - term: 自動運転レベル
+    reading: じどううんてんレベル
+    simple: 自動運転をどこまでシステムが担うかで、レベル 0 から 5 までに分けたものです。
+    definition: 運転自動化の程度の分類。レベル 1 は運転支援、2 は部分運転自動化、3 は条件付運転自動化（介入要求に運転者が対応）、4 は高度運転自動化（特定条件下でシステムがすべて対応）、5 は完全運転自動化。
+    related: [自動運転]
+  - term: M2M
+    reading: エムツーエム
+    fullName: Machine to Machine
+    japanese: 機械間通信
+    words:
+      - { en: Machine, ja: 機械 }
+      - { en: to Machine, ja: 機械へ }
+    simple: 機械同士が人を通さずに、ネットワークで直接やり取りすることです。
+    definition: 機械同士がネットワークを介して人の手を介さずに情報を交換し、制御などを行う仕組み。
+    related: [IoT]
