@@ -1,6 +1,6 @@
 {
  "leafTotal": 624,
- "leafCovered": 142,
+ "leafCovered": 163,
  "middles": [
   {
    "no": "1",
@@ -66,44 +66,21 @@
    "no": "7",
    "name": "ユーザーインタフェース",
    "field": "テクノロジ系",
-   "questions": 0,
-   "verified": 0,
+   "questions": 16,
+   "verified": 16,
    "leafTotal": 12,
-   "leafCovered": 0,
-   "uncovered": [
-    "7-1-1 情報アーキテクチャ",
-    "7-1-2 ユーザーインタフェース(UI)",
-    "7-1-3 GUI",
-    "7-2-1 UX(User Experience)デザイン",
-    "7-2-2 情報デザイン",
-    "7-2-3-1 画面設計",
-    "7-2-3-2 帳票設計",
-    "7-2-4 コード設計",
-    "7-2-5 Web デザイン",
-    "7-2-6 人間中心設計",
-    "7-2-7 ユニバーサルデザイン",
-    "7-2-8 ユーザビリティ評価"
-   ]
+   "leafCovered": 12,
+   "uncovered": []
   },
   {
    "no": "8",
    "name": "情報メディア",
    "field": "テクノロジ系",
-   "questions": 0,
-   "verified": 0,
+   "questions": 13,
+   "verified": 13,
    "leafTotal": 9,
-   "leafCovered": 0,
-   "uncovered": [
-    "8-1-1 マルチメディア",
-    "8-1-2 音声処理",
-    "8-1-3 静止画処理",
-    "8-1-4 動画処理",
-    "8-1-5 情報の圧縮・伸長",
-    "8-2-1-1 色の表現",
-    "8-2-1-2 画像の品質",
-    "8-2-1-3 グラフィックスソフトウェア",
-    "8-2-2 マルチメディア応用"
-   ]
+   "leafCovered": 9,
+   "uncovered": []
   },
   {
    "no": "9",

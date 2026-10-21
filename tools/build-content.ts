@@ -5,9 +5,18 @@ import { readFileSync, writeFileSync, mkdirSync, readdirSync, statSync, rmSync, 
 import { join, relative } from 'node:path';
 import { createHash } from 'node:crypto';
 import yaml from 'js-yaml';
+import { createRequire } from 'node:module';
 import type { Question, GlossaryTerm, Syllabus, ReferenceChapter, Lesson, ContentManifest } from '../src/types';
 import { runProgram, formatValue, toPlain, type RunOptions } from '../src/pseudo/interpreter';
 import { normalizeForCompare, normalizeAnswerInput } from '../src/lib/text';
+
+// node:sqlite は実験的機能のため警告を抑制して読み込む（SQL 問題の検証に使用）
+const emitWarning = process.emitWarning.bind(process);
+process.emitWarning = ((w: string | Error, ...rest: unknown[]) => {
+  if (String(w).includes('SQLite')) return;
+  (emitWarning as (...a: unknown[]) => void)(w, ...rest);
+}) as typeof process.emitWarning;
+const { DatabaseSync } = createRequire(import.meta.url)('node:sqlite') as typeof import('node:sqlite');
 
 const ROOT = process.cwd();
 const CONTENT = join(ROOT, 'content');
@@ -163,6 +172,8 @@ interface VerifySpec {
   result?: { call?: string; args?: unknown[]; of?: 'return' | 'output' | string };
   options?: RunOptions;
   prelude?: string;
+  /** SQL：SQLite で実行して検証（choices が SQL 文なら各選択肢を、result なら query の結果を照合） */
+  sql?: { setup: string; mode: 'choices' | 'result'; query?: string; expectRows?: unknown[][]; ordered?: boolean; sqlChoices?: string[] };
   /** 手作業で確認した内容（自動化できない場合の記録） */
   manual?: string;
 }
@@ -279,6 +290,45 @@ function verifyQuestion(q: Question, raw: RawQuestion, where: string): string[] 
       err(where, `実行時エラー: ${(e as Error).message}`);
     }
   }
+  if (v.sql) {
+    const sq = v.sql;
+    const run = (query: string): unknown[][] => {
+      const db = new DatabaseSync(':memory:');
+      try {
+        db.exec(sq.setup);
+        return db.prepare(query).all().map((r) => Object.values(r as Record<string, unknown>));
+      } finally {
+        db.close();
+      }
+    };
+    const canon = (rows: unknown[][]) => {
+      const lines = rows.map((r) => JSON.stringify(r.map((x) => (typeof x === 'number' ? Math.round(x * 1e9) / 1e9 : x))));
+      return (sq.ordered ? lines : [...lines].sort()).join('\n');
+    };
+    try {
+      if (sq.mode === 'choices') {
+        const expected = sq.expectRows ? canon(sq.expectRows) : canon(run(sq.query!));
+        const qs = sq.sqlChoices ?? q.choices;
+        const hits = qs.map((c) => {
+          try { return canon(run(c)) === expected; } catch { return false; }
+        });
+        if (!hits[q.correctAnswer]) err(where, '正解の SQL の実行結果が期待する結果と一致しません');
+        const others = hits.map((h, i) => (h && i !== q.correctAnswer ? LETTERS[i] : '')).filter(Boolean);
+        if (others.length) err(where, `正解以外の SQL（${others.join('、')}）でも同じ結果になります`);
+        checks.push(`SQLite で全${qs.length}選択肢の SQL を実行し、正解の SQL だけが期待する結果を返すことを確認`);
+      } else {
+        const rows = run(sq.query!);
+        const got = rows.map((r) => r.join(', ')).join(' / ');
+        const norm = (x: string) => normalizeForCompare(x).replace(/[\s　]/g, '');
+        const hits = q.choices.map((c) => norm(c) === norm(got));
+        if (!hits[q.correctAnswer]) err(where, `SQL の実行結果「${got}」が正解の選択肢「${q.choices[q.correctAnswer]}」と一致しません`);
+        if (hits.filter(Boolean).length > 1) err(where, `SQL の実行結果に一致する選択肢が複数あります`);
+        checks.push(`SQLite で問題の SQL を実行し、結果（${got}）が正解の選択肢と一致することを確認`);
+      }
+    } catch (e) {
+      err(where, `SQL の実行に失敗: ${(e as Error).message}`);
+    }
+  }
   if (v.manual) checks.push(`手順の記録: ${v.manual}`);
   return checks;
 }
@@ -391,7 +441,7 @@ for (const file of files) {
     if (!raw.verify && !doc.reviewed) notChecked.push('内容レビュー未実施');
     if (!raw.verify) notChecked.push('機械的な検算・実行による正答確認の対象外（知識問題）');
     if (src.kind === 'ipa') checks.push('正答は IPA 公表の解答例と照合');
-    verifyLog.push({ id: q.id, machine: Boolean(raw.verify && (raw.verify.value !== undefined || raw.verify.cases || raw.verify.result)), checks, notChecked });
+    verifyLog.push({ id: q.id, machine: Boolean(raw.verify && (raw.verify.value !== undefined || raw.verify.cases || raw.verify.result || raw.verify.sql)), checks, notChecked });
     (q as Question & { _reviewed?: boolean })._reviewed = Boolean(doc.reviewed) || src.kind === 'ipa';
     questions.push(q);
   }
