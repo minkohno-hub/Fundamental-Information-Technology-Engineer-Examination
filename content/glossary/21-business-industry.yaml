@@ -11,44 +11,11 @@ terms:
     simple: レジで商品を売ったその時点で、何がいくつ売れたかを記録するシステムです。
     definition: 販売時点でバーコードなどから商品ごとの販売情報を収集し、売上・在庫管理や売れ筋分析、発注などに活用するシステム。
     related: [JANコード]
-  - term: ERP
-    reading: イーアールピー
-    fullName: Enterprise Resource Planning
-    japanese: 企業資源計画
-    aliases: [ERPパッケージ, 統合業務パッケージ]
-    words:
-      - { en: Enterprise, ja: 企業 }
-      - { en: Resource, ja: 資源 }
-      - { en: Planning, ja: 計画 }
-    simple: 会社の販売・生産・会計・人事などの情報を1つにまとめて管理する考え方や、そのためのソフトウェアです。
-    definition: 企業全体の経営資源を一元的に管理し有効活用する考え方。基幹業務を統合したパッケージを ERP パッケージという。
-    related: [MRP]
-  - term: SFA
-    reading: エスエフエー
-    fullName: Sales Force Automation
-    japanese: 営業支援システム
-    aliases: [営業支援システム]
-    words:
-      - { en: Sales Force, ja: 営業部隊 }
-      - { en: Automation, ja: 自動化 }
-    simple: 営業担当者の活動や商談の状況を記録・共有して、営業を効率化するシステムです。
-    definition: 顧客情報、訪問履歴、商談の進捗などを共有・分析し、営業活動を効率化・標準化する情報システム。
   - term: グループウェア
     reading: グループウェア
     simple: スケジュールや文書、掲示板などをチームで共有して、共同作業をしやすくするソフトウェアです。
     definition: 組織内のメンバーの情報共有や共同作業を支援するソフトウェア。スケジュール管理、電子掲示板、文書共有、電子会議などの機能をもつ。
     related: [ワークフローシステム]
-  - term: ワークフローシステム
-    reading: ワークフローシステム
-    simple: 申請書や稟議書を電子化し、決められた順番で承認を回すシステムです。
-    definition: 申請・承認などの業務の流れを電子化し、定められた経路に従って書類を回付・処理するシステム。
-    related: [グループウェア]
-  - term: トレーサビリティ
-    reading: トレーサビリティ
-    aliases: [追跡可能性]
-    simple: 製品がいつ・どこで作られ、どう運ばれたかを後からたどれるようにすることです。
-    definition: 生産・加工・流通などの各段階の履歴を記録し、製品の経路や原因を追跡できるようにすること。開発ではドキュメント間の対応を追跡できることも指す。
-    related: [RFID]
   - term: デジタルツイン
     reading: デジタルツイン
     aliases: [サイバーフィジカルシステム, CPS]
@@ -257,17 +224,6 @@ terms:
     simple: 設計した製品の強さなどを、コンピュータ上で試して解析するシステムです。
     definition: 設計した製品の強度・熱・流体などの特性をコンピュータ上でシミュレーションして解析し、設計を支援するシステム。
     related: [CAD]
-  - term: PDM
-    reading: ピーディーエム
-    fullName: Product Data Management
-    japanese: 製品データ管理
-    words:
-      - { en: Product, ja: 製品 }
-      - { en: Data, ja: データ }
-      - { en: Management, ja: 管理 }
-    simple: 設計図面や部品表など、製品に関するデータをまとめて管理するシステムです。
-    definition: 設計図面、部品表、仕様書など製品に関するデータを一元管理し、設計・製造部門で共有するシステム。
-    related: [CAD]
   - term: 電子商取引
     reading: でんししょうとりひき
     aliases: [EC, eコマース, オンラインショッピング]
@@ -347,16 +303,6 @@ terms:
     simple: ネットとお店を区別せず、一つながりの買物体験を作る考え方です。
     definition: オンラインとオフラインを区別せず融合させ、一体として顧客体験を設計する考え方。
     related: [OtoO]
-  - term: アフィリエイト
-    reading: アフィリエイト
-    aliases: [成果報酬型広告]
-    simple: ブログなどに広告を載せ、見た人が商品を買うと報酬がもらえる仕組みです。
-    definition: Web サイトなどに広告を掲載し、閲覧者がそれを経由して購入などをした成果に応じて、掲載者に報酬が支払われる広告手法。
-  - term: オムニチャネル
-    reading: オムニチャネル
-    simple: 店舗、ネット、アプリなどすべての販売の窓口をつなげて、どこでも同じように買えるようにすることです。
-    definition: 実店舗、EC サイト、アプリなどの販売チャネルの在庫や顧客情報を統合し、顧客がチャネルを意識せずに購入・受取りできるようにする戦略。
-    related: [OtoO]
   - term: フィンテック
     reading: フィンテック
     aliases: [FinTech]
@@ -426,11 +372,6 @@ terms:
       - { en: Countering the Financing of Terrorism, ja: テロ資金供与への対策 }
     simple: 犯罪で得たお金の出どころを隠す行為やテロへの資金提供を防ぐ取組みです。
     definition: 不正に得た資金の出所を隠すマネーロンダリングやテロ資金の供与を防ぐための、取引の監視などの対策。
-  - term: クラウドファンディング
-    reading: クラウドファンディング
-    simple: やりたいことをネットで発表し、賛同した多くの人から少しずつお金を集める仕組みです。
-    definition: インターネットを通じて不特定多数の人から資金を募る仕組み。購入型、寄付型、投資型などがある。
-    related: [クラウドソーシング]
   - term: クラウドソーシング
     reading: クラウドソーシング
     simple: ネットを通じて、たくさんの人の中から仕事を頼む相手を見つけて発注する仕組みです。

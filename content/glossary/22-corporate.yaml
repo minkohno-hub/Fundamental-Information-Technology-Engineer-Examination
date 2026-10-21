@@ -34,22 +34,11 @@ terms:
     reading: ラインアンドスタッフそしき
     simple: 業務を直接行う部門（ライン）と、それを専門的に助ける部門（スタッフ）を分けた組織です。
     definition: 業務を直接遂行するライン部門と、専門的な立場から助言・支援を行うスタッフ部門で構成する組織形態。
-  - term: CIO
-    reading: シーアイオー
-    fullName: Chief Information Officer
-    japanese: 最高情報責任者
-    words:
-      - { en: Chief, ja: 最高の }
-      - { en: Information, ja: 情報 }
-      - { en: Officer, ja: 責任者・役員 }
-    simple: 会社の情報戦略や IT 投資に責任をもつ役員です。
-    definition: 経営戦略に沿った情報戦略の立案や情報システム・情報資源の活用を統括する役員。
-    related: [CEO, CISO]
   - term: CEO
     reading: シーイーオー
     fullName: Chief Executive Officer
     japanese: 最高経営責任者
-    aliases: [CDO, CPO]
+    aliases: [CPO]
     words:
       - { en: Chief, ja: 最高の }
       - { en: Executive, ja: 経営・執行 }
@@ -143,11 +132,6 @@ terms:
     simple: 職場で実際の仕事をしながら、上司や先輩が教える育成方法です。
     definition: 実際の業務を通じて上司や先輩が部下に必要な知識・技能を計画的に指導する教育訓練。職場を離れて行う研修は Off-JT という。
     related: [e-ラーニング]
-  - term: e-ラーニング
-    reading: イーラーニング
-    simple: パソコンやスマホでネットを使って学ぶ方法です。
-    definition: インターネットなどの情報技術を用いて、学習者が時間や場所を選ばずに学習する方法。
-    related: [アダプティブラーニング]
   - term: ジョブローテーション
     reading: ジョブローテーション
     simple: 計画的に部署を異動させて、いろいろな仕事を経験させることです。
@@ -306,18 +290,6 @@ terms:
     simple: 品質管理で数値のデータを整理・分析するための 7 つの基本的な手法です。
     definition: 主に数値データを扱う品質管理の手法。パレート図、特性要因図、ヒストグラム、散布図、管理図、チェックシート、グラフ（又は層別）。
     related: [新QC七つ道具]
-  - term: 管理図
-    reading: かんりず
-    aliases: [管理限界線]
-    simple: 品質のデータを時間順に並べ、限界線からはみ出していないかで工程の異常を見つける図です。
-    definition: 品質特性の測定値を時系列に打点し、中心線と上下の管理限界線を用いて工程が安定状態にあるかを判断する図。
-    related: [QC七つ道具]
-  - term: パレート図
-    reading: パレートず
-    aliases: [パレート分析, パレートの法則]
-    simple: 項目を多い順に棒グラフで並べ、累積の割合を折れ線で重ねた図です。
-    definition: 項目を件数や金額の大きい順に棒グラフで並べ、累積比率を折れ線で示した図。重点的に取り組む項目の把握や ABC 分析に用いる。
-    related: [ABC分析]
   - term: 散布図
     reading: さんぷず
     aliases: [散布図行列]
