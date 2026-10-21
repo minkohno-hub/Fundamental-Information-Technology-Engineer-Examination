@@ -64,7 +64,10 @@ export function QuestionCard({ q, order, hidden, onHiddenChange, answered, onAns
   useEffect(() => {
     if (answered || useInput) return;
     const h = (e: KeyboardEvent) => {
-      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.metaKey || e.ctrlKey || e.altKey) return;
+      // 入力欄・選択欄・編集可能領域での入力、およびダイアログ表示中のキー操作では解答しない
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLSelectElement) return;
+      if ((e.target instanceof HTMLElement && e.target.isContentEditable) || document.querySelector('dialog[open]')) return;
+      if (e.metaKey || e.ctrlKey || e.altKey) return;
       const n = /^[1-9]$/.test(e.key) ? Number(e.key) - 1 : /^[a-j]$/i.test(e.key) ? e.key.toLowerCase().charCodeAt(0) - 97 : -1;
       if (n >= 0 && n < order.length && !hidden.includes(order[n])) {
         e.preventDefault();
