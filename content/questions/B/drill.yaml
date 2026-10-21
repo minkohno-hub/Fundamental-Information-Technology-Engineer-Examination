@@ -727,12 +727,12 @@ questions:
     diff: 1
     type: input
     accept: ['3', '３']
-    q: 関数 countChar を countChar("banana", "a") として呼び出したときの戻り値を答えよ。ここで，length(s) は文字列 s の文字数，substring(s, i, n) は s の i 文字目から n 文字の文字列を返す。
+    q: 関数 countChar を countChar("banana", "a") として呼び出したときの戻り値を答えよ。
     code: |
       ○整数型: countChar(文字列型: s, 文字列型: ch)
         整数型: i, c ← 0
-        for (i を 1 から length(s) まで 1 ずつ増やす)
-          if (substring(s, i, 1) ＝ ch)
+        for (i を 1 から sの文字数 まで 1 ずつ増やす)
+          if (s の i 文字目の文字 ＝ ch)
             c ← c ＋ 1
           endif
         endfor
@@ -743,7 +743,7 @@ questions:
       1 文字ずつ取り出して "a" と比較します。b, a, n, a, n, a のうち "a" は 2, 4, 6 文字目の 3 個なので、戻り値は 3 です。
     why:
       - 正解です。"a" は 3 回現れます。
-      - 2 は最後の 6 文字目を数え忘れた場合です。length(s)＝6 まで調べます。
+      - 2 は最後の 6 文字目を数え忘れた場合です。sの文字数＝6 まで調べます。
       - 6 は文字数で、比較せずに数えた場合です。
       - 5 は "a" 以外の文字も数えた場合などで、処理に対応しません。
     terms: [文字列型, 繰返し処理]
@@ -752,13 +752,13 @@ questions:
   - id: B-DRL-031
     topic: B3
     diff: 2
-    q: 関数 rev を rev("stack") として呼び出したときの戻り値はどれか。ここで，length(s) は文字列 s の文字数，substring(s, i, n) は s の i 文字目から n 文字の文字列を返し，＋ は文字列の連結を表す。
+    q: 関数 rev を rev("stack") として呼び出したときの戻り値はどれか。ここで，＋ は文字列の連結を表す。
     code: |
       ○文字列型: rev(文字列型: s)
         文字列型: r ← ""
         整数型: i
-        for (i を 1 から length(s) まで 1 ずつ増やす)
-          r ← substring(s, i, 1) ＋ r
+        for (i を 1 から sの文字数 まで 1 ずつ増やす)
+          r ← s の i 文字目の文字 ＋ r
         endfor
         return r
     c: ['"kcats"', '"stack"', '"k"', '"kcat"']
@@ -767,9 +767,9 @@ questions:
       取り出した 1 文字を r の「前」に連結します。r は "s"→"ts"→"ats"→"cats"→"kcats" と変化し、逆順の文字列が返ります。
     why:
       - 正解です。各文字を先頭に足していくので逆順になります。
-      - 「stack」 は r ← r ＋ substring(…) のように後ろに連結した場合の結果です。
-      - 「k」 は r ← substring(…) と上書きした場合で、最後の 1 文字しか残りません。
-      - 「kcat」 は最後の 1 文字の繰返しを含めない場合で、length(s) まで繰り返すので s も連結されます。
+      - 「stack」 は r ← r ＋ (s の i 文字目の文字) のように後ろに連結した場合の結果です。
+      - 「k」 は r ← s の i 文字目の文字 と上書きした場合で、最後の 1 文字しか残りません。
+      - 「kcat」 は最後の 1 文字の繰返しを含めない場合で、sの文字数 まで繰り返すので s も連結されます。
     terms: [文字列型]
     verify: { result: { call: rev, args: ['stack'] } }
     sim: { entry: rev, args: ['stack'] }
@@ -1573,12 +1573,12 @@ questions:
   - id: B-DRL-064
     topic: B3
     diff: 1
-    q: 次のプログラムを実行した後の変数 t の値はどれか。ここで，length(s) は文字列 s の文字数，substring(s, i, n) は s の i 文字目から n 文字の文字列を返し，＋ は文字列の連結を表す。
+    q: 次のプログラムを実行した後の変数 t の値はどれか。ここで，＋ は文字列の連結を表す。
     code: |
       文字列型: s ← "ABCDEFG", t ← ""
       整数型: i
-      for (i を 1 から length(s) まで 3 ずつ増やす)
-        t ← t ＋ substring(s, i, 1)
+      for (i を 1 から sの文字数 まで 3 ずつ増やす)
+        t ← t ＋ s の i 文字目の文字
       endfor
     c: ['"ADG"', '"ACEG"', '"ABC"', '"CF"']
     a: ア
@@ -1650,12 +1650,12 @@ questions:
     diff: 1
     type: input
     accept: ['2', '２']
-    q: 次のプログラムを実行した後の変数 d の値を答えよ。ここで，length(s) は文字列 s の文字数，substring(s, i, n) は s の i 文字目から n 文字の文字列を返す。
+    q: 次のプログラムを実行した後の変数 d の値を答えよ。
     code: |
       文字列型: x ← "GATTACA", y ← "GACTATA"
       整数型: i, d ← 0
-      for (i を 1 から length(x) まで 1 ずつ増やす)
-        if (substring(x, i, 1) ≠ substring(y, i, 1))
+      for (i を 1 から xの文字数 まで 1 ずつ増やす)
+        if (x の i 文字目の文字 ≠ y の i 文字目の文字)
           d ← d ＋ 1
         endif
       endfor
@@ -2474,12 +2474,12 @@ questions:
     diff: 2
     type: input
     accept: ['3', '３']
-    q: 次のプログラムを実行した後の変数 mx の値を答えよ。ここで，length(s) は文字列 s の文字数，substring(s, i, n) は s の i 文字目から n 文字の文字列を返す。
+    q: 次のプログラムを実行した後の変数 mx の値を答えよ。
     code: |
       文字列型: s ← "(()(()))"
       整数型: i, d ← 0, mx ← 0
-      for (i を 1 から length(s) まで 1 ずつ増やす)
-        if (substring(s, i, 1) ＝ "(")
+      for (i を 1 から sの文字数 まで 1 ずつ増やす)
+        if (s の i 文字目の文字 ＝ "(")
           d ← d ＋ 1
         else
           d ← d － 1
