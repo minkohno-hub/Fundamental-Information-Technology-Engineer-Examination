@@ -3,7 +3,10 @@
 
 export type TokKind =
   | 'num' | 'str' | 'ident' | 'op' | 'lparen' | 'rparen' | 'lbrack' | 'rbrack'
-  | 'lbrace' | 'rbrace' | 'comma' | 'dot' | 'colon' | 'kw' | 'len' | 'rows' | 'cols' | 'undef' | 'count' | 'eof';
+  | 'lbrace' | 'rbrace' | 'comma' | 'dot' | 'colon' | 'kw' | 'len' | 'rows' | 'cols' | 'undef' | 'count' | 'eof'
+  // 日本語の定型句（IPA 公開問題の擬似言語で使われる記述）
+  | 'sqrt' | 'intpart' | 'sq' | 'quot' | 'rem' | 'nchars' | 'nth' | 'no' | 'valof' | 'sumall' | 'rowno' | 'colno'
+  | 'row' | 'colof' | 'ga' | 'cmp' | 'notkw' | 'anyval' | 'anyin' | 'nonein' | 'stored' | 'uniqsort' | 'cloneexcl' | 'exclend';
 
 export interface Token {
   kind: TokKind;
@@ -43,6 +46,40 @@ export function normalizeSymbols(src: string): string {
     .replace(/[Ａ-Ｚａ-ｚ]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0xfee0));
 }
 
+/** 定型句。長いものを先に並べる（先頭一致で最初に見つかったものを採用） */
+const PHRASES: [string, TokKind, string?][] = [
+  ['のいずれかの要素の値', 'anyval'],
+  ['の要素のいずれかに', 'anyin'],
+  ['の要素のいずれにも', 'nonein'],
+  ['が格納されていない', 'stored', 'no'],
+  ['が格納されている', 'stored', 'yes'],
+  ['に含まれる文字列を重複なく辞書順に格納した配列', 'uniqsort'],
+  ['の複製から値が', 'cloneexcl'],
+  ['である要素を除いた配列', 'exclend'],
+  ['の要素の和', 'sumall'],
+  ['の行番号', 'rowno'],
+  ['の列番号', 'colno'],
+  ['の正の平方根', 'sqrt'],
+  ['の整数部分', 'intpart'],
+  ['の2乗', 'sq'],
+  ['の文字数', 'nchars'],
+  ['文字目の文字', 'nth'],
+  ['の商', 'quot'],
+  ['の余り', 'rem'],
+  ['の値', 'valof'],
+  ['列の', 'colof'],
+  ['行', 'row'],
+  ['と等しくない', 'cmp', '≠'],
+  ['と等しい', 'cmp', '='],
+  ['より小さい', 'cmp', '<'],
+  ['より大きい', 'cmp', '>'],
+  ['以下', 'cmp', '≦'],
+  ['以上', 'cmp', '≧'],
+  ['でない', 'notkw'],
+  ['が', 'ga'],
+  ['の', 'no'],
+];
+
 const OPS = ['←', '≠', '≦', '≧', '<', '>', '=', '+', '-', '×', '÷', '∧', '∨', '▽', '≪', '≫'];
 
 export function tokenize(text: string, line?: number): Token[] {
@@ -58,6 +95,9 @@ export function tokenize(text: string, line?: number): Token[] {
     if (s.startsWith('未定義の値', i)) { out.push({ kind: 'undef', value: '未定義', pos: i }); i += 5; continue; }
     if (s.startsWith('未定義', i)) { out.push({ kind: 'undef', value: '未定義', pos: i }); i += 3; continue; }
     if (s.startsWith('個の', i)) { out.push({ kind: 'count', value: '個の', pos: i }); i += 2; continue; }
+    if (c === '∞') { out.push({ kind: 'num', value: 'Infinity', pos: i }); i++; continue; }
+    const ph = PHRASES.find(([w]) => s.startsWith(w, i));
+    if (ph) { out.push({ kind: ph[1], value: ph[2] ?? ph[0], pos: i }); i += ph[0].length; continue; }
     if (/[0-9]/.test(c)) {
       let j = i;
       while (j < s.length && /[0-9]/.test(s[j])) j++;

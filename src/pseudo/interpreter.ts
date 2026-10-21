@@ -61,6 +61,11 @@ class ReturnSignal {
   constructor(public value: Value | undefined) {}
 }
 
+/** 「繰返し処理を終了する」。label があるときはその名前の行から始まる繰返し処理まで抜ける */
+class BreakSignal {
+  constructor(public label: string | undefined) {}
+}
+
 interface Scope {
   name: string;
   vars: Map<string, Value>;
@@ -273,6 +278,29 @@ export class Interpreter {
         this.eval(st.e, st.line);
         this.record(st.line, 'stmt', '呼出しから戻った');
         return;
+      case 'outputList': {
+        const vals: Value[] = [];
+        for (const e of st.values) {
+          const v = this.eval(e, st.line);
+          if (st.spread) vals.push(...this.flatten(v, st.line));
+          else vals.push(v);
+        }
+        const text = vals.map((v) => (typeof v === 'string' ? v : formatValue(v))).join(st.sep);
+        this.output.push(text);
+        this.record(st.line, 'stmt', `${text} を出力`);
+        return;
+      }
+      case 'swap': {
+        const a = this.eval(st.a, st.line);
+        const b = this.eval(st.b, st.line);
+        const na = this.assign(st.a, b, st.line);
+        const nb = this.assign(st.b, a, st.line);
+        this.record(st.line, 'stmt', `${na} と ${nb} の値を入れ替えた`, [rootName(st.a), rootName(st.b)]);
+        return;
+      }
+      case 'break':
+        this.record(st.line, 'stmt', st.label ? `${st.label} の行から始まる繰返し処理を終了` : '繰返し処理を終了');
+        throw new BreakSignal(st.label);
       case 'return': {
         const v = st.value ? this.eval(st.value, st.line) : undefined;
         this.record(st.line, 'return', v !== undefined ? `${formatValue(v)} を返す` : '手続を終了');
@@ -298,7 +326,7 @@ export class Interpreter {
           this.record(st.line, 'cond', `条件「${st.condText}」は ${c}${c ? '（繰返しを継続）' : '（繰返しを終了）'}`);
           if (!c) break;
           this.loopCounts[st.line]++;
-          this.execBlock(st.body);
+          if (!this.loopBody(st)) break;
         }
         return;
       }
@@ -307,10 +335,23 @@ export class Interpreter {
         for (;;) {
           this.tick(st.line);
           this.loopCounts[st.line]++;
-          this.execBlock(st.body);
+          if (!this.loopBody(st)) break;
           const c = this.cond(st.cond, st.condLine);
           this.record(st.condLine, 'cond', `条件「${st.condText}」は ${c}${c ? '（繰返しを継続）' : '（繰返しを終了）'}`);
           if (!c) break;
+        }
+        return;
+      }
+      case 'foreach': {
+        const arr = this.eval(st.arr, st.line);
+        if (typeof arr !== 'object' || arr.t !== 'arr') throw new PseudoError(`${exprText(st.arr)} は配列ではありません`, st.line);
+        this.loopCounts[st.line] = 0;
+        for (const item of [...arr.items]) {
+          this.tick(st.line);
+          this.setVar(st.v, item, st.line);
+          this.record(st.line, 'loop', `${st.v} ← ${formatValue(item)}：繰返しを実行（${st.text}）`, [st.v]);
+          this.loopCounts[st.line]++;
+          if (!this.loopBody(st)) break;
         }
         return;
       }
@@ -326,13 +367,29 @@ export class Interpreter {
           this.record(st.line, 'loop', ok ? `${st.v} = ${i}：繰返しを実行（${st.text}）` : `${st.v} = ${i}：終了条件を満たしたので繰返しを終了`, [st.v]);
           if (!ok) break;
           this.loopCounts[st.line]++;
-          this.execBlock(st.body);
+          if (!this.loopBody(st)) break;
           const step = this.num(this.eval(st.step, st.line), st.line);
           this.setVar(st.v, this.num(this.lookup(st.v, st.line), st.line) + st.dir * step, st.line);
         }
         return;
       }
     }
+  }
+
+  /** 繰返しの本体を実行する。「繰返し処理を終了する」で抜けたら false */
+  private loopBody(st: { body: Stmt[]; label?: string }): boolean {
+    try {
+      this.execBlock(st.body);
+      return true;
+    } catch (e) {
+      if (e instanceof BreakSignal && (e.label === undefined || e.label === st.label)) return false;
+      throw e;
+    }
+  }
+
+  private flatten(v: Value, line: number): Value[] {
+    if (typeof v !== 'object' || v.t !== 'arr') return [v];
+    return v.items.flatMap((x) => this.flatten(x, line));
   }
 
   private assign(target: Expr, v: Value, line: number): string {
@@ -429,6 +486,57 @@ export class Interpreter {
         for (let i = 0; i < n; i++) items.push(cloneValue(this.eval(e.value, line)));
         return { t: 'arr', items };
       }
+      case 'fill2': {
+        const r = this.num(this.eval(e.rows, line), line);
+        const c = this.num(this.eval(e.cols, line), line);
+        const rows: Value[] = [];
+        for (let i = 0; i < r; i++) {
+          const items: Value[] = [];
+          for (let j = 0; j < c; j++) items.push(cloneValue(this.eval(e.value, line)));
+          rows.push({ t: 'arr', items });
+        }
+        return { t: 'arr', items: rows };
+      }
+      case 'fn':
+        return this.evalFn(e, line);
+      case 'charAt': {
+        const s = this.eval(e.target, line);
+        if (typeof s !== 'string') throw new PseudoError(`${exprText(e.target)} は文字列ではありません`, line);
+        const n = this.num(this.eval(e.index, line), line);
+        const chars = [...s];
+        if (!isInt(n) || n < 1 || n > chars.length) throw new PseudoError(`${n} 文字目は文字列の範囲（1〜${chars.length}）外です`, line);
+        return chars[n - 1];
+      }
+      case 'sumline': {
+        const a = this.eval(e.target, line);
+        const n = this.num(this.eval(e.index, line), line);
+        if (typeof a !== 'object' || a.t !== 'arr') throw new PseudoError(`${exprText(e.target)} は配列ではありません`, line);
+        const sumOf = (xs: Value[]) => xs.reduce<number>((acc, x) => acc + this.num(x, line), 0);
+        const rowOf = (i: number): ArrV => {
+          const r = a.items[i - 1];
+          if (!isInt(i) || typeof r !== 'object' || r?.t !== 'arr') throw new PseudoError(`行番号 ${i} は配列の範囲外です`, line);
+          return r;
+        };
+        if (e.axis === 'row') return sumOf(rowOf(n).items);
+        return sumOf(a.items.map((_, i) => {
+          const r = rowOf(i + 1);
+          if (!isInt(n) || n < 1 || n > r.items.length) throw new PseudoError(`列番号 ${n} は配列の範囲外です`, line);
+          return r.items[n - 1];
+        }));
+      }
+      case 'any': {
+        const a = this.eval(e.target, line);
+        if (typeof a !== 'object' || a.t !== 'arr') throw new PseudoError(`${exprText(e.target)} は配列ではありません`, line);
+        const v = this.eval(e.value, line);
+        const hit = a.items.some((x) => equals(x, v));
+        return e.neg ? !hit : hit;
+      }
+      case 'without': {
+        const a = this.eval(e.target, line);
+        if (typeof a !== 'object' || a.t !== 'arr') throw new PseudoError(`${exprText(e.target)} は配列ではありません`, line);
+        const v = this.eval(e.value, line);
+        return { t: 'arr', items: a.items.filter((x) => !equals(x, v)).map(cloneValue) };
+      }
       case 'idx': {
         const { container, index } = this.resolveIndex(e, line);
         return container.items[index];
@@ -466,6 +574,35 @@ export class Interpreter {
       }
       case 'bin':
         return this.evalBin(e, line);
+    }
+  }
+
+  private evalFn(e: Extract<Expr, { k: 'fn' }>, line: number): Value {
+    const v = this.eval(e.e, line);
+    switch (e.fn) {
+      case 'sqrt': {
+        const n = this.num(v, line);
+        if (n < 0) throw new PseudoError('負の数の正の平方根は求められません', line);
+        return Math.sqrt(n);
+      }
+      case 'intpart':
+        return Math.floor(this.num(v, line));
+      case 'sq': {
+        const n = this.num(v, line);
+        return n * n;
+      }
+      case 'nchars':
+        if (typeof v !== 'string') throw new PseudoError(`${exprText(e.e)} は文字列ではありません`, line);
+        return [...v].length;
+      case 'sumall':
+        return this.flatten(v, line).reduce<number>((acc, x) => acc + this.num(x, line), 0);
+      case 'uniqsort': {
+        const strs = this.flatten(v, line).map((x) => {
+          if (typeof x !== 'string') throw new PseudoError(`文字列以外の値 ${formatValue(x)} が含まれています`, line);
+          return x;
+        });
+        return { t: 'arr', items: [...new Set(strs)].sort((a, b) => (a < b ? -1 : a > b ? 1 : 0)) };
+      }
     }
   }
 
@@ -530,6 +667,13 @@ export class Interpreter {
       case 'mod':
         if (b === 0) throw new PseudoError('0 で剰余算をしました', line);
         return a - b * Math.floor(a / b);
+      case 'quot':
+      case 'rem': {
+        if (!isInt(a) || !isInt(b) || a < 0 || b <= 0) {
+          throw new PseudoError(`「÷ の${e.op === 'quot' ? '商' : '余り'}」は 0 以上の整数を正の整数で割る場合だけ使えます（${a} ÷ ${b}）`, line);
+        }
+        return e.op === 'quot' ? Math.floor(a / b) : a % b;
+      }
       case '∧': return (a & b) >>> 0;
       case '∨': return (a | b) >>> 0;
       case '▽': return (a ^ b) >>> 0;
@@ -583,9 +727,20 @@ export function exprText(e: Expr): string {
     case 'cols': return `${exprText(e.target)}の列数`;
     case 'call': return `${exprText(e.callee)}(${e.args.map(exprText).join(', ')})`;
     case 'un': return `${e.op === 'not' ? 'not ' : e.op}${exprText(e.e)}`;
-    case 'bin': return `(${exprText(e.l)} ${e.op} ${exprText(e.r)})`;
+    case 'bin':
+      if (e.op === 'quot' || e.op === 'rem') return `(${exprText(e.l)} ÷ ${exprText(e.r)} の${e.op === 'quot' ? '商' : '余り'})`;
+      return `(${exprText(e.l)} ${e.op} ${exprText(e.r)})`;
     case 'arr': return `{${e.items.map(exprText).join(', ')}}`;
     case 'fill': return `{${exprText(e.count)}個の${exprText(e.value)}}`;
+    case 'fill2': return `{${exprText(e.rows)}行${exprText(e.cols)}列の${exprText(e.value)}}`;
+    case 'fn': {
+      const suffix = { sqrt: 'の正の平方根', intpart: 'の整数部分', sq: 'の2乗', nchars: 'の文字数', sumall: 'の要素の和', uniqsort: 'に含まれる文字列を重複なく辞書順に格納した配列' }[e.fn];
+      return `${exprText(e.e)}${suffix}`;
+    }
+    case 'charAt': return `${exprText(e.target)}の${exprText(e.index)}文字目の文字`;
+    case 'sumline': return `${exprText(e.target)}の${e.axis === 'row' ? '行' : '列'}番号${exprText(e.index)}の要素の和`;
+    case 'any': return `${exprText(e.target)}の要素のいずれ${e.neg ? 'にも' : 'かに'}${exprText(e.value)}が格納されて${e.neg ? 'いない' : 'いる'}`;
+    case 'without': return `${exprText(e.target)}の複製から値が${exprText(e.value)}である要素を除いた配列`;
   }
 }
 

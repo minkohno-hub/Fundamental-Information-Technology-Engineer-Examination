@@ -9,6 +9,12 @@ export type Expr =
   | { k: 'var'; name: string }
   | { k: 'arr'; items: Expr[] }
   | { k: 'fill'; count: Expr; value: Expr }
+  | { k: 'fill2'; rows: Expr; cols: Expr; value: Expr }
+  | { k: 'fn'; fn: 'sqrt' | 'intpart' | 'sq' | 'nchars' | 'sumall' | 'uniqsort'; e: Expr }
+  | { k: 'charAt'; target: Expr; index: Expr }
+  | { k: 'sumline'; axis: 'row' | 'col'; target: Expr; index: Expr }
+  | { k: 'any'; target: Expr; value: Expr; neg: boolean }
+  | { k: 'without'; target: Expr; value: Expr }
   | { k: 'idx'; target: Expr; index: Expr[] }
   | { k: 'mem'; target: Expr; name: string }
   | { k: 'call'; callee: Expr; args: Expr[] }
@@ -23,12 +29,16 @@ export type Stmt = { line: number } & (
   | { k: 'assign'; target: Expr; value: Expr }
   | { k: 'append'; target: Expr; value: Expr }
   | { k: 'output'; value: Expr }
+  | { k: 'outputList'; values: Expr[]; sep: string; spread: boolean }
+  | { k: 'swap'; a: Expr; b: Expr }
+  | { k: 'break'; label?: string }
   | { k: 'expr'; e: Expr }
   | { k: 'return'; value?: Expr }
   | { k: 'if'; branches: { cond: Expr; condText: string; body: Stmt[]; line: number }[]; elseBody?: Stmt[]; elseLine?: number; endLine: number }
-  | { k: 'while'; cond: Expr; condText: string; body: Stmt[]; endLine: number }
-  | { k: 'do'; cond: Expr; condText: string; body: Stmt[]; condLine: number }
-  | { k: 'for'; v: string; from: Expr; to: Expr; step: Expr; dir: 1 | -1; body: Stmt[]; endLine: number; text: string }
+  | { k: 'while'; cond: Expr; condText: string; body: Stmt[]; endLine: number; label?: string }
+  | { k: 'do'; cond: Expr; condText: string; body: Stmt[]; condLine: number; label?: string }
+  | { k: 'for'; v: string; from: Expr; to: Expr; step: Expr; dir: 1 | -1; body: Stmt[]; endLine: number; text: string; label?: string }
+  | { k: 'foreach'; v: string; arr: Expr; body: Stmt[]; endLine: number; text: string; label?: string }
   | { k: 'nop' }
 );
 
@@ -73,14 +83,40 @@ class ExprParser {
     let left = this.unary();
     for (;;) {
       const t = this.peek();
+      if (t.kind === 'ga') {
+        // 「左辺 が 右辺 と等しい」「左辺 が 右辺 以下」「左辺 が 未定義」などの日本語の比較表現（関係演算子と同じ優先度）
+        if (3 < minPrec) break;
+        this.next();
+        left = this.japaneseComparison(left);
+        continue;
+      }
       const op = t.kind === 'op' || t.kind === 'kw' ? t.value : '';
       const prec = BIN_PREC[op];
       if (prec === undefined || prec < minPrec) break;
       this.next();
       const right = this.parse(prec + 1);
+      if (op === '÷' && (this.peek().kind === 'quot' || this.peek().kind === 'rem')) {
+        // 「a ÷ b の商」「a ÷ b の余り」（整数の除算）
+        const q = this.next();
+        left = { k: 'bin', op: q.kind, l: left, r: right };
+        continue;
+      }
       left = { k: 'bin', op, l: left, r: right };
     }
     return left;
+  }
+
+  private japaneseComparison(left: Expr): Expr {
+    if (this.peek().kind === 'undef') {
+      this.next();
+      if (this.peek().kind === 'notkw') { this.next(); return { k: 'bin', op: '≠', l: left, r: { k: 'undef' } }; }
+      return { k: 'bin', op: '=', l: left, r: { k: 'undef' } };
+    }
+    const right = this.parse(4);
+    if (this.peek().kind === 'valof') this.next(); // 「xの値と等しい」
+    const c = this.next();
+    if (c.kind !== 'cmp') throw new PseudoError(`「と等しい」「以下」などの比較表現が必要な位置に「${c.value || '行末'}」があります`, this.line);
+    return { k: 'bin', op: c.value, l: left, r: right };
   }
 
   private unary(): Expr {
@@ -118,6 +154,44 @@ class ExprParser {
       } else if (t.kind === 'len' || t.kind === 'rows' || t.kind === 'cols') {
         this.next();
         e = { k: t.kind, target: e };
+      } else if (t.kind === 'sqrt' || t.kind === 'intpart' || t.kind === 'sq' || t.kind === 'sumall' || t.kind === 'uniqsort' || t.kind === 'nchars') {
+        this.next();
+        e = { k: 'fn', fn: t.kind, e };
+      } else if (t.kind === 'no') {
+        // 「s の i 文字目の文字」
+        this.next();
+        const index = this.primary();
+        this.expect('nth');
+        e = { k: 'charAt', target: e, index };
+      } else if (t.kind === 'rowno' || t.kind === 'colno') {
+        // 「a の行番号 r の要素の和」「a の列番号 c の要素の和」
+        this.next();
+        const index = this.primary();
+        this.expect('sumall');
+        e = { k: 'sumline', axis: t.kind === 'rowno' ? 'row' : 'col', target: e, index };
+      } else if (t.kind === 'anyval') {
+        // 「a のいずれかの要素の値が x の値と等しい」
+        this.next();
+        this.expect('ga');
+        const value = this.parse(4);
+        if (this.peek().kind === 'valof') this.next();
+        const c = this.next();
+        if (c.kind !== 'cmp' || c.value !== '=') throw new PseudoError('「と等しい」が必要です', this.line);
+        e = { k: 'any', target: e, value, neg: false };
+      } else if (t.kind === 'anyin' || t.kind === 'nonein') {
+        // 「a の要素のいずれかに x の値が格納されている」「a の要素のいずれにも x の値が格納されていない」
+        this.next();
+        const value = this.parse(4);
+        if (this.peek().kind === 'valof') this.next();
+        const st = this.next();
+        if (st.kind !== 'stored') throw new PseudoError('「が格納されている」又は「が格納されていない」が必要です', this.line);
+        e = { k: 'any', target: e, value, neg: st.value === 'no' };
+      } else if (t.kind === 'cloneexcl') {
+        // 「a の複製から値が x である要素を除いた配列」
+        this.next();
+        const value = this.parse(4);
+        this.expect('exclend');
+        e = { k: 'without', target: e, value };
       } else {
         return e;
       }
@@ -146,6 +220,15 @@ class ExprParser {
       case 'lbrace': {
         if (this.peek().kind === 'rbrace') { this.next(); return { k: 'arr', items: [] }; }
         const first = this.parse();
+        if (this.peek().kind === 'row') {
+          // 「{n行m列の 0}」
+          this.next();
+          const cols = this.parse();
+          this.expect('colof');
+          const value = this.parse();
+          this.expect('rbrace');
+          return { k: 'fill2', rows: first, cols, value };
+        }
         if (this.peek().kind === 'count') {
           this.next();
           const value = this.parse();
@@ -162,25 +245,8 @@ class ExprParser {
   }
 }
 
-/** 日本語の比較表現を記号に置き換える（例: 「nが2以下」→「n ≦ 2」） */
-export function rewriteJapaneseCondition(text: string): string {
-  let s = normalizeSymbols(text);
-  const rules: [RegExp, string][] = [
-    [/([^()]+?)が未定義でない/g, '($1) ≠ 未定義'],
-    [/([^()]+?)が未定義/g, '($1) = 未定義'],
-    [/([^()]+?)が([^()]+?)と等しくない/g, '($1) ≠ ($2)'],
-    [/([^()]+?)が([^()]+?)と等しい/g, '($1) = ($2)'],
-    [/([^()]+?)が([^()]+?)以下/g, '($1) ≦ ($2)'],
-    [/([^()]+?)が([^()]+?)以上/g, '($1) ≧ ($2)'],
-    [/([^()]+?)が([^()]+?)より小さい/g, '($1) < ($2)'],
-    [/([^()]+?)が([^()]+?)より大きい/g, '($1) > ($2)'],
-  ];
-  for (const [re, rep] of rules) s = s.replace(re, rep);
-  return s;
-}
-
 export function parseExpr(text: string, line = 0): Expr {
-  const p = new ExprParser(tokenize(rewriteJapaneseCondition(text), line), line);
+  const p = new ExprParser(tokenize(text, line), line);
   const e = p.parse();
   if (!p.atEnd()) throw new PseudoError(`式「${text}」の解釈に失敗しました`, line);
   return e;
@@ -235,7 +301,8 @@ function stripComments(src: string): string[] {
 }
 
 interface Frame {
-  kind: 'root' | 'func' | 'if' | 'while' | 'do' | 'for';
+  kind: 'root' | 'func' | 'if' | 'while' | 'do' | 'for' | 'foreach';
+  label?: string;
   body: Stmt[];
   stmt?: Stmt;
   func?: FuncDef;
@@ -247,7 +314,30 @@ function parenContent(s: string, kw: string, line: number): string {
   return rest.slice(1, -1).trim();
 }
 
+/** 括弧が閉じていない行や、二項演算子・コンマで終わる行は次の行に続く */
+function needsContinuation(t: string): boolean {
+  let depth = 0;
+  let inStr = false;
+  for (const ch of t) {
+    if (ch === '"') inStr = !inStr;
+    if (inStr) continue;
+    if ('([{'.includes(ch)) depth++;
+    if (')]}'.includes(ch)) depth--;
+  }
+  return depth > 0 || /(?:[×÷+\-←,]|\band|\bor)$/.test(t);
+}
+
+/** ループ見出し行末の注釈（例: `// α`）をループの名前（「αの行から始まる繰返し処理を終了する」の α）として取り出す */
+function loopLabel(rawLine: string): string | undefined {
+  const m = rawLine.match(/(?:\/\/|\/\*)\s*([^\s*/]{1,3})\s*(?:\*\/)?\s*$/);
+  return m ? m[1] : undefined;
+}
+
 const FOR_RE = /^([A-Za-z_][A-Za-z0-9_]*)\s*を\s*(.+?)\s*から\s*(.+?)\s*まで\s*(.+?)\s*ずつ\s*(増やす|減らす)$/;
+// 「jをnから始めてmを超えない範囲でtempNずつ増やす」「…から始めて…を下回らない範囲で…ずつ減らす」
+const FOR_RE2 = /^([A-Za-z_][A-Za-z0-9_]*)\s*を\s*(.+?)\s*から始めて\s*(.+?)\s*を(?:超えない|下回らない)範囲で\s*(.+?)\s*ずつ\s*(増やす|減らす)$/;
+// 「orderにordersの要素を順に代入する」
+const FOREACH_RE = /^([A-Za-z_][A-Za-z0-9_]*)\s*に\s*(.+?)\s*の要素を順に代入する$/;
 
 export function parseProgram(source: string): Program {
   const lines = normalizeSymbols(source).split('\n');
@@ -260,10 +350,26 @@ export function parseProgram(source: string): Program {
     if (top().kind === 'func') stack.pop();
   };
 
+  // 複数行にまたがる文を 1 行にまとめる（行番号は先頭行）
+  const logical: { line: number; text: string }[] = [];
+  let pending: { line: number; text: string } | null = null;
   clean.forEach((raw, idx) => {
-    const line = idx + 1;
-    const s = raw.trim();
-    if (!s) return;
+    const t = raw.trim();
+    if (!t) return;
+    if (pending) { pending.text += ' ' + t; } else { pending = { line: idx + 1, text: t }; }
+    if (!needsContinuation(pending.text)) { logical.push(pending); pending = null; }
+  });
+  if (pending) logical.push(pending);
+
+  const enclosingLoops = (): Frame[] => {
+    const out: Frame[] = [];
+    for (let i = stack.length - 1; i >= 0 && stack[i].kind !== 'func'; i--) {
+      if (['while', 'do', 'for', 'foreach'].includes(stack[i].kind)) out.push(stack[i]);
+    }
+    return out;
+  };
+
+  logical.forEach(({ line, text: s }) => {
 
     // 関数・手続の宣言
     if (s.startsWith('○') || s.startsWith('〇')) {
@@ -300,8 +406,8 @@ export function parseProgram(source: string): Program {
     }
     if (s === 'endfor') {
       const f = stack.pop();
-      if (!f || f.kind !== 'for') throw new PseudoError('対応する for がない endfor です', line);
-      (f.stmt as Extract<Stmt, { k: 'for' }>).endLine = line;
+      if (!f || (f.kind !== 'for' && f.kind !== 'foreach')) throw new PseudoError('対応する for がない endfor です', line);
+      (f.stmt as Extract<Stmt, { k: 'for' | 'foreach' }>).endLine = line;
       return;
     }
     if (s.startsWith('elseif')) {
@@ -342,27 +448,37 @@ export function parseProgram(source: string): Program {
         st.condLine = line;
         return;
       }
-      const st: Stmt = { k: 'while', line, cond: parseExpr(condText, line), condText, body: [], endLine: -1 };
+      const label = loopLabel(lines[line - 1]);
+      const st: Stmt = { k: 'while', line, cond: parseExpr(condText, line), condText, body: [], endLine: -1, label };
       add(st);
-      stack.push({ kind: 'while', body: st.body, stmt: st });
+      stack.push({ kind: 'while', label, body: st.body, stmt: st });
       return;
     }
     if (s === 'do') {
-      const st: Stmt = { k: 'do', line, cond: { k: 'bool', v: false }, condText: '', body: [], condLine: -1 };
+      const label = loopLabel(lines[line - 1]);
+      const st: Stmt = { k: 'do', line, cond: { k: 'bool', v: false }, condText: '', body: [], condLine: -1, label };
       add(st);
-      stack.push({ kind: 'do', body: st.body, stmt: st });
+      stack.push({ kind: 'do', label, body: st.body, stmt: st });
       return;
     }
     if (/^for\s*\(/.test(s)) {
       const ctl = parenContent(s, 'for', line);
-      const m = normalizeSymbols(ctl).match(FOR_RE);
+      const label = loopLabel(lines[line - 1]);
+      const fe = normalizeSymbols(ctl).match(FOREACH_RE);
+      if (fe) {
+        const st: Stmt = { k: 'foreach', line, v: fe[1], arr: parseExpr(fe[2], line), body: [], endLine: -1, text: ctl, label };
+        add(st);
+        stack.push({ kind: 'foreach', label, body: st.body, stmt: st });
+        return;
+      }
+      const m = normalizeSymbols(ctl).match(FOR_RE) ?? normalizeSymbols(ctl).match(FOR_RE2);
       if (!m) throw new PseudoError(`for の制御記述「${ctl}」を解釈できません`, line);
       const st: Stmt = {
         k: 'for', line, v: m[1], from: parseExpr(m[2], line), to: parseExpr(m[3], line), step: parseExpr(m[4], line),
-        dir: m[5] === '増やす' ? 1 : -1, body: [], endLine: -1, text: ctl,
+        dir: m[5] === '増やす' ? 1 : -1, body: [], endLine: -1, text: ctl, label,
       };
       add(st);
-      stack.push({ kind: 'for', body: st.body, stmt: st });
+      stack.push({ kind: 'for', label, body: st.body, stmt: st });
       return;
     }
     if (s === 'return' || s.startsWith('return ') || s.startsWith('return(')) {
@@ -391,6 +507,36 @@ export function parseProgram(source: string): Program {
     const ap = s.match(/^(.+?)\s*の末尾に\s*(.+?)\s*(?:の値)?\s*を追加する$/);
     if (ap) {
       add({ k: 'append', line, target: parseExpr(ap[1], line), value: parseExpr(ap[2], line) });
+      return;
+    }
+    const brk = s.match(/^(?:(\S+?)の行から始まる)?繰返し処理を終了する$/);
+    if (brk) {
+      const loops = enclosingLoops();
+      if (!loops.length) throw new PseudoError('繰返し処理の外に「繰返し処理を終了する」があります', line);
+      if (brk[1] && !loops.some((f) => f.label === brk[1])) throw new PseudoError(`「${brk[1]}」の行から始まる繰返し処理が見つかりません`, line);
+      add({ k: 'break', line, label: brk[1] });
+      return;
+    }
+    const sw = s.match(/^(.+?)\s*と\s*(.+?)\s*の値を入れ替える$/);
+    if (sw) {
+      add({ k: 'swap', line, a: parseExpr(sw[1], line), b: parseExpr(sw[2], line) });
+      return;
+    }
+    const outAll = s.match(/^(.+?)\s*の全要素の値を要素番号の順に空白区切りで出力する$/);
+    if (outAll) {
+      add({ k: 'outputList', line, values: [parseExpr(outAll[1], line)], sep: ' ', spread: true });
+      return;
+    }
+    const outComma = s.match(/^(.+?)\s*をこの順にコンマ区切りで出力する$/);
+    if (outComma) {
+      const parts = outComma[1].split(/の値と/).map((x, i, a) => (i === a.length - 1 ? x.replace(/の値$/, '') : x));
+      add({ k: 'outputList', line, values: parts.map((x) => parseExpr(x, line)), sep: ',', spread: false });
+      return;
+    }
+    const inc = s.match(/^([^を]+?)\s*の値を\s*(.+?)\s*(増やす|減らす)$/);
+    if (inc) {
+      const target = parseExpr(inc[1], line);
+      add({ k: 'assign', line, target, value: { k: 'bin', op: inc[3] === '増やす' ? '+' : '-', l: target, r: parseExpr(inc[2], line) } });
       return;
     }
     const op = s.match(/^(.+?)\s*を出力する$/);
