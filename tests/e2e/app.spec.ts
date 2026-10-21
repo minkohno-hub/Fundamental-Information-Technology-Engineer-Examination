@@ -1,5 +1,6 @@
 // 主要な利用の流れの E2E テスト（ビルド済みアプリを実ブラウザで操作）
 import { expect, test, type Page } from '@playwright/test';
+import { answerCurrent } from './helpers';
 
 async function open(page: Page, hash = '') {
   const errors: string[] = [];
@@ -26,18 +27,16 @@ test('一問一答：解答前は正解が分からず、解答後に解説が�
   await open(page);
   await page.getByRole('button', { name: '5問', exact: true }).click();
   await page.getByRole('button', { name: /今すぐ学習/ }).click();
-  const choices = page.getByRole('list', { name: '選択肢' }).getByRole('button', { name: /^[アイウエ]：/ });
-  await expect(choices.first()).toBeVisible();
-  // 解答前に正解を示す表示がない
-  await expect(page.getByText('（正解）')).toHaveCount(0);
+  await expect(page.getByRole('heading', { name: /^問題/ }).first()).toBeAttached({ timeout: 30_000 });
+  // 解答前に正解を示す表示・解説がない
   await expect(page.locator('[aria-label$="（正解）"]')).toHaveCount(0);
-  await choices.first().click();
-  await expect(page.locator('[aria-label$="（正解）"]')).toHaveCount(1);
-  await expect(page.getByText(/正解です/).first()).toBeVisible();
+  await expect(page.getByRole('region', { name: '解説' })).toHaveCount(0);
+  await answerCurrent(page);
+  await expect(page.getByText(/正解/).first()).toBeVisible();
   await noHorizontalScroll(page);
   for (let i = 0; i < 4; i++) {
     await page.getByRole('button', { name: '次の問題へ' }).click();
-    await page.getByRole('list', { name: '選択肢' }).getByRole('button', { name: /^[アイウエ]：/ }).first().click();
+    await answerCurrent(page);
   }
   await page.getByRole('button', { name: '結果を見る' }).click();
   await expect(page.getByRole('heading', { name: /結果/ })).toBeVisible();
@@ -48,11 +47,11 @@ test('学習記録は再読み込み後も残り、分析に反映される', as
   await open(page);
   await page.getByRole('button', { name: '5問', exact: true }).click();
   await page.getByRole('button', { name: /今すぐ学習/ }).click();
-  await page.getByRole('list', { name: '選択肢' }).getByRole('button', { name: /^[アイウエ]：/ }).first().click();
+  await answerCurrent(page);
   await page.waitForTimeout(300);
   await page.reload();
   // 再読み込みしても解答済みの状態のまま再開される
-  await expect(page.locator('[aria-label$="（正解）"]')).toHaveCount(1, { timeout: 30_000 });
+  await expect(page.getByRole('region', { name: '解説' })).toBeVisible({ timeout: 30_000 });
   await page.goto('./#/');
   await expect(page.getByRole('button', { name: /続きから/ })).toBeVisible();
   await page.goto('./#/analytics');

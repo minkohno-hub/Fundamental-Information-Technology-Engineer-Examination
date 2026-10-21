@@ -1,5 +1,6 @@
 // オフライン動作の E2E テスト：一度読み込んだ後、ネットワークを遮断して再読み込みしても学習できること
 import { expect, test } from '@playwright/test';
+import { answerCurrent } from './helpers';
 
 test('初回読み込み後はオフラインでも起動し、問題・解説・辞典・模擬試験が使える', async ({ page, context }) => {
   await page.goto('./');
@@ -25,8 +26,7 @@ test('初回読み込み後はオフラインでも起動し、問題・解説�
   await page.reload();
   await expect(page.getByRole('heading', { name: '基本情報技術者試験を、1問ずつ確実に。' })).toBeVisible({ timeout: 30_000 });
   await page.getByRole('button', { name: /今すぐ学習/ }).click();
-  await page.getByRole('list', { name: '選択肢' }).getByRole('button', { name: /^[アイウエ]：/ }).first().click();
-  await expect(page.getByText(/正解です/).first()).toBeVisible();
+  await answerCurrent(page);
 
   await page.goto('./#/dict');
   await page.getByRole('searchbox').first().fill('CPU');
