@@ -303,7 +303,7 @@ terms:
       - { en: Management, ja: 管理 }
       - { en: System, ja: 仕組み }
     simple: 組織が情報セキュリティを計画・実行・点検・改善し続けるための仕組みです。
-    definition: リスクアセスメントに基づき管理策を選択・運用し、PDCA サイクルで継続的に改善する仕組み。要求事項は JIS Q 27001、管理策の指針は JIS Q 27002（組織的・人的・物理的・技術的管理策）。
+    definition: リスクアセスメントに基づき管理策を選択・運用し、PDCA の考え方で継続的に改善する仕組み。要求事項は JIS Q 27001、管理策の指針は JIS Q 27002（組織的・人的・物理的・技術的管理策）。
     related: [情報セキュリティポリシー, リスクアセスメント, PDCA]
   - term: CSIRT
     reading: シーサート
@@ -644,13 +644,13 @@ terms:
     related: [マルウェア, マルウェア対策]
   - term: RAT
     reading: らっと
-    fullName: Remote Access Tool
-    japanese: 遠隔操作ツール
+    fullName: Remote Access Trojan
+    japanese: 遠隔操作型ウイルス
     words:
       - { en: Remote Access, ja: 遠隔からのアクセス }
-      - { en: Tool, ja: ツール }
-    simple: 感染した端末を、外部から遠隔操作するためのツールです。
-    definition: 感染した端末を遠隔から操作するためのツール。攻撃者に悪用されると、情報の窃取や追加のマルウェアの導入に使われる。
+      - { en: Trojan, ja: トロイの木馬 }
+    simple: 感染した端末を、外部から遠隔操作できるようにするマルウェアです。
+    definition: 感染した端末を遠隔から操作できるようにするマルウェア（遠隔操作型ウイルス）。IPA のシラバスでは Remote Access Trojan とされる。攻撃者に悪用されると、情報の窃取や追加のマルウェアの導入に使われる。正規の遠隔操作ツール（Remote Access Tool）が悪用されることもある。
     related: [マルウェア, バックドア]
   - term: 二重脅迫
     reading: にじゅうきょうはく
