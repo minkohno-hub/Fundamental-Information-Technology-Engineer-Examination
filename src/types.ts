@@ -4,7 +4,8 @@ export type Subject = 'A' | 'B';
 /** quick: 通常の短時間演習向け / deep: 計算・プログラム読解などの深掘り演習向け */
 export type Depth = 'quick' | 'deep';
 export type QuestionType = 'choice' | 'input';
-export type Difficulty = 1 | 2 | 3;
+/** 1 基礎 / 2 標準 / 3 応用 / 4 高難度 */
+export type Difficulty = 1 | 2 | 3 | 4;
 export type SourceKind = 'ipa' | 'original' | 'thirdParty';
 export type VerificationStatus = 'draft' | 'checking' | 'verified' | 'rejected';
 
@@ -34,6 +35,14 @@ export interface Question {
   topicIds: string[];
   questionType: QuestionType;
   difficulty: Difficulty;
+  /** 追加バッチ（高難度拡充は 'H2'）。未指定は初期教材 */
+  batch?: string;
+  /** 出題範囲の根拠（対応するシラバス項目と、解答に必要な知識が範囲内である理由） */
+  scopeNote?: string;
+  /** 解答に必要な前提知識 */
+  prerequisites?: string;
+  /** 難易度を高くしている要素 */
+  difficultyFactors?: string;
   questionText: string;
   /** 擬似言語プログラム（任意） */
   code?: string;

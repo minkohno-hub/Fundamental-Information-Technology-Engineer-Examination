@@ -131,6 +131,11 @@ interface RawQuestion {
   id: string;
   topic: string | string[];
   diff?: number;
+  /** 追加バッチ名（例 H2）。バッチ問題は scope / prereq / hard が必須 */
+  batch?: string;
+  scope?: string;
+  prereq?: string;
+  hard?: string;
   depth?: 'quick' | 'deep';
   type?: 'choice' | 'input';
   q: string;
@@ -183,6 +188,7 @@ interface QFile {
   category: string;
   subject?: 'A' | 'B';
   depth?: 'quick' | 'deep';
+  batch?: string;
   source?: Partial<Question['source']>;
   reviewed?: { at: string; method: string };
   questions: RawQuestion[];
@@ -393,8 +399,19 @@ for (const file of files) {
     if (shuffles && /(?:^|[^ァ-ヶー])[アイウエ](?:が正|は誤|と同じ|の説明)/.test(whyRefs)) err(where, '選択肢の解説で他の選択肢を記号で参照しています');
     if (type === 'input' && !(raw.accept?.length)) err(where, '入力式には accept（許容解答）が必要です');
     if (raw.code && /【[a-z]】/.test(raw.q + raw.code) === false && raw.verify?.cases) err(where, '空欄のないプログラムに cases 検証が指定されています');
-    const diff = (raw.diff ?? 2) as 1 | 2 | 3;
-    if (![1, 2, 3].includes(diff)) err(where, 'diff は 1〜3 です');
+    const diff = (raw.diff ?? 2) as 1 | 2 | 3 | 4;
+    if (![1, 2, 3, 4].includes(diff)) err(where, 'diff は 1〜4 です（1 基礎 / 2 標準 / 3 応用 / 4 高難度）');
+    const batch = raw.batch ?? doc.batch;
+    if (batch) {
+      // 追加バッチの問題は、範囲の根拠・前提知識・難度要因と、詳細な解説を必須とする
+      if (!raw.scope || raw.scope.trim().length < 20) err(where, 'scope（出題範囲の根拠）が必要です（20字以上。対応するシラバス項目名と、解答に必要な知識が範囲内である理由）');
+      if (!raw.prereq || raw.prereq.trim().length < 10) err(where, 'prereq（必要な前提知識）が必要です');
+      if (diff >= 3 && (!raw.hard || raw.hard.trim().length < 10)) err(where, 'hard（難易度を高くしている要素）が必要です');
+      if (!raw.exp || raw.exp.trim().length < 120) err(where, 'バッチ問題の解説（exp）は 120 字以上必要です（考え方・途中式・間違えやすい点を含める）');
+      if (!raw.know || raw.know.trim().length < 30) err(where, 'バッチ問題には know（関連するシラバス知識・間違えやすい点）が必要です');
+      (raw.why ?? []).forEach((w, i) => { if (String(w).trim().length < 20) err(where, `バッチ問題の選択肢${LETTERS[i]}の解説は20字以上必要です`); });
+      if (!(raw.terms?.length)) err(where, 'バッチ問題には terms（関連用語）が必要です');
+    }
     const relatedConcepts: string[] = [];
     for (const t of raw.terms ?? []) {
       const id = findTerm(t);
@@ -413,6 +430,10 @@ for (const file of files) {
       topicIds: topicIds.map(String),
       questionType: type,
       difficulty: diff,
+      batch: batch || undefined,
+      scopeNote: raw.scope?.trim(),
+      prerequisites: raw.prereq?.trim(),
+      difficultyFactors: raw.hard?.trim(),
       questionText: (raw.q.trim() + (raw.attach ? '\n\n' + raw.attach.trim() : '')),
       code: raw.code?.replace(/\s+$/, ''),
       choices,
@@ -618,6 +639,20 @@ const manifest: ContentManifest = {
   files: manifestFiles,
 };
 writeFileSync(join(OUT, 'manifest.json'), JSON.stringify(manifest, null, 1));
+
+const byDiff = (qs: Question[]) => ({ 1: qs.filter((q) => q.difficulty === 1).length, 2: qs.filter((q) => q.difficulty === 2).length, 3: qs.filter((q) => q.difficulty === 3).length, 4: qs.filter((q) => q.difficulty === 4).length });
+const batchQs = published.filter((q) => q.batch === 'H2');
+const hardBatch = {
+  batch: 'H2',
+  count: batchQs.length,
+  bySubject: { A: batchQs.filter((q) => q.subject === 'A').length, B: batchQs.filter((q) => q.subject === 'B').length },
+  byDifficulty: byDiff(batchQs),
+  appliedOrHardRate: batchQs.length ? (batchQs.filter((q) => q.difficulty >= 3).length / batchQs.length) : 0,
+  byCategory: Object.fromEntries([...new Set(batchQs.map((q) => q.category))].sort().map((c) => [c, batchQs.filter((q) => q.category === c).length])),
+  allByDifficulty: byDiff(published),
+  withScopeNote: batchQs.filter((q) => q.scopeNote).length,
+};
+writeFileSync(join(REPORT_DIR, 'hard-batch.json'), JSON.stringify(hardBatch, null, 1) + '\n');
 
 const summary = {
   builtAt: manifest.builtAt,

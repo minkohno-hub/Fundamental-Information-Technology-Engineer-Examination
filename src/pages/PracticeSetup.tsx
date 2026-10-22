@@ -39,6 +39,7 @@ export default function PracticeSetup() {
   const [mode, setMode] = useState<SelectMode>('standard');
   const [includeDeep, setIncludeDeep] = useState(false);
   const [source, setSource] = useState<'all' | 'ipa' | 'original'>('all');
+  const [levels, setLevels] = useState<number[]>([]);
   const [count, setCount] = useState(st.settings.defaultCount);
 
   const allCats = useMemo(() => {
@@ -51,7 +52,8 @@ export default function PracticeSetup() {
     (subject === 'all' || q.subject === subject) &&
     (cats.length === 0 || cats.includes(q.category)) &&
     (includeDeep || q.depth === 'quick') &&
-    (source === 'all' || q.source.kind === source)), [content, subject, cats, includeDeep, source]);
+    (levels.length === 0 || levels.includes(q.difficulty)) &&
+    (source === 'all' || q.source.kind === source)), [content, subject, cats, includeDeep, source, levels]);
 
   const start = () => {
     const qs = pick(pool, mode, count);
@@ -60,9 +62,20 @@ export default function PracticeSetup() {
     }
   };
 
+  const hardPool = useMemo(() => content!.questions.filter((q: Question) => q.difficulty >= 3 && (subject === 'all' || q.subject === subject) && (cats.length === 0 || cats.includes(q.category)) && (includeDeep || q.depth === 'quick')), [content, subject, cats, includeDeep]);
+  const startHard = () => {
+    const qs = pick(hardPool, 'standard', count);
+    if (!startSession('practice', '高難度特訓', qs)) alert('条件に合う問題がありません。条件を変えてください。');
+  };
+
   return (
     <div className="stack">
       <h1 tabIndex={-1}>問題演習</h1>
+      <div className="card">
+        <h2 style={{ marginTop: 0 }}>高難度特訓</h2>
+        <p className="small muted">応用・高難度の問題だけを出題します（出題範囲は通常と同じシラバスの範囲内です）。下の科目・分野・問題数の設定が使えます。本番形式の模擬試験には高難度の問題は含まれません。</p>
+        <button className="btn primary block" onClick={startHard} disabled={hardPool.length === 0}>高難度特訓を始める（対象 {hardPool.length}問）</button>
+      </div>
       <div className="card">
         <div className="field">
           <span className="label">科目</span>
@@ -93,6 +106,16 @@ export default function PracticeSetup() {
           <summary>詳細な条件</summary>
           <div className="field">
             <label className="row"><input type="checkbox" checked={includeDeep} onChange={(e) => setIncludeDeep(e.target.checked)} /> 計算・長いプログラムの問題も含める</label>
+          </div>
+          <div className="field">
+            <span className="label">難易度</span>
+            <div className="chips" role="group" aria-label="難易度">
+              <button className="chip" aria-pressed={levels.length === 0} onClick={() => setLevels([])}>すべて</button>
+              {[[1, '基礎'], [2, '標準'], [3, '応用'], [4, '高難度']].map(([n, l]) => (
+                <button key={n} className="chip" aria-pressed={levels.includes(n as number)}
+                  onClick={() => setLevels(levels.includes(n as number) ? levels.filter((x) => x !== n) : [...levels, n as number])}>{l}</button>
+              ))}
+            </div>
           </div>
           <div className="field">
             <span className="label">出典</span>

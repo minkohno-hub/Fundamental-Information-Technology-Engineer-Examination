@@ -3,7 +3,7 @@ import { useEffect, useMemo, useRef } from 'react';
 import { useApp, useStore } from '../app/context';
 import { Link, navigate } from '../app/router';
 import { QuestionCard } from '../components/QuestionCard';
-import { startSession } from '../app/session';
+import { startSession, foundationsFor } from '../app/session';
 import { IArrowR } from '../components/Icons';
 import { stripMarkup } from '../components/Explanation';
 import type { Question } from '../types';
@@ -121,6 +121,8 @@ function Summary() {
   const qs = s.questionIds.map((id) => content!.byId.get(id)!);
   const correct = s.results.filter((r) => r === true).length;
   const wrong = qs.filter((_, i) => s.results[i] === false);
+  const hardWrong = wrong.filter((q) => q.difficulty >= 3);
+  const foundations = hardWrong.length ? foundationsFor(hardWrong, content!.questions) : [];
   return (
     <div className="stack">
       <div className="card">
@@ -144,6 +146,9 @@ function Summary() {
       <div className="grid two">
         {wrong.length > 0 && (
           <button className="btn primary lg" onClick={() => startSession('review', '間違えた問題の解き直し', wrong)}>間違えた問題を解き直す</button>
+        )}
+        {hardWrong.length > 0 && foundations.length > 0 && (
+          <button className="btn lg" onClick={() => startSession('review', '基礎に戻る復習', foundations)}>応用で間違えた論点の基礎・標準問題を解く（{foundations.length}問）</button>
         )}
         <button className="btn lg" onClick={() => { st.saveSession(null); navigate('/'); }}>ホームへ戻る</button>
       </div>

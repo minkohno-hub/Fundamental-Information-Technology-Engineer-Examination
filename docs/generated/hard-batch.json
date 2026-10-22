@@ -1,0 +1,23 @@
+{
+ "batch": "H2",
+ "count": 0,
+ "bySubject": {
+  "A": 0,
+  "B": 0
+ },
+ "byDifficulty": {
+  "1": 0,
+  "2": 0,
+  "3": 0,
+  "4": 0
+ },
+ "appliedOrHardRate": 0,
+ "byCategory": {},
+ "allByDifficulty": {
+  "1": 350,
+  "2": 903,
+  "3": 139,
+  "4": 0
+ },
+ "withScopeNote": 0
+}

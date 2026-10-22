@@ -48,7 +48,8 @@ export function composeExam(
   rand: () => number,
 ): Question[] {
   if (plan.kind === 'A') {
-    const pool = questions.filter((q) => q.subject === 'A' && q.questionType === 'choice');
+    // 本番形式の模擬試験は実際の試験より不自然に難しくならないよう、高難度（4）の問題は含めない
+    const pool = questions.filter((q) => q.subject === 'A' && q.questionType === 'choice' && q.difficulty <= 3);
     const byCat = new Map<string, Question[]>();
     for (const q of shuffle(pool, rand)) {
       if (!byCat.has(q.category)) byCat.set(q.category, []);
@@ -67,9 +68,9 @@ export function composeExam(
     // 本番に近い順序（テクノロジ→マネジメント→ストラテジ、すなわち中分類番号順）に並べる
     return picked.sort((a, b) => Number(a.category) - Number(b.category));
   }
-  const examLike = (q: Question) => q.subject === 'B' && q.questionType === 'choice' && q.depth === 'deep';
+  const examLike = (q: Question) => q.subject === 'B' && q.questionType === 'choice' && q.depth === 'deep' && q.difficulty <= 3;
   const alg = shuffle(questions.filter((q) => examLike(q) && q.category === 'B-ALG'), rand);
-  const sec = shuffle(questions.filter((q) => q.subject === 'B' && q.questionType === 'choice' && q.category === 'B-SEC'), rand);
+  const sec = shuffle(questions.filter((q) => q.subject === 'B' && q.questionType === 'choice' && q.category === 'B-SEC' && q.difficulty <= 3), rand);
   const ratio = plan.count / EXAM_SPEC.B.count;
   const nSec = Math.max(1, Math.round(EXAM_SPEC.B.sec * ratio));
   const nAlg = plan.count - nSec;

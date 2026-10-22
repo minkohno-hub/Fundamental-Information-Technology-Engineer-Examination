@@ -145,3 +145,16 @@ describe('入力式の採点と検索', () => {
     expect(matchesQuery('ＴＣＰ/IP の仕組み', 'udp')).toBe(false);
   });
 });
+
+import { foundationsFor } from '../../src/app/session';
+describe('基礎に戻る復習', () => {
+  it('応用で間違えた問題と同じ論点の基礎・標準問題を選ぶ', () => {
+    const hard = makeQuestion('H-1', { difficulty: 4, topicIds: ['9-1-1'], subcategory: '9-1' });
+    const base1 = makeQuestion('B-1', { difficulty: 1, topicIds: ['9-1-1'], subcategory: '9-1' });
+    const base2 = makeQuestion('B-2', { difficulty: 2, topicIds: ['9-1-2'], subcategory: '9-1' });
+    const other = makeQuestion('B-3', { difficulty: 2, topicIds: ['5-1-1'], subcategory: '5-1' });
+    const hard2 = makeQuestion('H-2', { difficulty: 3, topicIds: ['9-1-1'], subcategory: '9-1' });
+    const r = foundationsFor([hard], [hard, hard2, base1, base2, other]);
+    expect(r.map((q) => q.id)).toEqual(['B-1', 'B-2']);
+  });
+});

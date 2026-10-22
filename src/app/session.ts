@@ -41,7 +41,7 @@ export function pick(pool: Question[], mode: SelectMode, count: number): Questio
  * 学習プランがあれば科目A/Bの配分に反映する（なければ A 7 : B 3）。
  */
 export function quickStartPool(all: Question[]): { pool: Question[]; ratioB: number } {
-  return { pool: all.filter((q) => q.depth === 'quick'), ratioB: ratioB(store.settings.plan) };
+  return { pool: all.filter((q) => q.depth === 'quick' && q.difficulty <= 3), ratioB: ratioB(store.settings.plan) };
 }
 
 export function quickStart(all: Question[], count = store.settings.defaultCount) {
@@ -50,4 +50,16 @@ export function quickStart(all: Question[], count = store.settings.defaultCount)
   const b = pick(pool.filter((q) => q.subject === 'B'), 'standard', nB);
   const a = pick(pool.filter((q) => q.subject === 'A'), 'standard', count - b.length);
   return startSession('practice', '今すぐ学習', shuffle([...a, ...b], mulberry32(randomSeed())));
+}
+
+/** 応用・高難度問題で間違えたときに戻る、同じ論点の基礎・標準問題（なければ同じ小分類）を選ぶ */
+export function foundationsFor(wrong: Question[], all: Question[], max = 10): Question[] {
+  const wrongIds = new Set(wrong.map((q) => q.id));
+  const topics = new Set(wrong.flatMap((q) => q.topicIds));
+  const subs = new Set(wrong.map((q) => q.subcategory));
+  const base = all.filter((q) => q.difficulty <= 2 && q.depth === 'quick' && !wrongIds.has(q.id));
+  const sameTopic = base.filter((q) => q.topicIds.some((t) => topics.has(t)));
+  const sameSub = base.filter((q) => !sameTopic.includes(q) && subs.has(q.subcategory));
+  const rand = mulberry32(randomSeed());
+  return [...shuffle(sameTopic, rand), ...shuffle(sameSub, rand)].slice(0, max);
 }

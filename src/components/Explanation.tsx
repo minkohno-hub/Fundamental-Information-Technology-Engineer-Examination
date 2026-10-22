@@ -28,6 +28,15 @@ export function Explanation({ q, order, chosen, showTools = true }: { q: Questio
         ))}
       </ul>
 
+      {(q.scopeNote || q.prerequisites || q.difficultyFactors) && (
+        <details className="notice small" style={{ marginTop: 12 }}>
+          <summary>この問題の出題範囲・前提知識・難しさのポイント</summary>
+          {q.scopeNote && <p><strong>出題範囲の根拠：</strong>{q.scopeNote}</p>}
+          {q.prerequisites && <p><strong>必要な前提知識：</strong>{q.prerequisites}</p>}
+          {q.difficultyFactors && <p><strong>難しくしている要素：</strong>{q.difficultyFactors}</p>}
+        </details>
+      )}
+
       {q.knowledge && (
         <>
           <h3>押さえておきたい知識</h3>

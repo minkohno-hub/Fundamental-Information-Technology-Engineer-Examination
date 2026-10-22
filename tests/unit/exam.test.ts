@@ -84,3 +84,12 @@ describe('採点', () => {
     expect(s.byCategory.find((c) => c.category === '1')).toMatchObject({ correct: 1, total: 2 });
   });
 });
+
+describe('高難度の問題と模擬試験', () => {
+  it('本番形式の模擬試験には高難度（4）の問題を含めない', () => {
+    const pool = [...makePool(['1', '2'], 40), ...makePool(['3'], 40, { difficulty: 4 }).map((q) => ({ ...q, id: q.id.replace('Q', 'H') }))];
+    const qs = composeExam(examPlan('A', 'real'), pool, new Map([['1', 1], ['2', 1], ['3', 1]]), mulberry32(5));
+    expect(qs).toHaveLength(60);
+    expect(qs.every((q) => q.difficulty <= 3)).toBe(true);
+  });
+});

@@ -9,7 +9,7 @@ import { isAcceptedInput } from '../lib/text';
 import { Explanation } from './Explanation';
 
 export const LETTERS = ['ア', 'イ', 'ウ', 'エ', 'オ', 'カ', 'キ', 'ク', 'ケ', 'コ'];
-const DIFF = ['', '基礎', '標準', '応用'];
+const DIFF = ['', '基礎', '標準', '応用', '高難度'];
 
 export function QuestionHeader({ q, index, total }: { q: Question; index?: number; total?: number }) {
   const { categoryName } = useApp();

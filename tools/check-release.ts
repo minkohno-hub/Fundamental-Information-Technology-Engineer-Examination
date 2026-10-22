@@ -15,6 +15,17 @@ const check = (name: string, ok: boolean, detail: string) => results.push({ name
 
 const verified = questions.filter((q: { verificationStatus: string }) => q.verificationStatus === 'verified');
 check('品質承認済み（verified）問題 1,000 問以上', verified.length >= 1000, `${verified.length} 問`);
+// 追加バッチ H2（高難度拡充）の条件
+// 拡充作業中は ENFORCE_H2 を付けずに実行すると、H2 の条件は進捗表示のみ（未達でも失敗にしない）。完成判定は ENFORCE_H2=1
+const enforceH2 = process.env.ENFORCE_H2 === '1';
+const checkH2 = (name: string, ok: boolean, detail: string) => check(name, ok || !enforceH2, ok ? detail : `${detail}${enforceH2 ? '' : '（作業中のため未強制）'}`);
+const hb = JSON.parse(readFileSync(join(ROOT, 'docs/generated/hard-batch.json'), 'utf-8'));
+checkH2('H2: 品質承認済み問題 2,000 問以上', verified.length >= 2000, `${verified.length} 問`);
+checkH2('H2: 追加問題 608 問以上', hb.count >= 608, `${hb.count} 問`);
+checkH2('H2: 追加問題の 70% 以上が応用・高難度', hb.appliedOrHardRate >= 0.7, `${(hb.appliedOrHardRate * 100).toFixed(1)}%（応用 ${hb.byDifficulty[3]}・高難度 ${hb.byDifficulty[4]}）`);
+checkH2('H2: 追加問題の基礎は 10% 以下', hb.count === 0 || hb.byDifficulty[1] / hb.count <= 0.1, `${hb.byDifficulty[1]} 問`);
+checkH2('H2: 全追加問題に出題範囲の根拠（scope）がある', hb.withScopeNote === hb.count, `${hb.withScopeNote} / ${hb.count}`);
+checkH2('H2: 追加問題に科目A・B の両方がある', hb.bySubject.A > 0 && hb.bySubject.B > 0, `A ${hb.bySubject.A}・B ${hb.bySubject.B}`);
 check('ビルドエラー 0 件', summary.errors === 0, `${summary.errors} 件`);
 check('レビュー待ち・未承認の公開問題 0 件', summary.checking.length === 0, `${summary.checking.length} 件`);
 check('ほぼ同一の問題 0 件', summary.similarPairs === 0, `${summary.similarPairs} 組`);
