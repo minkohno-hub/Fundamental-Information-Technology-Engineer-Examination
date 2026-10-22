@@ -36,6 +36,18 @@ export default function SessionPage() {
       </div>
     );
   }
+  if (qs.length === 0 && s.questionIds.length > 0) {
+    return (
+      <div className="card" role="status">
+        <h1 tabIndex={-1}>演習</h1>
+        <p>中断していた演習の問題が教材の更新ですべて削除されたため、続けられません。</p>
+        <div className="row">
+          <button className="btn" onClick={() => st.saveSession(null)}>この演習を破棄する</button>
+          <Link to="/practice" className="btn primary">演習を始める</Link>
+        </div>
+      </div>
+    );
+  }
   if (qs.length !== s.questionIds.length) {
     // 教材更新で問題が削除された場合は存在する問題だけで続ける
     const keep = s.questionIds.map((id, i) => ({ id, i })).filter(({ id }) => content.byId.has(id));

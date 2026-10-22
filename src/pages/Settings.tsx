@@ -66,6 +66,7 @@ export default function SettingsPage() {
   return (
     <div className="stack">
       <h1 tabIndex={-1}>設定・バックアップ</h1>
+      {st.ignoredRecords > 0 && <div className="notice warn" role="status">保存データのうち形式が不正な記録 {st.ignoredRecords} 件を無視しました（ほかの記録はそのまま使えます）。</div>}
       {msg && <div className={`notice ${msg.kind}`} role="status">{msg.text}</div>}
 
       <section className="card">
