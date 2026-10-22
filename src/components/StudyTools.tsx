@@ -2,6 +2,7 @@
 import { useEffect, useRef, useState, type KeyboardEvent } from 'react';
 import type { ProblemReport, Question, Understanding } from '../types';
 import { useApp, useStore } from '../app/context';
+import { MEMO_MAX } from '../lib/backup';
 import { IFlag, INote, IReport, IStar } from './Icons';
 
 const UNDERSTANDING: { v: Understanding; label: string }[] = [
@@ -16,6 +17,12 @@ export function StudyTools({ q, compact = false }: { q: Question; compact?: bool
   const [memoOpen, setMemoOpen] = useState(Boolean(s.memo));
   const [memo, setMemo] = useState(s.memo ?? '');
   const [reportOpen, setReportOpen] = useState(false);
+  const [memoCut, setMemoCut] = useState(false);
+  const saveMemo = () => {
+    const cut = st.setMemo(q.id, memo);
+    // 切り捨てた通知は、ボタン押下時の blur と click の二重保存で消えないよう、次に入力するまで残す
+    if (cut) { setMemoCut(true); setMemo(memo.slice(0, MEMO_MAX)); }
+  };
   useEffect(() => { setMemo(st.getState(q.id).memo ?? ''); setMemoOpen(Boolean(st.getState(q.id).memo)); }, [q.id, st]);
 
   return (
@@ -48,8 +55,10 @@ export function StudyTools({ q, compact = false }: { q: Question; compact?: bool
       {memoOpen && (
         <div className="field" style={{ marginTop: 8 }}>
           <label htmlFor={`memo-${q.id}`} className="small">自分用メモ（この端末にだけ保存されます）</label>
-          <textarea id={`memo-${q.id}`} value={memo} maxLength={5000} onChange={(e) => setMemo(e.target.value)} onBlur={() => st.setMemo(q.id, memo)} />
-          <div className="row"><button type="button" className="btn sm" onClick={() => st.setMemo(q.id, memo)}>メモを保存</button></div>
+          <textarea id={`memo-${q.id}`} value={memo} onChange={(e) => { setMemo(e.target.value); setMemoCut(false); }} onBlur={saveMemo} />
+          {memo.length > MEMO_MAX && <p className="notice warn small" role="status">メモは {MEMO_MAX} 文字までです。超えた部分は保存時に切り捨てられます（現在 {memo.length} 文字）。</p>}
+          {memoCut && <p className="notice warn small" role="status">メモが {MEMO_MAX} 文字を超えていたため、超えた部分を切り捨てて保存しました。</p>}
+          <div className="row"><button type="button" className="btn sm" onClick={saveMemo}>メモを保存</button></div>
         </div>
       )}
       {reportOpen && <ReportDialog q={q} onClose={() => setReportOpen(false)} />}

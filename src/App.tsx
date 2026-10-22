@@ -118,6 +118,9 @@ export default function App() {
     root.setAttribute('data-reduce-motion', String(st.settings.reduceMotion));
   }, [st.settings.fontScale, st.settings.theme, st.settings.reduceMotion]);
 
+  // 教材更新で消えた問題を参照する保存済みの中断データ・模擬試験を整合させる
+  useEffect(() => { if (content) st.reconcile(content.byId); }, [content, st]);
+
   const categoryName = useCategoryName(content);
   const ctx = useMemo(() => ({ content, progress, loadError, categoryName, reload: () => setAttempt((x) => x + 1) }), [content, progress, loadError, categoryName]);
   const wide = ['analytics', 'exam', 'coverage', 'about'].includes(route.parts[0] ?? '');
@@ -147,6 +150,11 @@ export default function App() {
           {!st.persistent && st.storageError && (
             <div className="notice warn" role="status" style={{ margin: '12px 16px 0' }}>
               端末内に学習データを保存できない状態です（{st.storageError}）。このままでも学習できますが、ページを閉じると記録は消えます。プライベートブラウズを解除するか、別のブラウザをお試しください。
+            </div>
+          )}
+          {st.persistent && st.storageError && (
+            <div className="notice warn" role="status" style={{ margin: '12px 16px 0' }}>
+              {st.storageError}。端末の空き容量が足りない可能性があります。このままでも学習できますが、直近の記録はページを閉じると失われるかもしれません。設定画面からエクスポートして保存してください。
             </div>
           )}
           <main id="main" tabIndex={-1} className={wide ? 'main wide' : 'main'}>

@@ -175,7 +175,12 @@ export default function ExamRun() {
             ))}
           </ul>
         </article>
-      ) : <p>この問題は教材の更新で削除されました。</p>}
+      ) : (
+        <div className="card" role="status">
+          <p>この問題は教材の更新で削除されたため表示できません。ほかの問題へ移動するか、試験を終了して採点してください（この問題は採点から除かれます）。</p>
+          <Link to="/exam" className="btn sm">模擬試験の画面へ戻る</Link>
+        </div>
+      )}
 
       {!paused && (
         <div className="sticky-actions">

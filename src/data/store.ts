@@ -2,7 +2,8 @@
 // IndexedDB が使えない環境（一部のプライベートブラウズなど）ではメモリのみで動作し、その旨を画面に表示する。
 import { openDB, type IDBPDatabase } from 'idb';
 import type { AnswerRecord, ExamRecord, ProblemReport, QuestionState, SessionState, Settings, Understanding } from '../types';
-import type { BackupData } from '../lib/backup';
+import { cleanAnswer, cleanExam, cleanReport, cleanSession, cleanSettings, cleanState, MEMO_MAX, type BackupData } from '../lib/backup';
+import type { Question } from '../types';
 
 const DB_NAME = 'fe-study';
 const DB_VERSION = 1;
@@ -23,6 +24,8 @@ export class Store {
   private db: IDBPDatabase | null = null;
   persistent = false;
   storageError: string | null = null;
+  /** 読み込み時に形式が不正で無視した記録の件数（削除はしない） */
+  ignoredRecords = 0;
   answers: AnswerRecord[] = [];
   states = new Map<string, QuestionState>();
   exams: ExamRecord[] = [];
@@ -63,12 +66,29 @@ export class Store {
         this.db.get('kv', 'settings'),
         this.db.get('kv', 'session'),
       ]);
-      this.answers = answers as AnswerRecord[];
-      this.states = new Map((states as QuestionState[]).map((s) => [s.qid, s]));
-      this.exams = (exams as ExamRecord[]).sort((a, b) => a.startedAt - b.startedAt);
-      this.reports = (reports as ProblemReport[]).sort((a, b) => b.createdAt - a.createdAt);
-      this.settings = { ...DEFAULT_SETTINGS, ...(settings as Partial<Settings> | undefined) };
-      this.session = (session as SessionState | undefined) ?? null;
+      this.ignoredRecords = 0;
+      const keep = <T,>(rows: unknown[], f: (x: unknown, i: number) => T): T[] => {
+        const out: T[] = [];
+        rows.forEach((r, i) => {
+          try { out.push(f(r, i)); } catch { this.ignoredRecords++; }
+        });
+        return out;
+      };
+      this.answers = (answers as unknown[]).flatMap((r, i) => {
+        try {
+          const a = cleanAnswer(r, i);
+          const id = (r as { id?: unknown }).id;
+          return [typeof id === 'number' ? { ...a, id } : a];
+        } catch { this.ignoredRecords++; return []; }
+      }).sort((a, b) => a.at - b.at);
+      this.states = new Map(keep(states as unknown[], cleanState).map((s) => [s.qid, s]));
+      this.exams = keep(exams as unknown[], cleanExam).sort((a, b) => a.startedAt - b.startedAt);
+      this.reports = keep(reports as unknown[], cleanReport).sort((a, b) => b.createdAt - a.createdAt);
+      try { this.settings = cleanSettings(settings ?? {}, DEFAULT_SETTINGS); } catch { this.settings = { ...DEFAULT_SETTINGS }; this.ignoredRecords++; }
+      this.session = null;
+      if (session !== undefined) {
+        try { this.session = cleanSession(session); } catch { this.ignoredRecords++; }
+      }
       this.persistent = true;
     } catch (e) {
       this.db = null;
@@ -86,6 +106,44 @@ export class Store {
       this.storageError = `保存に失敗しました: ${(e as Error).message}`;
       this.emit();
     }
+  }
+
+  /**
+   * 教材の読み込み後に、保存済みの中断データ・模擬試験を現在の教材と突き合わせる。
+   * 存在しない問題は中断データから外し、選択肢順が問題と合わないものは初期順に戻す。ユーザーの回答履歴などは変更しない。
+   */
+  reconcile(byId: Map<string, Question>) {
+    const fixOrder = (o: number[] | undefined, q: Question) => {
+      const n = q.choices.length;
+      const ok = Array.isArray(o) && o.length === n && new Set(o).size === n && o.every((v) => Number.isInteger(v) && v >= 0 && v < n);
+      return ok ? (o as number[]) : Array.from({ length: n }, (_, i) => i);
+    };
+    let changed = false;
+    const s = this.session;
+    if (s) {
+      const idx = s.questionIds.map((id, i) => ({ id, i })).filter(({ id }) => byId.has(id));
+      const bad = idx.length !== s.questionIds.length || idx.some(({ id, i }) => fixOrder(s.orders[i], byId.get(id)!) !== s.orders[i]);
+      if (bad) {
+        const next: SessionState = {
+          ...s,
+          questionIds: idx.map((k) => k.id),
+          orders: idx.map((k) => fixOrder(s.orders[k.i], byId.get(k.id)!)),
+          results: idx.map((k) => s.results[k.i]),
+          chosen: idx.map((k) => s.chosen[k.i]),
+          inputs: idx.map((k) => s.inputs[k.i]),
+          hidden: idx.map((k) => s.hidden[k.i]),
+          index: Math.min(s.index, idx.length),
+        };
+        this.saveSession(idx.length ? next : null);
+        changed = true;
+      }
+    }
+    for (const e of this.exams) {
+      if (e.orders.every((o, i) => { const q = byId.get(e.questionIds[i]); return !q || fixOrder(o, q) === o; })) continue;
+      this.saveExam({ ...e, orders: e.orders.map((o, i) => { const q = byId.get(e.questionIds[i]); return q ? fixOrder(o, q) : o; }) });
+      changed = true;
+    }
+    return changed;
   }
 
   getState(qid: string): QuestionState {
@@ -133,9 +191,11 @@ export class Store {
     this.putState({ ...s, flagged: !s.flagged });
     this.emit();
   }
-  setMemo(qid: string, memo: string) {
-    this.putState({ ...this.getState(qid), memo: memo.slice(0, 5000) || undefined });
+  /** メモを保存する。上限（MEMO_MAX 文字）を超えて切り捨てた場合は true を返す */
+  setMemo(qid: string, memo: string): boolean {
+    this.putState({ ...this.getState(qid), memo: memo.slice(0, MEMO_MAX) || undefined });
     this.emit();
+    return memo.length > MEMO_MAX;
   }
 
   updateSettings(patch: Partial<Settings>) {

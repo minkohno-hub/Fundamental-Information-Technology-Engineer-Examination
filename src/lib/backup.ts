@@ -4,6 +4,8 @@ import type { AnswerRecord, ExamRecord, ProblemReport, QuestionState, SessionSta
 export const BACKUP_APP = 'fe-study';
 export const BACKUP_SCHEMA = 1;
 const MAX_BYTES = 30 * 1024 * 1024;
+/** 問題ごとのメモの最大文字数。保存時はこれを超える部分を切り捨て、バックアップ検証も同じ上限を使う */
+export const MEMO_MAX = 5000;
 
 export interface BackupData {
   answers: AnswerRecord[];
@@ -39,7 +41,7 @@ function check(cond: boolean, msg: string): asserts cond {
   if (!cond) throw new BackupError(msg);
 }
 
-function cleanAnswer(x: unknown, i: number): AnswerRecord {
+export function cleanAnswer(x: unknown, i: number): AnswerRecord {
   check(isObj(x), `回答履歴 ${i + 1} 件目の形式が不正です`);
   check(isStr(x.qid) && ID_RE.test(x.qid), `回答履歴 ${i + 1} 件目の問題IDが不正です`);
   check(isNum(x.at) && isBool(x.correct) && isNum(x.chosen) && isNum(x.timeMs) && isBool(x.first), `回答履歴 ${i + 1} 件目の値が不正です`);
@@ -48,13 +50,13 @@ function cleanAnswer(x: unknown, i: number): AnswerRecord {
   return { qid: x.qid, at: x.at, correct: x.correct, chosen: x.chosen, timeMs: Math.max(0, x.timeMs), first: x.first, mode: x.mode as AnswerRecord['mode'] };
 }
 
-function cleanState(x: unknown, i: number): QuestionState {
+export function cleanState(x: unknown, i: number): QuestionState {
   check(isObj(x), `問題の状態 ${i + 1} 件目の形式が不正です`);
   check(isStr(x.qid) && ID_RE.test(x.qid), `問題の状態 ${i + 1} 件目の問題IDが不正です`);
   check(isNum(x.attempts) && isNum(x.correctCount), `問題の状態 ${i + 1} 件目の回数が不正です`);
   const u = ['understood', 'review', 'notUnderstood'];
   check(optional(x.understanding, (y): y is string => isStr(y) && u.includes(y)), `問題の状態 ${i + 1} 件目の理解度が不正です`);
-  check(optional(x.memo, (y): y is string => isStr(y, 5000)), `メモが長すぎるか不正です（${i + 1} 件目）`);
+  check(optional(x.memo, (y): y is string => isStr(y, MEMO_MAX)), `メモが長すぎるか不正です（${i + 1} 件目）`);
   for (const k of ['favorite', 'flagged', 'firstCorrect', 'lastCorrect']) check(optional(x[k], isBool), `問題の状態 ${i + 1} 件目の ${k} が不正です`);
   check(optional(x.lastAt, isNum), `問題の状態 ${i + 1} 件目の日時が不正です`);
   return {
@@ -65,7 +67,7 @@ function cleanState(x: unknown, i: number): QuestionState {
   };
 }
 
-function cleanExam(x: unknown, i: number): ExamRecord {
+export function cleanExam(x: unknown, i: number): ExamRecord {
   check(isObj(x), `模擬試験 ${i + 1} 件目の形式が不正です`);
   check(isStr(x.id, 100) && (x.kind === 'A' || x.kind === 'B'), `模擬試験 ${i + 1} 件目の種類が不正です`);
   check(['real', 'practice', 'short', 'untimed'].includes(x.format as string), `模擬試験 ${i + 1} 件目の形式が不正です`);
@@ -86,7 +88,7 @@ function cleanExam(x: unknown, i: number): ExamRecord {
   };
 }
 
-function cleanSettings(x: unknown, defaults: Settings): Settings {
+export function cleanSettings(x: unknown, defaults: Settings): Settings {
   check(isObj(x), '設定の形式が不正です');
   const s: Settings = { ...defaults };
   if (isNum(x.fontScale) && x.fontScale >= 0.8 && x.fontScale <= 1.6) s.fontScale = x.fontScale;
@@ -113,7 +115,7 @@ function cleanSettings(x: unknown, defaults: Settings): Settings {
   return s;
 }
 
-function cleanReport(x: unknown, i: number): ProblemReport {
+export function cleanReport(x: unknown, i: number): ProblemReport {
   check(isObj(x), `問題報告 ${i + 1} 件目の形式が不正です`);
   check(isStr(x.id, 100) && isStr(x.qid) && ID_RE.test(x.qid) && isStr(x.detail, 5000) && isNum(x.createdAt), `問題報告 ${i + 1} 件目の値が不正です`);
   const kinds = ['answer', 'explanation', 'question', 'typo', 'other'];
@@ -121,6 +123,31 @@ function cleanReport(x: unknown, i: number): ProblemReport {
   return {
     id: x.id, qid: x.qid, questionSubject: isStr(x.questionSubject, 10) ? x.questionSubject : '', kind: x.kind as ProblemReport['kind'],
     detail: x.detail, appVersion: isStr(x.appVersion, 40) ? x.appVersion : '', contentVersion: isStr(x.contentVersion, 40) ? x.contentVersion : '',
+    createdAt: x.createdAt,
+  };
+}
+
+/** 中断中の演習の検証。配列の長さがそろわないものは拒否する（選択肢順の妥当性は教材を読んだ後に確認する） */
+export function cleanSession(x: unknown): SessionState {
+  check(isObj(x), '中断データの形式が不正です');
+  check(isStr(x.id, 100) && isStr(x.title, 500) && isNum(x.createdAt) && isNum(x.index) && x.index >= 0, '中断データの値が不正です');
+  const modes = ['practice', 'exam', 'review', 'quickB', 'deep', 'lesson'];
+  check(isStr(x.mode) && modes.includes(x.mode), '中断データのモードが不正です');
+  check(Array.isArray(x.questionIds) && x.questionIds.length <= 500 && x.questionIds.every((q) => isStr(q) && ID_RE.test(q)), '中断データの問題IDが不正です');
+  const n = x.questionIds.length;
+  const arr = (v: unknown, f: (y: unknown) => boolean, fill: () => unknown) => {
+    if (v === undefined) return Array.from({ length: n }, fill);
+    check(Array.isArray(v) && v.length === n && v.every(f), '中断データの配列が不正です');
+    return v;
+  };
+  check(x.orders !== undefined, '中断データの選択肢順がありません');
+  return {
+    id: x.id, mode: x.mode as SessionState['mode'], title: x.title, questionIds: x.questionIds as string[], index: Math.floor(x.index),
+    orders: arr(x.orders, (o) => Array.isArray(o) && o.length <= 20 && o.every(isNum), () => []) as number[][],
+    results: arr(x.results, (r) => r === null || isBool(r), () => null) as (boolean | null)[],
+    chosen: arr(x.chosen, (r) => r === null || isNum(r), () => null) as (number | null)[],
+    inputs: arr(x.inputs, (r) => r === null || isStr(r, 1000), () => null) as (string | null)[],
+    hidden: arr(x.hidden, (o) => Array.isArray(o) && o.every(isNum), () => []) as number[][],
     createdAt: x.createdAt,
   };
 }
