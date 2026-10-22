@@ -35,9 +35,9 @@ jobs:
         run: npm run check:release
       - name: Build app
         run: npx vite build
-      - name: E2E tests (mobile and desktop, offline)
+      - name: E2E tests (mobile and desktop Chromium, Firefox, WebKit, offline)
         run: |
-          npx playwright install --with-deps chromium
+          npx playwright install --with-deps chromium firefox webkit
           npm run test:e2e
       - uses: actions/configure-pages@v5
         if: github.event_name != 'pull_request'

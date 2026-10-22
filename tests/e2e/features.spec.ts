@@ -217,9 +217,9 @@ test.describe('お気に入り・理解度・メモ', () => {
 });
 
 test.describe('問題報告', () => {
-  test.use({ permissions: ['clipboard-read', 'clipboard-write'] });
-
-  test('報告を作成すると端末に保存され、Issue 用テキストが表示・コピーでき、報告一覧に載る', async ({ page }) => {
+  test('報告を作成すると端末に保存され、Issue 用テキストが表示・コピーでき、報告一覧に載る', async ({ page, context, browserName }) => {
+    // クリップボード権限の付与は Chromium だけが対応する（Firefox / WebKit では権限付与なしで、コピーの検証を省く）
+    if (browserName === 'chromium') await context.grantPermissions(['clipboard-read', 'clipboard-write']);
     page.on('dialog', (d) => void d.dismiss()); // クリップボードが使えない環境の prompt フォールバック対策
     await open(page, '/q/A03-001');
     await answerCurrent(page);
@@ -232,9 +232,11 @@ test.describe('問題報告', () => {
     await expect(dlg.getByText(/保存しました/)).toBeVisible();
     await expect(dlg.locator('pre')).toContainText('[問題報告] A03-001：誤字・脱字');
     await expect(dlg.locator('pre')).toContainText('E2E：テスト用の報告です');
-    await dlg.getByRole('button', { name: 'Issue 用の文章をコピー' }).click();
-    await expect(dlg.getByRole('button', { name: 'コピーしました' })).toBeVisible();
-    expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('E2E：テスト用の報告です');
+    if (browserName === 'chromium') {
+      await dlg.getByRole('button', { name: 'Issue 用の文章をコピー' }).click();
+      await expect(dlg.getByRole('button', { name: 'コピーしました' })).toBeVisible();
+      expect(await page.evaluate(() => navigator.clipboard.readText())).toContain('E2E：テスト用の報告です');
+    }
     await dlg.getByRole('button', { name: '閉じる' }).click();
     await expect(dlg).toHaveCount(0);
 

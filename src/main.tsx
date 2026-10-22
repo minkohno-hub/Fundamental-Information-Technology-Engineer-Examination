@@ -36,8 +36,9 @@ function UpdateBar() {
 
 async function start() {
   await store.init();
-  // 永続ストレージを要求（ブラウザによる自動削除を受けにくくする。拒否されても動作は続行）
-  try { await navigator.storage?.persist?.(); } catch { /* noop */ }
+  // 永続ストレージを要求（ブラウザによる自動削除を受けにくくする。拒否されても動作は続行）。
+  // Firefox は許可ダイアログの応答まで解決しないため、待たずに描画する。
+  try { void navigator.storage?.persist?.()?.catch(() => { /* noop */ }); } catch { /* noop */ }
   createRoot(document.getElementById('root')!).render(
     <StrictMode>
       <App />
