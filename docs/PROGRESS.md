@@ -21,4 +21,5 @@
 | IPA 公開問題の取り込み | 完了：令和5〜8年度の科目A 80 問・科目B 24 問をすべて公開（図は表に置換、改変は問題ごとに明記） | content/questions/IPA/ |
 | ドキュメント | 完了 | docs/ |
 | GitHub Pages 公開 | 完了 | https://minkohno-hub.github.io/Fundamental-Information-Technology-Engineer-Examination/ |
+| ブラウザ対応・堅牢性（壊れた保存データ、保存失敗、教材更新） | 検証済み（Chromium / Firefox / WebKit） | robustness.spec.ts、QUALITY_REPORT |
 | 公開環境での動作確認 | 検証済み（スマホ幅・オフライン含む）。iOS 実機は未確認 | 2026-10-21 |

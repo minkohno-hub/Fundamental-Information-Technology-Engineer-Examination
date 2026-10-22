@@ -7,7 +7,7 @@ const executablePath = process.env.PW_CHROMIUM_PATH || (process.env.PLAYWRIGHT_B
 export default defineConfig({
   testDir: 'tests/e2e',
   timeout: 60_000,
-  retries: 0,
+  retries: process.env.CI ? 1 : 0, // WebKit は負荷が高いと稀に不安定になるため CI では 1 回だけ再試行（失敗は記録される）
   reporter: [['list']],
   use: {
     baseURL: `http://localhost:${PORT}/`,
