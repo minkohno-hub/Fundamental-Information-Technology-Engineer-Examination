@@ -2,13 +2,18 @@
 import { expect, test, type Page } from '@playwright/test';
 import { answerCurrent } from './helpers';
 
+// 再読み込みを繰り返すため、更新通知バーが操作を妨げないよう Service Worker は使わない
+test.use({ serviceWorkers: 'block' });
+
 async function boot(page: Page, hash = '') {
   const errors: string[] = [];
   page.on('pageerror', (e) => errors.push(e.message));
   await page.goto(`./${hash ? '#' + hash : ''}`);
+  await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible({ timeout: 30_000 }); // 読み込み中の再読み込みを避ける（WebKit の内部エラー対策）
   // ハッシュだけが違う遷移では再読み込みされないため、保存データを読み直すよう明示的に再読み込みする
   await page.reload();
   await expect(page.getByRole('heading', { level: 1 }).first()).toBeVisible({ timeout: 30_000 });
+  errors.length = 0; // 再読み込みで中断された直前の読み込みに由来するエラー（WebKit の取得中断など）は対象外
   return errors;
 }
 
