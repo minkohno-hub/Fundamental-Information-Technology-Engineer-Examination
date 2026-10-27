@@ -1,0 +1,14 @@
+category: 情報セキュリティ
+terms:
+  - term: メッセージ認証符号
+    reading: めっせーじにんしょうふごう
+    aliases: [MAC, メッセージ認証コード]
+    fullName: Message Authentication Code
+    japanese: メッセージ認証符号
+    words:
+      - { en: Message, ja: メッセージ }
+      - { en: Authentication, ja: 認証 }
+      - { en: Code, ja: 符号 }
+    simple: メッセージと共有鍵から計算する認証用の値で、改ざんの検知と送信元の確認に使います。
+    definition: メッセージと共有鍵から計算する固定長の値。受信者が同じ鍵で計算し直して一致を確認することで、改ざんの検知と、鍵を持つ相手からのメッセージであることの確認ができる。共有鍵を持つ双方が生成できるため、否認防止にはならない。
+    related: [デジタル署名, ハッシュ値, 共通鍵暗号方式]
