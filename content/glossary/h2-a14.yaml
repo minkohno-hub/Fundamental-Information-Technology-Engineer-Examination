@@ -1,0 +1,12 @@
+category: プロジェクトマネジメント
+terms:
+  - term: ETC
+    reading: いーてぃーしー
+    fullName: Estimate To Complete
+    japanese: 残作業コスト見積り
+    words:
+      - { en: Estimate, ja: 見積り }
+      - { en: To Complete, ja: 完了まで }
+    simple: プロジェクトを完了させるために、これから必要になる残りのコストの見積りです。
+    definition: EVM で、現時点から完了までに必要と見込まれるコストの見積り。残りが予算どおりなら BAC − EV、現在のコスト効率が続くなら（BAC − EV）÷ CPI で求め、EAC = AC + ETC の関係にある。
+    related: [EAC, BAC, EVM]
