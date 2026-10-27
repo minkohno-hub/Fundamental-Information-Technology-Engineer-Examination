@@ -1,23 +1,30 @@
 {
  "batch": "H2",
- "count": 0,
+ "count": 77,
  "bySubject": {
-  "A": 0,
+  "A": 77,
   "B": 0
  },
  "byDifficulty": {
-  "1": 0,
-  "2": 0,
-  "3": 0,
-  "4": 0
+  "1": 1,
+  "2": 17,
+  "3": 36,
+  "4": 23
  },
- "appliedOrHardRate": 0,
- "byCategory": {},
+ "appliedOrHardRate": 0.7662337662337663,
+ "byCategory": {
+  "12": 12,
+  "17": 12,
+  "01": 8,
+  "03": 29,
+  "07": 8,
+  "09": 8
+ },
  "allByDifficulty": {
-  "1": 350,
-  "2": 903,
-  "3": 139,
-  "4": 0
+  "1": 351,
+  "2": 920,
+  "3": 175,
+  "4": 23
  },
- "withScopeNote": 0
+ "withScopeNote": 77
 }
