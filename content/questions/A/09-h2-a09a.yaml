@@ -1,0 +1,486 @@
+category: '09'
+subject: A
+batch: H2
+reviewed: { at: '2026-10-27', method: '作成後に独立した検算・実行検証と、解答を伏せた再解答による確認' }
+questions:
+  - id: A09-501
+    topic: 9-3-2-2
+    diff: 4
+    q: |
+      次の顧客表と注文表に対して，SQL1 と SQL2 を実行した。結果の行数を（SQL1 の行数，SQL2 の行数）の順に示したものはどれか。
+
+      SQL1
+      ```
+      SELECT c.顧客名, o.注文ID FROM 顧客 c LEFT OUTER JOIN 注文 o ON c.顧客ID = o.顧客ID AND o.状態 = '出荷済'
+      ```
+      SQL2
+      ```
+      SELECT c.顧客名, o.注文ID FROM 顧客 c LEFT OUTER JOIN 注文 o ON c.顧客ID = o.顧客ID WHERE o.状態 = '出荷済'
+      ```
+    attach: |
+      〔顧客表〕
+      | 顧客ID | 顧客名 |
+      |---|---|
+      | 1 | 青木 |
+      | 2 | 井上 |
+      | 3 | 上田 |
+      | 4 | 遠藤 |
+
+      〔注文表〕
+      | 注文ID | 顧客ID | 状態 |
+      |---|---|---|
+      | 11 | 1 | 出荷済 |
+      | 12 | 1 | 未出荷 |
+      | 13 | 2 | 未出荷 |
+      | 14 | 3 | 出荷済 |
+      | 15 | 3 | 出荷済 |
+    c:
+      - "5，3"
+      - "6，3"
+      - "3，3"
+      - "5，5"
+    a: ア
+    scope: "データベース言語(SQL)の外部結合。外部結合では結合条件（ON）に書いた条件と結合後の WHERE に書いた条件で結果が変わることは、SELECT 文による表の結合の基本的な操作として範囲内。"
+    prereq: "左外部結合の動作（左表の行は必ず残り，対応する右表の行がなければ右表の列が NULL になる），WHERE が結合後の行を絞ること，NULL との比較は真にならないこと"
+    hard: "ON の条件と WHERE の条件で外部結合の結果が異なることを，NULL 補完行の有無まで追って行数を数える必要がある。"
+    exp: |
+      外部結合では「結合（ON）で行を対応付け」→「WHERE で結合後の行を絞る」の順に処理されます。
+      SQL1 は出荷済の注文だけを結合相手にします。結合相手がない顧客も NULL で補完されて残ります。
+      | 顧客 | 出荷済の注文 | 結果の行 |
+      |---|---|---|
+      | 青木 | 11 | 1 行 |
+      | 井上 | なし（13 は未出荷） | 注文ID が NULL の 1 行 |
+      | 上田 | 14，15 | 2 行 |
+      | 遠藤 | なし | 注文ID が NULL の 1 行 |
+      合計は 1＋1＋2＋1＝5 行です。
+      SQL2 は ON では顧客IDだけで結合するため、結合後は 青木 2 行（11，12）、井上 1 行、上田 2 行、遠藤 1 行（NULL 補完）の計 6 行になります。ここで WHERE 状態＝'出荷済' を適用すると、NULL との比較は真にならず補完行も消え、注文 11，14，15 の 3 行だけが残ります。したがって（5，3）です。
+    why:
+      - "正解です。SQL1 は ON に条件があるため左表の行がすべて残って 5 行，SQL2 は WHERE で補完行も絞られて 3 行になります。"
+      - "SQL1 を 6 行とするのは，ON の条件が行を減らすと考えて全注文を結合したままの行数（青木 2 行を含む）を数えた誤りです。外部結合では ON の条件に合わない注文は結合相手にならず，NULL 補完の 1 行になります。"
+      - "SQL1 も 3 行とするのは，ON の条件を WHERE と同じ絞込みとみなし，内部結合のように補完行を消してしまった誤りです。外部結合では ON の条件に合わなくても左表（顧客）の行は残ります。"
+      - "SQL2 を 5 行とするのは，WHERE の条件を結合条件と同じ扱いにして補完行を残した誤りです。WHERE は結合後の行に適用され，NULL＝'出荷済' は真にならないため，補完された行は取り除かれます。"
+    know: "外部結合の ON と WHERE の違い：ON は「どの行を結合相手にするか」，WHERE は「結合した結果をどの行に絞るか」。右表の列に対する WHERE の条件は，外部結合を実質的に内部結合に変えてしまう。"
+    terms: ["外部結合", "左外部結合", "NULL"]
+    verify:
+      sql:
+        setup: |
+          CREATE TABLE 顧客(顧客ID INTEGER PRIMARY KEY,顧客名 TEXT);
+          CREATE TABLE 注文(注文ID INTEGER PRIMARY KEY,顧客ID INTEGER,状態 TEXT);
+          INSERT INTO 顧客 VALUES(1,'青木'),(2,'井上'),(3,'上田'),(4,'遠藤');
+          INSERT INTO 注文 VALUES(11,1,'出荷済'),(12,1,'未出荷'),(13,2,'未出荷'),(14,3,'出荷済'),(15,3,'出荷済');
+        mode: result
+        query: "SELECT (SELECT COUNT(*) FROM (SELECT c.顧客名, o.注文ID FROM 顧客 c LEFT OUTER JOIN 注文 o ON c.顧客ID = o.顧客ID AND o.状態 = '出荷済')), (SELECT COUNT(*) FROM (SELECT c.顧客名, o.注文ID FROM 顧客 c LEFT OUTER JOIN 注文 o ON c.顧客ID = o.顧客ID WHERE o.状態 = '出荷済'))"
+
+  - id: A09-502
+    topic: 9-3-2-2
+    diff: 4
+    q: |
+      開講表の講座ID は NULL を許す列である。次の表に対して SQL1 と SQL2 を実行したときの結果の行数を（SQL1 の行数，SQL2 の行数）の順に示したものはどれか。
+
+      SQL1
+      ```
+      SELECT 講座名 FROM 講座 WHERE 講座ID NOT IN (SELECT 講座ID FROM 開講)
+      ```
+      SQL2
+      ```
+      SELECT 講座名 FROM 講座 WHERE NOT EXISTS (SELECT * FROM 開講 WHERE 開講.講座ID = 講座.講座ID)
+      ```
+    attach: |
+      〔講座表〕
+      | 講座ID | 講座名 |
+      |---|---|
+      | C1 | 入門 |
+      | C2 | 応用 |
+      | C3 | 演習 |
+      | C4 | 特論 |
+
+      〔開講表〕
+      | 開催ID | 講座ID |
+      |---|---|
+      | 1 | C1 |
+      | 2 | C1 |
+      | 3 | NULL |
+      | 4 | C3 |
+    c:
+      - "0，2"
+      - "2，2"
+      - "2，0"
+      - "0，0"
+    a: ア
+    scope: "データベース言語(SQL)の副問合せ・相関副問合せ・NULL の扱い。NOT IN と NOT EXISTS の結果が NULL の有無で変わることは，SELECT 文の基本的な操作と NULL の理解として範囲内。"
+    prereq: "NOT IN の意味（どの値とも等しくない），NULL との比較結果が不明（UNKNOWN）になること，WHERE は真の行だけを残すこと，相関副問合せ（EXISTS）の評価"
+    hard: "NOT IN を「どの値とも等しくない」の AND の連続に展開し，NULL との比較が不明になるため全行が偽または不明になることを導く。NOT EXISTS と見かけは同じ意味なのに結果が異なる点を見抜く。"
+    exp: |
+      SQL1 の副問合せの結果は {C1, C1, NULL, C3} です。NOT IN は「講座ID ≠ C1 かつ ≠ C1 かつ ≠ NULL かつ ≠ C3」と同じです。
+      | 講座ID | ≠C1 | ≠NULL | ≠C3 | 全体 |
+      |---|---|---|---|---|
+      | C1 | 偽 | 不明 | 真 | 偽 |
+      | C2 | 真 | 不明 | 真 | 不明 |
+      | C3 | 真 | 不明 | 偽 | 偽 |
+      | C4 | 真 | 不明 | 真 | 不明 |
+      NULL との比較は常に不明であり，AND に不明が混ざると，全体は偽か不明にしかなりません。WHERE は真の行だけを残すため，SQL1 は 0 行です。
+      SQL2 の NOT EXISTS は，対応する開講の行が 1 件もない講座だけを真にします。C2 と C4 が該当し，NULL の行は等値比較が成立しないだけで結果に影響しないので 2 行です。したがって（0，2）です。
+    why:
+      - "正解です。NOT IN は副問合せに NULL が含まれると結果が空になり，NOT EXISTS は NULL の影響を受けず 2 行を返します。"
+      - "SQL1 も 2 行とするのは，NULL を単に無視して C2，C4 が残ると考えた誤りです。NOT IN では NULL との比較が不明になり，C2 と C4 も真にならないため，行は残りません。"
+      - "SQL1 が 2 行で SQL2 が 0 行とするのは，NOT IN と NOT EXISTS の結果を取り違えた誤りです。NULL の影響を受けるのは NOT IN の側で，NOT EXISTS は開講に対応行がない講座を正しく 2 件返します。"
+      - "SQL2 も 0 行とするのは，NOT EXISTS も NOT IN と同様に NULL の影響を受けると考えた誤りです。EXISTS は対応する行が存在するかだけを判定し，NULL の行は等値条件が真にならないので無関係です。"
+    know: "NOT IN の副問合せの結果に NULL が 1 つでも含まれると結果は空になる。「存在しないものを探す」問合せは NOT EXISTS か，副問合せで IS NOT NULL を指定した NOT IN で書く。"
+    terms: ["副問合せ", "EXISTS", "IN", "NULL", "相関副問合せ"]
+    verify:
+      sql:
+        setup: |
+          CREATE TABLE 講座(講座ID TEXT PRIMARY KEY,講座名 TEXT);
+          CREATE TABLE 開講(開催ID INTEGER PRIMARY KEY,講座ID TEXT);
+          INSERT INTO 講座 VALUES('C1','入門'),('C2','応用'),('C3','演習'),('C4','特論');
+          INSERT INTO 開講 VALUES(1,'C1'),(2,'C1'),(3,NULL),(4,'C3');
+        mode: result
+        query: "SELECT (SELECT COUNT(*) FROM (SELECT 講座名 FROM 講座 WHERE 講座ID NOT IN (SELECT 講座ID FROM 開講))), (SELECT COUNT(*) FROM (SELECT 講座名 FROM 講座 WHERE NOT EXISTS (SELECT * FROM 開講 WHERE 開講.講座ID = 講座.講座ID)))"
+
+  - id: A09-503
+    topic: 9-3-2-2
+    diff: 3
+    q: |
+      次のアンケート回答表に対して，次の SQL 文を実行した結果を（COUNT(*)，COUNT(評価)，COUNT(DISTINCT 評価)，AVG(評価)）の順に示したものはどれか。評価は未回答のとき NULL である。
+
+      ```
+      SELECT COUNT(*), COUNT(評価), COUNT(DISTINCT 評価), AVG(評価) FROM 回答
+      ```
+    attach: |
+      〔回答表〕
+      | 回答ID | 店舗 | 評価 |
+      |---|---|---|
+      | 1 | A | 5 |
+      | 2 | A | NULL |
+      | 3 | B | 3 |
+      | 4 | B | 5 |
+      | 5 | A | 5 |
+      | 6 | B | NULL |
+      | 7 | B | 3 |
+    c:
+      - "7，5，2，4.2"
+      - "7，7，3，3"
+      - "7，5，2，3"
+      - "7，5，3，4.2"
+    a: ア
+    scope: "データベース言語(SQL)の集約関数（COUNT，AVG）と NULL の扱い。集約関数が NULL を除いて計算する規則は SELECT 文の基本操作として範囲内。"
+    prereq: "COUNT(*) と COUNT(列名) の違い，DISTINCT の意味，集約関数は NULL を除外して計算すること"
+    hard: "4 つの集約関数それぞれで NULL の扱いが異なる（COUNT(*) は数える，ほかは除外する）ことを区別し，AVG の分母が行数ではなく NULL を除いた件数になる点まで追う。"
+    exp: |
+      評価列は 5，NULL，3，5，5，NULL，3 の 7 行です。集約関数 COUNT(*) 以外は NULL を除外します。
+      | 関数 | 対象 | 結果 |
+      |---|---|---|
+      | COUNT(*) | 全 7 行 | 7 |
+      | COUNT(評価) | NULL でない 5 値（5，3，5，5，3） | 5 |
+      | COUNT(DISTINCT 評価) | 重複を除いた値（5，3） | 2 |
+      | AVG(評価) | 合計 21 ÷ NULL を除く 5 件 | 4.2 |
+      AVG は NULL を 0 として扱うわけではないので，21÷7＝3 にはなりません。したがって（7，5，2，4.2）です。
+    why:
+      - "正解です。COUNT(*) だけが NULL の行も数え，COUNT(評価)，DISTINCT，AVG は NULL を除いて計算します。"
+      - "COUNT(評価) を 7 とし，DISTINCT を 3（NULL を 1 つの値とみなす），AVG を 3 とするのは，NULL も値として数えて 21÷7 で割る誤りです。列名を指定した COUNT と AVG は NULL を対象外にします。"
+      - "COUNT と DISTINCT は正しく数えながら，AVG を 21÷7＝3 とする誤りです。AVG の分母は行数ではなく，NULL を除いた件数 5 であり，結果は 4.2 になります。"
+      - "DISTINCT を 3 とする誤りです。NULL は COUNT(DISTINCT 列) の対象外であり，値の種類は 5 と 3 の 2 種類です。"
+    know: "集約関数（COUNT(*) を除く）は NULL を無視する。全行が NULL なら SUM や AVG の結果は 0 ではなく NULL。COUNT(*) は行数，COUNT(列) は NULL でない値の個数。"
+    terms: ["集約関数", "COUNT", "NULL"]
+    verify:
+      sql:
+        setup: |
+          CREATE TABLE 回答(回答ID INTEGER PRIMARY KEY,店舗 TEXT,評価 INTEGER);
+          INSERT INTO 回答 VALUES(1,'A',5),(2,'A',NULL),(3,'B',3),(4,'B',5),(5,'A',5),(6,'B',NULL),(7,'B',3);
+        mode: result
+        query: "SELECT COUNT(*), COUNT(評価), COUNT(DISTINCT 評価), AVG(評価) FROM 回答"
+
+  - id: A09-504
+    topic: 9-3-2-2
+    diff: 3
+    q: |
+      会員表と貸出表から，貸出が 1 件もない会員も含めて，会員ごとの氏名と貸出件数（貸出がなければ 0）を求める SQL 文はどれか。
+    attach: |
+      〔会員表〕
+      | 会員ID | 氏名 |
+      |---|---|
+      | 1 | 相川 |
+      | 2 | 石田 |
+      | 3 | 宇野 |
+      | 4 | 江口 |
+
+      〔貸出表〕
+      | 貸出ID | 会員ID | 書名 | 冊数 |
+      |---|---|---|---|
+      | 1 | 1 | DB入門 | 2 |
+      | 2 | 1 | NW基礎 | 1 |
+      | 3 | 3 | DB入門 | 4 |
+      | 4 | 3 | SQL実践 | 1 |
+      | 5 | 3 | NW基礎 | 2 |
+    c:
+      - "SELECT m.氏名, COUNT(l.貸出ID) FROM 会員 m LEFT OUTER JOIN 貸出 l ON m.会員ID = l.会員ID GROUP BY m.会員ID, m.氏名"
+      - "SELECT m.氏名, COUNT(*) FROM 会員 m LEFT OUTER JOIN 貸出 l ON m.会員ID = l.会員ID GROUP BY m.会員ID, m.氏名"
+      - "SELECT m.氏名, COUNT(l.貸出ID) FROM 会員 m INNER JOIN 貸出 l ON m.会員ID = l.会員ID GROUP BY m.会員ID, m.氏名"
+      - "SELECT m.氏名, COUNT(l.貸出ID) FROM 貸出 l LEFT OUTER JOIN 会員 m ON m.会員ID = l.会員ID GROUP BY m.会員ID, m.氏名"
+    a: ア
+    scope: "データベース言語(SQL)の表の結合（外部結合），集合関数，グループ化。外部結合と COUNT の引数の違いは SELECT 文の基本操作として範囲内。"
+    prereq: "外部結合で左表の行が残り右表の列が NULL になること，COUNT(*) と COUNT(列名) の違い，GROUP BY の使い方"
+    hard: "「0 件の会員を残す」ために，結合の種類（外部結合の向き）と COUNT の引数の両方を正しく選ぶ必要がある。どちらか一方だけでは誤った件数になる。"
+    exp: |
+      会員 4 人のうち，貸出があるのは 相川（2 件）と 宇野（3 件）で，石田と江口は 0 件です。
+      まず 0 件の会員を残すには，会員表を左側にした外部結合が必要です。内部結合では対応する貸出がない会員の行が消えます。
+      次に件数の数え方です。外部結合すると貸出がない会員は貸出の列がすべて NULL の 1 行になります。
+      | 会員 | 結合後の行数 | COUNT(*) | COUNT(l.貸出ID) |
+      |---|---|---|---|
+      | 相川 | 2 | 2 | 2 |
+      | 石田 | 1（NULL 補完） | 1 | 0 |
+      | 宇野 | 3 | 3 | 3 |
+      | 江口 | 1（NULL 補完） | 1 | 0 |
+      COUNT(*) は補完行も 1 と数えてしまうため，NULL を数えない COUNT(l.貸出ID) を使います。したがって，会員表を左にした LEFT OUTER JOIN と COUNT(l.貸出ID) の組合せが正解です。
+    why:
+      - "正解です。会員表を左にした外部結合で 0 件の会員を残し，COUNT(l.貸出ID) で NULL 補完行を 0 と数えます。"
+      - "外部結合は正しいが COUNT(*) を使う誤りです。補完された 1 行も数えるため，石田と江口の件数が 0 ではなく 1 になります。"
+      - "COUNT は正しいが内部結合を使う誤りです。貸出がない会員の行が結合の段階で消え，石田と江口が結果に現れません。"
+      - "外部結合の向きが逆で，貸出表を左にしているため，結果は貸出がある会員の行だけになります。0 件の会員（石田，江口）は残りません。"
+    know: "「0 件も表示したい」集計は，集計の主体となる表を左にした外部結合＋COUNT(右表の列) で書く。COUNT(*) は NULL 補完行も 1 件と数える点に注意。"
+    terms: ["左外部結合", "外部結合", "COUNT", "GROUP BY"]
+    verify:
+      sql:
+        setup: |
+          CREATE TABLE 会員(会員ID INTEGER PRIMARY KEY,氏名 TEXT);
+          CREATE TABLE 貸出(貸出ID INTEGER PRIMARY KEY,会員ID INTEGER,書名 TEXT,冊数 INTEGER);
+          INSERT INTO 会員 VALUES(1,'相川'),(2,'石田'),(3,'宇野'),(4,'江口');
+          INSERT INTO 貸出 VALUES(1,1,'DB入門',2),(2,1,'NW基礎',1),(3,3,'DB入門',4),(4,3,'SQL実践',1),(5,3,'NW基礎',2);
+        mode: choices
+        expectRows: [["相川", 2], ["石田", 0], ["宇野", 3], ["江口", 0]]
+
+  - id: A09-505
+    topic: 9-3-2-2
+    diff: 3
+    q: |
+      売上表から，金額が 1000 以上の売上だけを対象にして数えたとき，その件数が 2 件以上である店舗を求める SQL 文はどれか。
+    attach: |
+      〔売上表〕
+      | 売上ID | 店舗 | 金額 |
+      |---|---|---|
+      | 1 | A | 500 |
+      | 2 | A | 1200 |
+      | 3 | A | 1500 |
+      | 4 | B | 1000 |
+      | 5 | B | 1100 |
+      | 6 | C | 800 |
+      | 7 | C | 900 |
+      | 8 | C | 2000 |
+      | 9 | D | 3000 |
+      | 10 | E | 1000 |
+      | 11 | E | 200 |
+    c:
+      - "SELECT 店舗 FROM 売上 WHERE 金額 >= 1000 GROUP BY 店舗 HAVING COUNT(*) >= 2"
+      - "SELECT 店舗 FROM 売上 GROUP BY 店舗 HAVING COUNT(*) >= 2 AND MIN(金額) >= 1000"
+      - "SELECT 店舗 FROM 売上 GROUP BY 店舗 HAVING COUNT(*) >= 2 AND MAX(金額) >= 1000"
+      - "SELECT 店舗 FROM 売上 GROUP BY 店舗 HAVING SUM(金額) >= 2000"
+    a: ア
+    scope: "データベース言語(SQL)のグループ化（GROUP BY と HAVING），条件を指定した行の選択（WHERE）。WHERE と HAVING の評価順序の違いは SELECT 文の基本操作として範囲内。"
+    prereq: "SQL の評価順序（WHERE → GROUP BY → HAVING），WHERE は行の絞込み，HAVING はグループの絞込みであること"
+    hard: "問いの条件を「行の絞込み（集計前）」と「グループの絞込み（集計後）」に分解し，選択肢の MIN/MAX/SUM を使った条件が別の意味になることを具体的な行で確かめる。"
+    exp: |
+      条件は「金額 1000 以上の売上だけに絞ってから，店舗ごとに数える」ことです。集計の前に行を絞るので WHERE で金額を指定し，数えた結果の条件は HAVING で指定します。
+      | 店舗 | 金額 | 1000 以上の件数 |
+      |---|---|---|
+      | A | 500，1200，1500 | 2 |
+      | B | 1000，1100 | 2 |
+      | C | 800，900，2000 | 1 |
+      | D | 3000 | 1 |
+      | E | 1000，200 | 1 |
+      件数が 2 以上なのは A と B です。他の選択肢が求める店舗は，MIN 条件が B のみ，MAX 条件が A，B，C，E，SUM 条件が A，B，C，D で，いずれも異なります。
+    why:
+      - "正解です。WHERE で 1000 以上の行に絞ってから店舗ごとに数え，HAVING で 2 件以上を選んでいます。"
+      - "「全売上が 1000 以上」という条件になっています。MIN(金額)＞＝1000 は店舗の最小値で判定するため，500 を含む A が除かれ，B だけが残ります。"
+      - "「1000 以上の売上が 1 件でもある」かつ「全体で 2 件以上」という条件になっています。1000 未満を含めて数えるため，C（3 件中 1 件だけ該当）や E も選ばれます。"
+      - "金額の合計で判定しており，件数の条件になっていません。D は 1 件でも 3000 で選ばれ，C も 3700 で選ばれるため，結果が異なります。"
+    know: "WHERE は GROUP BY の前に行を絞り，HAVING は GROUP BY の後にグループを絞る。集約関数は WHERE には書けず，HAVING に書く。「条件を満たす行の件数」は WHERE で絞ってから数える。"
+    terms: ["GROUP BY", "HAVING", "集約関数"]
+    verify:
+      sql:
+        setup: |
+          CREATE TABLE 売上(売上ID INTEGER PRIMARY KEY,店舗 TEXT,金額 INTEGER);
+          INSERT INTO 売上 VALUES(1,'A',500),(2,'A',1200),(3,'A',1500),(4,'B',1000),(5,'B',1100),(6,'C',800),(7,'C',900),(8,'C',2000),(9,'D',3000),(10,'E',1000),(11,'E',200);
+        mode: choices
+        expectRows: [["A"], ["B"]]
+
+  - id: A09-506
+    topic: 9-3-2-2
+    diff: 2
+    q: |
+      次の前期表と後期表に対して，SQL1～SQL3 を実行した。それぞれの結果の行数を（SQL1，SQL2，SQL3）の順に示したものはどれか。
+
+      SQL1
+      ```
+      SELECT 学生 FROM 前期 UNION ALL SELECT 学生 FROM 後期
+      ```
+      SQL2
+      ```
+      SELECT 学生 FROM 前期 UNION SELECT 学生 FROM 後期
+      ```
+      SQL3
+      ```
+      SELECT 学生 FROM 前期 INTERSECT SELECT 学生 FROM 後期
+      ```
+    attach: |
+      〔前期表〕
+      | 学生 |
+      |---|
+      | a |
+      | b |
+      | b |
+      | c |
+      | d |
+
+      〔後期表〕
+      | 学生 |
+      |---|
+      | b |
+      | c |
+      | c |
+      | e |
+    c:
+      - "9，5，2"
+      - "9，9，2"
+      - "9，5，3"
+      - "5，5，2"
+    a: ア
+    scope: "データベース言語(SQL)の SELECT 文と，関係代数の和集合・積集合に相当する集合演算（UNION，INTERSECT）。重複行の扱いは基本的な操作として範囲内。"
+    prereq: "UNION は重複行を除き UNION ALL は除かないこと，INTERSECT は両方に存在する行を（重複なしで）返すこと"
+    exp: |
+      前期は a，b，b，c，d の 5 行，後期は b，c，c，e の 4 行です。
+      | SQL | 演算 | 結果 | 行数 |
+      |---|---|---|---|
+      | SQL1 | UNION ALL（重複を残して結合） | 5＋4 行 | 9 |
+      | SQL2 | UNION（重複を除いた和集合） | a，b，c，d，e | 5 |
+      | SQL3 | INTERSECT（重複を除いた共通部分） | b，c | 2 |
+      UNION ALL だけが重複を除きません。UNION と INTERSECT は結果から重複行を取り除くため，前期の b が 2 行あっても結果では 1 行です。したがって（9，5，2）です。
+    why:
+      - "正解です。UNION ALL は重複を残して 9 行，UNION は重複を除いて 5 行，INTERSECT は共通の b，c の 2 行です。"
+      - "UNION も 9 行とするのは，UNION が重複行を除くことを忘れ，UNION ALL と同じに扱った誤りです。UNION では b，c の重複が取り除かれて 5 行になります。"
+      - "INTERSECT を 3 行とするのは，前期の b が 2 行あることから b，b，c と数えて重複を除かなかった誤りです。INTERSECT の結果も重複行は除かれ，b と c の 2 行です。"
+      - "UNION ALL を 5 行とするのは，UNION ALL を重複を除く演算と取り違えた誤りです。UNION ALL は両方の行数の合計 9 行になります。"
+    know: "UNION，INTERSECT，EXCEPT は既定で重複行を除く（ALL を付けると残す）。関係代数の和集合・積集合・差集合に対応するが，関係代数は集合なので重複はない点が SQL との違い。"
+    terms: ["和集合（関係代数）", "差集合", "SQL"]
+    verify:
+      sql:
+        setup: |
+          CREATE TABLE 前期(学生 TEXT);
+          CREATE TABLE 後期(学生 TEXT);
+          INSERT INTO 前期 VALUES('a'),('b'),('b'),('c'),('d');
+          INSERT INTO 後期 VALUES('b'),('c'),('c'),('e');
+        mode: result
+        query: "SELECT (SELECT COUNT(*) FROM (SELECT 学生 FROM 前期 UNION ALL SELECT 学生 FROM 後期)), (SELECT COUNT(*) FROM (SELECT 学生 FROM 前期 UNION SELECT 学生 FROM 後期)), (SELECT COUNT(*) FROM (SELECT 学生 FROM 前期 INTERSECT SELECT 学生 FROM 後期))"
+
+  - id: A09-507
+    topic: 9-3-2-2
+    diff: 4
+    q: |
+      次の社員表に対して，次の SQL 文を実行した結果として得られる氏名を，行の出力順に示したものはどれか。給与の単位は万円である。
+
+      ```
+      SELECT 氏名 FROM 社員 e WHERE 給与 > (SELECT AVG(給与) FROM 社員 WHERE 部署 = e.部署) ORDER BY 社員番号
+      ```
+    attach: |
+      〔社員表〕
+      | 社員番号 | 氏名 | 部署 | 給与 |
+      |---|---|---|---|
+      | 1 | 青 | X | 300 |
+      | 2 | 赤 | X | 200 |
+      | 3 | 黄 | X | 400 |
+      | 4 | 緑 | Y | 250 |
+      | 5 | 紫 | Y | 250 |
+      | 6 | 白 | Z | 500 |
+      | 7 | 黒 | Z | 100 |
+      | 8 | 灰 | Z | 330 |
+    c:
+      - "黄，白，灰"
+      - "青，黄，白，灰"
+      - "青，黄，緑，紫，白，灰"
+      - "黄，緑，紫，白"
+    a: ア
+    scope: "データベース言語(SQL)の相関副問合せ，集約関数（AVG）。外側の行ごとに副問合せを評価する動作は，SELECT 文の基本的な操作として範囲内。"
+    prereq: "相関副問合せ（外側の行の値を内側で参照して行ごとに評価する），AVG の計算，比較演算子（＞）で等しい値は含まれないこと"
+    hard: "部署ごとの平均を求め，各行を自分の部署の平均と比較する多段階の処理を行う。全体平均との比較や「以上」との比較など，よく起こす誤りと結果が近く，混同しやすい。"
+    exp: |
+      副問合せは外側の行の部署（e.部署）が同じ社員だけの平均給与を求めます。各部署の平均は次のとおりです。
+      | 部署 | 給与 | 平均 | 平均を超える社員 |
+      |---|---|---|---|
+      | X | 300，200，400 | 300 | 黄（400）。青は 300 で等しいので含まれない |
+      | Y | 250，250 | 250 | なし（全員が等しい） |
+      | Z | 500，100，330 | 310 | 白（500），灰（330） |
+      結果は社員番号順に 黄，白，灰 です。
+    why:
+      - "正解です。各社員を自分の部署の平均と比較し，平均を「超える」社員（黄，白，灰）だけが残ります。"
+      - "部署ごとではなく全社員の平均（2330÷8＝291.25）と比較した誤りです。この場合は青（300）も超えますが，部署別の平均 300 とは等しいので，正しくは含まれません。"
+      - "「＞」を「＞＝」と読み違えた誤りです。平均と等しい青（X 部署の平均 300）や，Y 部署の 2 人（平均 250 と等しい）も含まれますが，問題の条件は平均を超えることです。"
+      - "各部署の最高給与の社員を選ぶ問合せと取り違えた誤りです。Y 部署の 2 人は平均と等しいため該当しません。"
+    know: "相関副問合せは外側の各行について内側を再評価するため，「グループごとの平均より大きい行」のようなグループ内比較に使える。GROUP BY との違い（行を残したまま集計値と比較できる）も押さえる。"
+    terms: ["相関副問合せ", "副問合せ", "集約関数"]
+    verify:
+      sql:
+        setup: |
+          CREATE TABLE 社員(社員番号 INTEGER PRIMARY KEY,氏名 TEXT,部署 TEXT,給与 INTEGER);
+          INSERT INTO 社員 VALUES(1,'青',  'X',300),(2,'赤','X',200),(3,'黄','X',400),(4,'緑','Y',250),(5,'紫','Y',250),(6,'白','Z',500),(7,'黒','Z',100),(8,'灰','Z',330);
+        mode: result
+        query: "SELECT group_concat(氏名, '，') FROM (SELECT 氏名 FROM 社員 e WHERE 給与 > (SELECT AVG(給与) FROM 社員 WHERE 部署 = e.部署) ORDER BY 社員番号)"
+
+  - id: A09-508
+    topic: 9-3-2-2
+    diff: 4
+    q: |
+      商品表のすべての商品を購入したことがある会員を求める SQL 文はどれか。
+    attach: |
+      〔商品表〕
+      | 商品ID | 商品名 |
+      |---|---|
+      | P1 | ペン |
+      | P2 | ノート |
+      | P3 | 定規 |
+
+      〔購入表〕
+      | 会員 | 商品ID |
+      |---|---|
+      | M1 | P1 |
+      | M1 | P2 |
+      | M1 | P3 |
+      | M2 | P1 |
+      | M2 | P2 |
+      | M3 | P1 |
+      | M3 | P2 |
+      | M3 | P3 |
+      | M4 | P3 |
+    c:
+      - "SELECT DISTINCT x.会員 FROM 購入 x WHERE NOT EXISTS (SELECT * FROM 商品 p WHERE NOT EXISTS (SELECT * FROM 購入 y WHERE y.会員 = x.会員 AND y.商品ID = p.商品ID))"
+      - "SELECT 会員 FROM 購入 GROUP BY 会員 HAVING COUNT(*) >= (SELECT COUNT(*) FROM 商品) - 1"
+      - "SELECT DISTINCT x.会員 FROM 購入 x WHERE EXISTS (SELECT * FROM 商品 p WHERE NOT EXISTS (SELECT * FROM 購入 y WHERE y.会員 = x.会員 AND y.商品ID = p.商品ID))"
+      - "SELECT DISTINCT x.会員 FROM 購入 x WHERE x.商品ID NOT IN (SELECT 商品ID FROM 商品)"
+    a: ア
+    scope: "データベース言語(SQL)の副問合せ・相関副問合せ（EXISTS，NOT EXISTS）。「すべてを満たす」問合せを二重の NOT EXISTS で表す方法は，相関副問合せの基本的な操作として範囲内。"
+    prereq: "EXISTS と NOT EXISTS の意味，相関副問合せの評価，「すべての～」を「～でないものが存在しない」と言い換える論理"
+    hard: "「すべての商品を買った」を二重否定（買っていない商品が存在しない）に変換し，内側と外側の NOT EXISTS がそれぞれ何を表すかを会員ごとに追う必要がある。"
+    exp: |
+      「すべての商品を購入した」は「購入していない商品が 1 つも存在しない」と言い換えられるため，NOT EXISTS を二重に使います。
+      内側の NOT EXISTS は，会員 x が商品 p を購入していないとき真です。外側の NOT EXISTS は，そのような商品 p が 1 つも存在しないとき真です。
+      | 会員 | 購入していない商品 | 外側の NOT EXISTS |
+      |---|---|---|
+      | M1 | なし | 真（結果に含まれる） |
+      | M2 | P3 | 偽 |
+      | M3 | なし | 真（結果に含まれる） |
+      | M4 | P1，P2 | 偽 |
+      結果は M1，M3 です。EXISTS にすると（購入していない商品が存在する会員）M2，M4 になり，意味が逆になります。
+    why:
+      - "正解です。購入していない商品が存在しない会員（M1，M3）だけが残る，二重の NOT EXISTS の形です。"
+      - "購入件数が「商品数−1」以上を条件にした誤りです。2 種類買った M2 も含まれ，M1 と M3 以外の会員が結果に混ざります。商品の種類まで確かめるには二重否定が必要です。"
+      - "外側を EXISTS にした誤りです。この形では「購入していない商品が 1 つ以上ある会員」を求めることになり，結果は M2 と M4 で，正解と逆になります。"
+      - "購入表の商品が商品表にないものを探す条件で，すべての商品を買った会員の判定になっていません。すべての購入商品が商品表にあるため結果は 0 行です。"
+    know: "「すべての～した」（全称）は SQL に直接の構文がなく，「～しなかったものが存在しない」という二重の NOT EXISTS で表す。関係代数の割り算に相当する。件数の比較（COUNT）でも書けるが，重複や範囲外の値に注意が必要。"
+    terms: ["EXISTS", "相関副問合せ", "副問合せ"]
+    verify:
+      sql:
+        setup: |
+          CREATE TABLE 商品(商品ID TEXT PRIMARY KEY,商品名 TEXT);
+          CREATE TABLE 購入(会員 TEXT,商品ID TEXT,PRIMARY KEY(会員,商品ID));
+          INSERT INTO 商品 VALUES('P1','ペン'),('P2','ノート'),('P3','定規');
+          INSERT INTO 購入 VALUES('M1','P1'),('M1','P2'),('M1','P3'),('M2','P1'),('M2','P2'),('M3','P1'),('M3','P2'),('M3','P3'),('M4','P3');
+        mode: choices
+        expectRows: [["M1"], ["M3"]]
