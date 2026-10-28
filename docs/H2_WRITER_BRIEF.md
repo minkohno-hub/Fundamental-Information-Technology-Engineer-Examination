@@ -4,10 +4,10 @@
 
 ## 0. 作業の前に
 
-1. 作業ツリーが古い可能性があるため、`git merge --no-edit claude/fe-exam-learning-app-nuiom6` を実行し、`ln -s /home/user/Fundamental-Information-Technology-Engineer-Examination/node_modules node_modules` で node_modules を参照する
+1. 作業ツリーが古い可能性があるため、`git merge --no-edit claude/fe-exam-h2-expansion-0x88gw` を実行し、`ln -s /home/user/Fundamental-Information-Technology-Engineer-Examination/node_modules node_modules` で node_modules を参照する
 2. `docs/CONTENT_GUIDE.md` を最後まで読む（特に「難易度と高難度拡充バッチ（H2）」）
 3. 同じ分野の既存の問題ファイルを 2〜3 本読み、文体・解説の深さを合わせる
-4. シラバスの論点ID一覧：`/tmp/claude-0/-home-user-Fundamental-Information-Technology-Engineer-Examination/1294ddb1-4081-5bfe-a5e4-4037d19c9db8/scratchpad/topics.txt`（`ID 名称: 用語例`）。`topic` には末端論点の ID を指定する。担当分野の多くの論点に分散させる
+4. シラバスの論点ID一覧：`/tmp/claude-0/-home-user-Fundamental-Information-Technology-Engineer-Examination/7f570a30-26f3-54ef-83e8-0465460f393a/scratchpad/topics.txt`（`ID 名称: 用語例`）。`topic` には末端論点の ID を指定する。担当分野の多くの論点に分散させる
 
 ## 1. 目的と「高難度」の定義
 
@@ -66,7 +66,7 @@ diff 4 の目安：3段階以上の推論、または2つ以上の論点の統�
 - **バッチごとにコミット**（コンテナが再起動すると未コミットの作業は失われる）。コミット前に `git checkout -- docs/generated`。コミットするのは担当の問題ファイルと辞典ファイルだけ。メッセージは `Add H2 questions <担当キー> (n)`、空行のあとに次の2行：
   ```
   Co-Authored-By: Claude Sonnet 5.5 <noreply@anthropic.com>
-  Claude-Session: https://claude.ai/code/session_01NYXr9MTWDEHXd3xfxGHLJu
+  Claude-Session: https://claude.ai/code/session_01VCQ3xrLszw12uZfze17Lqb
   ```
 - push しない。最終報告：ブランチ名、ファイルごとの問題数、diff 別の数（1/2/3/4）、機械検証した問題数、除外した問題と理由
 - ファイル全体に当てはまる場合のみ `reviewed: { at: '2026-10-27', method: '作成後に独立した検算・実行検証と、解答を伏せた再解答による確認' }` を付ける
