@@ -1,0 +1,32 @@
+category: データベース
+terms:
+  - term: 右外部結合
+    reading: みぎがいぶけつごう
+    aliases: [RIGHT OUTER JOIN]
+    simple: 結合の右側の表の行を、相手がいなくても必ず残して結合する方法です。
+    definition: 結合の右側の表のすべての行を結果に残し、左側の表に対応する行がなければ左側の列を NULL にして出力する外部結合。左外部結合の左右を入れ替えたものに相当する。
+    related: [左外部結合, 外部結合, 内部結合]
+  - term: 集合演算
+    reading: しゅうごうえんざん
+    aliases: [集合演算子]
+    simple: 2つの問合せ結果を、和・積・差の考え方で1つにまとめる演算です。
+    definition: SQL で2つの SELECT 文の結果を集合として組み合わせる演算。和集合（UNION）、積集合（INTERSECT）、差集合（EXCEPT）があり、既定では重複行を除く。ALL を付けると重複行を残す。
+    related: [UNION, INTERSECT, EXCEPT]
+  - term: UNION
+    reading: ゆにおん
+    aliases: [和集合演算]
+    simple: 2つの問合せ結果をまとめ、重複した行を1つにする演算です。
+    definition: 2つの問合せ結果の和集合を返す SQL の集合演算。重複行は除かれる。重複を残すには UNION ALL を使う。重複判定では NULL どうしは同じ値とみなされる。
+    related: [集合演算, INTERSECT, EXCEPT]
+  - term: INTERSECT
+    reading: いんたーせくと
+    aliases: [積集合演算]
+    simple: 2つの問合せ結果の両方にある行だけを返す演算です。
+    definition: 2つの問合せ結果の積集合（共通部分）を返す SQL の集合演算。重複行は除かれる。
+    related: [集合演算, UNION, EXCEPT]
+  - term: EXCEPT
+    reading: えくせぷと
+    aliases: [差集合演算, MINUS]
+    simple: 1つ目の問合せ結果から、2つ目にもある行を取り除く演算です。
+    definition: 1つ目の問合せ結果から、2つ目の問合せ結果に含まれる行を除いた差集合を返す SQL の集合演算。重複行は除かれる。製品によっては MINUS と呼ぶ。
+    related: [集合演算, UNION, INTERSECT]
