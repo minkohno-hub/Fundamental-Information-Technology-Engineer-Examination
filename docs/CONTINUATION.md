@@ -2,6 +2,14 @@
 
 最終更新：2026-10-28
 
+## 中断メモ（2026-10-28）
+
+- ユーザーの指示で中断。開発ブランチ `claude/fe-exam-h2-expansion-0x88gw` と `claude/fe-exam-learning-app-nuiom6` は同一コミットで push 済み（デプロイ対象は後者）
+- 第2波として起動した10担当（A04、A22、A15+A16、A23+A13+A08、balg1 追記、balg2、balg3 追記、B-SEC、A01+A02 追記、A10、A11 追記）は**コミット前に停止**。成果はなく、H2 の問題数は 182 のまま
+- 再開時：`.claude/worktrees/agent-*`（ブランチ `worktree-agent-*`）は未使用の古い基底。`git worktree remove -f` で片付けてよい
+- 再開手順：担当ごとに新しいエージェントを起動する（プロンプトは `docs/H2_WRITER_BRIEF.md` を読ませ、ファイル名・ID 範囲・問題数を指定）。担当割当は `docs/HANDOFF_PROMPT.md` の 6.3 と本ファイルの目標数を参照。未着手：A04、A22、A23、A13、A08、A15、A16、B-ALG 3、B-SEC、A10b、A11b、ほか既存ファイルの続き
+- 執筆要領のトピック一覧は `content/syllabus/syllabus-9.2.json` の majors→middles→subs→items から `大-中-小-項目` の ID で生成できる
+
 ## 公開状況
 
 - 公開 URL：https://minkohno-hub.github.io/Fundamental-Information-Technology-Engineer-Examination/
