@@ -1,21 +1,21 @@
 {
- "builtAt": "2026-10-27T17:37:28.825Z",
- "totalAuthored": 1547,
- "published": 1469,
+ "builtAt": "2026-10-28T23:11:49.409Z",
+ "totalAuthored": 1574,
+ "published": 1478,
  "bySubject": {
-  "total": 1469,
-  "A": 1224,
+  "total": 1478,
+  "A": 1233,
   "B": 245
  },
  "bySource": {
   "ipa": 104,
-  "original": 1365
+  "original": 1374
  },
  "byDepth": {
-  "quick": 1327,
+  "quick": 1336,
   "deep": 142
  },
- "machineVerified": 372,
+ "machineVerified": 381,
  "withSimulator": 130,
  "rejected": [],
  "checking": [
@@ -36,6 +36,14 @@
   "A02-506",
   "A02-507",
   "A02-508",
+  "A05-501",
+  "A05-502",
+  "A05-503",
+  "A05-504",
+  "A05-505",
+  "A05-506",
+  "A05-507",
+  "A05-508",
   "A09-601",
   "A09-602",
   "A09-603",
@@ -96,9 +104,19 @@
   "A19-506",
   "A19-507",
   "A19-508",
-  "A19-509"
+  "A19-509",
+  "B-ALG-201",
+  "B-ALG-202",
+  "B-ALG-203",
+  "B-ALG-204",
+  "B-ALG-205",
+  "B-ALG-401",
+  "B-ALG-402",
+  "B-ALG-403",
+  "B-ALG-404",
+  "B-ALG-405"
  ],
- "glossaryTerms": 2420,
+ "glossaryTerms": 2441,
  "referenceChapters": 14,
  "lessons": 12,
  "coverage": {
@@ -107,5 +125,5 @@
  },
  "similarPairs": 0,
  "errors": 0,
- "warnings": 79
+ "warnings": 98
 }
