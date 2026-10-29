@@ -225,7 +225,7 @@ terms:
   - term: CSS
     reading: シーエスエス
     fullName: Cascading Style Sheets
-    japanese: 段階スタイルシート
+    japanese: カスケーディングスタイルシート
     words:
       - { en: Cascading, ja: 段階的に適用される（滝のように流れ落ちる） }
       - { en: Style, ja: 見た目・様式 }

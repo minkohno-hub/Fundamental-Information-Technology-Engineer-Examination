@@ -210,7 +210,6 @@ terms:
     related: [Bluetooth]
   - term: Bluetooth
     reading: ブルートゥース
-    aliases: [BLE, Bluetooth Low Energy]
     simple: 数 m〜数十 m の範囲で機器どうしを無線でつなぐ規格で、イヤホンやマウスに使われます。
     definition: 2.4GHz 帯を用いる近距離無線通信規格。低消費電力版の BLE は IoT 機器やウェアラブル機器に使われる。ほかに低消費電力でメッシュ網を作る Zigbee、赤外線を使う IrDA がある。
     related: [NFC]

@@ -14,7 +14,6 @@ terms:
     related: [帳票設計, UXデザイン]
   - term: 教育訓練
     reading: きょういくくんれん
-    aliases: [教育訓練資料, WBT, Web Based Training]
     simple: 新しいシステムを使う人や運用する人に、操作方法や手順を身に付けてもらう活動です。
     definition: システムの導入・受入れに当たって、利用者や運用者が新しいシステムを適切に使用・運用できるよう、教育訓練資料を作成し、集合研修や e-ラーニング（WBT：Web Based Training）などで操作や手順を習得させる活動。
     related: [e-ラーニング, 受入れテスト]

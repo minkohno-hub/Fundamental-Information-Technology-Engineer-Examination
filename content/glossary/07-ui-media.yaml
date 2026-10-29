@@ -500,11 +500,7 @@ terms:
     related: [JPEG, GIF]
   - term: BMP
     reading: びーえむぴー
-    fullName: Bit MaP
     japanese: ビットマップ
-    words:
-      - { en: Bit, ja: ビット }
-      - { en: MaP, ja: 対応表（画素の並び） }
     simple: 圧縮をほとんどしない、Windowsで使われる画像形式です。
     definition: 画素の情報をほとんど圧縮せずに保存する、Windows 標準のビットマップ画像形式。画質が劣化しないが、ファイルサイズが大きい。
     related: [JPEG, PNG]

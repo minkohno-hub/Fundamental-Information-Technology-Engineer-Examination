@@ -145,7 +145,6 @@ terms:
     related: [TLS]
   - term: 標的型攻撃
     reading: ひょうてきがたこうげき
-    aliases: [APT]
     simple: 特定の組織や人を狙って、時間をかけて巧妙に行う攻撃です。
     definition: 特定の組織・個人を狙い、業務を装ったメールや、標的がよく閲覧するサイトの改ざん（水飲み場型攻撃）などで侵入する攻撃。長期間潜伏するものを APT という。偽サイトに誘導して情報を盗む手口はフィッシング（SMS を使うものはスミッシング）。
     related: [サイバーキルチェーン, ソーシャルエンジニアリング]
@@ -428,7 +427,7 @@ terms:
     reading: ティーエルエス
     fullName: Transport Layer Security
     japanese: トランスポート層セキュリティ
-    aliases: [SSL, SSL/TLS]
+    aliases: [SSL/TLS]
     words:
       - { en: Transport Layer, ja: トランスポート層（通信の層の一つ） }
       - { en: Security, ja: セキュリティ }

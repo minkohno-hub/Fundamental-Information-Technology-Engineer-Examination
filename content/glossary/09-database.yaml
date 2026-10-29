@@ -661,10 +661,10 @@ terms:
   - term: ELT
     reading: いーえるてぃー
     fullName: Extract Load Transform
-    japanese: 抽出・書出し・変換
+    japanese: 抽出・格納・変換
     words:
       - { en: Extract, ja: 抽出 }
-      - { en: Load, ja: 書出し }
+      - { en: Load, ja: 格納（取り込む） }
       - { en: Transform, ja: 変換 }
     simple: 先にデータを取り込んでから、取り込み先の中で変換する方式です。
     definition: データを抽出し、まず格納先（データレイクやデータウェアハウス）にそのまま取り込んでから、格納先の処理能力で変換する方式。ETL は変換してから格納する。
