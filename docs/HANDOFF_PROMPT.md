@@ -9,7 +9,7 @@
 ## 1. リポジトリと作業ルール
 
 - リポジトリ：`minkohno-hub/Fundamental-Information-Technology-Engineer-Examination`（GitHub）。ローカル作業ディレクトリ `/home/user/Fundamental-Information-Technology-Engineer-Examination`
-- 開発ブランチ：`claude/fe-exam-learning-app-nuiom6`。**このブランチだけ**に開発・コミット・push する。他のブランチへ許可なく push しない。**ユーザーが明示するまで Pull Request を作らない**
+- 開発ブランチ：`claude/fe-exam-learning-app-nuiom6`。開発・コミット・push はこのブランチ（および作業用ブランチからこのブランチへの取り込み）を中心に行う。Pull Request については、当初「ユーザーが明示するまで作らない」としていたが、**2026-10-29 にユーザーが「PRを勝手にやってもいいです」と明示し、FE にも適用されたため保留は解除された**。品質ゲート（教材ビルド・型検査・単体テスト green、独立レビュー合格）を通したうえで、PR の作成とマージまで自律的に行ってよい（都度確認しない）
 - push は `git push -u origin claude/fe-exam-learning-app-nuiom6`（ネットワークエラーのときだけ 2/4/8/16 秒で最大4回再試行）
 - コミットメッセージの末尾に次の2行（空行のあと）：
   ```
