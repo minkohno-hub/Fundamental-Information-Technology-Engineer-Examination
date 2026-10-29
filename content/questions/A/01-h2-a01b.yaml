@@ -1,5 +1,6 @@
 category: '01'
 batch: H2
+reviewed: { at: '2026-10-30', method: '独立レビュー担当が解答を伏せて解き直し、全問の再計算・誤答の検証・既存問題との重複確認を実施' }
 questions:
   - id: A01-601
     topic: 1-2-1-1

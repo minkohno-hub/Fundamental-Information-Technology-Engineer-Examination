@@ -1,5 +1,6 @@
 category: '14'
 batch: H2
+reviewed: { at: '2026-10-30', method: '独立レビュー担当が解答を伏せて解き直し、EVMとネットワーク計算を全問再計算し、誤答の検証と既存問題との重複確認を実施' }
 questions:
   - id: A14-501
     topic: 14-7-3

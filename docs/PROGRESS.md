@@ -14,7 +14,7 @@
 | 学習分析・学習プラン | 検証済み | learning.test.ts |
 | 用語辞典・検索 | 検証済み | E2E（略語の正式名称表示） |
 | オフライン対応 | 検証済み | offline.spec.ts（遮断後の再読み込みで演習・辞典） |
-| 問題 1,000 問以上（verified） | 達成：1,392 問（科目A 1,147・科目B 245） | content-summary.json |
+| 問題 1,000 問以上（verified） | 達成：2,002 問（科目A 1,635・科目B 367） | content-summary.json |
 | シラバス網羅（末端論点 80% 以上・23 中分類） | 達成：624/624 | coverage.json |
 | コンパクト参考書 | 完了：14 章 | 教材ビルド |
 | プログラミング講座 | 完了：12 回 | 教材ビルド |
@@ -23,4 +23,4 @@
 | GitHub Pages 公開 | 完了 | https://minkohno-hub.github.io/Fundamental-Information-Technology-Engineer-Examination/ |
 | ブラウザ対応・堅牢性（壊れた保存データ、保存失敗、教材更新） | 検証済み（Chromium / Firefox / WebKit） | robustness.spec.ts、QUALITY_REPORT |
 | 公開環境での動作確認 | 検証済み（スマホ幅・オフライン含む）。iOS 実機は未確認 | 2026-10-21 |
-| H2 高難度拡充（2,000問以上） | 実装途中（2026-10-29 に Wonder で再開）。H2 作成 190 問、うち公開 94 問・未レビュー 96 問。公開総数 1,486 問、あと 514 問 | docs/generated/hard-batch.json |
+| H2 高難度拡充（2,000問以上） | 達成（2026-10-30）：公開 2,002 問（H2 で 610 問を追加）、レビュー待ち 0。全 H2 ファイルが独立レビュー（盲検で再解答し、正答・解説・重複を確認）を通過。`ENFORCE_H2=1 npm run check:release` はすべての公開条件を満たす | docs/generated/hard-batch.json |
