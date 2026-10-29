@@ -23,4 +23,4 @@
 | GitHub Pages 公開 | 完了 | https://minkohno-hub.github.io/Fundamental-Information-Technology-Engineer-Examination/ |
 | ブラウザ対応・堅牢性（壊れた保存データ、保存失敗、教材更新） | 検証済み（Chromium / Firefox / WebKit） | robustness.spec.ts、QUALITY_REPORT |
 | 公開環境での動作確認 | 検証済み（スマホ幅・オフライン含む）。iOS 実機は未確認 | 2026-10-21 |
-| H2 高難度拡充（2,000問以上） | 基盤は実装済み。執筆は途中（約 150 問を書き統合済み、うち未レビュー分は非公開）。利用上限で中断中 | docs/generated/hard-batch.json |
+| H2 高難度拡充（2,000問以上） | 実装途中（2026-10-29 に Wonder で再開）。H2 作成 190 問、うち公開 94 問・未レビュー 96 問。公開総数 1,486 問、あと 514 問 | docs/generated/hard-batch.json |
