@@ -596,6 +596,9 @@ terms:
     reading: おふじぇーてぃー
     fullName: Off the Job Training
     japanese: 職場外訓練
+    words:
+      - { en: Off the Job, ja: 仕事を離れて }
+      - { en: Training, ja: 訓練 }
     simple: 仕事の現場を離れて、研修施設などで行う教育訓練です。
     definition: 職場を離れて集合研修などの形で行う教育訓練。職場で実際の仕事をしながら行う OJT と対比される。
     related: [OJT, 教育訓練]

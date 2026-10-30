@@ -1,16 +1,21 @@
-category: "B-ALG"
+category: B-ALG
 subject: B
-reviewed: { at: '2026-10-21', method: 'IPA 公開問題（科目B）の原文・公式解答例と照合し，解説を新規作成。擬似言語プログラムは本アプリのインタプリタで全選択肢を実行して正解のみが成立することを確認' }
+reviewed:
+  at: '2026-10-21'
+  method: IPA 公開問題（科目B）の原文・公式解答例と照合し，解説を新規作成。擬似言語プログラムは本アプリのインタプリタで全選択肢を実行して正解のみが成立することを確認
 source:
   kind: ipa
-  title: "基本情報技術者試験 公開問題（科目B）"
-  url: "https://www.ipa.go.jp/shiken/mondai-kaiotu/sg_fe/koukai/index.html"
-  terms: 'IPA の利用条件（教育目的の利用可、出典明記、改変箇所の明示）'
+  title: 基本情報技術者試験 公開問題（科目B）
+  url: https://www.ipa.go.jp/shiken/mondai-kaiotu/sg_fe/koukai/index.html
+  terms: IPA の利用条件（教育目的の利用可、出典明記、改変箇所の明示）
   modified: true
-  modificationNote: '解説は本アプリで新規に作成。問題文・プログラム・選択肢は原文のまま（表記の全角半角・空白を一部統一し，図表は文章・表に変換。空欄は【a】【b】で表記）'
+  modificationNote: 解説は本アプリで新規に作成。問題文・プログラム・選択肢は原文のまま（表記の全角半角・空白を一部統一し，図表は文章・表に変換。空欄は【a】【b】で表記）
 questions:
   - id: IPA-R05-B-001
-    topic: [B3, 2-2-3, 2-3-1-5]
+    topic:
+      - B3
+      - 2-2-3
+      - 2-3-1-5
     diff: 2
     noShuffle: true
     q: |
@@ -38,15 +43,19 @@ questions:
         endfor
         return pnList
     c:
-      - "a：maxNum，b：i ÷ j の余り が 0 と等しい"
-      - "a：maxNum，b：i ÷ j の商 が 1 と等しくない"
-      - "a：maxNum ＋ 1，b：i ÷ j の余り が 0 と等しい"
-      - "a：maxNum ＋ 1，b：i ÷ j の商 が 1 と等しくない"
+      - a：maxNum，b：i ÷ j の余り が 0 と等しい
+      - a：maxNum，b：i ÷ j の商 が 1 と等しくない
+      - a：maxNum ＋ 1，b：i ÷ j の余り が 0 と等しい
+      - a：maxNum ＋ 1，b：i ÷ j の商 が 1 と等しくない
     fills:
-      - { a: 'maxNum', b: 'i ÷ j の余り が 0 と等しい' }
-      - { a: 'maxNum', b: 'i ÷ j の商 が 1 と等しくない' }
-      - { a: 'maxNum ＋ 1', b: 'i ÷ j の余り が 0 と等しい' }
-      - { a: 'maxNum ＋ 1', b: 'i ÷ j の商 が 1 と等しくない' }
+      - a: maxNum
+        b: i ÷ j の余り が 0 と等しい
+      - a: maxNum
+        b: i ÷ j の商 が 1 と等しくない
+      - a: maxNum ＋ 1
+        b: i ÷ j の余り が 0 と等しい
+      - a: maxNum ＋ 1
+        b: i ÷ j の商 が 1 と等しくない
     a: ア
     exp: |
       このプログラムは，2 から maxNum までの整数 i を順に調べ，i が素数のときだけ配列 pnList に追加します。i が素数でないとは，1 と i 以外の約数 j をもつことで，もし約数があるなら √i 以下の範囲に必ず見つかります。そのため内側の繰返しは j ＝ 2 から「iの正の平方根の整数部分」までで十分です。
@@ -67,17 +76,57 @@ questions:
       - 約数の判定は正しいですが，maxNum ＋ 1 まで調べると，引数より大きい整数（例えば maxNum が 10 のときの 11）まで素数として格納してしまいます。
       - maxNum ＋ 1 まで調べてしまううえ，商が 1 と等しくないという条件では約数を判定できず，素数の 5 などが素数でないと判定されます。
     know: 素数かどうかを調べるには，2 から √n 以下の整数で割り切れるかを試せば十分である（n が合成数なら √n 以下の約数をもつため）。まとめて素数を求める方法にはエラトステネスのふるいもある。
-    terms: [素数, エラトステネスのふるい, 繰返し処理]
+    terms:
+      - 素数
+      - エラトステネスのふるい
+      - 繰返し処理
     verify:
       cases:
-        - { call: findPrimeNumbers, args: [2], expect: [2] }
-        - { call: findPrimeNumbers, args: [3], expect: [2, 3] }
-        - { call: findPrimeNumbers, args: [10], expect: [2, 3, 5, 7] }
-        - { call: findPrimeNumbers, args: [30], expect: [2, 3, 5, 7, 11, 13, 17, 19, 23, 29] }
-    sim: { entry: findPrimeNumbers, args: [12] }
-    source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 1 }
+        - call: findPrimeNumbers
+          args:
+            - 2
+          expect:
+            - 2
+        - call: findPrimeNumbers
+          args:
+            - 3
+          expect:
+            - 2
+            - 3
+        - call: findPrimeNumbers
+          args:
+            - 10
+          expect:
+            - 2
+            - 3
+            - 5
+            - 7
+        - call: findPrimeNumbers
+          args:
+            - 30
+          expect:
+            - 2
+            - 3
+            - 5
+            - 7
+            - 11
+            - 13
+            - 17
+            - 19
+            - 23
+            - 29
+    sim:
+      entry: findPrimeNumbers
+      args:
+        - 12
+    source:
+      examName: 令和5年度 科目B 公開問題
+      year: 2023
+      questionNo: 1
   - id: IPA-R05-B-002
-    topic: [B2, 2-3-1-6]
+    topic:
+      - B2
+      - 2-3-1-6
     diff: 1
     q: |
       次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。
@@ -96,15 +145,15 @@ questions:
       ○proc3()
         "C" を出力する
     c:
-      - "“A”，“B”，“B”，“C”"
-      - "“A”，“C”"
-      - "“A”，“C”，“B”，“C”"
-      - "“B”，“A”，“B”，“C”"
-      - "“B”，“C”，“B”，“A”"
-      - "“C”，“B”"
-      - "“C”，“B”，“A”"
-      - "“C”，“B”，“A”，“C”"
-    a: ク
+      - “A”，“B”，“B”，“C”
+      - “B”，“A”，“B”，“C”
+      - “C”，“B”，“A”，“C”
+      - “A”，“C”
+      - “C”，“B”
+      - “A”，“C”，“B”，“C”
+      - “B”，“C”，“B”，“A”
+      - “C”，“B”，“A”
+    a: ウ
     exp: |
       手続を呼び出すと，その手続の中身を上から順に実行し，別の手続を呼ぶ文に来たら，その手続を最後まで実行してから元の手続の続きに戻ります。proc2 の実行を順に追うと次のようになります。
 
@@ -119,20 +168,28 @@ questions:
       出力は “C”，“B”，“A”，“C” の順になります。
     why:
       - proc2 は最初に proc3 を呼ぶので先頭の出力は “C” であり，“A” から始まりません。また “B” を 2 回出力する箇所もありません。
-      - これは proc1 だけを呼び出したときの出力です。proc2 を呼び出したときは，先に proc3 の “C” と proc2 自身の “B” が出力されます。
-      - proc1 の出力から始まっていますが，proc2 は最初に proc3 を呼ぶので先頭は “C” です。
       - 先頭が “B” になっていますが，proc2 の最初の文は proc3 の呼出しなので，その “C” が先に出力されます。
-      - 先頭が “B” になっていて，proc3 の呼出しで出力される “C” が先頭にあることを見落としています。proc1 の出力順（“A”，“C”）も逆です。
-      - proc2 の最後の proc1() の呼出しによる出力（“A” と “C”）が含まれていません。
-      - proc1 の中で呼ぶ proc3 の出力（最後の “C”）が抜けています。proc1 は “A” の後に proc3 を呼びます。
       - 正解です。proc3 の “C”，proc2 の “B”，proc1 の “A”，proc1 から呼んだ proc3 の “C” の順です。
+      - これは proc1 だけを呼び出したときの出力です。proc2 を呼び出したときは，先に proc3 の “C” と proc2 自身の “B” が出力されます。
+      - proc2 の最後の proc1() の呼出しによる出力（“A” と “C”）が含まれていません。
+      - proc1 の出力から始まっていますが，proc2 は最初に proc3 を呼ぶので先頭は “C” です。
+      - 先頭が “B” になっていて，proc3 の呼出しで出力される “C” が先頭にあることを見落としています。proc1 の出力順（“A”，“C”）も逆です。
+      - proc1 の中で呼ぶ proc3 の出力（最後の “C”）が抜けています。proc1 は “A” の後に proc3 を呼びます。
     know: 手続の呼出しは，呼ばれた手続が終わると呼出し元の次の文へ戻る「後入れ先出し」の動きになる。この動きは実行時にスタックで管理される。
-    terms: [スタック]
-    verify: { manual: 'インタプリタで proc2 を実行し，出力が C，B，A，C の順になることを確認。選択肢のうち一致するのはこの並びだけ' }
-    sim: { entry: proc2 }
-    source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 2 }
+    terms:
+      - スタック
+    verify:
+      manual: インタプリタで proc2 を実行し，出力が C，B，A，C の順になることを確認。選択肢のうち一致するのはこの並びだけ
+    sim:
+      entry: proc2
+    source:
+      examName: 令和5年度 科目B 公開問題
+      year: 2023
+      questionNo: 2
   - id: IPA-R05-B-003
-    topic: [B3, 2-2-2-1]
+    topic:
+      - B3
+      - 2-2-2-1
     diff: 3
     noShuffle: true
     q: |
@@ -170,10 +227,10 @@ questions:
           sort(j ＋ 1, last)
         endif
     c:
-      - "1 2 3 4 5"
-      - "1 2 3 5 4"
-      - "2 1 3 4 5"
-      - "2 1 3 5 4"
+      - 1 2 3 4 5
+      - 1 2 3 5 4
+      - 2 1 3 4 5
+      - 2 1 3 5 4
     a: エ
     exp: |
       sort(1, 5) の最初の実行を追います。基準値（ピボット）は pivot ← data[(1 ＋ 5) ÷ 2 の商] ＝ data[3] ＝ 3 です。data は {2, 1, 3, 5, 4} です。
@@ -191,12 +248,31 @@ questions:
       - 4 と 5 が入れ替わった状態ですが，最初の実行までに入れ替えは行われません。右から探す走査は pivot と等しい要素 data[3] で止まります。
       - 正解です。最初の分割では入れ替えが起きず，α の行では元の配列 2 1 3 5 4 が出力されます。
     know: クイックソートは，基準値（ピボット）より小さい要素と大きい要素に分割し，それぞれの部分を再帰的に整列する。基準値の選び方や分割の実装によって，同じ配列でも途中経過が変わる。
-    terms: [クイックソート, ピボット, 整列, 再帰]
-    verify: { result: { call: sort, args: [1, 5], of: 'output:1' } }
-    sim: { entry: sort, args: [1, 5] }
-    source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 3 }
+    terms:
+      - クイックソート
+      - ピボット
+      - 整列
+      - 再帰
+    verify:
+      result:
+        call: sort
+        args:
+          - 1
+          - 5
+        of: output:1
+    sim:
+      entry: sort
+      args:
+        - 1
+        - 5
+    source:
+      examName: 令和5年度 科目B 公開問題
+      year: 2023
+      questionNo: 3
   - id: IPA-R05-B-004
-    topic: [B3, 2-2-2-1]
+    topic:
+      - B3
+      - 2-2-2-1
     diff: 2
     q: |
       次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
@@ -233,12 +309,12 @@ questions:
         add(18)
         add(11)
     c:
-      - "{－1, 3, －1, 18, 11}"
-      - "{－1, 11, －1, 3, －1}"
-      - "{－1, 11, －1, 18, －1}"
-      - "{－1, 18, －1, 3, 11}"
-      - "{－1, 18, 11, 3, －1}"
-    a: エ
+      - '{－1, 18, －1, 3, 11}'
+      - '{－1, 11, －1, 18, －1}'
+      - '{－1, 11, －1, 3, －1}'
+      - '{－1, 3, －1, 18, 11}'
+      - '{－1, 18, 11, 3, －1}'
+    a: ア
     exp: |
       hashArray は要素数 5 で，空の要素は －1 で表します。add は，まず calcHash1 で決まる位置に格納を試み，その位置が埋まっていれば calcHash2 で決まる位置に格納を試みます（それも埋まっていれば格納できず false）。
 
@@ -250,18 +326,31 @@ questions:
 
       この結果，hashArray は {－1, 18, －1, 3, 11} になります。
     why:
-      - 3 を要素番号 2 に，18 を要素番号 4 に入れていますが，3 の格納先は calcHash1(3) ＝ 4 で，要素番号 2 にはなりません。
-      - 18 が格納されていません。18 は calcHash1 の位置（4）が埋まっていても，calcHash2 の位置（2）が空いているので格納されます。
-      - 3 が格納されておらず，18 が要素番号 4 になっています。3 は最初に呼ばれ，calcHash1(3) ＝ 4 の位置に入ります。
       - 正解です。3 は要素番号 4，18 は衝突して要素番号 2，11 も衝突して要素番号 5 に格納されます。
+      - 3 が格納されておらず，18 が要素番号 4 になっています。3 は最初に呼ばれ，calcHash1(3) ＝ 4 の位置に入ります。
+      - 18 が格納されていません。18 は calcHash1 の位置（4）が埋まっていても，calcHash2 の位置（2）が空いているので格納されます。
+      - 3 を要素番号 2 に，18 を要素番号 4 に入れていますが，3 の格納先は calcHash1(3) ＝ 4 で，要素番号 2 にはなりません。
       - 11 を要素番号 3 に入れていますが，11 の格納先は calcHash1(11) ＝ 2 か calcHash2(11) ＝ 5 のどちらかで，要素番号 3 にはなりません。
     know: 格納位置が衝突したときに別の位置を探す方式を，オープンアドレス法という。ここでは 2 本目のハッシュ関数で別の位置を決めており，それも埋まっていれば格納失敗としている。
-    terms: [ハッシュ, 衝突, オープンアドレス法, ハッシュ関数]
-    verify: { result: { call: test, of: 'var:hashArray' } }
-    sim: { entry: test }
-    source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 4 }
+    terms:
+      - ハッシュ
+      - 衝突
+      - オープンアドレス法
+      - ハッシュ関数
+    verify:
+      result:
+        call: test
+        of: var:hashArray
+    sim:
+      entry: test
+    source:
+      examName: 令和5年度 科目B 公開問題
+      year: 2023
+      questionNo: 4
   - id: IPA-R05-B-005
-    topic: [B4, 2-2-2-6]
+    topic:
+      - B4
+      - 2-2-2-6
     diff: 2
     noShuffle: true
     q: |
@@ -296,25 +385,34 @@ questions:
         similarity ← numerator ÷ denominator
         return similarity
     c:
-      - "a：(vector1[i] × vector2[i])の正の平方根，b：denominator × (tempの正の平方根)"
-      - "a：(vector1[i] × vector2[i])の正の平方根，b：denominator ＋ (tempの正の平方根)"
-      - "a：(vector1[i] × vector2[i])の正の平方根，b：tempの正の平方根"
-      - "a：vector1[i] × vector2[i]，b：denominator × (tempの正の平方根)"
-      - "a：vector1[i] × vector2[i]，b：denominator ＋ (tempの正の平方根)"
-      - "a：vector1[i] × vector2[i]，b：tempの正の平方根"
-      - "a：vector1[i]の2乗，b：denominator × (tempの正の平方根)"
-      - "a：vector1[i]の2乗，b：denominator ＋ (tempの正の平方根)"
-      - "a：vector1[i]の2乗，b：tempの正の平方根"
+      - a：(vector1[i] × vector2[i])の正の平方根，b：denominator × (tempの正の平方根)
+      - a：(vector1[i] × vector2[i])の正の平方根，b：denominator ＋ (tempの正の平方根)
+      - a：(vector1[i] × vector2[i])の正の平方根，b：tempの正の平方根
+      - a：vector1[i] × vector2[i]，b：denominator × (tempの正の平方根)
+      - a：vector1[i] × vector2[i]，b：denominator ＋ (tempの正の平方根)
+      - a：vector1[i] × vector2[i]，b：tempの正の平方根
+      - a：vector1[i]の2乗，b：denominator × (tempの正の平方根)
+      - a：vector1[i]の2乗，b：denominator ＋ (tempの正の平方根)
+      - a：vector1[i]の2乗，b：tempの正の平方根
     fills:
-      - { a: '(vector1[i] × vector2[i])の正の平方根', b: 'denominator × (tempの正の平方根)' }
-      - { a: '(vector1[i] × vector2[i])の正の平方根', b: 'denominator ＋ (tempの正の平方根)' }
-      - { a: '(vector1[i] × vector2[i])の正の平方根', b: 'tempの正の平方根' }
-      - { a: 'vector1[i] × vector2[i]', b: 'denominator × (tempの正の平方根)' }
-      - { a: 'vector1[i] × vector2[i]', b: 'denominator ＋ (tempの正の平方根)' }
-      - { a: 'vector1[i] × vector2[i]', b: 'tempの正の平方根' }
-      - { a: 'vector1[i]の2乗', b: 'denominator × (tempの正の平方根)' }
-      - { a: 'vector1[i]の2乗', b: 'denominator ＋ (tempの正の平方根)' }
-      - { a: 'vector1[i]の2乗', b: 'tempの正の平方根' }
+      - a: (vector1[i] × vector2[i])の正の平方根
+        b: denominator × (tempの正の平方根)
+      - a: (vector1[i] × vector2[i])の正の平方根
+        b: denominator ＋ (tempの正の平方根)
+      - a: (vector1[i] × vector2[i])の正の平方根
+        b: tempの正の平方根
+      - a: vector1[i] × vector2[i]
+        b: denominator × (tempの正の平方根)
+      - a: vector1[i] × vector2[i]
+        b: denominator ＋ (tempの正の平方根)
+      - a: vector1[i] × vector2[i]
+        b: tempの正の平方根
+      - a: vector1[i]の2乗
+        b: denominator × (tempの正の平方根)
+      - a: vector1[i]の2乗
+        b: denominator ＋ (tempの正の平方根)
+      - a: vector1[i]の2乗
+        b: tempの正の平方根
     a: エ
     exp: |
       コサイン類似度の式の分子は内積（対応する要素の積の総和），分母は二つのベクトルの大きさ（各要素の2乗の総和の正の平方根）の積です。
@@ -335,17 +433,59 @@ questions:
       - 分子が内積になっていません。さらに，分母を二つの大きさの和にしており，積になっていません。
       - 分子が内積になっていません。さらに，分母が vector2 の大きさだけになり，先に求めた vector1 の大きさが使われません。
     know: コサイン類似度は 2 つのベクトルのなす角の余弦で，向きが同じなら 1，直交なら 0 になる。文書を単語の出現数のベクトルで表して類似度を測るなど，自然言語処理や推薦で使われる。
-    terms: [内積, 配列, 繰返し処理]
+    terms:
+      - 内積
+      - 配列
+      - 繰返し処理
     verify:
       cases:
-        - { call: calcCosineSimilarity, args: [[3, 4], [4, 3]], expect: 0.96 }
-        - { call: calcCosineSimilarity, args: [[1, 0], [1, 0]], expect: 1 }
-        - { call: calcCosineSimilarity, args: [[1, 0], [0, 1]], expect: 0 }
-        - { call: calcCosineSimilarity, args: [[1, 2, 2], [1, 2, 2]], expect: 1 }
-    sim: { entry: calcCosineSimilarity, args: [[3, 4], [4, 3]] }
-    source: { examName: "令和5年度 科目B 公開問題", year: 2023, questionNo: 5, modified: true, modificationNote: "解説は本アプリで新規に作成。数式は文章で表記し，空欄は【a】【b】で表記" }
+        - call: calcCosineSimilarity
+          args:
+            - - 3
+              - 4
+            - - 4
+              - 3
+          expect: 0.96
+        - call: calcCosineSimilarity
+          args:
+            - - 1
+              - 0
+            - - 1
+              - 0
+          expect: 1
+        - call: calcCosineSimilarity
+          args:
+            - - 1
+              - 0
+            - - 0
+              - 1
+          expect: 0
+        - call: calcCosineSimilarity
+          args:
+            - - 1
+              - 2
+              - 2
+            - - 1
+              - 2
+              - 2
+          expect: 1
+    sim:
+      entry: calcCosineSimilarity
+      args:
+        - - 3
+          - 4
+        - - 4
+          - 3
+    source:
+      examName: 令和5年度 科目B 公開問題
+      year: 2023
+      questionNo: 5
+      modified: true
+      modificationNote: 解説は本アプリで新規に作成。数式は文章で表記し，空欄は【a】【b】で表記
   - id: IPA-R06-B-001
-    topic: [B2, 2-3-1-5]
+    topic:
+      - B2
+      - 2-3-1-5
     diff: 1
     q: |
       次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。
@@ -361,38 +501,80 @@ questions:
           return z
         endif
     c:
-      - "x ＞ y"
-      - "x ＞ y and x ＞ z"
-      - "x ＞ y and y ＞ z"
-      - "x ＞ z"
-      - "x ＞ z and z ＞ y"
-      - "z ＞ y"
+      - x ＞ z and z ＞ y
+      - x ＞ y and x ＞ z
+      - z ＞ y
+      - x ＞ z
+      - x ＞ y and y ＞ z
+      - x ＞ y
     a: イ
     exp: |
       最初の if で「x が最大」であることを判定できれば，残りは y と z の比較だけで済みます。x が最大であるのは，x が y より大きく，かつ z よりも大きいときなので，条件は x ＞ y and x ＞ z です。
 
       x ＝ 3，y ＝ 1，z ＝ 2 のとき，x ＞ y（真）and x ＞ z（真）で x を返します。x ＝ 2，y ＝ 3，z ＝ 1 のときは偽になり，elseif の y ＞ z（真）で y を返します。x ＝ 1，y ＝ 2，z ＝ 3 のときは偽になり，y ＞ z（偽）なので else で z を返します。
     why:
-      - x ＞ y だけでは z との比較がなく，x ＝ 2，y ＝ 1，z ＝ 3 のとき x（2）を返してしまいます。
-      - 正解です。x が y と z の両方より大きいときだけ x を返し，そうでなければ y と z の大小で残りを決められます。
-      - x ＞ y and y ＞ z は x ＞ y ＞ z の並びのときだけ真で，x ＝ 3，y ＝ 1，z ＝ 2 のように x が最大でも偽になり，z を返してしまいます。
-      - x ＞ z だけでは y との比較がなく，x ＝ 2，y ＝ 3，z ＝ 1 のとき x（2）を返してしまいます。
       - x ＞ z and z ＞ y は x ＞ z ＞ y の並びのときだけ真で，x ＝ 3，y ＝ 2，z ＝ 1 のように x が最大でも偽になり，y を返してしまいます。
+      - 正解です。x が y と z の両方より大きいときだけ x を返し，そうでなければ y と z の大小で残りを決められます。
       - z ＞ y は x を含まない条件なので，x ＝ 1，y ＝ 2，z ＝ 3 のときに x（1）を返してしまいます。
+      - x ＞ z だけでは y との比較がなく，x ＝ 2，y ＝ 3，z ＝ 1 のとき x（2）を返してしまいます。
+      - x ＞ y and y ＞ z は x ＞ y ＞ z の並びのときだけ真で，x ＝ 3，y ＝ 1，z ＝ 2 のように x が最大でも偽になり，z を返してしまいます。
+      - x ＞ y だけでは z との比較がなく，x ＝ 2，y ＝ 1，z ＝ 3 のとき x（2）を返してしまいます。
     know: 条件式に「最大であること」を直接書くと，残りの分岐の前提が単純になる。三つの値のどの並びでも正しく動くかは，6 通りの大小関係で確かめられる。
-    terms: [選択処理]
+    terms:
+      - 選択処理
     verify:
       cases:
-        - { call: maximum, args: [3, 2, 1], expect: 3 }
-        - { call: maximum, args: [3, 1, 2], expect: 3 }
-        - { call: maximum, args: [2, 3, 1], expect: 3 }
-        - { call: maximum, args: [1, 3, 2], expect: 3 }
-        - { call: maximum, args: [2, 1, 3], expect: 3 }
-        - { call: maximum, args: [1, 2, 3], expect: 3 }
-    sim: { entry: maximum, args: [2, 3, 1] }
-    source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 1 }
+        - call: maximum
+          args:
+            - 3
+            - 2
+            - 1
+          expect: 3
+        - call: maximum
+          args:
+            - 3
+            - 1
+            - 2
+          expect: 3
+        - call: maximum
+          args:
+            - 2
+            - 3
+            - 1
+          expect: 3
+        - call: maximum
+          args:
+            - 1
+            - 3
+            - 2
+          expect: 3
+        - call: maximum
+          args:
+            - 2
+            - 1
+            - 3
+          expect: 3
+        - call: maximum
+          args:
+            - 1
+            - 2
+            - 3
+          expect: 3
+    sim:
+      entry: maximum
+      args:
+        - 2
+        - 3
+        - 1
+    source:
+      examName: 令和6年度 科目B 公開問題
+      year: 2024
+      questionNo: 1
   - id: IPA-R06-B-002
-    topic: [B3, 2-2-2-4, 1-1-1]
+    topic:
+      - B3
+      - 2-2-2-4
+      - 1-1-1
     diff: 2
     noShuffle: true
     q: |
@@ -410,10 +592,10 @@ questions:
         endfor
         return result
     c:
-      - "result ＋ int(binary の (length － i ＋ 1)文字目の文字)"
-      - "result ＋ int(binary の i文字目の文字)"
-      - "result × 2 ＋ int(binary の (length － i ＋ 1)文字目の文字)"
-      - "result × 2 ＋ int(binary の i文字目の文字)"
+      - result ＋ int(binary の (length － i ＋ 1)文字目の文字)
+      - result ＋ int(binary の i文字目の文字)
+      - result × 2 ＋ int(binary の (length － i ＋ 1)文字目の文字)
+      - result × 2 ＋ int(binary の i文字目の文字)
     a: エ
     exp: |
       2 進数の文字列を先頭（最上位桁）から順に読み，これまでの値を 2 倍して新しい桁の値を足していくと整数値が求まります。10 進数で「1，12，123」と読み進めるとき，値を 10 倍して次の桁を足すのと同じ考え方です。
@@ -435,7 +617,9 @@ questions:
       - 2 倍して足す形は正しいですが，文字を末尾（最下位桁）から読んでいるため，桁の並びが逆になります（“10010” は “01001” と読まれて 9）。
       - 正解です。先頭から 1 桁ずつ読み，これまでの値を 2 倍して新しい桁を加えるので，2 進数の値が正しく求まります。
     know: 文字列で与えられた n 進数を整数に変換するときは，先頭の桁から「値 × n ＋ 桁の値」を繰り返す方法（ホーナー法）が簡単である。桁ごとに 2 のべき乗を掛けて足す方法と結果は同じになる。
-    terms: [基数変換, 繰返し処理]
+    terms:
+      - 基数変換
+      - 繰返し処理
     verify:
       prelude: |
         ○整数型: int(文字列型: c)
@@ -444,15 +628,39 @@ questions:
           endif
           return 1
       cases:
-        - { call: convDecimal, args: ['10010'], expect: 18 }
-        - { call: convDecimal, args: ['110'], expect: 6 }
-        - { call: convDecimal, args: ['1'], expect: 1 }
-        - { call: convDecimal, args: ['0'], expect: 0 }
-        - { call: convDecimal, args: ['100'], expect: 4 }
-    sim: { entry: convDecimal, args: ['10010'] }
-    source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 2 }
+        - call: convDecimal
+          args:
+            - '10010'
+          expect: 18
+        - call: convDecimal
+          args:
+            - '110'
+          expect: 6
+        - call: convDecimal
+          args:
+            - '1'
+          expect: 1
+        - call: convDecimal
+          args:
+            - '0'
+          expect: 0
+        - call: convDecimal
+          args:
+            - '100'
+          expect: 4
+    sim:
+      entry: convDecimal
+      args:
+        - '10010'
+    source:
+      examName: 令和6年度 科目B 公開問題
+      year: 2024
+      questionNo: 2
   - id: IPA-R06-B-003
-    topic: [B3, 2-2-2-3, 1-2-5]
+    topic:
+      - B3
+      - 2-2-2-3
+      - 1-2-5
     diff: 2
     noShuffle: true
     q: |
@@ -487,19 +695,23 @@ questions:
         endfor
         return adjMatrix
     c:
-      - "adjMatrix[u, u] ← 1"
-      - "adjMatrix[u, u] ← 1 と adjMatrix[v, v] ← 1 の 2 文"
-      - "adjMatrix[u, v] ← 1"
-      - "adjMatrix[u, v] ← 1 と adjMatrix[v, u] ← 1 の 2 文"
-      - "adjMatrix[v, u] ← 1"
-      - "adjMatrix[v, v] ← 1"
+      - adjMatrix[u, u] ← 1
+      - adjMatrix[u, u] ← 1 と adjMatrix[v, v] ← 1 の 2 文
+      - adjMatrix[u, v] ← 1
+      - adjMatrix[u, v] ← 1 と adjMatrix[v, u] ← 1 の 2 文
+      - adjMatrix[v, u] ← 1
+      - adjMatrix[v, v] ← 1
     fills:
-      - { a: 'adjMatrix[u, u] ← 1' }
-      - { a: "adjMatrix[u, u] ← 1\nadjMatrix[v, v] ← 1" }
-      - { a: 'adjMatrix[u, v] ← 1' }
-      - { a: "adjMatrix[u, v] ← 1\nadjMatrix[v, u] ← 1" }
-      - { a: 'adjMatrix[v, u] ← 1' }
-      - { a: 'adjMatrix[v, v] ← 1' }
+      - a: adjMatrix[u, u] ← 1
+      - a: |-
+          adjMatrix[u, u] ← 1
+          adjMatrix[v, v] ← 1
+      - a: adjMatrix[u, v] ← 1
+      - a: |-
+          adjMatrix[u, v] ← 1
+          adjMatrix[v, u] ← 1
+      - a: adjMatrix[v, u] ← 1
+      - a: adjMatrix[v, v] ← 1
     a: エ
     exp: |
       辺 {u, v} は頂点 u と頂点 v を結ぶ無向の辺なので，隣接行列では u 行 v 列と v 行 u 列の両方の成分を 1 にします。これで行列は対角成分を除いて対称になります。
@@ -521,16 +733,102 @@ questions:
       - 一方向の成分だけが 1 になり，対称の位置（u 行 v 列）が 0 のままなので，無向グラフの隣接行列になりません。
       - 対角成分だけが 1 になり，辺の両端を結ぶ成分は 0 のままです。
     know: 隣接行列は，頂点の個数 n に対し n × n 個の成分で全ての頂点の組の辺の有無を表す。無向グラフでは対称行列になるが，有向グラフでは向きのある辺だけ片方の成分を 1 にするため対称とは限らない。
-    terms: [隣接行列, グラフ理論, 二次元配列]
+    terms:
+      - 隣接行列
+      - グラフ理論
+      - 二次元配列
     verify:
       cases:
-        - { call: edgesToMatrix, args: [[[1, 3], [1, 4], [3, 4], [2, 4], [4, 5]], 5], expect: [[0, 0, 1, 1, 0], [0, 0, 0, 1, 0], [1, 0, 0, 1, 0], [1, 1, 1, 0, 1], [0, 0, 0, 1, 0]] }
-        - { call: edgesToMatrix, args: [[[1, 2]], 2], expect: [[0, 1], [1, 0]] }
-        - { call: edgesToMatrix, args: [[[1, 2], [2, 3]], 3], expect: [[0, 1, 0], [1, 0, 1], [0, 1, 0]] }
-    sim: { entry: edgesToMatrix, args: [[[1, 3], [1, 4], [3, 4], [2, 4], [4, 5]], 5] }
-    source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 3, modified: true, modificationNote: "解説は本アプリで新規に作成。図 1 のグラフは辺の一覧で，図 2 は表で表記し，2 文から成る選択肢は 1 行にまとめた" }
+        - call: edgesToMatrix
+          args:
+            - - - 1
+                - 3
+              - - 1
+                - 4
+              - - 3
+                - 4
+              - - 2
+                - 4
+              - - 4
+                - 5
+            - 5
+          expect:
+            - - 0
+              - 0
+              - 1
+              - 1
+              - 0
+            - - 0
+              - 0
+              - 0
+              - 1
+              - 0
+            - - 1
+              - 0
+              - 0
+              - 1
+              - 0
+            - - 1
+              - 1
+              - 1
+              - 0
+              - 1
+            - - 0
+              - 0
+              - 0
+              - 1
+              - 0
+        - call: edgesToMatrix
+          args:
+            - - - 1
+                - 2
+            - 2
+          expect:
+            - - 0
+              - 1
+            - - 1
+              - 0
+        - call: edgesToMatrix
+          args:
+            - - - 1
+                - 2
+              - - 2
+                - 3
+            - 3
+          expect:
+            - - 0
+              - 1
+              - 0
+            - - 1
+              - 0
+              - 1
+            - - 0
+              - 1
+              - 0
+    sim:
+      entry: edgesToMatrix
+      args:
+        - - - 1
+            - 3
+          - - 1
+            - 4
+          - - 3
+            - 4
+          - - 2
+            - 4
+          - - 4
+            - 5
+        - 5
+    source:
+      examName: 令和6年度 科目B 公開問題
+      year: 2024
+      questionNo: 3
+      modified: true
+      modificationNote: 解説は本アプリで新規に作成。図 1 のグラフは辺の一覧で，図 2 は表で表記し，2 文から成る選択肢は 1 行にまとめた
   - id: IPA-R06-B-004
-    topic: [B3, 2-2-2-1]
+    topic:
+      - B3
+      - 2-2-2-1
     diff: 2
     q: |
       次の記述中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
@@ -572,11 +870,11 @@ questions:
 
         return work
     c:
-      - "実行されない"
-      - "1 回実行される"
-      - "2 回実行される"
-      - "3 回実行される"
-    a: イ
+      - 2 回実行される
+      - 実行されない
+      - 1 回実行される
+      - 3 回実行される
+    a: ウ
     exp: |
       data1 ＝ {2, 3}（n1 ＝ 2），data2 ＝ {1, 4}（n2 ＝ 2）で追跡します。
 
@@ -590,17 +888,33 @@ questions:
 
       2 つ目の while は i ＞ n1 のため実行されません。3 つ目の while は j ＝ 2 ≦ n2 ＝ 2 なので 1 回実行され，work[4] に data2[2] ＝ 4 が格納されます。j が 3 になると終了するため，α の行は 1 回だけ実行されます。
     why:
+      - 2 回実行されるのは，data2 の要素が 2 つ以上残る場合です。この呼出しでは data2 の 1 が 1 つ目の while で使われ，残りは 4 の 1 つだけです。
       - 3 つ目の while の条件 j ≦ n2 は，1 つ目の while の終了時に j ＝ 2，n2 ＝ 2 で真になるため，1 回は実行されます。
       - 正解です。1 つ目の while で data2 の 1 だけを使い，data2 の最後の要素 4 が残るため，3 つ目の while が 1 回だけ実行されます。
-      - 2 回実行されるのは，data2 の要素が 2 つ以上残る場合です。この呼出しでは data2 の 1 が 1 つ目の while で使われ，残りは 4 の 1 つだけです。
       - 3 回実行されるのは，data2 の要素が 3 つ以上残る場合です。data2 の要素数は 2 なので，この呼出しでは起こりません。
     know: 併合（マージ）は，整列済みの二つの配列の先頭同士を比べて小さい方を取り出す操作を繰り返す。どちらかが先に尽きたら，残った側の要素をそのまま後ろに並べる。
-    terms: [マージ, マージソート, 整列]
-    verify: { manual: 'インタプリタでトレースし，α の行が 1 回だけ実行されることを確認（work の最終値は {1, 2, 3, 4}）' }
-    sim: { entry: merge, args: [[2, 3], [1, 4]] }
-    source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 4 }
+    terms:
+      - マージ
+      - マージソート
+      - 整列
+    verify:
+      manual: インタプリタでトレースし，α の行が 1 回だけ実行されることを確認（work の最終値は {1, 2, 3, 4}）
+    sim:
+      entry: merge
+      args:
+        - - 2
+          - 3
+        - - 1
+          - 4
+    source:
+      examName: 令和6年度 科目B 公開問題
+      year: 2024
+      questionNo: 4
   - id: IPA-R06-B-005
-    topic: [B4, 1-2-1-2, 2-1-2-1]
+    topic:
+      - B4
+      - 1-2-1-2
+      - 2-1-2-1
     diff: 3
     noShuffle: true
     q: |
@@ -667,19 +981,31 @@ questions:
         endfor
         relatedItemの値とmaxLの値をこの順にコンマ区切りで出力する
     c:
-      - "a：arrayK[i]，b：arrayM[i]，c：allItemsの要素数"
-      - "a：arrayK[i]，b：arrayM[i]，c：ordersの要素数"
-      - "a：arrayK[i]，b：arrayM[i]，c：otherItemsの要素数"
-      - "a：arrayM[i]，b：arrayK[i]，c：allItemsの要素数"
-      - "a：arrayM[i]，b：arrayK[i]，c：ordersの要素数"
-      - "a：arrayM[i]，b：arrayK[i]，c：otherItemsの要素数"
+      - a：arrayK[i]，b：arrayM[i]，c：allItemsの要素数
+      - a：arrayK[i]，b：arrayM[i]，c：ordersの要素数
+      - a：arrayK[i]，b：arrayM[i]，c：otherItemsの要素数
+      - a：arrayM[i]，b：arrayK[i]，c：allItemsの要素数
+      - a：arrayM[i]，b：arrayK[i]，c：ordersの要素数
+      - a：arrayM[i]，b：arrayK[i]，c：otherItemsの要素数
     fills:
-      - { a: 'arrayK[i]', b: 'arrayM[i]', c: 'allItemsの要素数' }
-      - { a: 'arrayK[i]', b: 'arrayM[i]', c: 'ordersの要素数' }
-      - { a: 'arrayK[i]', b: 'arrayM[i]', c: 'otherItemsの要素数' }
-      - { a: 'arrayM[i]', b: 'arrayK[i]', c: 'allItemsの要素数' }
-      - { a: 'arrayM[i]', b: 'arrayK[i]', c: 'ordersの要素数' }
-      - { a: 'arrayM[i]', b: 'arrayK[i]', c: 'otherItemsの要素数' }
+      - a: arrayK[i]
+        b: arrayM[i]
+        c: allItemsの要素数
+      - a: arrayK[i]
+        b: arrayM[i]
+        c: ordersの要素数
+      - a: arrayK[i]
+        b: arrayM[i]
+        c: otherItemsの要素数
+      - a: arrayM[i]
+        b: arrayK[i]
+        c: allItemsの要素数
+      - a: arrayM[i]
+        b: arrayK[i]
+        c: ordersの要素数
+      - a: arrayM[i]
+        b: arrayK[i]
+        c: otherItemsの要素数
     a: オ
     exp: |
       引数 item を商品 x，otherItems[i] を商品 y として，関連度 Lxy ＝ (Mxy × 全注文数) ÷ (Kx × Ky) の各項をプログラムで数えています。
@@ -702,17 +1028,44 @@ questions:
       - 正解です。両方を含む注文数を arrayM[i]，otherItems[i] を含む注文数を arrayK[i] に数え，全注文数は ordersの要素数 を使います。
       - 数える対象は正しいですが，全注文数に otherItemsの要素数（item 以外の商品の種類数）を使っているため，関連度の値がずれます（例では全注文数 6 ではなく 4 になる）。
     know: 「商品 x と y が一緒に買われやすいか」を測る指標を，アソシエーション分析ではリフト値という。同時購入の割合を，それぞれが単独で買われる割合の積で割った値で，1 を超えるほど一緒に買われやすい。
-    terms: [アソシエーション分析, 配列, 繰返し処理]
+    terms:
+      - アソシエーション分析
+      - 配列
+      - 繰返し処理
     verify:
       cases:
-        - { call: putRelatedItem, args: ['A'], expectOutput: ['D,1.5'] }
-        - { call: putRelatedItem, args: ['B'], expectOutput: ['A,1'] }
-        - { call: putRelatedItem, args: ['C'], expectOutput: ['E,3'] }
-        - { call: putRelatedItem, args: ['E'], expectOutput: ['C,3'] }
-    sim: { entry: putRelatedItem, args: ['A'] }
-    source: { examName: "令和6年度 科目B 公開問題", year: 2024, questionNo: 5 }
+        - call: putRelatedItem
+          args:
+            - A
+          expectOutput:
+            - D,1.5
+        - call: putRelatedItem
+          args:
+            - B
+          expectOutput:
+            - A,1
+        - call: putRelatedItem
+          args:
+            - C
+          expectOutput:
+            - E,3
+        - call: putRelatedItem
+          args:
+            - E
+          expectOutput:
+            - C,3
+    sim:
+      entry: putRelatedItem
+      args:
+        - A
+    source:
+      examName: 令和6年度 科目B 公開問題
+      year: 2024
+      questionNo: 5
   - id: IPA-R07-B-001
-    topic: [B2, 2-3-1-5]
+    topic:
+      - B2
+      - 2-3-1-5
     diff: 2
     noShuffle: true
     q: |
@@ -746,19 +1099,25 @@ questions:
         endfor
         return count
     c:
-      - "a：iを1から2まで1ずつ増やす，b：jをnから始めてmを超えない範囲でtempNずつ増やす"
-      - "a：iを1から2まで1ずつ増やす，b：jをtempNからmまで1ずつ増やす"
-      - "a：iを1から2まで1ずつ増やす，b：jをtempNから始めてmを超えない範囲で4ずつ増やす"
-      - "a：iを1から3まで1ずつ増やす，b：jをnから始めてmを超えない範囲でtempNずつ増やす"
-      - "a：iを1から3まで1ずつ増やす，b：jをtempNからmまで1ずつ増やす"
-      - "a：iを1から3まで1ずつ増やす，b：jをtempNから始めてmを超えない範囲で4ずつ増やす"
+      - a：iを1から2まで1ずつ増やす，b：jをnから始めてmを超えない範囲でtempNずつ増やす
+      - a：iを1から2まで1ずつ増やす，b：jをtempNからmまで1ずつ増やす
+      - a：iを1から2まで1ずつ増やす，b：jをtempNから始めてmを超えない範囲で4ずつ増やす
+      - a：iを1から3まで1ずつ増やす，b：jをnから始めてmを超えない範囲でtempNずつ増やす
+      - a：iを1から3まで1ずつ増やす，b：jをtempNからmまで1ずつ増やす
+      - a：iを1から3まで1ずつ増やす，b：jをtempNから始めてmを超えない範囲で4ずつ増やす
     fills:
-      - { a: 'iを1から2まで1ずつ増やす', b: 'jをnから始めてmを超えない範囲でtempNずつ増やす' }
-      - { a: 'iを1から2まで1ずつ増やす', b: 'jをtempNからmまで1ずつ増やす' }
-      - { a: 'iを1から2まで1ずつ増やす', b: 'jをtempNから始めてmを超えない範囲で4ずつ増やす' }
-      - { a: 'iを1から3まで1ずつ増やす', b: 'jをnから始めてmを超えない範囲でtempNずつ増やす' }
-      - { a: 'iを1から3まで1ずつ増やす', b: 'jをtempNからmまで1ずつ増やす' }
-      - { a: 'iを1から3まで1ずつ増やす', b: 'jをtempNから始めてmを超えない範囲で4ずつ増やす' }
+      - a: iを1から2まで1ずつ増やす
+        b: jをnから始めてmを超えない範囲でtempNずつ増やす
+      - a: iを1から2まで1ずつ増やす
+        b: jをtempNからmまで1ずつ増やす
+      - a: iを1から2まで1ずつ増やす
+        b: jをtempNから始めてmを超えない範囲で4ずつ増やす
+      - a: iを1から3まで1ずつ増やす
+        b: jをnから始めてmを超えない範囲でtempNずつ増やす
+      - a: iを1から3まで1ずつ増やす
+        b: jをtempNからmまで1ずつ増やす
+      - a: iを1から3まで1ずつ増やす
+        b: jをtempNから始めてmを超えない範囲で4ずつ増やす
     a: カ
     exp: |
       function1 は，n から m までの整数のうち 4 の倍数の個数を 1 つずつ数えています。function2 は，数え上げずに「最初の 4 の倍数を見つけて，そこから 4 おきに数える」方法で同じ値を求めます。
@@ -776,19 +1135,54 @@ questions:
       - 最初の 4 の倍数を見つける部分は正しいですが，j を 1 ずつ増やすと tempN から m までの整数全てを数えてしまい，4 の倍数の個数になりません。
       - 正解です。最大 3 回の繰返しで最初の 4 の倍数を見つけ，そこから m までを 4 ずつ増やして数えます。
     know: ある範囲の倍数の個数を数えるとき，一つずつ判定する代わりに，最初の倍数を見つけて一定の間隔で進めれば判定の回数を減らせる。繰返しの回数の上限は，最大で何回進めば条件を満たすかから決める。
-    terms: [繰返し処理]
+    terms:
+      - 繰返し処理
     verify:
       cases:
-        - { call: function2, args: [1, 11], expect: 2 }
-        - { call: function2, args: [4, 14], expect: 3 }
-        - { call: function2, args: [5, 15], expect: 2 }
-        - { call: function2, args: [6, 20], expect: 4 }
-        - { call: function2, args: [7, 17], expect: 3 }
-        - { call: function2, args: [9, 19], expect: 2 }
-    sim: { entry: function2, args: [5, 15] }
-    source: { examName: "令和7年度 科目B 公開問題", year: 2025, questionNo: 1 }
+        - call: function2
+          args:
+            - 1
+            - 11
+          expect: 2
+        - call: function2
+          args:
+            - 4
+            - 14
+          expect: 3
+        - call: function2
+          args:
+            - 5
+            - 15
+          expect: 2
+        - call: function2
+          args:
+            - 6
+            - 20
+          expect: 4
+        - call: function2
+          args:
+            - 7
+            - 17
+          expect: 3
+        - call: function2
+          args:
+            - 9
+            - 19
+          expect: 2
+    sim:
+      entry: function2
+      args:
+        - 5
+        - 15
+    source:
+      examName: 令和7年度 科目B 公開問題
+      year: 2025
+      questionNo: 1
   - id: IPA-R07-B-002
-    topic: [B2, 2-3-1-5, 2-3-1-4]
+    topic:
+      - B2
+      - 2-3-1-5
+      - 2-3-1-4
     diff: 2
     noShuffle: true
     q: |
@@ -807,12 +1201,12 @@ questions:
         endwhile
         return count
     c:
-      - "rest ≧ 0"
-      - "rest ≧ 5"
-      - "rest ≧ 10"
-      - "rest ＞ 0"
-      - "rest ＞ 5"
-      - "rest ＞ 10"
+      - rest ≧ 0
+      - rest ≧ 5
+      - rest ≧ 10
+      - rest ＞ 0
+      - rest ＞ 5
+      - rest ＞ 10
     a: ア
     exp: |
       rest は「10 円玉を使った後に，1 円玉と 5 円玉で作る金額」です。10 円玉を 0 枚，1 枚，2 枚，…と増やすたびに rest が 10 ずつ減り，それぞれの場合の組合せ数 (rest ÷ 5 の商) ＋ 1 を count に足します。
@@ -833,19 +1227,46 @@ questions:
       - rest が 5 以下になると繰返しが終わるため，rest が 0〜5 の場合の組合せが数えられません。
       - rest が 10 以下になると繰返しが終わるため，rest が 0〜10 の場合の組合せが数えられません。
     know: 組合せの総数を数えるときは，枚数の多い硬貨から順に何枚使うかを決め，残りの金額を小さい硬貨だけで作る方法の数を足し合わせる。境界（残りが 0 のとき）を数え漏らさないように，条件の等号に注意する。
-    terms: [繰返し処理]
+    terms:
+      - 繰返し処理
     verify:
       cases:
-        - { call: change, args: [11], expect: 4 }
-        - { call: change, args: [12], expect: 4 }
-        - { call: change, args: [15], expect: 6 }
-        - { call: change, args: [20], expect: 9 }
-        - { call: change, args: [25], expect: 12 }
-        - { call: change, args: [30], expect: 16 }
-    sim: { entry: change, args: [20] }
-    source: { examName: "令和7年度 科目B 公開問題", year: 2025, questionNo: 2 }
+        - call: change
+          args:
+            - 11
+          expect: 4
+        - call: change
+          args:
+            - 12
+          expect: 4
+        - call: change
+          args:
+            - 15
+          expect: 6
+        - call: change
+          args:
+            - 20
+          expect: 9
+        - call: change
+          args:
+            - 25
+          expect: 12
+        - call: change
+          args:
+            - 30
+          expect: 16
+    sim:
+      entry: change
+      args:
+        - 20
+    source:
+      examName: 令和7年度 科目B 公開問題
+      year: 2025
+      questionNo: 2
   - id: IPA-R07-B-003
-    topic: [B3, 2-1-2-3]
+    topic:
+      - B3
+      - 2-1-2-3
     diff: 2
     q: |
       次のプログラム中の【a】と【b】に入れる正しい答えの組合せを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
@@ -886,15 +1307,19 @@ questions:
         endif
         return popData
     c:
-      - "a：stackPos，b：stackPos ＋ 1"
-      - "a：stackPos，b：stackPos － 1"
-      - "a：stackPos － 1，b：stackPos ＋ 1"
-      - "a：stackPos － 1，b：stackPos － 1"
+      - a：stackPos － 1，b：stackPos ＋ 1
+      - a：stackPos，b：stackPos － 1
+      - a：stackPos － 1，b：stackPos － 1
+      - a：stackPos，b：stackPos ＋ 1
     fills:
-      - { a: 'stackPos', b: 'stackPos ＋ 1' }
-      - { a: 'stackPos', b: 'stackPos － 1' }
-      - { a: 'stackPos － 1', b: 'stackPos ＋ 1' }
-      - { a: 'stackPos － 1', b: 'stackPos － 1' }
+      - a: stackPos － 1
+        b: stackPos ＋ 1
+      - a: stackPos
+        b: stackPos － 1
+      - a: stackPos － 1
+        b: stackPos － 1
+      - a: stackPos
+        b: stackPos ＋ 1
     a: イ
     exp: |
       stackPos は「次に値を格納する位置」です。初期状態では stack[1]，stack[2] に値があり，stackPos は 3 なので，値は次のように出し入れされます。
@@ -908,20 +1333,48 @@ questions:
       | push(7) | 3 | {4, 3, 未定義, 未定義} | 4 | {4, 3, 7, 未定義} |
       | pop() | 3 | {4, 3, 未定義, 未定義} | 2 | {4, 未定義, 未定義, 未定義}（3 を返す） |
     why:
-      - push は正しいですが，pop で stackPos を増やすと，値の入っていない位置を指して取り出してしまい，スタックの先頭の値（3）を取り出せません。
-      - 正解です。push は stack[stackPos] に格納して stackPos を進め，pop は stackPos を戻してからその位置の値を取り出します。
       - push で stack[stackPos － 1] に格納すると，最後に入れた値（3）を上書きして失います。pop も stackPos を増やしてしまうので取り出せません。
+      - 正解です。push は stack[stackPos] に格納して stackPos を進め，pop は stackPos を戻してからその位置の値を取り出します。
       - pop は正しいですが，push で stack[stackPos － 1] に格納すると，最後に入れた値（3）を上書きしてしまいます。
+      - push は正しいですが，pop で stackPos を増やすと，値の入っていない位置を指して取り出してしまい，スタックの先頭の値（3）を取り出せません。
     know: スタックは，最後に入れたものを最初に取り出す LIFO のデータ構造。この問題のように「次に格納する位置」を管理する方法のほか，「最後に格納した位置」を管理する方法もあり，どちらかによって stackPos の増減の順序が変わる。
-    terms: [スタック, LIFO]
+    terms:
+      - スタック
+      - LIFO
     verify:
       cases:
-        - { call: push, args: [7], expect: true, expectGlobals: { stackPos: 4, stack: [4, 3, 7, null] } }
-        - { call: pop, expect: 3, expectGlobals: { stackPos: 2, stack: [4, null, null, null] } }
-    sim: { entry: push, args: [7] }
-    source: { examName: "令和7年度 科目B 公開問題", year: 2025, questionNo: 3 }
+        - call: push
+          args:
+            - 7
+          expect: true
+          expectGlobals:
+            stackPos: 4
+            stack:
+              - 4
+              - 3
+              - 7
+              - null
+        - call: pop
+          expect: 3
+          expectGlobals:
+            stackPos: 2
+            stack:
+              - 4
+              - null
+              - null
+              - null
+    sim:
+      entry: push
+      args:
+        - 7
+    source:
+      examName: 令和7年度 科目B 公開問題
+      year: 2025
+      questionNo: 3
   - id: IPA-R07-B-004
-    topic: [B3, 2-2-2-4]
+    topic:
+      - B3
+      - 2-2-2-4
     diff: 2
     noShuffle: true
     q: |
@@ -952,7 +1405,17 @@ questions:
           endfor
         endfor
         return result
-    c: ["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+    c:
+      - '1'
+      - '2'
+      - '3'
+      - '4'
+      - '5'
+      - '6'
+      - '7'
+      - '8'
+      - '9'
+      - '10'
     a: ク
     exp: |
       data の各位置 i から key と同じ並びがあるかを調べ，一致しない要素が見つかった時点で内側の繰返し（α の行から始まる繰返し）を終了します。data は {"a", "b", "a", "b", "c", "a", "b", "c"}，key は {"a", "b", "c"} で，i は 1 から 6 まで動きます。β の行の条件式（data[i ＋ j － 1] が key[j] と等しい）が真になる回数を数えます。
@@ -979,12 +1442,48 @@ questions:
       - 9 回は多すぎます。i ＝ 2，4，6 では最初の比較が偽になって打ち切られるので，その位置では真になりません。
       - 10 回は多すぎます。真になる回数は i ＝ 1，3，5 の合計 8 回です。
     know: 文字列探索の素朴な方法は，探す位置を 1 つずつずらしながら先頭から比較し，食い違った時点でその位置の比較を打ち切る。打ち切りを入れると，一致しない位置の比較回数を減らせる。
-    terms: [配列, 繰返し処理]
-    verify: { result: { call: search, args: [['a', 'b', 'a', 'b', 'c', 'a', 'b', 'c'], ['a', 'b', 'c']], of: 'condtrue:β' } }
-    sim: { entry: search, args: [['a', 'b', 'a', 'b', 'c', 'a', 'b', 'c'], ['a', 'b', 'c']] }
-    source: { examName: "令和7年度 科目B 公開問題", year: 2025, questionNo: 4 }
+    terms:
+      - 配列
+      - 繰返し処理
+    verify:
+      result:
+        call: search
+        args:
+          - - a
+            - b
+            - a
+            - b
+            - c
+            - a
+            - b
+            - c
+          - - a
+            - b
+            - c
+        of: condtrue:β
+    sim:
+      entry: search
+      args:
+        - - a
+          - b
+          - a
+          - b
+          - c
+          - a
+          - b
+          - c
+        - - a
+          - b
+          - c
+    source:
+      examName: 令和7年度 科目B 公開問題
+      year: 2025
+      questionNo: 4
   - id: IPA-R07-B-005
-    topic: [B4, 1-2-1-2, 2-1-2-1]
+    topic:
+      - B4
+      - 1-2-1-2
+      - 2-1-2-1
     diff: 3
     noShuffle: true
     q: |
@@ -1022,13 +1521,13 @@ questions:
         endfor
         return result
     c:
-      - "a：44，b：33"
-      - "a：58，b：8"
-      - "a：70，b：7"
-      - "a：75，b：2"
-      - "a：80，b：6"
-      - "a：80，b：8"
-      - "a：82，b：6"
+      - a：44，b：33
+      - a：58，b：8
+      - a：70，b：7
+      - a：75，b：2
+      - a：80，b：6
+      - a：80，b：8
+      - a：82，b：6
     a: オ
     exp: |
       理論度数は「（その行の合計）×（その列の合計）÷ 全体の合計」で求まります。プログラムの result[r, c] は dataの行番号rの要素の和 × dataの列番号cの要素の和 ÷ t（全体の合計）を計算しています。
@@ -1052,17 +1551,35 @@ questions:
       - a は正しいですが，b が実測値（8）になっています。b は 66 × 14 ÷ 154 ＝ 6 の理論度数です。
       - 実測値（表 1 の 82 と 6）をそのまま答えており，理論度数の計算になっていません。
     know: 理論度数は，二つの要因が独立であると仮定したときに各区分に期待される人数で，カイ二乗検定では実測値との差から関連の有無を判断する。「行の合計 × 列の合計 ÷ 全体」で求められる。
-    terms: [二次元配列, 配列]
+    terms:
+      - 二次元配列
+      - 配列
     verify:
       prelude: |
         ○文字列型: showAB()
           実数型の二次元配列: r ← f({{82, 6}, {58, 8}})
           return "a：" ＋ r[1, 1] ＋ "，b：" ＋ r[2, 2]
-      result: { call: showAB, of: return }
-    sim: { entry: f, args: [[[82, 6], [58, 8]]] }
-    source: { examName: "令和7年度 科目B 公開問題", year: 2025, questionNo: 5, modified: true, modificationNote: "解説は本アプリで新規に作成。表 2 の空欄は【a】【b】で，網掛けの部分は「表示なし」で表記し，a と b の組を選択肢とした" }
+      result:
+        call: showAB
+        of: return
+    sim:
+      entry: f
+      args:
+        - - - 82
+            - 6
+          - - 58
+            - 8
+    source:
+      examName: 令和7年度 科目B 公開問題
+      year: 2025
+      questionNo: 5
+      modified: true
+      modificationNote: 解説は本アプリで新規に作成。表 2 の空欄は【a】【b】で，網掛けの部分は「表示なし」で表記し，a と b の組を選択肢とした
   - id: IPA-R08-B-001
-    topic: [B2, 2-1-2-1, 2-3-1-5]
+    topic:
+      - B2
+      - 2-1-2-1
+      - 2-3-1-5
     diff: 1
     q: |
       次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
@@ -1078,11 +1595,11 @@ questions:
       endfor
       data[1] ← top
     c:
-      - "2 から len － 1 まで 1 ずつ増やす"
-      - "2 から len まで 1 ずつ増やす"
-      - "len － 1 から 2 まで 1 ずつ減らす"
-      - "len から 2 まで 1 ずつ減らす"
-    a: エ
+      - len から 2 まで 1 ずつ減らす
+      - len － 1 から 2 まで 1 ずつ減らす
+      - 2 から len － 1 まで 1 ずつ増やす
+      - 2 から len まで 1 ずつ増やす
+    a: ア
     exp: |
       末尾の値を top に退避してから，各要素を 1 つ後ろへずらし，最後に先頭へ top を入れる処理です。data[i] ← data[i － 1] は「前の要素の値を後ろの要素へコピーする」ので，後ろから前へ向かって（i を大きい方から小さい方へ）実行しないと，コピー元がすでに上書きされてしまいます。
 
@@ -1096,19 +1613,37 @@ questions:
       | 7～2 | 同様に 1 つずつ後ろへ | {1, 1, 2, 3, 4, 5, 6, 7, 8} |
       | 終了後 | data[1] ← top | {9, 1, 2, 3, 4, 5, 6, 7, 8} |
     why:
+      - 正解です。後ろの要素から順に 1 つ前の値を写すので，上書き前の値を使ってずらせます。
+      - 向きは正しいですが，i を len － 1 から始めるため data[len] ← data[len － 1] が実行されず，末尾の要素が書き換わりません（結果は {9, 1, 2, 3, 4, 5, 6, 7, 9} になります）。
       - i を増やす向きなので data[2] ← data[1] で 1 を複製し，次も data[3] ← data[2]（すでに 1）となって，先頭の値 1 が全体に広がります。最後の data[len] も更新されません。
       - i を増やす向きなので先頭の値 1 が全体に広がります（data[len] まで 1 になり，結果は {9, 1, 1, 1, 1, 1, 1, 1, 1} になります）。
-      - 向きは正しいですが，i を len － 1 から始めるため data[len] ← data[len － 1] が実行されず，末尾の要素が書き換わりません（結果は {9, 1, 2, 3, 4, 5, 6, 7, 9} になります）。
-      - 正解です。後ろの要素から順に 1 つ前の値を写すので，上書き前の値を使ってずらせます。
     know: 配列の要素を 1 つずつずらすとき，同じ配列の中でコピーする向きを誤ると，値が上書きされて全体が同じ値になる。後ろへずらすときは後ろから，前へずらすときは前から処理する。
-    terms: [配列, 繰返し処理]
+    terms:
+      - 配列
+      - 繰返し処理
     verify:
       cases:
-        - { expectVars: { data: [9, 1, 2, 3, 4, 5, 6, 7, 8] } }
+        - expectVars:
+            data:
+              - 9
+              - 1
+              - 2
+              - 3
+              - 4
+              - 5
+              - 6
+              - 7
+              - 8
     sim: {}
-    source: { examName: "令和8年度 科目B 公開問題", year: 2026, questionNo: 1 }
+    source:
+      examName: 令和8年度 科目B 公開問題
+      year: 2026
+      questionNo: 1
   - id: IPA-R08-B-002
-    topic: [B2, 1-1-5, 2-3-1-4]
+    topic:
+      - B2
+      - 1-1-5
+      - 2-3-1-4
     diff: 2
     q: |
       次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。
@@ -1121,12 +1656,12 @@ questions:
         y ← y ＋ 00000001
         return y
     c:
-      - "x ∧ 01111111"
-      - "x ∧ 11111111"
-      - "x ∨ 01111111"
-      - "x ∨ 11111111"
-      - "x ▽ 01111111"
-      - "x ▽ 11111111"
+      - x ∨ 01111111
+      - x ∧ 11111111
+      - x ∧ 01111111
+      - x ▽ 01111111
+      - x ∨ 11111111
+      - x ▽ 11111111
     a: カ
     exp: |
       x に足して（桁あふれを無視して）00000000 になる値は，x の 2 の補数です。2 の補数は「全ビットを反転してから 1 を足す」ことで求められます。この問題では，二行目で 1 を足しているので，一行目では全ビット反転を行います。
@@ -1141,27 +1676,58 @@ questions:
       | ＋ 00000001 | 11111011（251） |
       | x ＋ 結果 | 00000101 ＋ 11111011 ＝ 1 00000000（あふれた桁を無視して 00000000） |
     why:
-      - x ∧ 01111111 は最上位ビットを 0 にして残りをそのまま残す演算で，反転していません。x に加算しても 0 になりません。
-      - x ∧ 11111111 は x そのものです。1 を足した x ＋ 1 を x に加えても 0 にはなりません。
       - x ∨ 01111111 は下位 7 ビットをすべて 1 にする演算で，x の値によらず下位 7 ビットが固定されるため，補数になりません。
-      - x ∨ 11111111 は常に 11111111 になるので，1 を足すと 00000000 で，x が 0 以外のときに x に加えても 0 になりません。
+      - x ∧ 11111111 は x そのものです。1 を足した x ＋ 1 を x に加えても 0 にはなりません。
+      - x ∧ 01111111 は最上位ビットを 0 にして残りをそのまま残す演算で，反転していません。x に加算しても 0 になりません。
       - x ▽ 01111111 は下位 7 ビットだけを反転して最上位ビットはそのままなので，最上位ビットが反転しておらず補数になりません。
+      - x ∨ 11111111 は常に 11111111 になるので，1 を足すと 00000000 で，x が 0 以外のときに x に加えても 0 になりません。
       - 正解です。x ▽ 11111111 で全ビットを反転し，1 を足して 2 の補数にします。x に加えると桁あふれして 00000000 になります。
     know: 符号なし 2 進数の加算で「足すと 0 になる値」は 2 の補数で，負の整数を表現するときにも使われる。全ビット反転（1 の補数）に 1 を足して求める。
-    terms: [2の補数, 排他的論理和, ビット演算, 論理積]
+    terms:
+      - 2の補数
+      - 排他的論理和
+      - ビット演算
+      - 論理積
     verify:
-      options: { bitLiterals: true }
+      options:
+        bitLiterals: true
       cases:
-        - { call: complement, args: [1], expect: 255 }
-        - { call: complement, args: [5], expect: 251 }
-        - { call: complement, args: [77], expect: 179 }
-        - { call: complement, args: [128], expect: 128 }
-        - { call: complement, args: [200], expect: 56 }
-        - { call: complement, args: [255], expect: 1 }
-    sim: { entry: complement, args: [5] }
-    source: { examName: "令和8年度 科目B 公開問題", year: 2026, questionNo: 2 }
+        - call: complement
+          args:
+            - 1
+          expect: 255
+        - call: complement
+          args:
+            - 5
+          expect: 251
+        - call: complement
+          args:
+            - 77
+          expect: 179
+        - call: complement
+          args:
+            - 128
+          expect: 128
+        - call: complement
+          args:
+            - 200
+          expect: 56
+        - call: complement
+          args:
+            - 255
+          expect: 1
+    sim:
+      entry: complement
+      args:
+        - 5
+    source:
+      examName: 令和8年度 科目B 公開問題
+      year: 2026
+      questionNo: 2
   - id: IPA-R08-B-003
-    topic: [B3, 2-2-2-2]
+    topic:
+      - B3
+      - 2-2-2-2
     diff: 3
     q: |
       次のプログラム中の【a】に入れる正しい答えを，解答群の中から選べ。ここで，配列の要素番号は 1 から始まる。
@@ -1186,15 +1752,15 @@ questions:
         endfor
         return data[3]
     c:
-      - "2 × data[1] ＋ data[2]"
-      - "2 × data[2] ＋ data[1]"
-      - "2 × data[i － 1] ＋ data[i － 2]"
-      - "2 × data[i － 2] ＋ data[i － 1]"
-      - "data[3] ＋ 2 × data[1] ＋ data[2]"
-      - "data[3] ＋ 2 × data[2] ＋ data[1]"
-      - "data[3] ＋ 2 × data[i － 1] ＋ data[i － 2]"
-      - "data[3] ＋ 2 × data[i － 2] ＋ data[i － 1]"
-    a: ア
+      - 2 × data[i － 1] ＋ data[i － 2]
+      - 2 × data[i － 2] ＋ data[i － 1]
+      - data[3] ＋ 2 × data[2] ＋ data[1]
+      - 2 × data[2] ＋ data[1]
+      - data[3] ＋ 2 × data[i － 2] ＋ data[i － 1]
+      - data[3] ＋ 2 × data[i － 1] ＋ data[i － 2]
+      - 2 × data[1] ＋ data[2]
+      - data[3] ＋ 2 × data[1] ＋ data[2]
+    a: キ
     exp: |
       func1 は，f(n) ＝ 2 × f(n － 2) ＋ f(n － 1)（n ≧ 3），f(1) ＝ f(2) ＝ 1 という漸化式を再帰で計算しています。func2 は同じ値を，再帰を使わず繰返しで求める版です。
 
@@ -1207,30 +1773,65 @@ questions:
       | 5 | 3 | 5 | 2×3＋5 ＝ 11（f(5)） |
       | 6 | 5 | 11 | 2×5＋11 ＝ 21（f(6)） |
     why:
-      - 正解です。ずらした後の data[1]，data[2] がそれぞれ f(i － 2)，f(i － 1) なので，2 × data[1] ＋ data[2] が f(i) になります。
-      - 係数の付き方が逆です。2 × f(i － 1) ＋ f(i － 2) になるので，f(4) は 2×3＋1 ＝ 7 となり，func1 の 5 と一致しません。
       - data[i － 1]，data[i － 2] は繰返しの回数 i に応じて要素番号が増えます。配列の要素数は 3 なので，i が 5 以上になると領域外を参照します。
       - data[i － 2]，data[i － 1] は，配列の要素番号に繰返しの回数 i を使っているため，i が 6 以上になると領域外を参照します。
-      - 新しい項に古い data[3] の値（f(i － 1)）を余分に足しているので，func1 より大きい値になります（f(3) は 4 になります）。
       - 係数が逆であることに加えて，古い data[3] を余分に足しているので，f(3) から func1 の値と一致しません。
-      - 古い data[3] を余分に足しており，data[i － 1]，data[i － 2] は i が大きいと領域外参照にもなります。
+      - 係数の付き方が逆です。2 × f(i － 1) ＋ f(i － 2) になるので，f(4) は 2×3＋1 ＝ 7 となり，func1 の 5 と一致しません。
       - 古い data[3] を余分に足しており，data[i － 2]，data[i － 1] は i が大きいと領域外参照にもなります。
+      - 古い data[3] を余分に足しており，data[i － 1]，data[i － 2] は i が大きいと領域外参照にもなります。
+      - 正解です。ずらした後の data[1]，data[2] がそれぞれ f(i － 2)，f(i － 1) なので，2 × data[1] ＋ data[2] が f(i) になります。
+      - 新しい項に古い data[3] の値（f(i － 1)）を余分に足しているので，func1 より大きい値になります（f(3) は 4 になります）。
     know: 再帰で定義された式は，直前の数項を変数や配列に保持して繰り返すことで，再帰を使わずに計算できる。再帰では同じ値を何度も計算するが，繰返しでは各項を 1 回ずつ計算するので効率がよい。
-    terms: [再帰, 再帰呼出し, 配列]
+    terms:
+      - 再帰
+      - 再帰呼出し
+      - 配列
     verify:
       cases:
-        - { call: func2, args: [1], expect: 1 }
-        - { call: func2, args: [2], expect: 1 }
-        - { call: func2, args: [3], expect: 3 }
-        - { call: func2, args: [4], expect: 5 }
-        - { call: func2, args: [5], expect: 11 }
-        - { call: func2, args: [6], expect: 21 }
-        - { call: func2, args: [7], expect: 43 }
-        - { call: func2, args: [8], expect: 85 }
-    sim: { entry: func2, args: [5] }
-    source: { examName: "令和8年度 科目B 公開問題", year: 2026, questionNo: 3 }
+        - call: func2
+          args:
+            - 1
+          expect: 1
+        - call: func2
+          args:
+            - 2
+          expect: 1
+        - call: func2
+          args:
+            - 3
+          expect: 3
+        - call: func2
+          args:
+            - 4
+          expect: 5
+        - call: func2
+          args:
+            - 5
+          expect: 11
+        - call: func2
+          args:
+            - 6
+          expect: 21
+        - call: func2
+          args:
+            - 7
+          expect: 43
+        - call: func2
+          args:
+            - 8
+          expect: 85
+    sim:
+      entry: func2
+      args:
+        - 5
+    source:
+      examName: 令和8年度 科目B 公開問題
+      year: 2026
+      questionNo: 3
   - id: IPA-R08-B-004
-    topic: [B3, 2-1-2-2]
+    topic:
+      - B3
+      - 2-1-2-2
     diff: 2
     noShuffle: true
     q: |
@@ -1264,15 +1865,19 @@ questions:
         endfor
         return linearList
     c:
-      - "a：dataList[p]，b：i"
-      - "a：dataList[p]，b：pointerList[p]"
-      - "a：pointerList[p]，b：i"
-      - "a：pointerList[p]，b：pointerList[p]"
+      - a：dataList[p]，b：i
+      - a：dataList[p]，b：pointerList[p]
+      - a：pointerList[p]，b：i
+      - a：pointerList[p]，b：pointerList[p]
     fills:
-      - { a: 'dataList[p]', b: 'i' }
-      - { a: 'dataList[p]', b: 'pointerList[p]' }
-      - { a: 'pointerList[p]', b: 'i' }
-      - { a: 'pointerList[p]', b: 'pointerList[p]' }
+      - a: dataList[p]
+        b: i
+      - a: dataList[p]
+        b: pointerList[p]
+      - a: pointerList[p]
+        b: i
+      - a: pointerList[p]
+        b: pointerList[p]
     a: エ
     exp: |
       p は「いま処理しているリストの要素の dataList 上の要素番号」で，先頭では 1 です。繰返しの中で dataList[p] を結果に追加した後，次の要素に進みます。
@@ -1297,14 +1902,31 @@ questions:
       - 終了の判定は正しいですが，p を繰返し回数 i にすると，リストの順序どおりにたどれず，先頭の値を繰り返し追加してしまいます。
       - 正解です。pointerList[p] が未定義なら末尾なので終了し，そうでなければ p を pointerList[p] に更新して次の要素へ進みます。
     know: 配列でリストを表現するとき，値を格納する配列と「次の要素の位置」を格納する配列を組み合わせる方法がある。連結リストのポインタを要素番号で代用したもので，要素の挿入や削除は要素番号の付け替えだけで済む。
-    terms: [単方向リスト, 連結リスト, 配列]
+    terms:
+      - 単方向リスト
+      - 連結リスト
+      - 配列
     verify:
       cases:
-        - { call: orderList, expect: [10, 20, 30, 40] }
-    sim: { entry: orderList }
-    source: { examName: "令和8年度 科目B 公開問題", year: 2026, questionNo: 4, modified: true, modificationNote: "解説は本アプリで新規に作成。図 1 は表で，図 2 は文章で表記" }
+        - call: orderList
+          expect:
+            - 10
+            - 20
+            - 30
+            - 40
+    sim:
+      entry: orderList
+    source:
+      examName: 令和8年度 科目B 公開問題
+      year: 2026
+      questionNo: 4
+      modified: true
+      modificationNote: 解説は本アプリで新規に作成。図 1 は表で，図 2 は文章で表記
   - id: IPA-R08-B-005
-    topic: [B4, 1-3-8-2, 2-1-2-1]
+    topic:
+      - B4
+      - 1-3-8-2
+      - 2-1-2-1
     diff: 2
     noShuffle: true
     q: |
@@ -1349,15 +1971,19 @@ questions:
         endfor
         return oneHotVector
     c:
-      - "a：colors[i]の値，b：colors の要素のいずれかに colorVector[k]の値 が格納されている"
-      - "a：colors[i]の値，b：colors[j] が colorVector[k] と等しい"
-      - "a：未定義の値，b：colors の要素のいずれかに colorVector[k]の値 が格納されている"
-      - "a：未定義の値，b：colors[j] が colorVector[k] と等しい"
+      - a：colors[i]の値，b：colors の要素のいずれかに colorVector[k]の値 が格納されている
+      - a：colors[i]の値，b：colors[j] が colorVector[k] と等しい
+      - a：未定義の値，b：colors の要素のいずれかに colorVector[k]の値 が格納されている
+      - a：未定義の値，b：colors[j] が colorVector[k] と等しい
     fills:
-      - { a: 'colors[i]の値', b: 'colors の要素のいずれかに colorVector[k]の値 が格納されている' }
-      - { a: 'colors[i]の値', b: 'colors[j] が colorVector[k] と等しい' }
-      - { a: '未定義の値', b: 'colors の要素のいずれかに colorVector[k]の値 が格納されている' }
-      - { a: '未定義の値', b: 'colors[j] が colorVector[k] と等しい' }
+      - a: colors[i]の値
+        b: colors の要素のいずれかに colorVector[k]の値 が格納されている
+      - a: colors[i]の値
+        b: colors[j] が colorVector[k] と等しい
+      - a: 未定義の値
+        b: colors の要素のいずれかに colorVector[k]の値 が格納されている
+      - a: 未定義の値
+        b: colors[j] が colorVector[k] と等しい
     a: イ
     exp: |
       前半の繰返しでは，colors に含まれる色の名前を重複なく colorVector に集めます。まだ colorVector にない色（colors[i]）だけを追加するので，追加する値は colors[i] です。例えば {"Red", "Green", "Blue", "Red"} では colorVector が {"Red", "Green", "Blue"} になります。
@@ -1376,11 +2002,70 @@ questions:
       - 未定義の値を追加すると名前一覧が未定義だらけになり，色の名前を集められません。さらに b の条件も常に真になり，全ての要素が 1 になってしまいます。
       - 未定義の値を追加すると名前一覧が未定義だらけになり，色の名前を集められません。b の条件は正しい形ですが，colorVector の各要素が未定義では colors[j] と一致せず，全ての要素が 0 になります。
     know: One-Hot 表現は，カテゴリの値を「該当する 1 要素だけが 1，他は全て 0」のベクトルで表す方法で，機械学習の前処理でカテゴリデータを数値として扱うのに使われる。表現の長さはカテゴリの種類数と等しい。
-    terms: [配列, 繰返し処理]
+    terms:
+      - 配列
+      - 繰返し処理
     verify:
       cases:
-        - { call: oneHotEncoding, args: [['Red', 'Green', 'Blue', 'Red']], expect: [[1, 0, 0], [0, 1, 0], [0, 0, 1], [1, 0, 0]] }
-        - { call: oneHotEncoding, args: [['Blue', 'Blue']], expect: [[1], [1]] }
-        - { call: oneHotEncoding, args: [['A', 'B', 'A', 'C', 'B']], expect: [[1, 0, 0], [0, 1, 0], [1, 0, 0], [0, 0, 1], [0, 1, 0]] }
-    sim: { entry: oneHotEncoding, args: [['Red', 'Green', 'Blue', 'Red']] }
-    source: { examName: "令和8年度 科目B 公開問題", year: 2026, questionNo: 5, modified: true, modificationNote: "解説は本アプリで新規に作成。図は表で表記" }
+        - call: oneHotEncoding
+          args:
+            - - Red
+              - Green
+              - Blue
+              - Red
+          expect:
+            - - 1
+              - 0
+              - 0
+            - - 0
+              - 1
+              - 0
+            - - 0
+              - 0
+              - 1
+            - - 1
+              - 0
+              - 0
+        - call: oneHotEncoding
+          args:
+            - - Blue
+              - Blue
+          expect:
+            - - 1
+            - - 1
+        - call: oneHotEncoding
+          args:
+            - - A
+              - B
+              - A
+              - C
+              - B
+          expect:
+            - - 1
+              - 0
+              - 0
+            - - 0
+              - 1
+              - 0
+            - - 1
+              - 0
+              - 0
+            - - 0
+              - 0
+              - 1
+            - - 0
+              - 1
+              - 0
+    sim:
+      entry: oneHotEncoding
+      args:
+        - - Red
+          - Green
+          - Blue
+          - Red
+    source:
+      examName: 令和8年度 科目B 公開問題
+      year: 2026
+      questionNo: 5
+      modified: true
+      modificationNote: 解説は本アプリで新規に作成。図は表で表記
