@@ -26,7 +26,7 @@ test('初回読み込み後はオフラインでも起動し、問題・解説�
 
   await context.setOffline(true);
   await page.reload();
-  await expect(page.getByRole('heading', { name: '基本情報技術者試験を、1問ずつ確実に。' })).toBeVisible({ timeout: 30_000 });
+  await expect(page.getByRole('heading', { name: 'ホーム' })).toBeVisible({ timeout: 30_000 });
   await page.getByRole('button', { name: /今すぐ学習/ }).click();
   await answerCurrent(page);
 

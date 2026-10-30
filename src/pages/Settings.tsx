@@ -62,6 +62,7 @@ export default function SettingsPage() {
   };
 
   const mb = (n?: number) => (n === undefined ? '—' : `${(n / 1024 / 1024).toFixed(1)}MB`);
+  const GOAL_LABEL: Record<string, string> = { pass: 'まずは合格', high: '高得点で合格', review: '知識の復習・再確認' };
 
   return (
     <div className="stack">
@@ -85,6 +86,19 @@ export default function SettingsPage() {
         </div>
         <label className="row field"><input type="checkbox" checked={s.reduceMotion} onChange={(e) => st.updateSettings({ reduceMotion: e.target.checked })} />アニメーションを減らす</label>
         <label className="row field"><input type="checkbox" checked={s.shuffleChoices} onChange={(e) => st.updateSettings({ shuffleChoices: e.target.checked })} />選択肢の順番を毎回入れ替える（IPA 公開問題と順番に意味がある問題は入れ替えません）</label>
+      </section>
+
+      <section className="card">
+        <h2>学習プラン</h2>
+        <p className="small muted">受験予定日や1日の学習時間から、科目A/Bの配分と進め方を提案します。設定しなくても学習できます。</p>
+        {s.plan ? (
+          <>
+            <p className="small">設定済み：1日の学習時間 {s.plan.dailyMinutes}分／目標 {GOAL_LABEL[s.plan.goal] ?? s.plan.goal}{s.plan.examDate ? `／受験予定日 ${s.plan.examDate}` : ''}</p>
+            <div className="row"><Link to="/plan" className="btn primary sm">プランを変更する</Link></div>
+          </>
+        ) : (
+          <div className="row"><Link to="/plan" className="btn primary sm">設定する</Link></div>
+        )}
       </section>
 
       <section className="card">
@@ -127,7 +141,6 @@ export default function SettingsPage() {
         <h2>その他</h2>
         <ul className="list">
           <li><Link className="item" to="/reports">問題報告の一覧（{st.reports.length}件）</Link></li>
-          <li><Link className="item" to="/plan">学習プラン</Link></li>
           <li><Link className="item" to="/about">出典・利用条件・このアプリについて</Link></li>
         </ul>
         <p className="xsmall muted">アプリ v{__APP_VERSION__}（{__BUILD_DATE__}）／教材データ {content?.manifest.version ?? '—'}</p>

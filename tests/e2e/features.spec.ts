@@ -68,7 +68,6 @@ test.describe('学習プラン', () => {
     await expect(page.getByRole('button', { name: '高得点で合格' })).toHaveAttribute('aria-pressed', 'true');
     await page.getByRole('button', { name: 'この内容で保存' }).click();
     await expect(page.getByRole('heading', { name: '今日の目安' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: '学習プランを作りますか？（任意）' })).toHaveCount(0);
 
     await page.goto('./#/plan');
     await settleAndReload(page);
@@ -84,22 +83,25 @@ test.describe('学習プラン', () => {
     await expect(page.getByRole('heading', { name: '今日の目安' })).toHaveCount(0);
   });
 
-  test('ホームの導入案内は「今はしない」でスキップでき、再読み込み後も出ない', async ({ page }) => {
+  test('学習プランの案内はホームに出ず、設定画面に設定導線がある', async ({ page }) => {
     await open(page);
-    const card = page.getByRole('heading', { name: '学習プランを作りますか？（任意）' });
-    await expect(card).toBeVisible();
-    await page.getByRole('button', { name: '今はしない' }).click();
-    await expect(card).toHaveCount(0);
-    await settleAndReload(page);
-    await expect(page.getByRole('heading', { name: '基本情報技術者試験を、1問ずつ確実に。' })).toBeVisible();
-    await expect(card).toHaveCount(0);
+    await expect(page.getByRole('heading', { name: '学習プランを作りますか？（任意）' })).toHaveCount(0);
+    await page.goto('./#/settings');
+    await expect(page.getByRole('heading', { name: '学習プラン' })).toBeVisible();
+    await page.getByRole('link', { name: '設定する' }).click();
+    await expect(page.getByRole('heading', { name: '学習プラン' })).toBeVisible();
+    await expect(page.getByLabel('受験予定日（未定なら空欄）')).toBeVisible();
   });
 
-  test('学習プラン画面の「スキップ」でも導入案内が消える', async ({ page }) => {
+  test('プランを設定すると、設定画面に概要と変更導線が出る', async ({ page }) => {
     await open(page, '/plan');
-    await page.getByRole('button', { name: 'スキップ' }).click();
-    await expect(page.getByRole('heading', { name: '基本情報技術者試験を、1問ずつ確実に。' })).toBeVisible();
-    await expect(page.getByRole('heading', { name: '学習プランを作りますか？（任意）' })).toHaveCount(0);
+    await page.getByRole('button', { name: '高得点で合格' }).click();
+    await page.getByRole('button', { name: 'この内容で保存' }).click();
+    await expect(page.getByRole('heading', { name: '今日の目安' })).toBeVisible();
+    await page.goto('./#/settings');
+    await expect(page.getByText(/設定済み：1日の学習時間/)).toBeVisible();
+    await expect(page.getByText(/目標 高得点で合格/)).toBeVisible();
+    await expect(page.getByRole('link', { name: 'プランを変更する' })).toBeVisible();
   });
 });
 

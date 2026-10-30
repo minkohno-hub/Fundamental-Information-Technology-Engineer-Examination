@@ -34,9 +34,8 @@ export default function Home() {
 
   return (
     <div className="stack">
+      <h1 tabIndex={-1}>ホーム</h1>
       <section className="hero">
-        <h1 tabIndex={-1}>基本情報技術者試験を、1問ずつ確実に。</h1>
-        <p className="muted small" style={{ marginBottom: 14 }}>未回答の問題と復習が必要な問題を自動で組み合わせて出題します。</p>
         <button className="btn primary lg block" onClick={() => quickStart(content.questions, count)}>
           今すぐ学習（{count}問）<IArrowR width={20} />
         </button>
@@ -56,17 +55,6 @@ export default function Home() {
           </button>
         )}
       </section>
-
-      {!st.settings.onboarded && (
-        <div className="card">
-          <h2>学習プランを作りますか？（任意）</h2>
-          <p className="small muted">受験予定日や1日の学習時間から、科目A/Bの配分と進め方を提案します。設定しなくてもすぐに学習できます。</p>
-          <div className="row">
-            <Link to="/plan" className="btn primary sm">設定する</Link>
-            <button className="btn sm ghost" onClick={() => st.updateSettings({ onboarded: true })}>今はしない</button>
-          </div>
-        </div>
-      )}
 
       {advice && (
         <div className="card">

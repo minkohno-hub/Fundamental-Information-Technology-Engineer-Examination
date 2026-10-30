@@ -18,7 +18,7 @@ async function noHorizontalScroll(page: Page) {
 
 test('ホームが表示され、コンソールエラーがない', async ({ page }) => {
   const errors = await open(page);
-  await expect(page.getByRole('heading', { name: '基本情報技術者試験を、1問ずつ確実に。' })).toBeVisible();
+  await expect(page.getByRole('heading', { name: 'ホーム' })).toBeVisible();
   await noHorizontalScroll(page);
   expect(errors).toEqual([]);
 });
